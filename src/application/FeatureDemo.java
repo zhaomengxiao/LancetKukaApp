@@ -78,67 +78,72 @@ public class FeatureDemo extends RoboticsAPIApplication {
 
 	public void run() {
 			
-		JointPosition actPos = lbr.getCurrentJointPosition();
-		//tcp.move(ptp(getApplicationData().getFrame("/P2")).setJointVelocityRel(.3));
-		Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-		Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
-		Frame Ptest3 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 0)));
-		Frame Ptest4 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 0)));
-		Frame Ptest5 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 200)));
-		Frame Ptest6 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 200)));
-		Frame Ptest7 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 200)));
-		Frame Ptest8 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 200)));
-		
-		ThreadUtil.milliSleep(5000);//frequency of recording
-		tcp.move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2));
-		
-		boolean absd=Test.getInput1();
-		int sel = 10;
-		while (sel != 8) {
-			sel = getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
-				"Select Application? (ATTENTION: Robot will move!)",
-				"Startposition", // 0
-				"cartesian movement", // 1
-				"kinematic redundancy_1", // 2
-				"kinematic redundancy_2", // 3
-				"impedance control mode", // 4
-				"collision detection", // 5
-				"demo in loop", // 6
-				"Teaching by demonstration", // 7
-				"Exit application");//8
-			
-			switch(3) {
-				case 0:
-//					startpos = lbr.getForwardKinematic(joints)
-					lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.3).setMode(impedanceMode));
-			
-					break;
-				case 1:
-					moveCartesian(2);
-					break;
-				case 2:
-					moveNullspace(2);
-					break;
-				case 3:
-					moveNullspace_Positionhold();
-					break;
-				case 4:
-					stiffness();
-					break;
-				case 5:
-					moveNullspace_Positionhold_1();
-					break;
-				case 6:
-					
-					break;
-				case 7:
-					teaching();
-					break;
-				default:
-					//lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.3));
-					tcp.move(lin(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2));
-					break;			
-			}
+//		JointPosition actPos = lbr.getCurrentJointPosition();
+//		//tcp.move(ptp(getApplicationData().getFrame("/P2")).setJointVelocityRel(.3));
+//		Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+//		Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
+//		Frame Ptest3 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 0)));
+//		Frame Ptest4 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 0)));
+//		Frame Ptest5 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 200)));
+//		Frame Ptest6 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 200)));
+//		Frame Ptest7 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 200)));
+//		Frame Ptest8 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 200)));
+//		
+//		ThreadUtil.milliSleep(5000);//frequency of recording
+//		tcp.move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2));
+//		
+//		boolean absd=Test.getInput1();
+//		int sel = 10;
+//		while (sel != 8) {
+//			sel = getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
+//				"Select Application? (ATTENTION: Robot will move!)",
+//				"Startposition", // 0
+//				"cartesian movement", // 1
+//				"kinematic redundancy_1", // 2
+//				"kinematic redundancy_2", // 3
+//				"impedance control mode", // 4
+//				"collision detection", // 5
+//				"demo in loop", // 6
+//				"Teaching by demonstration", // 7
+//				"Exit application");//8
+//			
+//			switch(3) {
+//				case 0:
+////					startpos = lbr.getForwardKinematic(joints)
+//					lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.3).setMode(impedanceMode));
+//			
+//					break;
+//				case 1:
+//					moveCartesian(2);
+//					break;
+//				case 2:
+//					moveNullspace(2);
+//					break;
+//				case 3:
+//					moveNullspace_Positionhold();
+//					break;
+//				case 4:
+//					stiffness();
+//					break;
+//				case 5:
+//					moveNullspace_Positionhold_1();
+//					break;
+//				case 6:
+//					
+//					break;
+//				case 7:
+//					teaching();
+//					break;
+//				default:
+//					//lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.3));
+//					tcp.move(lin(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2));
+//					break;			
+//			}
+//		}
+		while (true){
+			boolean btest=Test.getInput5();
+			System.out.println(btest);
+			ThreadUtil.milliSleep(2000);
 		}
 	}
 
