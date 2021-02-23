@@ -23,6 +23,7 @@ import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.geometricModel.ObjectFrame;
 import com.kuka.roboticsAPI.geometricModel.Tool;
 import com.kuka.roboticsAPI.geometricModel.math.Transformation;
+import com.kuka.roboticsAPI.ioModel.Input;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
 import com.kuka.roboticsAPI.motionModel.MotionBatch;
 import com.kuka.roboticsAPI.motionModel.Spline;
@@ -141,8 +142,21 @@ public class FeatureDemo extends RoboticsAPIApplication {
 //			}
 //		}
 		while (true){
-			boolean btest=Test.getInput4();
+
+			boolean btest=Test.getInput1();
 			System.out.println(btest);
+			btest=Test.getInput2();
+			System.out.println(btest);
+			btest=Test.getInput3();
+			System.out.println(btest);
+			btest=Test.getInput4();
+			System.out.println(btest);
+			btest=Test.getInput5();
+			System.out.println(btest);
+			Input btest1=Test.getInput("Input4");
+			System.out.println(btest1);
+			btest1=Test.getInput("Input1");
+			System.out.println(btest1);
 			ThreadUtil.milliSleep(2000);
 		}
 	}
