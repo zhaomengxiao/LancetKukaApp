@@ -2,5 +2,83 @@
 <RoboticsAPIData version="3">
     <world>
         <gravitation x="0.0" y="0.0" z="9.81"/>
+        <frame id="_1077c2d9-b861-478c-9d79-262c537e5006" name="CoverScrewing">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082845693"/>
+            </additionalInformation>
+            <frame id="_3ae1fd6d-dc8d-46a7-aa6b-d865f6a4ad85" name="SmallCover">
+                <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+                <additionalInformation>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1614082866807"/>
+                </additionalInformation>
+            </frame>
+        </frame>
+        <frame id="_da0843f9-2b2e-4f78-93bc-0f764d5f35ea" name="P1">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082877181"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_7e541011-71b6-4677-8a34-cf70ca4c86ee" name="P2">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082880242"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_fe047082-556a-49ca-9ea8-9cba43e45f0d" name="P4">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082883928"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_76ce27d7-878d-4c55-9236-4a046f4b8de5" name="P5">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082884889"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_c792b30b-6a0e-433f-8719-5886ebf0d99b" name="P6">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082885792"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_42d608c5-6e42-452b-9b58-05ff9d16a8c0" name="P7">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082886739"/>
+            </additionalInformation>
+        </frame>
+        <frame id="_346e90a7-6fd4-4219-9fcd-a9efc6db32e5" name="P8">
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082888064"/>
+            </additionalInformation>
+        </frame>
     </world>
+    <objectTemplates>
+        <toolTemplate class="" name="gripper">
+            <frames>
+                <frame id="_ac7c2add-8dd3-4d4e-9827-43ddf8861fdf" name="tcp">
+                    <transformation a="0.0" b="-1.04" c="0.0" x="-150.7" y="0.0" z="227.9"/>
+                </frame>
+            </frames>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="0.0" cogZ="0.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.0"/>
+        </toolTemplate>
+        <toolTemplate class="" name="Tool_2">
+            <frames>
+                <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
+                    <transformation a="0.0" b="-1.04" c="0.0" x="-150.7" y="0.0" z="227.9"/>
+                </frame>
+                <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_3">
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="120.0"/>
+                </frame>
+                <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+                </frame>
+            </frames>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="35.5" cogY="0.0" cogZ="101.3" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.7"/>
+        </toolTemplate>
+    </objectTemplates>
 </RoboticsAPIData>
