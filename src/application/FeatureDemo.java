@@ -141,7 +141,7 @@ public class FeatureDemo extends RoboticsAPIApplication {
 //			}
 //		}
 		while (true){
-			boolean btest=Test.getInput5();
+			boolean btest=Test.getInput4();
 			System.out.println(btest);
 			ThreadUtil.milliSleep(2000);
 		}
