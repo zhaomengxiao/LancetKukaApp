@@ -289,11 +289,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while (bPause==false)
 			{
 
-			    System.out.println(socket_recive.isBound());
-			    System.out.println(socket_recive.isConnected());
-			    System.out.println(socket_recive.isClosed());
-			    System.out.println(socket_recive.getOOBInline());
+
 				try{
+					 System.out.println("xx");
+				    System.out.println(socket_recive.isBound());
+				    System.out.println(socket_recive.isConnected());
+				    System.out.println(socket_recive.isClosed());
+				    System.out.println(socket_recive.getOOBInline());
+				    
 					String data=data0+data1+data2+data3+data4+data5+data6+data7+data8+data9+data10+data11+data12+data13+data14+data15+data16+data17+data18;
 
 			
