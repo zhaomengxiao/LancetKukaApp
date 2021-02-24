@@ -709,6 +709,8 @@ public class testForXi extends RoboticsAPIApplication {
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
 //		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.X).setStiffness(50.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
