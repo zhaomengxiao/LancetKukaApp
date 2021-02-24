@@ -91,7 +91,7 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #run()
  * @see #dispose()
  */
-public class TCPServerSendDataApplication extends RoboticsAPIApplication {
+public class testForXi extends RoboticsAPIApplication {
 //    int i=0;
 	private HandGuidingMotion motion;
 
@@ -708,7 +708,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
+//		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
@@ -942,7 +943,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					bDangerous=false;
 					nWorkingmode=0;
 				}
-			    else if (nWorkingmode==2){
+			    else if (nWorkingmode==3){
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
@@ -958,7 +959,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
 						final CartesianImpedanceControlMode cartImp = createCartImp();
-						needle.getFrame("/tcp_2").move(ptp(Ptest1).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+						needle.getFrame("/tcp_3").move(ptp(Ptest1).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 						
 //						ThreadUtil.milliSleep(500);
 //						System.out.println("222");
@@ -1009,7 +1010,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				
 				}
 				
-				else if(nWorkingmode==3){
+				else if(nWorkingmode==2){
 //			        // Initialize Joint impedance mode    
 //					System.out.println("JointimplentMode"+nWorkingmode);
 //					moveToInitialPosition();
