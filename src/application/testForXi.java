@@ -126,6 +126,7 @@ public class testForXi extends RoboticsAPIApplication {
      private ISmartServoLINRuntime _smartServoLINRuntime = null;
 	 private static final int NUM_RUNS = 600;
 	 private static final double AMPLITUDE = 70;
+	 Frame Ptest_xi;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -939,6 +940,11 @@ public class testForXi extends RoboticsAPIApplication {
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			while (true)
 			{ 
+				if (nWorkingmode!=3){
+					Ptest_xi = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
+				}
+				
+				
 				if (nWorkingmode==1){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
@@ -950,7 +956,7 @@ public class testForXi extends RoboticsAPIApplication {
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
+					
 
 
 //						Ptest1.setX(nX);
@@ -961,7 +967,7 @@ public class testForXi extends RoboticsAPIApplication {
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
 						final CartesianImpedanceControlMode cartImp = createCartImp();
-						needle.getFrame("/tcp_3").move(ptp(Ptest1).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+						needle.getFrame("/tcp_3").move(ptp(Ptest_xi).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 						
 //						ThreadUtil.milliSleep(500);
 //						System.out.println("222");
