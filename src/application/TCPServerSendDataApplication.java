@@ -1158,37 +1158,43 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
 				a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data13=a1+",";
+//				data13=a1+",";
+				data13=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡y
 				a1=cmdPos.getY();
 				BigDecimal bigDecimal8 = new BigDecimal(a1);
 				a1 = bigDecimal8.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data14=a1+",";
+//				data14=a1+",";
+				data14=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡z
 				a1=cmdPos.getZ();
 				BigDecimal bigDecimal9 = new BigDecimal(a1);
 				a1 = bigDecimal9.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data15=a1+",";
+//				data15=a1+",";
+				data15=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rx
 				a1=Math.toDegrees(cmdPos.getGammaRad());
 				BigDecimal bigDecima20 = new BigDecimal(a1);
 				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data16=a1+",";
+//				data16=a1+",";
+				data16=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡ry
 				a1=Math.toDegrees(cmdPos.getBetaRad());
 				BigDecimal bigDecima21 = new BigDecimal(a1);
 				a1 = bigDecima21.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data17=a1+",";
+//				data17=a1+",";
+				data17=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rz
 				a1=Math.toDegrees(cmdPos.getAlphaRad());
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				data18=a1+"$";
+//				data18=a1+"$";
+				data18=String.valueOf(a1)+",";
 				}catch(Exception ex){
 					break;
 				}
