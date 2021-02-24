@@ -950,7 +950,7 @@ public class testForXi extends RoboticsAPIApplication {
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
 
 
 //						Ptest1.setX(nX);
