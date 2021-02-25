@@ -1180,6 +1180,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				
 				try{
 				ThreadUtil.milliSleep(2000);
+				System.out.println("Input1ttt");
 				boolean btest=SafeDataIO.getInput1();
 				System.out.println("Input1:"+btest);
 
