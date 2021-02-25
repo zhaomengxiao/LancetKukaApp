@@ -293,12 +293,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				try{
 					ThreadUtil.milliSleep(1000);
 					System.out.println("x1");
-//				    System.out.println(socket_recive.isBound());
-				    System.out.println(socket_recive.isConnected());
-				    System.out.println("x2");
-				    System.out.println(socket_recive.isClosed());
-				    System.out.println("x3");
-				    System.out.println(socket_recive.getOOBInline());
+////				    System.out.println(socket_recive.isBound());
+////				    System.out.println(socket_recive.isConnected());
+//				    System.out.println("x2");
+////				    System.out.println(socket_recive.isClosed());
+//				    System.out.println("x3");
+//				    System.out.println(socket_recive.getOOBInline());
 				    
 					String data=data0+data1+data2+data3+data4+data5+data6+data7+data8+data9+data10+data11+data12+data13+data14+data15+data16+data17+data18;
 
@@ -321,6 +321,39 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					socket=null;
 					serverSocketSend=null;
 					bPause=true;
+					
+					try {
+						ThreadUtil.milliSleep(1000);
+						if(serverSocket!=null){
+							serverSocket.close();
+							serverSocket=null;
+							System.out.println("222");
+						}
+						if(serverSocketSend!=null ){
+							serverSocketSend.close();
+							serverSocketSend=null;
+							System.out.println("22222");
+						}
+						if(writer!=null ){
+							writer.close();
+							writer=null;
+							System.out.println("3333");
+						}
+						if(outputStream!=null ){
+							outputStream.close();
+							outputStream=null;
+							System.out.println("133333");
+						}
+						if(socket!=null ){
+							socket.close();
+							socket=null;
+							System.out.println("233333");
+						}
+					} catch (IOException f) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 				}
 				
 
