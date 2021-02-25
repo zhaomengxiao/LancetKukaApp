@@ -291,7 +291,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 				try{
-					 System.out.println("x1");
+					ThreadUtil.milliSleep(1000);
+					System.out.println("x1");
 //				    System.out.println(socket_recive.isBound());
 				    System.out.println(socket_recive.isConnected());
 				    System.out.println("x2");
