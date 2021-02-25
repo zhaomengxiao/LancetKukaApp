@@ -190,8 +190,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-		
-//		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
+		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
+		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 		nX=0;
 		nY=0;
 		nZ=0;
