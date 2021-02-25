@@ -41,6 +41,7 @@ import com.kuka.connectivity.motionModel.smartServo.SmartServo;
 import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.generated.ioAccess.MytestIOIOGroup;
+import com.kuka.generated.ioAccess.SafeDataIOGroup;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.applicationModel.tasks.RoboticsAPITask;
 import com.kuka.roboticsAPI.applicationModel.tasks.UseRoboticsAPIContext;
@@ -126,6 +127,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
      private ISmartServoLINRuntime _smartServoLINRuntime = null;
 	 private static final int NUM_RUNS = 600;
 	 private static final double AMPLITUDE = 70;
+	private SafeDataIOGroup SafeDataIO;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -188,6 +190,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 		nX=0;
 		nY=0;
 		nZ=0;
@@ -1013,7 +1016,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			while (true)
 			{ 
-				if (nWorkingmode==1){
+				boolean btest=SafeDataIO.getInput1();
+				if (btest==true){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
 					bDangerous=false;
