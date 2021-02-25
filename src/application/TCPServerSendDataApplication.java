@@ -1016,13 +1016,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			while (true)
 			{ 
-				boolean btest=SafeDataIO.getInput4();
-				if (btest==true)
-				{
-					nWorkingmode=1;
-					System.out.println("SafeDataIO.getInput4"+btest);
-				}
-				System.out.println(btest);
+//				boolean btest=SafeDataIO.getInput4();
+//				if (btest==true)
+//				{
+//					nWorkingmode=1;
+//					System.out.println("SafeDataIO.getInput4"+btest);
+//				}
+//				System.out.println(btest);
 
 				if (nWorkingmode==1){
 					
