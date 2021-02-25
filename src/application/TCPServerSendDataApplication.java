@@ -127,7 +127,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
      private ISmartServoLINRuntime _smartServoLINRuntime = null;
 	 private static final int NUM_RUNS = 600;
 	 private static final double AMPLITUDE = 70;
-	private SafeDataIOGroup SafeDataIO;
+	 private SafeDataIOGroup SafeDataIO;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -1017,15 +1017,20 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while (true)
 			{ 
 				boolean btest=SafeDataIO.getInput4();
+				if (btest==true)
+				{
+					nWorkingmode=1;
+					System.out.println("SafeDataIO.getInput4"+btest);
+				}
 				System.out.println(btest);
-				ThreadUtil.milliSleep(2000);
-				if (btest==true){
+
+				if (nWorkingmode==1){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
 					bDangerous=false;
 					nWorkingmode=0;
 				}
-			    else if (nWorkingmode==2){
+			    else if (nWorkingmode==2 ){
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
