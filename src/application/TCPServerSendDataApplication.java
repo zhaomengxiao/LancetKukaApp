@@ -1175,9 +1175,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while (true)
 			{
 			
+
 				
 				try{
-				ThreadUtil.milliSleep(20);
+				ThreadUtil.milliSleep(2000);
+				boolean btest=SafeDataIO.getInput1();
+				System.out.println("Input1:"+btest);
+
+
+				btest=SafeDataIO.getInput4();
+				System.out.println("Input4:"+btest);
 				
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
