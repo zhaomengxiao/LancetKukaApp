@@ -380,13 +380,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			String[] units=null;
 			while(true){
 			try{
-			ThreadUtil.milliSleep(1500);
 			boolean bPause=false;
 			serverSocket = new ServerSocket(30007);
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-		    socket_recive.setSoTimeout(20000);
+		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		
 			InputStream in = socket_recive.getInputStream();

@@ -30,7 +30,7 @@ import com.kuka.roboticsAPI.motionModel.Spline;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianSineImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
-
+import com.kuka.generated.ioAccess.SafeDataIOGroup;
 import com.kuka.roboticsAPI.uiModel.ApplicationDialogType;
 
 /**
@@ -60,7 +60,7 @@ public class FeatureDemo extends RoboticsAPIApplication {
 	private CartesianImpedanceControlMode _nullspacemode ;
 	private JointPosition startjoint;
 	private Frame cutFrame;
-	private MytestIOIOGroup Test;
+	private SafeDataIOGroup Test;
 	public void initialize() {
 
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
@@ -74,7 +74,7 @@ public class FeatureDemo extends RoboticsAPIApplication {
 		tcp=gripper.getFrame("/tcp");
 		gripper.attachTo(lbr.getFlange());
 		
-		Test = new MytestIOIOGroup(kuka_Sunrise_Cabinet_1);
+		Test = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 	}
 
 	public void run() {
