@@ -1016,7 +1016,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			while (true)
 			{ 
-				boolean btest=SafeDataIO.getInput1();
+				boolean btest=SafeDataIO.getInput4();
 				if (btest==true){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
