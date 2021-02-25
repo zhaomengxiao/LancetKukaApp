@@ -291,8 +291,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 				try{
-					ThreadUtil.milliSleep(1000);
-					System.out.println("x1");
+//					ThreadUtil.milliSleep(1000);
+//					System.out.println("x1");
 ////				    System.out.println(socket_recive.isBound());
 ////				    System.out.println(socket_recive.isConnected());
 //				    System.out.println("x2");
@@ -306,7 +306,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					writer.write(data);
 					writer.flush();
 //					ThreadUtil.milliSleep(50);
-					ThreadUtil.milliSleep(2000);
+//					ThreadUtil.milliSleep(2000);
 					}
 				catch (IOException e) {
 					System.out.println("Socket closed.");					
@@ -322,37 +322,37 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					serverSocketSend=null;
 					bPause=true;
 					
-					try {
-						ThreadUtil.milliSleep(1000);
-						if(serverSocket!=null){
-							serverSocket.close();
-							serverSocket=null;
-							System.out.println("222");
-						}
-						if(serverSocketSend!=null ){
-							serverSocketSend.close();
-							serverSocketSend=null;
-							System.out.println("22222");
-						}
-						if(writer!=null ){
-							writer.close();
-							writer=null;
-							System.out.println("3333");
-						}
-						if(outputStream!=null ){
-							outputStream.close();
-							outputStream=null;
-							System.out.println("133333");
-						}
-						if(socket!=null ){
-							socket.close();
-							socket=null;
-							System.out.println("233333");
-						}
-					} catch (IOException f) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try {
+//						ThreadUtil.milliSleep(1000);
+//						if(serverSocket!=null){
+//							serverSocket.close();
+//							serverSocket=null;
+//							System.out.println("222");
+//						}
+//						if(serverSocketSend!=null ){
+//							serverSocketSend.close();
+//							serverSocketSend=null;
+//							System.out.println("22222");
+//						}
+//						if(writer!=null ){
+//							writer.close();
+//							writer=null;
+//							System.out.println("3333");
+//						}
+//						if(outputStream!=null ){
+//							outputStream.close();
+//							outputStream=null;
+//							System.out.println("133333");
+//						}
+//						if(socket!=null ){
+//							socket.close();
+//							socket=null;
+//							System.out.println("233333");
+//						}
+//					} catch (IOException f) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 					
 				}
 				
