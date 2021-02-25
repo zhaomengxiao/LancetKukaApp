@@ -287,7 +287,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 			socket= serverSocketSend.accept();
-			socket.setSoTimeout(2500);
+//			socket.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket.getInetAddress().getHostAddress() + "}.");
 			outputStream = new DataOutputStream(socket.getOutputStream());
 			writer= new OutputStreamWriter(outputStream);
@@ -410,7 +410,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //				        System.out.println("qq");
 				        StringBuffer sb = new StringBuffer();
 				    
-				        System.out.println(in.read(buf,0,buf.length));
+//				        System.out.println(in.read(buf,0,buf.length));
 				        if (in.read(buf,0,buf.length)==-1)
 				        {
 				        	bPause=true;
@@ -553,11 +553,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				socket_recive.close();
 				socket_recive=null;
 				System.out.println("socket_recive");
-			}
-			if(outputStream!=null ){
-				outputStream.close();
-				outputStream=null;
-				System.out.println("133333");
 			}
 			if(serverSocket!=null ){
 				serverSocket.close();
