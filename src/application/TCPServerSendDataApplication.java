@@ -531,17 +531,48 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			System.out.println("closed11.");					
 			System.out.println("Socket11.");
 			
-			in.close();
-			writer_recive.close();
-			outputStream_recive.close();
-			socket_recive.close();
-			serverSocket.close();
+			if(in!=null){
+				in.close();
+				in=null;
+				System.out.println("in");
+			}
+			if(writer_recive!=null){
+				writer_recive.close();
+				writer_recive=null;
+				System.out.println("writer_recive");
+			}
+			if(outputStream_recive!=null ){
+				outputStream_recive.close();
+				outputStream_recive=null;
+				System.out.println("outputStream_recive");
+			}
+			if(socket_recive!=null ){
+				socket_recive.close();
+				socket_recive=null;
+				System.out.println("socket_recive");
+			}
+			if(outputStream!=null ){
+				outputStream.close();
+				outputStream=null;
+				System.out.println("133333");
+			}
+			if(serverSocket!=null ){
+				serverSocket.close();
+				serverSocket=null;
+				System.out.println("serverSocket");
+			}
 			
-			writer_recive=null;
-			outputStream_recive=null;
-			socket_recive=null;
-			serverSocket=null;
-			in=null;
+//			in.close();
+//			writer_recive.close();
+//			outputStream_recive.close();
+//			socket_recive.close();
+//			serverSocket.close();
+//			
+//			writer_recive=null;
+//			outputStream_recive=null;
+//			socket_recive=null;
+//			serverSocket=null;
+//			in=null;
 			bPause=true;
 			
 			System.out.println("closed000");					
