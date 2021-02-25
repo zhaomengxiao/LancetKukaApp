@@ -441,7 +441,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						if(units[1].equals("spd")){
 //						
 							String para = units[2].substring(0, units[2].length() - 1);
-							System.out.println("spd: " + para);
+//							System.out.println("spd: " + para);
 							writer_recive.write("$res,spd,1");
 							writer_recive.flush();
 							
@@ -1017,6 +1017,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while (true)
 			{ 
 				boolean btest=SafeDataIO.getInput4();
+				System.out.println(btest);
+				ThreadUtil.milliSleep(2000);
 				if (btest==true){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
