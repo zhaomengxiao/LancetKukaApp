@@ -277,9 +277,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while(true){
 			try {
 			boolean bPause=false;
-			serverSocketSend = new ServerSocket(30001);
-			
-			try {
+            try {
 				
 				if(serverSocket!=null){
 					serverSocket.close();
@@ -310,6 +308,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			serverSocketSend = new ServerSocket(30001);
+			
+			
 			
 			System.out.println("New socket.");
 			socket= serverSocketSend.accept();
