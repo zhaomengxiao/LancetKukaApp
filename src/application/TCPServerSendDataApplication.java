@@ -1024,7 +1024,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //					System.out.println("SafeDataIO.getInput4"+btest);
 //				}
 //				System.out.println(btest);
-
+				boolean btest=SafeDataIO.getInput4();
+				if (btest==true)
+				{
+					nWorkingmode=1;
+				}
 				if (nWorkingmode==1){
 					
 					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
@@ -1179,14 +1183,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 				
 				try{
-				ThreadUtil.milliSleep(2000);
-				System.out.println("Input1ttt");
-				boolean btest=SafeDataIO.getInput1();
-				System.out.println("Input1:"+btest);
+				ThreadUtil.milliSleep(20);
 
-
-				btest=SafeDataIO.getInput4();
-				System.out.println("Input4:"+btest);
+			
+			
 				
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
