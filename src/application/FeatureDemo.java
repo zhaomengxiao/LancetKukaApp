@@ -144,20 +144,16 @@ public class FeatureDemo extends RoboticsAPIApplication {
 		while (true){
 
 			boolean btest=Test.getInput1();
-			System.out.println(btest);
-			btest=Test.getInput2();
-			System.out.println(btest);
-			btest=Test.getInput3();
-			System.out.println(btest);
+			System.out.println("Input1:"+btest);
+
+
 			btest=Test.getInput4();
-			System.out.println(btest);
-			btest=Test.getInput5();
-			System.out.println(btest);
+			System.out.println("Input4:"+btest);
 			Input btest1=Test.getInput("Input4");
-			System.out.println(btest1);
+			System.out.println("Input4_1:"+btest1);
 			btest1=Test.getInput("Input1");
-			System.out.println(btest1);
-			ThreadUtil.milliSleep(2000);
+			System.out.println("Input1_1:"+btest1);
+			ThreadUtil.milliSleep(3000);
 		}
 	}
 
