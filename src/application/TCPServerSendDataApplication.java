@@ -287,7 +287,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 			socket= serverSocketSend.accept();
-		
+			socket.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket.getInetAddress().getHostAddress() + "}.");
 			outputStream = new DataOutputStream(socket.getOutputStream());
 			writer= new OutputStreamWriter(outputStream);
@@ -426,7 +426,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				            System.out.print(str);
 //				            System.out.println(str);
 				            if(str.equals("*")) {
-								System.out.println(new String(sb).trim());
+//								System.out.println(new String(sb).trim());
 //								System.out.println("tt");
 								units = new String(sb).trim().split(",");
 								
@@ -564,6 +564,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				serverSocket=null;
 				System.out.println("serverSocket");
 			}
+			
+			
 			
 //			in.close();
 //			writer_recive.close();
