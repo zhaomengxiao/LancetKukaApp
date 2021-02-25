@@ -386,7 +386,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-//		    socket_recive.setSoTimeout(50000);
+		    socket_recive.setSoTimeout(20000);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		
 			InputStream in = socket_recive.getInputStream();
@@ -1133,38 +1133,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		
 			while (true)
 			{
-				ThreadUtil.milliSleep(20000);
-				try {
-					
-					if(serverSocket!=null){
-						serverSocket.close();
-						serverSocket=null;
-						System.out.println("222");
-					}
-					if(serverSocketSend!=null ){
-						serverSocketSend.close();
-						serverSocketSend=null;
-						System.out.println("22222");
-					}
-					if(writer!=null ){
-						writer.close();
-						writer=null;
-						System.out.println("3333");
-					}
-					if(outputStream!=null ){
-						outputStream.close();
-						outputStream=null;
-						System.out.println("133333");
-					}
-					if(socket!=null ){
-						socket.close();
-						socket=null;
-						System.out.println("233333");
-					}
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			
 				
 				try{
 				ThreadUtil.milliSleep(20);
