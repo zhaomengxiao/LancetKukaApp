@@ -1052,34 +1052,15 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						ThreadUtil.milliSleep(500);
 //						System.out.println("222");
 
-						Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-
-		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-							//$cmd,RobotMove,1$
-							if(nX!=0 && nY!=0 && nZ!=0){
-								Ptest2.setX(nX);
-								Ptest2.setY(nY);
-								Ptest2.setZ(nZ);
-//								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-								Ptest2.setAlphaRad(Math.toRadians(nA));
-								Ptest2.setBetaRad(Math.toRadians(nB));
-								Ptest2.setGammaRad(Math.toRadians(nC));
-
-								
-								if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-									needle.getFrame("/tcp_2").move(ptp(Ptest2).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-								}
-								else{
-									System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
-								}
-								
-								
-//								ThreadUtil.milliSleep(500);
-//								System.out.println("222");
-							}
-							else{
-								ThreadUtil.milliSleep(10);
-							}
+						JointPosition jReady =lbr.getCurrentJointPosition();
+		                jReady.set(1, -20.3);
+		                jReady.set(2, -40.9);
+		                jReady.set(3, 65.6);
+		                jReady.set(4, 52.8);
+		                jReady.set(5, -49.1);
+		                jReady.set(6, -92.1);
+		                jReady.set(7, 142.6);
+						needle.getFrame("/tcp_2").move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 			
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
