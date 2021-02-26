@@ -1046,13 +1046,15 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setAlphaRad(Math.toRadians(nA));
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
+			    	   System.out.println("*1");
 						final CartesianImpedanceControlMode cartImp = createCartImp();
 					
 						
 //						ThreadUtil.milliSleep(500);
 //						System.out.println("222");
-
+						  System.out.println("*2");
 						JointPosition jReady =lbr.getCurrentJointPosition();
+						System.out.println("*3");
 		                jReady.set(1, -0.35);
 		                jReady.set(2, -0.71);
 		                jReady.set(3, 1.14);
@@ -1061,9 +1063,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		                jReady.set(6, -1.607);
 		                jReady.set(7, 2.48);
 		                System.out.println(jReady);
+		                System.out.println("*4");
 //						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 		                lbr.move(ptp(jReady));
-			
+		                System.out.println("*5");
+		                nWorkingmode=0;
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
 			    	//随动模式
