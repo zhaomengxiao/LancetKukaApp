@@ -68,6 +68,7 @@ import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.HandGuidingMotion;
 import com.kuka.roboticsAPI.motionModel.IMotion;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
+import com.kuka.roboticsAPI.motionModel.PTP;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.JointImpedanceControlMode;
@@ -128,6 +129,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final int NUM_RUNS = 600;
 	 private static final double AMPLITUDE = 70;
 	 private SafeDataIOGroup SafeDataIO;
+	 private JointPosition jointPos;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -199,6 +201,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		nB=0;
 		nC=0;
 		io.setOutput5(false);
+		jointPos=new JointPosition(   Math.toRadians(30),
+                Math.toRadians(30),
+                Math.toRadians(0),
+                Math.toRadians(0),
+                Math.toRadians(0),
+                Math.toRadians(0),
+                Math.toRadians(0));
 		try {
 			ThreadUtil.milliSleep(1000);
 			if(serverSocket!=null){
@@ -1047,27 +1056,32 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
 			    	   System.out.println("*1");
-						final CartesianImpedanceControlMode cartImp = createCartImp();
-					
-						
-//						ThreadUtil.milliSleep(500);
-//						System.out.println("222");
-						  System.out.println("*2");
-						JointPosition jReady =lbr.getCurrentJointPosition();
-						System.out.println("*3");
-		                jReady.set(1, -0.35);
-		                jReady.set(2, -0.71);
-		                jReady.set(3, 1.14);
-		                jReady.set(4, 0.92);
-		                jReady.set(5, -0.85);
-		                jReady.set(6, -1.607);
-		                jReady.set(7, 2.48);
-		                System.out.println(jReady);
-		                System.out.println("*4");
-//						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-		                lbr.move(ptp(jReady));
-		                System.out.println("*5");
+//						final CartesianImpedanceControlMode cartImp = createCartImp();
+//					
+//						
+////						ThreadUtil.milliSleep(500);
+////						System.out.println("222");
+//						  System.out.println("*2");
+//						JointPosition jReady =lbr.getCurrentJointPosition();
+//						System.out.println("*3");
+//		                jReady.set(1, -0.35);
+//		                jReady.set(2, -0.71);
+//		                jReady.set(3, 1.14);
+//		                jReady.set(4, 0.92);
+//		                jReady.set(5, -0.85);
+//		                jReady.set(6, -1.607);
+//		                jReady.set(7, 2.48);
+//		                System.out.println(jReady);
+//		                System.out.println("*4");
+////						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//		                lbr.move(ptp(jReady));
+//		                System.out.println("*5");
+		                lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2));
+		                System.out.println("*2");
 		                nWorkingmode=0;
+		                System.out.println("*3");
+		               
+		                
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
 			    	//随动模式
