@@ -786,8 +786,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(500.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(50.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
 		        
@@ -1037,7 +1037,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
 
 //						Ptest1.setX(nX);
@@ -1048,12 +1047,39 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
 						final CartesianImpedanceControlMode cartImp = createCartImp();
-						needle.getFrame("/tcp_2").move(ptp(Ptest1).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					
 						
 //						ThreadUtil.milliSleep(500);
 //						System.out.println("222");
 
+						Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
+		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+							//$cmd,RobotMove,1$
+							if(nX!=0 && nY!=0 && nZ!=0){
+								Ptest2.setX(nX);
+								Ptest2.setY(nY);
+								Ptest2.setZ(nZ);
+//								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+								Ptest2.setAlphaRad(Math.toRadians(nA));
+								Ptest2.setBetaRad(Math.toRadians(nB));
+								Ptest2.setGammaRad(Math.toRadians(nC));
+
+								
+								if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+									needle.getFrame("/tcp_2").move(ptp(Ptest2).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+								}
+								else{
+									System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+								}
+								
+								
+//								ThreadUtil.milliSleep(500);
+//								System.out.println("222");
+							}
+							else{
+								ThreadUtil.milliSleep(10);
+							}
 			
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
@@ -1124,6 +1150,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						Ptest1.setAlphaRad(Math.toRadians(nA));
 						Ptest1.setBetaRad(Math.toRadians(nB));
 						Ptest1.setGammaRad(Math.toRadians(nC));
+
+						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 							needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
 						}
@@ -1310,6 +1338,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public void run() {
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
+		
 //		Vector vec=Vector.of(841.79, -84.76, 178.95);
 //		Matrix translation = Matrix.ofRowFirst(0.302, -0.933, -0.194, -0.302, -0.287, 0.909, -0.904, -0.216, -0.368);
 //		MatrixTransformation trans2=MatrixTransformation.of(vec, translation);
