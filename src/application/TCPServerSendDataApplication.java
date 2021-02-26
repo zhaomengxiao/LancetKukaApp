@@ -472,14 +472,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
 							io.setOutput5(true);	
-							System.out.println("io.setOutput5(true)");
+//							System.out.println("io.setOutput5(true)");
 							}
 							else{
 							io.setOutput5(false);
-							System.out.println("io.setOutput5(false)");
-							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
+//							System.out.println("io.setOutput5(false)");
+//							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
 							}
-							System.out.println("sIO: " + para2);
+//							System.out.println("sIO: " + para2);
 							writer_recive.write("$res,sIO,0$");
 							writer_recive.flush();
 							
