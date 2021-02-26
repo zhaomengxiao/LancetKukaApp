@@ -311,7 +311,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 					writer.write(data);
 					writer.flush();
-//					ThreadUtil.milliSleep(50);
+					ThreadUtil.milliSleep(50);
 //					ThreadUtil.milliSleep(2000);
 					}
 				catch (IOException e) {
