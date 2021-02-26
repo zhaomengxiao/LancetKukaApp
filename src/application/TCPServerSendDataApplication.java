@@ -272,7 +272,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public  class sendRTdata implements Callable<String> {
          
 
-		@Override
+		
 		public String call() {
 			
 			
@@ -379,7 +379,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public  class reciveRTdata implements Callable<String> {
         
         
-		@Override
+		
 		public String call() {	
 			String[] units=null;
 			while(true){
@@ -1007,7 +1007,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		        return timing;
 		    }
 		    
-		@Override
+		
 		public String call() {
 //			int answer;
 //			answer = getApplicationUI().displayModalDialog(
@@ -1273,7 +1273,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data15=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rx
-				a1=Math.toDegrees(cmdPos.getGammaRad());
+				a1=Math.toDegrees(cmdPos.getAlphaRad());
 				BigDecimal bigDecima20 = new BigDecimal(a1);
 				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //				data16=a1+",";
@@ -1287,7 +1287,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data17=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rz
-				a1=Math.toDegrees(cmdPos.getAlphaRad());
+
+				
+				a1=Math.toDegrees(cmdPos.getGammaRad());
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //				data18=a1+"$";
@@ -1304,7 +1306,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		
 	}
 
-	@Override
+	
 	public void run() {
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
