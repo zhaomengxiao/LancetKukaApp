@@ -1053,13 +1053,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						System.out.println("222");
 
 						JointPosition jReady =lbr.getCurrentJointPosition();
-		                jReady.set(1, -20.3);
-		                jReady.set(2, -40.9);
-		                jReady.set(3, 65.6);
-		                jReady.set(4, 52.8);
-		                jReady.set(5, -49.1);
-		                jReady.set(6, -92.1);
-		                jReady.set(7, 142.6);
+		                jReady.set(1, -20.3*(3.14/180));
+		                jReady.set(2, -40.9*(3.14/180));
+		                jReady.set(3, 65.6*(3.14/180));
+		                jReady.set(4, 52.8*(3.14/180));
+		                jReady.set(5, -49.1*(3.14/180));
+		                jReady.set(6, -92.1*(3.14/180));
+		                jReady.set(7, 142.6*(3.14/180));
 						needle.getFrame("/tcp_2").move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 			
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
