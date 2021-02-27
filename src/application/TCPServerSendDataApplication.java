@@ -130,8 +130,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double AMPLITUDE = 70;
 	 private SafeDataIOGroup SafeDataIO;
 	 private JointPosition jointPos;
-//	 private boolean bPause_recive=false;
-//	 private boolean bPause_send=false;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -176,8 +174,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public static String data16="0";
 	public static String data17="0";
 	public static String data18="0";
-	
-	
     
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX=0;
@@ -196,8 +192,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-//		bPause_send=false;
-//		bPause_recive=false;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
 		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 		nX=0;
@@ -296,7 +290,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while(true){
 			try {
 			boolean bPause=false;
-//			bPause_send=false;
 			serverSocketSend = new ServerSocket(30001);
 			
 			
@@ -401,7 +394,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			while(true){
 			try{
 			boolean bPause=false;
-//			bPause_recive=false;
 			serverSocket = new ServerSocket(30007);
 			
 			System.out.println("New socket.");
@@ -1413,9 +1405,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Override
 	public void dispose(){
 		try {
-//			bPause_recive=true;
-//			bPause_send=true;
-			ThreadUtil.milliSleep(2000);
+			ThreadUtil.milliSleep(1000);
 			if(serverSocket!=null){
 				serverSocket.close();
 				serverSocket=null;
