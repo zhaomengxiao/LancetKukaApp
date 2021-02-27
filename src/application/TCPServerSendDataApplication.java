@@ -1056,7 +1056,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
 			    	   System.out.println("*1");
-//						final CartesianImpedanceControlMode cartImp = createCartImp();
+						final CartesianImpedanceControlMode cartImp = createCartImp();
 //					
 //						
 ////						ThreadUtil.milliSleep(500);
@@ -1076,7 +1076,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 ////						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 //		                lbr.move(ptp(jReady));
 //		                System.out.println("*5");
-		                lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2));
+		                lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
 		                System.out.println("*2");
 		                nWorkingmode=0;
 		                System.out.println("*3");
