@@ -130,6 +130,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double AMPLITUDE = 70;
 	 private SafeDataIOGroup SafeDataIO;
 	 private JointPosition jointPos;
+	 private boolean bPause_recive=false;
+	 private boolean bPause_send=false;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -174,6 +176,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public static String data16="0";
 	public static String data17="0";
 	public static String data18="0";
+	
+	
     
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX=0;
@@ -192,6 +196,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		bPause_send=false;
+		bPause_recive=false;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
 		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 		nX=0;
@@ -289,7 +295,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			while(true){
 			try {
-			boolean bPause=false;
+//			boolean bPause=false;
+			bPause_send=false;
 			serverSocketSend = new ServerSocket(30001);
 			
 			
@@ -301,7 +308,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			outputStream = new DataOutputStream(socket.getOutputStream());
 			writer= new OutputStreamWriter(outputStream);
 
-			while (bPause==false)
+			while (bPause_send==false)
 			{
 
 
@@ -335,7 +342,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					outputStream=null;
 					socket=null;
 					serverSocketSend=null;
-					bPause=true;
+					bPause_send=true;
 					
 //					try {
 //						ThreadUtil.milliSleep(1000);
@@ -393,7 +400,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			String[] units=null;
 			while(true){
 			try{
-			boolean bPause=false;
+//			boolean bPause=false;
+			bPause_recive=false;
 			serverSocket = new ServerSocket(30007);
 			
 			System.out.println("New socket.");
@@ -407,7 +415,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			writer_recive= new OutputStreamWriter(outputStream_recive);
 //			PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
-			while(bPause==false){
+			while(bPause_recive==false){
 
 				try{
 					
@@ -422,7 +430,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //				        System.out.println(in.read(buf,0,buf.length));
 				        if (in.read(buf,0,buf.length)==-1)
 				        {
-				        	bPause=true;
+				        	bPause_recive=true;
 //				        	System.out.println("oo");
 				        	break;
 				        }
@@ -531,7 +539,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					socket_recive=null;
 					serverSocket=null;
 					in=null;
-					bPause=true;
+					bPause_recive=true;
 					
 					
 				}
@@ -582,7 +590,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			socket_recive=null;
 //			serverSocket=null;
 //			in=null;
-			bPause=true;
+			bPause_recive=true;
 			
 			System.out.println("closed000");					
 			System.out.println("Socket000");
@@ -1405,7 +1413,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Override
 	public void dispose(){
 		try {
-			ThreadUtil.milliSleep(1000);
+			bPause_recive=true;
+			bPause_send=true;
+			ThreadUtil.milliSleep(3000);
 			if(serverSocket!=null){
 				serverSocket.close();
 				serverSocket=null;
