@@ -456,7 +456,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 				            sb.append(str);
 //				            System.out.print(str);
-				            System.out.println(str);
+//				            System.out.println(str);
 				            if(str.equals("*")) {
 //								System.out.println(new String(sb).trim());
 //								System.out.println("tt");
@@ -517,16 +517,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("RobotMove")){
-							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[2]);
 							String para2 = units[3].substring(0, units[3].length() - 1);
-							if(Double.parseDouble(para2)==1 )
+							if(Double.parseDouble(para2)==2 )
 							{
 								System.out.println("RobotMove1");
-
+								nToolMode=2;
 							}
 							else{
 								System.out.println("RobotMove2");
-
+								nToolMode=1;
 							}
 
 							writer_recive.write("$res,RobotMove,0$");
