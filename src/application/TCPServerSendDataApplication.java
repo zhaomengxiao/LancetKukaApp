@@ -300,6 +300,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
 		needle.attachTo(lbr.getFlange());
+		needle_gripper.attachTo(lbr.getFlange());
 	}
 
 	public  class sendRTdata implements Callable<String> {
