@@ -130,6 +130,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double AMPLITUDE = 70;
 	 private SafeDataIOGroup SafeDataIO;
 	 private JointPosition jointPos;
+	 private JointPosition jointPos_zuo;
+	 private JointPosition jointPos_you;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -142,9 +144,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Inject
 	Tool needle;
 	
-//	@Named("Tool_2")
-//	@Inject
-//	private Tool needle;
+	@Named("gripper")
+	@Inject
+	private Tool needle_gripper;
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
@@ -188,6 +190,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
 	public static int nWorkingmode=0;
+	public static int nToolMode=0;
 	@Inject
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
@@ -208,6 +211,26 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
                 Math.toRadians(-49.1),
                 Math.toRadians(-92.1),
                 Math.toRadians(142.6));
+		
+		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
+                Math.toRadians(-7.41),
+                Math.toRadians(40.42),
+                Math.toRadians(115),
+                Math.toRadians(-2.17),
+                Math.toRadians(-55.7),
+                Math.toRadians(122));
+		
+		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
+                Math.toRadians(-4.63),
+                Math.toRadians(-44.98),
+                Math.toRadians(115),
+                Math.toRadians(-2.29),
+                Math.toRadians(-65.18),
+                Math.toRadians(-127));
+		
+
+		
+		
 		try {
 			ThreadUtil.milliSleep(1000);
 			if(serverSocket!=null){
@@ -502,10 +525,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							writer_recive.flush();
 							
 						}
-						else if(units[1].equals("qtcp")){
+						else if(units[1].equals("stcp")){
 							String para4 = units[2].substring(0, units[2].length() - 1);
-							System.out.println("qtcp: " + para4);
-							writer_recive.write("$res,qtcp,1");
+							System.out.println("stcp: " + para4);
+							nToolMode=Integer.parseInt(para4);
+							writer_recive.write("$res,stcp,1");
 							writer_recive.flush();
 						}
 						else{
@@ -608,6 +632,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			}
 		}
 	}
+
 	
 	public HandGuidingMotion createhandGuidingMotion(){
 		
@@ -1039,18 +1064,48 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					nWorkingmode=1;
 				}
 				if (nWorkingmode==1){
-					
-					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
-					bDangerous=false;
-					nWorkingmode=0;
+					if (nToolMode==2)
+					{
+						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+						bDangerous=false;
+						nWorkingmode=0;
+					}
+					else{
+						needle.getFrame("/tcp_3").move(createhandGuidingMotion());
+						bDangerous=false;
+						nWorkingmode=0;
+					}
 				}
 			    else if (nWorkingmode==2 ){
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
-
-
+			    	ThreadUtil.milliSleep(1000);
+			    	final CartesianImpedanceControlMode cartImp = createCartImp();	
+			    	if(nX==1)
+			    	{
+			    		
+			    		System.out.println("zhunbei_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));	
+			    	}
+			    	//左侧
+			    	else if(nX==2)
+			    	{
+			    		System.out.println("zuoce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	//右侧
+			    	else if(nX==3)
+			    	{
+			    		System.out.println("youce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	else{
+			    		System.out.println("err");
+			    	}
 //						Ptest1.setX(nX);
 //						Ptest1.setY(nY);
 //						Ptest1.setZ(nZ);
@@ -1058,8 +1113,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //						Ptest1.setAlphaRad(Math.toRadians(nA));
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
-			    	   System.out.println("*1");
-						final CartesianImpedanceControlMode cartImp = createCartImp();
+
+			    	   
 //					
 //						
 ////						ThreadUtil.milliSleep(500);
@@ -1079,10 +1134,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 ////						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 //		                lbr.move(ptp(jReady));
 //		                System.out.println("*5");
-		                lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+		                
 		                System.out.println("*2");
 		                nWorkingmode=0;
 		                System.out.println("*3");
+		                nX=0;
+		                nY=0;
+		                nZ=0;
+		                nA=0;
+		                nB=0;
+		                nC=0;
 		               
 		                
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
