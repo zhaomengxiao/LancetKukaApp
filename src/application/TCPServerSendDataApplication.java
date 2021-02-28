@@ -547,7 +547,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
 							System.out.println("stcp: " + para4);
-							nToolMode=Integer.parseInt(para4);
+//							nToolMode=Integer.parseInt(para4);
 							writer_recive.write("$res,stcp,1");
 							writer_recive.flush();
 						}
@@ -1083,6 +1083,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					nWorkingmode=1;
 				}
 				if (nWorkingmode==1){
+					ThreadUtil.milliSleep(500);
 					if (nToolMode==2)
 					{
 						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
@@ -1094,6 +1095,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						bDangerous=false;
 						nWorkingmode=0;
 					}
+					
 	                nX=0;
 	                nY=0;
 	                nZ=0;
