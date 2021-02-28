@@ -455,8 +455,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				            String str = new String(buf);
 
 				            sb.append(str);
-				            System.out.print(str);
-//				            System.out.println(str);
+//				            System.out.print(str);
+				            System.out.println(str);
 				            if(str.equals("*")) {
 //								System.out.println(new String(sb).trim());
 //								System.out.println("tt");
@@ -516,6 +516,23 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							writer_recive.flush();
 							
 						}
+						else if(units[1].equals("RobotMove")){
+							System.out.println("para: " + units[2]);
+							String para2 = units[3].substring(0, units[3].length() - 1);
+							if(Double.parseDouble(para2)==1 )
+							{
+								System.out.println("RobotMove1");
+
+							}
+							else{
+								System.out.println("RobotMove2");
+
+							}
+
+							writer_recive.write("$res,RobotMove,0$");
+							writer_recive.flush();
+							
+						}
 						else if(units[1].equals("setwm")){
 							String para3 = units[2].substring(0, units[2].length() - 1);
 //							System.out.println("setwm: " + para3);
@@ -526,6 +543,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("stcp")){
+							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
 							System.out.println("stcp: " + para4);
 							nToolMode=Integer.parseInt(para4);
