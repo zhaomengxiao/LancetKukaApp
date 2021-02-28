@@ -144,9 +144,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Inject
 	Tool needle;
 	
-	@Named("gripper")
-	@Inject
-	Tool needle_gripper;
+//	@Named("gripper")
+//	@Inject
+//	Tool needle_gripper;
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
@@ -300,7 +300,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
 		needle.attachTo(lbr.getFlange());
-		needle_gripper.attachTo(lbr.getFlange());
+//		needle_gripper.attachTo(lbr.getFlange());
 	}
 
 	public  class sendRTdata implements Callable<String> {
@@ -1087,7 +1087,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					ThreadUtil.milliSleep(500);
 					if (nToolMode==2)
 					{
-						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+//						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
 						bDangerous=false;
 						nWorkingmode=0;
 					}
