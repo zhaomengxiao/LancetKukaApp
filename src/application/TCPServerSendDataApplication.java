@@ -145,7 +145,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private Tool needle;
 	
 	@Named("gripper")
-	@Inject
+//	@Inject
 	private Tool needle_gripper;
 	
 	private ObjectFrame tcp;
