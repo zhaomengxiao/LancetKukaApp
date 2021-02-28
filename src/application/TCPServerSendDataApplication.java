@@ -146,7 +146,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	
 	@Named("gripper")
 	@Inject
-	private Tool needle_gripper;
+	Tool needle_gripper;
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
@@ -842,8 +842,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(500.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(50.0);
+		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
 		        
@@ -1094,6 +1094,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						bDangerous=false;
 						nWorkingmode=0;
 					}
+	                nX=0;
+	                nY=0;
+	                nZ=0;
+	                nA=0;
+	                nB=0;
+	                nC=0;
 				}
 			    else if (nWorkingmode==2 ){
 //					System.out.println("automode"+nWorkingmode);
