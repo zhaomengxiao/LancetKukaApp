@@ -93,7 +93,7 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #run()
  * @see #dispose()
  */
-public class TCPServerSendDataApplication extends RoboticsAPIApplication {
+public class testForxi_4 extends RoboticsAPIApplication {
 //    int i=0;
 	private HandGuidingMotion motion;
 
@@ -422,7 +422,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			boolean bPause=false;
 			serverSocket = new ServerSocket(30007);
 			
-			System.out.println("New socket.");
+			System.out.println("New socket_socket_recive.");
 		    socket_recive = serverSocket.accept();
 		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
@@ -648,7 +648,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //				//			outputStream=null;
 //				socket=null;
 //				serverSocket=null;
-			};
+			}
 //			return "end";
 			}
 		}
