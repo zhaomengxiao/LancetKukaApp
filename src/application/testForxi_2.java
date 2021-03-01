@@ -298,12 +298,7 @@ public class testForxi_2 extends RoboticsAPIApplication {
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-        needle=createFromTemplate("Tool_2");
-		needle.attachTo(lbr.getFlange());
-		
-		
-		needle_gripper=createFromTemplate("gripper");
-		needle_gripper.attachTo(lbr.getFlange());
+
 	}
 
 	public  class sendRTdata implements Callable<String> {
@@ -1432,6 +1427,12 @@ public class testForxi_2 extends RoboticsAPIApplication {
 
 	
 	public void run() {
+        needle=createFromTemplate("Tool_2");
+		needle.attachTo(lbr.getFlange());
+		
+		
+		needle_gripper=createFromTemplate("gripper");
+		needle_gripper.attachTo(lbr.getFlange());
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
