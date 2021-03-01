@@ -417,12 +417,15 @@ public class testForxi_4 extends RoboticsAPIApplication {
 		
 		public String call() {	
 			String[] units=null;
+			boolean bResetServerSocket=false;
 			while(true){
 			try{
 			boolean bPause=false;
 			System.out.println("New socket_socket_recive1.");
+			if (bResetServerSocket==false)
+			{
 			serverSocket = new ServerSocket(30007);
-			
+			}
 			System.out.println("New socket_socket_recive2.");
 		    socket_recive = serverSocket.accept();
 		    socket_recive.setSoTimeout(2500);
@@ -636,6 +639,7 @@ public class testForxi_4 extends RoboticsAPIApplication {
 //				System.out.println("closed//...");		
 				
 				System.out.println("Socket//IOException e");
+				bResetServerSocket=true;
 				ThreadUtil.milliSleep(1000);
 //				System.out.println("closed.");					
 //				System.out.println("Socket.");
