@@ -41,6 +41,7 @@ import com.kuka.connectivity.motionModel.smartServo.SmartServo;
 import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.generated.ioAccess.MytestIOIOGroup;
+import com.kuka.generated.ioAccess.SafeDataIOGroup;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.applicationModel.tasks.RoboticsAPITask;
 import com.kuka.roboticsAPI.applicationModel.tasks.UseRoboticsAPIContext;
@@ -67,6 +68,7 @@ import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.HandGuidingMotion;
 import com.kuka.roboticsAPI.motionModel.IMotion;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
+import com.kuka.roboticsAPI.motionModel.PTP;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.JointImpedanceControlMode;
@@ -91,7 +93,7 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #run()
  * @see #dispose()
  */
-public class testForXi extends RoboticsAPIApplication {
+public class testForxi_2 extends RoboticsAPIApplication {
 //    int i=0;
 	private HandGuidingMotion motion;
 
@@ -100,11 +102,6 @@ public class testForXi extends RoboticsAPIApplication {
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
 	private Controller kuka_Sunrise_Cabinet_1;
-	
-	@Inject 
-	private Tool  needle_anfang;
-	
-	
     @Inject
     private MytestIOIOGroup io;
     private static final int AIM = 10;
@@ -131,7 +128,10 @@ public class testForXi extends RoboticsAPIApplication {
      private ISmartServoLINRuntime _smartServoLINRuntime = null;
 	 private static final int NUM_RUNS = 600;
 	 private static final double AMPLITUDE = 70;
-	 Frame Ptest_xi;
+	 private SafeDataIOGroup SafeDataIO;
+	 private JointPosition jointPos;
+	 private JointPosition jointPos_zuo;
+	 private JointPosition jointPos_you;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -140,13 +140,12 @@ public class testForXi extends RoboticsAPIApplication {
 //	@Inject
 //	private Tool Tool_2;
 	
-	@Named("Tool_2")
-	@Inject
-	Tool needle;
-	
 //	@Named("Tool_2")
-//	@Inject
-//	private Tool needle;
+	@Inject
+	private Tool needle;
+	
+	@Inject
+	private Tool needle_gripper;
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
@@ -190,11 +189,14 @@ public class testForXi extends RoboticsAPIApplication {
 
 	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
 	public static int nWorkingmode=0;
+	public static int nToolMode=0;
 	@Inject
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-
+		nToolMode=1;
+		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
+		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
 		nX=0;
 		nY=0;
 		nZ=0;
@@ -202,6 +204,33 @@ public class testForXi extends RoboticsAPIApplication {
 		nB=0;
 		nC=0;
 		io.setOutput5(false);
+		jointPos=new JointPosition(   Math.toRadians(-20.3),
+                Math.toRadians(-40.9),
+                Math.toRadians(65.6),
+                Math.toRadians(52.8),
+                Math.toRadians(-49.1),
+                Math.toRadians(-92.1),
+                Math.toRadians(142.6));
+		
+		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
+                Math.toRadians(-7.41),
+                Math.toRadians(40.42),
+                Math.toRadians(115),
+                Math.toRadians(-2.17),
+                Math.toRadians(-55.7),
+                Math.toRadians(122));
+		
+		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
+                Math.toRadians(-4.63),
+                Math.toRadians(-44.98),
+                Math.toRadians(115),
+                Math.toRadians(-2.29),
+                Math.toRadians(-65.18),
+                Math.toRadians(-127));
+		
+
+		
+		
 		try {
 			ThreadUtil.milliSleep(1000);
 			if(serverSocket!=null){
@@ -269,18 +298,18 @@ public class testForXi extends RoboticsAPIApplication {
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
+        needle=createFromTemplate("Tool_2");
 		needle.attachTo(lbr.getFlange());
 		
 		
-		needle_anfang=createFromTemplate("gripper");
-		needle_anfang.attachTo(lbr.getFlange());
-		
+		needle_gripper=createFromTemplate("gripper");
+		needle_gripper.attachTo(lbr.getFlange());
 	}
 
 	public  class sendRTdata implements Callable<String> {
          
 
-		@Override
+		
 		public String call() {
 			
 			
@@ -290,10 +319,12 @@ public class testForXi extends RoboticsAPIApplication {
 			try {
 			boolean bPause=false;
 			serverSocketSend = new ServerSocket(30001);
-
+			
+			
+			
 			System.out.println("New socket.");
 			socket= serverSocketSend.accept();
-		
+//			socket.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket.getInetAddress().getHostAddress() + "}.");
 			outputStream = new DataOutputStream(socket.getOutputStream());
 			writer= new OutputStreamWriter(outputStream);
@@ -301,13 +332,24 @@ public class testForXi extends RoboticsAPIApplication {
 			while (bPause==false)
 			{
 
+
 				try{
+//					ThreadUtil.milliSleep(1000);
+//					System.out.println("x1");
+////				    System.out.println(socket_recive.isBound());
+////				    System.out.println(socket_recive.isConnected());
+//				    System.out.println("x2");
+////				    System.out.println(socket_recive.isClosed());
+//				    System.out.println("x3");
+//				    System.out.println(socket_recive.getOOBInline());
+				    
 					String data=data0+data1+data2+data3+data4+data5+data6+data7+data8+data9+data10+data11+data12+data13+data14+data15+data16+data17+data18;
 
 			
 					writer.write(data);
 					writer.flush();
 					ThreadUtil.milliSleep(50);
+//					ThreadUtil.milliSleep(2000);
 					}
 				catch (IOException e) {
 					System.out.println("Socket closed.");					
@@ -322,6 +364,39 @@ public class testForXi extends RoboticsAPIApplication {
 					socket=null;
 					serverSocketSend=null;
 					bPause=true;
+					
+//					try {
+//						ThreadUtil.milliSleep(1000);
+//						if(serverSocket!=null){
+//							serverSocket.close();
+//							serverSocket=null;
+//							System.out.println("222");
+//						}
+//						if(serverSocketSend!=null ){
+//							serverSocketSend.close();
+//							serverSocketSend=null;
+//							System.out.println("22222");
+//						}
+//						if(writer!=null ){
+//							writer.close();
+//							writer=null;
+//							System.out.println("3333");
+//						}
+//						if(outputStream!=null ){
+//							outputStream.close();
+//							outputStream=null;
+//							System.out.println("133333");
+//						}
+//						if(socket!=null ){
+//							socket.close();
+//							socket=null;
+//							System.out.println("233333");
+//						}
+//					} catch (IOException f) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+					
 				}
 				
 
@@ -341,7 +416,7 @@ public class testForXi extends RoboticsAPIApplication {
 	public  class reciveRTdata implements Callable<String> {
         
         
-		@Override
+		
 		public String call() {	
 			String[] units=null;
 			while(true){
@@ -351,7 +426,7 @@ public class testForXi extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-//		    socket_recive.setSoTimeout(50000);
+		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		
 			InputStream in = socket_recive.getInputStream();
@@ -372,7 +447,7 @@ public class testForXi extends RoboticsAPIApplication {
 //				        System.out.println("qq");
 				        StringBuffer sb = new StringBuffer();
 				    
-				        System.out.println(in.read(buf,0,buf.length));
+//				        System.out.println(in.read(buf,0,buf.length));
 				        if (in.read(buf,0,buf.length)==-1)
 				        {
 				        	bPause=true;
@@ -385,10 +460,10 @@ public class testForXi extends RoboticsAPIApplication {
 				            String str = new String(buf);
 
 				            sb.append(str);
-				            System.out.print(str);
+//				            System.out.print(str);
 //				            System.out.println(str);
 				            if(str.equals("*")) {
-								System.out.println(new String(sb).trim());
+//								System.out.println(new String(sb).trim());
 //								System.out.println("tt");
 								units = new String(sb).trim().split(",");
 								
@@ -404,7 +479,7 @@ public class testForXi extends RoboticsAPIApplication {
 						if(units[1].equals("spd")){
 //						
 							String para = units[2].substring(0, units[2].length() - 1);
-							System.out.println("spd: " + para);
+//							System.out.println("spd: " + para);
 							writer_recive.write("$res,spd,1");
 							writer_recive.flush();
 							
@@ -434,15 +509,32 @@ public class testForXi extends RoboticsAPIApplication {
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
 							io.setOutput5(true);	
-							System.out.println("io.setOutput5(true)");
+//							System.out.println("io.setOutput5(true)");
 							}
 							else{
 							io.setOutput5(false);
-							System.out.println("io.setOutput5(false)");
-							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
+//							System.out.println("io.setOutput5(false)");
+//							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
 							}
-							System.out.println("sIO: " + para2);
+//							System.out.println("sIO: " + para2);
 							writer_recive.write("$res,sIO,0$");
+							writer_recive.flush();
+							
+						}
+						else if(units[1].equals("RobotMove")){
+//							System.out.println("para: " + units[2]);
+							String para2 = units[3].substring(0, units[3].length() - 1);
+							if(Double.parseDouble(para2)==2 )
+							{
+								System.out.println("RobotMove1");
+								nToolMode=2;
+							}
+							else{
+								System.out.println("RobotMove2");
+								nToolMode=1;
+							}
+
+							writer_recive.write("$res,RobotMove,0$");
 							writer_recive.flush();
 							
 						}
@@ -455,10 +547,12 @@ public class testForXi extends RoboticsAPIApplication {
 							writer_recive.flush();
 							
 						}
-						else if(units[1].equals("qtcp")){
+						else if(units[1].equals("stcp")){
+							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
-							System.out.println("qtcp: " + para4);
-							writer_recive.write("$res,qtcp,1");
+							System.out.println("stcp: " + para4);
+//							nToolMode=Integer.parseInt(para4);
+							writer_recive.write("$res,stcp,1");
 							writer_recive.flush();
 						}
 						else{
@@ -496,17 +590,45 @@ public class testForXi extends RoboticsAPIApplication {
 			System.out.println("closed11.");					
 			System.out.println("Socket11.");
 			
-			in.close();
-			writer_recive.close();
-			outputStream_recive.close();
-			socket_recive.close();
-			serverSocket.close();
+			if(in!=null){
+				in.close();
+				in=null;
+				System.out.println("in");
+			}
+			if(writer_recive!=null){
+				writer_recive.close();
+				writer_recive=null;
+				System.out.println("writer_recive");
+			}
+			if(outputStream_recive!=null ){
+				outputStream_recive.close();
+				outputStream_recive=null;
+				System.out.println("outputStream_recive");
+			}
+			if(socket_recive!=null ){
+				socket_recive.close();
+				socket_recive=null;
+				System.out.println("socket_recive");
+			}
+			if(serverSocket!=null ){
+				serverSocket.close();
+				serverSocket=null;
+				System.out.println("serverSocket");
+			}
 			
-			writer_recive=null;
-			outputStream_recive=null;
-			socket_recive=null;
-			serverSocket=null;
-			in=null;
+			
+			
+//			in.close();
+//			writer_recive.close();
+//			outputStream_recive.close();
+//			socket_recive.close();
+//			serverSocket.close();
+//			
+//			writer_recive=null;
+//			outputStream_recive=null;
+//			socket_recive=null;
+//			serverSocket=null;
+//			in=null;
 			bPause=true;
 			
 			System.out.println("closed000");					
@@ -533,15 +655,19 @@ public class testForXi extends RoboticsAPIApplication {
 			}
 		}
 	}
+
 	
 	public HandGuidingMotion createhandGuidingMotion(){
 		
 		HandGuidingMotion motion = new HandGuidingMotion();
-		motion.setJointVelocityLimit(1)
-		.setCartVelocityLimit(1500.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(+0.785, +0.872, +0.087, -0.785, +0.087,+1.571, +0.087)
-		.setJointLimitsMin(-0.785, +0.175, -0.087, -1.571, -0.087,-1.571, -0.087)
-		.setJointLimitsEnabled(true,false,false,false,false,false,false)
+		motion.setJointVelocityLimit(1.2)
+		.setCartVelocityLimit(1000.0).setJointLimitViolationFreezesAll(false)
+		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
+		.setJointLimitsEnabled(true,true,true,true,false,false,false)
+
+
+		
 
 ;
 		return motion;
@@ -720,11 +846,8 @@ public class testForXi extends RoboticsAPIApplication {
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-//		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.X).setStiffness(50.0);
-		        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
-		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
 		        
@@ -944,32 +1067,76 @@ public class testForXi extends RoboticsAPIApplication {
 		        return timing;
 		    }
 		    
-		@Override
+		
 		public String call() {
 //			int answer;
 //			answer = getApplicationUI().displayModalDialog(
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			while (true)
 			{ 
-				if (nWorkingmode!=3){
-					Ptest_xi = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
+//				boolean btest=SafeDataIO.getInput4();
+//				if (btest==true)
+//				{
+//					nWorkingmode=1;
+//					System.out.println("SafeDataIO.getInput4"+btest);
+//				}
+//				System.out.println(btest);
+				boolean btest=SafeDataIO.getInput4();
+				if (btest==true)
+				{
+					nWorkingmode=1;
 				}
-				
-				
 				if (nWorkingmode==1){
+					ThreadUtil.milliSleep(500);
+					if (nToolMode==2)
+					{
+						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+						bDangerous=false;
+						nWorkingmode=0;
+					}
+					else{
+						needle.getFrame("/tcp_3").move(createhandGuidingMotion());
+						bDangerous=false;
+						nWorkingmode=0;
+					}
 					
-					needle.getFrame("/tcp_3").move(createhandGuidingMotion());
-					bDangerous=false;
-					nWorkingmode=0;
+	                nX=0;
+	                nY=0;
+	                nZ=0;
+	                nA=0;
+	                nB=0;
+	                nC=0;
 				}
-			    else if (nWorkingmode==3){
+			    else if (nWorkingmode==2 ){
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
-					
-
-
+			    	ThreadUtil.milliSleep(1000);
+			    	final CartesianImpedanceControlMode cartImp = createCartImp();	
+			    	if(nX==1)
+			    	{
+			    		
+			    		System.out.println("zhunbei_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));	
+			    	}
+			    	//左侧
+			    	else if(nX==2)
+			    	{
+			    		System.out.println("zuoce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	//右侧
+			    	else if(nX==3)
+			    	{
+			    		System.out.println("youce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	else{
+			    		System.out.println("err");
+			    	}
 //						Ptest1.setX(nX);
 //						Ptest1.setY(nY);
 //						Ptest1.setZ(nZ);
@@ -977,14 +1144,39 @@ public class testForXi extends RoboticsAPIApplication {
 //						Ptest1.setAlphaRad(Math.toRadians(nA));
 //						Ptest1.setBetaRad(Math.toRadians(nB));
 //						Ptest1.setGammaRad(Math.toRadians(nC));
-						final CartesianImpedanceControlMode cartImp = createCartImp();
-						needle.getFrame("/tcp_3").move(ptp(Ptest_xi).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-						
-//						ThreadUtil.milliSleep(500);
-//						System.out.println("222");
 
-
-			
+			    	   
+//					
+//						
+////						ThreadUtil.milliSleep(500);
+////						System.out.println("222");
+//						  System.out.println("*2");
+//						JointPosition jReady =lbr.getCurrentJointPosition();
+//						System.out.println("*3");
+//		                jReady.set(1, -0.35);
+//		                jReady.set(2, -0.71);
+//		                jReady.set(3, 1.14);
+//		                jReady.set(4, 0.92);
+//		                jReady.set(5, -0.85);
+//		                jReady.set(6, -1.607);
+//		                jReady.set(7, 2.48);
+//		                System.out.println(jReady);
+//		                System.out.println("*4");
+////						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//		                lbr.move(ptp(jReady));
+//		                System.out.println("*5");
+		                
+		                System.out.println("*2");
+		                nWorkingmode=0;
+		                System.out.println("*3");
+		                nX=0;
+		                nY=0;
+		                nZ=0;
+		                nA=0;
+		                nB=0;
+		                nC=0;
+		               
+		                
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
 			    	//随动模式
@@ -1029,7 +1221,7 @@ public class testForXi extends RoboticsAPIApplication {
 				
 				}
 				
-				else if(nWorkingmode==2){
+				else if(nWorkingmode==3){
 //			        // Initialize Joint impedance mode    
 //					System.out.println("JointimplentMode"+nWorkingmode);
 //					moveToInitialPosition();
@@ -1054,6 +1246,8 @@ public class testForXi extends RoboticsAPIApplication {
 						Ptest1.setAlphaRad(Math.toRadians(nA));
 						Ptest1.setBetaRad(Math.toRadians(nB));
 						Ptest1.setGammaRad(Math.toRadians(nC));
+
+						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 							needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
 						}
@@ -1106,9 +1300,14 @@ public class testForXi extends RoboticsAPIApplication {
 		
 			while (true)
 			{
+			
+
 				
 				try{
 				ThreadUtil.milliSleep(20);
+
+			
+			
 				
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
@@ -1198,7 +1397,7 @@ public class testForXi extends RoboticsAPIApplication {
 				data15=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rx
-				a1=Math.toDegrees(cmdPos.getGammaRad());
+				a1=Math.toDegrees(cmdPos.getAlphaRad());
 				BigDecimal bigDecima20 = new BigDecimal(a1);
 				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //				data16=a1+",";
@@ -1212,7 +1411,9 @@ public class testForXi extends RoboticsAPIApplication {
 				data17=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡rz
-				a1=Math.toDegrees(cmdPos.getAlphaRad());
+
+				
+				a1=Math.toDegrees(cmdPos.getGammaRad());
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //				data18=a1+"$";
@@ -1229,10 +1430,11 @@ public class testForXi extends RoboticsAPIApplication {
 		
 	}
 
-	@Override
+	
 	public void run() {
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
+		
 //		Vector vec=Vector.of(841.79, -84.76, 178.95);
 //		Matrix translation = Matrix.ofRowFirst(0.302, -0.933, -0.194, -0.302, -0.287, 0.909, -0.904, -0.216, -0.368);
 //		MatrixTransformation trans2=MatrixTransformation.of(vec, translation);

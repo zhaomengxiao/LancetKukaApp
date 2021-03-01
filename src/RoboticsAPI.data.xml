@@ -74,7 +74,7 @@
                     <transformation a="0.0" b="1.0" c="0.0" x="150.7" y="0.0" z="227.9"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-12.9" cogY="-2.1" cogZ="72.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.1"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-12.9" cogY="-2.1" cogZ="72.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.7"/>
         </toolTemplate>
         <toolTemplate class="" name="Tool_2">
             <frames>
