@@ -420,9 +420,10 @@ public class testForxi_4 extends RoboticsAPIApplication {
 			while(true){
 			try{
 			boolean bPause=false;
+			System.out.println("New socket_socket_recive1.");
 			serverSocket = new ServerSocket(30007);
 			
-			System.out.println("New socket_socket_recive.");
+			System.out.println("New socket_socket_recive2.");
 		    socket_recive = serverSocket.accept();
 		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
