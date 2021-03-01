@@ -142,10 +142,10 @@ public class testForxi_2 extends RoboticsAPIApplication {
 	
 //	@Named("Tool_2")
 	@Inject
-	private Tool needle;
+	 Tool needle;
 	
 	@Inject
-	private Tool needle_gripper;
+	 Tool needle_gripper;
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
