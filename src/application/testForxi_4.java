@@ -116,7 +116,7 @@ public class testForxi_4 extends RoboticsAPIApplication {
 	Socket socket=null;
 	Socket socket_recive=null;
 	DataOutputStream outputStream_recive=null;
-	
+	InputStream in = null;
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
@@ -418,7 +418,7 @@ public class testForxi_4 extends RoboticsAPIApplication {
 		public String call() {	
 			String[] units=null;
 			boolean bResetServerSocket=false;
-			while(true){
+			while(bResetServerSocket==true){
 			try{
 			boolean bPause=false;
 			System.out.println("New socket_socket_recive1.");
@@ -431,7 +431,7 @@ public class testForxi_4 extends RoboticsAPIApplication {
 		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		    
-			InputStream in = socket_recive.getInputStream();
+			 in = socket_recive.getInputStream();
 //			outputStream_recive
 			outputStream_recive = new DataOutputStream(socket_recive.getOutputStream());
 			writer_recive= new OutputStreamWriter(outputStream_recive);
@@ -640,7 +640,57 @@ public class testForxi_4 extends RoboticsAPIApplication {
 				
 				System.out.println("Socket//IOException e");
 				bResetServerSocket=true;
-				ThreadUtil.milliSleep(1000);
+				if(in!=null){
+					try {
+						in.close();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					in=null;
+					System.out.println("in");
+				}
+				if(writer_recive!=null){
+					try {
+						writer_recive.close();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					writer_recive=null;
+					System.out.println("writer_recive");
+				}
+				if(outputStream_recive!=null ){
+					try {
+						outputStream_recive.close();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					outputStream_recive=null;
+					System.out.println("outputStream_recive");
+				}
+				if(socket_recive!=null ){
+					try {
+						socket_recive.close();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					socket_recive=null;
+					System.out.println("socket_recive");
+				}
+				if(serverSocket!=null ){
+					try {
+						serverSocket.close();
+					} catch (IOException e1) {
+						// TODO 自动生成的 catch 块
+						e1.printStackTrace();
+					}
+					serverSocket=null;
+					System.out.println("serverSocket");
+				}
+				
 //				System.out.println("closed.");					
 //				System.out.println("Socket.");
 //				in.close();
@@ -654,8 +704,9 @@ public class testForxi_4 extends RoboticsAPIApplication {
 //				socket=null;
 //				serverSocket=null;
 			}
-//			return "end";
+			
 			}
+			return "end";
 		}
 	}
 
