@@ -1104,11 +1104,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					ThreadUtil.milliSleep(500);
 					if (nToolMode==2)
 					{
+						//nToolMode==2指的是安放模式
 						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
 						bDangerous=false;
 						nWorkingmode=0;
 					}
 					else{
+						//其他指的是打磨模式
 						needle.getFrame("/tcp_3").move(createhandGuidingMotion());
 						bDangerous=false;
 						nWorkingmode=0;
@@ -1401,6 +1403,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				
+				if (nToolMode==2){
+					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
+				}
+				else{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				}
+							
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
 				a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
