@@ -93,7 +93,7 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #run()
  * @see #dispose()
  */
-public class TCPServerSendDataApplication extends RoboticsAPIApplication {
+public class backup_1 extends RoboticsAPIApplication {
 //    int i=0;
 	private HandGuidingMotion motion;
 
@@ -837,7 +837,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		    {
 		        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(1, 1, 1, 1, 1, 1, 1);
 //		        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
-		   
 		        jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
 		        return jointImp;
 		    }
@@ -1087,7 +1086,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			int answer;
 //			answer = getApplicationUI().displayModalDialog(
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
-			boolean DangerMove=false;
 			while (true)
 			{ 
 //				boolean btest=SafeDataIO.getInput4();
@@ -1104,7 +1102,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				if (nWorkingmode==1){
 					ThreadUtil.milliSleep(500);
-					DangerMove=false;
 					if (nToolMode==2)
 					{
 						//nToolMode==2指的是安放模式
@@ -1127,7 +1124,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	                nC=0;
 				}
 			    else if (nWorkingmode==2 ){
-			    	DangerMove=false;
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
@@ -1242,7 +1238,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				
 				else if(nWorkingmode==3){
-					DangerMove=false;
 //			        // Initialize Joint impedance mode    
 //					System.out.println("JointimplentMode"+nWorkingmode);
 //					moveToInitialPosition();
@@ -1299,38 +1294,18 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			    	System.out.println("ConeLimit");
 			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 			    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
-                    
-			        // Initialize Joint impedance mode    
-//					System.out.println("JointimplentMode"+nWorkingmode);
-//					moveToInitialPosition();
-//			        final JointImpedanceControlMode jointImp = createJointImp();
-//			        runSmartServoMotion(jointImp);
-                    
 
 			    	nWorkingmode=0;
 					
 			        
-//			  if(bDangerous==true){
-//				  nWorkingmode=1;
-//				  System.out.println("WorkingModeForceToSet1");
-//			  }
+			  if(bDangerous==true){
+				  nWorkingmode=1;
+				  System.out.println("WorkingModeForceToSet1");
+			  }
 
 				}
 				else{
-					
-					if(DangerMove==false){
-						JointPosition jReady =lbr.getCurrentJointPosition();
-						if(jReady.get(1)>Math.toRadians(160)||jReady.get(2)>Math.toRadians(110)||jReady.get(3)>Math.toRadians(160)||jReady.get(4)>Math.toRadians(110) || jReady.get(5)>Math.toRadians(160)||jReady.get(6)>Math.toRadians(110)||jReady.get(7)>Math.toRadians(165)||jReady.get(1)<Math.toRadians(-160)||jReady.get(2)<Math.toRadians(-110)||jReady.get(3)<Math.toRadians(-160)||jReady.get(4)<Math.toRadians(-110) || jReady.get(5)<Math.toRadians(-160)||jReady.get(6)<Math.toRadians(-110)||jReady.get(7)<Math.toRadians(-165)){
-					    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-					    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					    	System.out.println("dangermove");
-					    	DangerMove=true;
-						}
-					}
-					
-//					
-					
-					ThreadUtil.milliSleep(20);
+					ThreadUtil.milliSleep(500);
 				}
 
 			
