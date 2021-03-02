@@ -1320,10 +1320,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					
 					if(DangerMove==false){
 						JointPosition jReady =lbr.getCurrentJointPosition();
+						
 						if(jReady.get(1)>Math.toRadians(160)||jReady.get(2)>Math.toRadians(110)||jReady.get(3)>Math.toRadians(160)||jReady.get(4)>Math.toRadians(110) || jReady.get(5)>Math.toRadians(160)||jReady.get(6)>Math.toRadians(110)||jReady.get(7)>Math.toRadians(165)||jReady.get(1)<Math.toRadians(-160)||jReady.get(2)<Math.toRadians(-110)||jReady.get(3)<Math.toRadians(-160)||jReady.get(4)<Math.toRadians(-110) || jReady.get(5)<Math.toRadians(-160)||jReady.get(6)<Math.toRadians(-110)||jReady.get(7)<Math.toRadians(-165)){
 					    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 					    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					    	System.out.println("dangermove");
+					    	System.out.println("dangermove"+"j1:"+jReady.get(1)+"j2:"+jReady.get(2)+"j3:"+jReady.get(3)+"j4:"+jReady.get(4)+"j5:"+jReady.get(5)+"j6:"+jReady.get(6)+"j7:"+jReady.get(7));
 					    	DangerMove=true;
 						}
 					}
