@@ -841,6 +841,22 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		        return jointImp;
 		    }
 		    
+		    protected CartesianImpedanceControlMode ConeLimit()
+		    {
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		        
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+		        cartImp.setMaxPathDeviation(150., 150., 50., 50., 50., 50.);
+		        return cartImp;
+		    }
+		    
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
@@ -1265,10 +1281,21 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				else if(nWorkingmode==4){
 			        // Initialize Cartesian impedance mode    
-					System.out.println("CartesianimplentMode"+nWorkingmode);
-					moveToInitialPosition();
-					final CartesianImpedanceControlMode cartImp = createCartImp();
-			        runSmartCartesianMotion(cartImp);
+//					System.out.println("CartesianimplentMode"+nWorkingmode);
+//					moveToInitialPosition();
+//					final CartesianImpedanceControlMode cartImp = createCartImp();
+//			        runSmartCartesianMotion(cartImp);
+                    ThreadUtil.milliSleep(1000);
+			    	
+			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+			    		
+			    	System.out.println("ConeLimit");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+			    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+
+			    	nWorkingmode=0;
+					
+			        
 			  if(bDangerous==true){
 				  nWorkingmode=1;
 				  System.out.println("WorkingModeForceToSet1");
