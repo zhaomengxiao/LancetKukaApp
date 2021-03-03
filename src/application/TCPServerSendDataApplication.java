@@ -855,7 +855,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		   
 //		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
 		        // For your own safety, shrink the motion abilities to useful limits
-		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
 		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
 		        return cartImp; 	
 		    }
