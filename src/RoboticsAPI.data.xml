@@ -79,14 +79,13 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="1.0" c="0.0" x="198.59185945627277" y="-10.319139232235989" z="250.8563962915146"/>
-                    <measurementTranslation calculationError="1.2096472640153029" method="XYZ4Point" timestamp="1614776998400"/>
+                    <transformation a="0.0" b="1.0" c="0.0" x="175.22" y="-10.319139232235989" z="237.4"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_3">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="120.0"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
-                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+                    <transformation a="0.0" b="1.0" c="0.0" x="198.6" y="-10.3" z="250.9"/>
                 </frame>
                 <frame id="_9532b7d2-ebfc-4656-9111-7878bd093dcc" name="tcp_anfang">
                     <transformation a="0.0" b="1.047" c="0.0" x="148.3" y="0.0" z="226.5"/>
