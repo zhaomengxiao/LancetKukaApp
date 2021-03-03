@@ -1302,8 +1302,22 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
 			    		
 			    	System.out.println("ConeLimit");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-			    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+			    	JointPosition jReady =lbr.getCurrentJointPosition();
+//	                final JointPosition currentPos = lbr.getCurrentJointPosition();
+	                
+	     		   
+	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -110 || Math.toDegrees(jReady.get(JointEnum.J3)) < -160 || Math.toDegrees(jReady.get(JointEnum.J4)) < -110 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 110 || Math.toDegrees(jReady.get(JointEnum.J3)) > 160 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+	                	System.out.println("dangermove1");
+	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+				    	DangerMove=true;
+	                }
+	                else{
+				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+	                }
+	                
+
                     
 			        // Initialize Joint impedance mode    
 //					System.out.println("JointimplentMode"+nWorkingmode);
