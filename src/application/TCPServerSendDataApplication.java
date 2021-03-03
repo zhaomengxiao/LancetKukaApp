@@ -1088,6 +1088,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			answer = getApplicationUI().displayModalDialog(
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			boolean DangerMove=false;
+			int nLastWorkingmode=0;
 			while (true)
 			{ 
 //				boolean btest=SafeDataIO.getInput4();
@@ -1104,6 +1105,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				if (nWorkingmode==1){
 					ThreadUtil.milliSleep(500);
+					nLastWorkingmode=nWorkingmode;
 					DangerMove=false;
 					if (nToolMode==2)
 					{
@@ -1127,6 +1129,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	                nC=0;
 				}
 			    else if (nWorkingmode==2 ){
+			    	nLastWorkingmode=nWorkingmode;
 			    	DangerMove=false;
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
@@ -1243,6 +1246,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				
 				else if(nWorkingmode==3){
 					DangerMove=false;
+					nLastWorkingmode=nWorkingmode;
 //			        // Initialize Joint impedance mode    
 //					System.out.println("JointimplentMode"+nWorkingmode);
 //					moveToInitialPosition();
@@ -1287,6 +1291,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 				}
 				else if(nWorkingmode==4){
+					nLastWorkingmode=nWorkingmode;
 			        // Initialize Cartesian impedance mode    
 //					System.out.println("CartesianimplentMode"+nWorkingmode);
 //					moveToInitialPosition();
@@ -1318,7 +1323,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				else{
 					
-					if(DangerMove==false){
+					if(DangerMove==false && nLastWorkingmode==4){
 						JointPosition jReady =lbr.getCurrentJointPosition();
 //		                final JointPosition currentPos = lbr.getCurrentJointPosition();
 		                
