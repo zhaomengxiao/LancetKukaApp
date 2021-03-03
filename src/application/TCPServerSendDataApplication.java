@@ -658,7 +658,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public HandGuidingMotion createhandGuidingMotion(){
 		
 		HandGuidingMotion motion = new HandGuidingMotion();
-		motion.setJointVelocityLimit(1.2)
+		motion.setJointVelocityLimit(1)
 		.setCartVelocityLimit(1000.0).setJointLimitViolationFreezesAll(false)
 		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
 		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
