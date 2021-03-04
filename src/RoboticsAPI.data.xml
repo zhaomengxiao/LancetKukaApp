@@ -88,7 +88,8 @@
                     <transformation a="0.0" b="1.0" c="0.0" x="198.6" y="-10.3" z="250.9"/>
                 </frame>
                 <frame id="_9532b7d2-ebfc-4656-9111-7878bd093dcc" name="tcp_anfang">
-                    <transformation a="0.0" b="1.047" c="0.0" x="148.3" y="0.0" z="226.5"/>
+                    <transformation a="0.0" b="1.047" c="0.0" x="152.81397607963038" y="-4.834322940405879" z="224.9825366959392"/>
+                    <measurementTranslation calculationError="1.5166019852704118" method="XYZ4Point" timestamp="1614837517719"/>
                 </frame>
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-153.5" cogY="1.7" cogZ="101.3" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.7"/>
