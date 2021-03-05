@@ -848,7 +848,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(280.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(220.0);
 	
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
@@ -857,7 +857,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		        // For your own safety, shrink the motion abilities to useful limits
 //		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
 //		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
 		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
 		        return cartImp; 	
 		    }
