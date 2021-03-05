@@ -143,7 +143,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	private Tool tool;
 	public boolean bDangerous=false;
 	
-	//发送字符串 data0~data18
+	//å�‘é€�å­—ç¬¦ä¸² data0~data18
 	public static String data0="0";
 	public static String data1="0";
 	public static String data2="0";
@@ -164,7 +164,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	public static String data17="0";
 	public static String data18="0";
     
-	//全局X,Y,Z变量 输入变量
+	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX=0;
 	public static double nY=0;
 	public static double nZ=0;
@@ -175,7 +175,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	
 	 JointPosition currentPos_test;
 
-	//全局工作模式变量 输入变量
+	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
 	public static int nWorkingmode=0;
 	@Inject
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
@@ -538,7 +538,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	        }
 	    }
 	    
-		//轴阻抗控制代码
+		//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
 		 public void runSmartServoMotion(final IMotionControlMode controlMode)
 		    {
 
@@ -684,7 +684,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
 		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(400.0);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
 		        
@@ -694,7 +694,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 		        return cartImp;
 		    }
 		    
-		 //笛卡尔阻抗控制代码
+		 //ç¬›å�¡å°”é˜»æŠ—æŽ§åˆ¶ä»£ç �
 		    public void runSmartCartesianMotion(final IMotionControlMode controlMode){
 		        
 		        final JointPosition initialPosition = new JointPosition(
@@ -825,7 +825,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 		        }
 		    }
 	
-		  //直线移动模式，smartServo实时控制
+		  //ç›´çº¿ç§»åŠ¨æ¨¡å¼�ï¼ŒsmartServoå®žæ—¶æŽ§åˆ¶
 		    protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
 		    {
 		        AbstractFrame initialPosition = lbr.getCurrentCartesianPosition(lbr
@@ -956,7 +956,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 			    else if (nWorkingmode==2){
 //					System.out.println("automode"+nWorkingmode);
 					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
-                   //testdata x:735  y:7.59  z:122 A：-91 B：-40 C：-178 $cmd,ml,715,7,122,-91,-40,-178$
+                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
 					if(nX!=0 && nY!=0 && nZ!=0){
 						Ptest1.setX(nX);
@@ -1021,7 +1021,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	
 	
 	
-	//信号采集
+	//ä¿¡å�·é‡‡é›†
 	public void Monitor() {
 		
 			while (true)
@@ -1029,103 +1029,103 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 				try{
 				ThreadUtil.milliSleep(20);
 				
-				//暂时无意义（预留默认为0）
+				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
 				
-				//报警代码
+				//æŠ¥è­¦ä»£ç �
 				data1 = "0,";
 				
-				//工作模式
+				//å·¥ä½œæ¨¡å¼�
 				data2 = "0,";
 				
-				//是否上电
+				//æ˜¯å�¦ä¸Šç”µ
 				data3 = "1,";
 				
-				//当前速度
+				//å½“å‰�é€Ÿåº¦
 				//CartesianVelocityLimitInfo infoObject = lbr.getCartesianVelocityLimitInfo();
 				double a1 =getApplicationControl().getApplicationOverride();
 				BigDecimal bigDecimal0 = new BigDecimal(a1);
 				a1 = bigDecimal0.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data4 = String.valueOf(a1)+",";
 				
-				//无意义
+				//æ— æ„�ä¹‰
 				data5 = "0,";
 				
-//				//关节度数1
+//				//å…³èŠ‚åº¦æ•°1
 				JointPosition actPos = lbr.getCurrentJointPosition();
 				a1 = Math.toDegrees(actPos.get(0));
 				BigDecimal bigDecimal = new BigDecimal(a1);
 				a1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data6=String.valueOf(a1)+",";
 				
-//				//关节度数2
+//				//å…³èŠ‚åº¦æ•°2
 				a1 = Math.toDegrees(actPos.get(1));
 				BigDecimal bigDecimal1 = new BigDecimal(a1);
 				a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data7=String.valueOf(a1)+",";
 				
-//				//关节度数3
+//				//å…³èŠ‚åº¦æ•°3
 				a1 = Math.toDegrees(actPos.get(2));
 				BigDecimal bigDecimal2 = new BigDecimal(a1);
 				a1 = bigDecimal2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data8=String.valueOf(a1)+",";
 				
-				//关节度数4
+				//å…³èŠ‚åº¦æ•°4
 				a1 = Math.toDegrees(actPos.get(3));
 				BigDecimal bigDecimal3 = new BigDecimal(a1);
 				a1 = bigDecimal3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data9=String.valueOf(a1)+",";
 				
-				//关节度数5
+				//å…³èŠ‚åº¦æ•°5
 				a1 = Math.toDegrees(actPos.get(4));
 				BigDecimal bigDecimal4 = new BigDecimal(a1);
 				a1 = bigDecimal4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data10=String.valueOf(a1)+",";
 				
-				//关节度数6
+				//å…³èŠ‚åº¦æ•°6
 				a1 = Math.toDegrees(actPos.get(5));
 				BigDecimal bigDecimal5 = new BigDecimal(a1);
 				a1 = bigDecimal5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data11=String.valueOf(a1)+",";
 				
-				//关节度数7
+				//å…³èŠ‚åº¦æ•°7
 				a1 = Math.toDegrees(actPos.get(6));
 				BigDecimal bigDecimal6 = new BigDecimal(a1);
 				a1 = bigDecimal6.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data12=String.valueOf(a1)+",";
 				
-				//轴坐标x
+				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
 				a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data13=a1+",";
 				
-				//轴坐标y
+				//è½´å��æ ‡y
 				a1=cmdPos.getY();
 				BigDecimal bigDecimal8 = new BigDecimal(a1);
 				a1 = bigDecimal8.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data14=a1+",";
 				
-				//轴坐标z
+				//è½´å��æ ‡z
 				a1=cmdPos.getZ();
 				BigDecimal bigDecimal9 = new BigDecimal(a1);
 				a1 = bigDecimal9.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data15=a1+",";
 				
-				//轴坐标rx
+				//è½´å��æ ‡rx
 				a1=Math.toDegrees(cmdPos.getGammaRad());
 				BigDecimal bigDecima20 = new BigDecimal(a1);
 				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data16=a1+",";
 				
-				//轴坐标ry
+				//è½´å��æ ‡ry
 				a1=Math.toDegrees(cmdPos.getBetaRad());
 				BigDecimal bigDecima21 = new BigDecimal(a1);
 				a1 = bigDecima21.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data17=a1+",";
 				
-				//轴坐标rz
+				//è½´å��æ ‡rz
 				a1=Math.toDegrees(cmdPos.getAlphaRad());
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -1138,7 +1138,7 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 	}
 	
 	public void MotionType() {
-		// TODO 自动生成的方法存根
+		// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„æ–¹æ³•å­˜æ ¹
 		
 	}
 
@@ -1186,10 +1186,10 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
 			System.out.println(say.get());
 			System.out.println(sdd2.get());
 		} catch (InterruptedException e) {
-			// TODO 自动生成的 catch 块
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO 自动生成的 catch 块
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
 			e.printStackTrace();
 		} 
 

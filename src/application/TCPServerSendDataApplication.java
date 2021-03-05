@@ -848,7 +848,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(200.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(280.0);
 	
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
