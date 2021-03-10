@@ -79,7 +79,7 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="1.0" c="0.0" x="175.385" y="-10.3" z="237.4"/>
+                    <transformation a="0.0" b="1.0" c="0.0" x="177.475" y="-1.558" z="239.478"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_3">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="120.0"/>
@@ -88,7 +88,7 @@
                     <transformation a="0.0" b="1.0" c="0.0" x="198.6" y="-10.3" z="250.9"/>
                 </frame>
                 <frame id="_9532b7d2-ebfc-4656-9111-7878bd093dcc" name="tcp_anfang">
-                    <transformation a="0.0" b="1.047" c="0.0" x="152.8" y="-4.8" z="225.0"/>
+                    <transformation a="0.0" b="1.047" c="0.0" x="177.5" y="-1.6" z="239.5"/>
                 </frame>
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-12.9" cogY="-2.1" cogZ="72.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.55"/>
