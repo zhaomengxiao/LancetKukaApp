@@ -76,7 +76,7 @@
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-12.9" cogY="-2.1" cogZ="72.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.1"/>
         </toolTemplate>
-        <toolTemplate class="" name="tcp_6">
+        <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
                     <transformation a="0.0" b="1.0472" c="0.0" x="175.2" y="-10.3" z="237.4"/>
