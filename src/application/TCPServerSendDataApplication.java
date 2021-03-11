@@ -655,14 +655,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	}
 
 	
-	public HandGuidingMotion createhandGuidingMotion(){
+public HandGuidingMotion createhandGuidingMotion(){
 		
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
-		.setJointLimitsEnabled(true,true,true,true,false,false,false)
+		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(115), Math.toRadians(160),Math.toRadians(110), Math.toRadians(165))
+		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), Math.toRadians(-160),Math.toRadians(-110), Math.toRadians(-165))
+		.setJointLimitsEnabled(true,true,true,true,true,true,true)
 
 
 		
@@ -700,142 +700,169 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	    }
 	    
 		//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
-		 public void runSmartServoMotion(final IMotionControlMode controlMode)
-		    {
+	    public void runSmartServoMotion(final IMotionControlMode controlMode)
+	    {
 
-		        
-		        final boolean doDebugPrints = false;
+	        
+	        final boolean doDebugPrints = false;
 
-		        final JointPosition initialPosition = new JointPosition(
-		                lbr.getCurrentJointPosition());
+	        final JointPosition initialPosition = new JointPosition(
+	                lbr.getCurrentJointPosition());
 
-		        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
+	        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
 
-		        // Set the motion properties to 10% of the systems abilities
-		        aSmartServoMotion.setJointAccelerationRel(0.1);
-		        aSmartServoMotion.setJointVelocityRel(0.1);
+	        // Set the motion properties to 10% of the systems abilities
+	        aSmartServoMotion.setJointAccelerationRel(0.1);
+	        aSmartServoMotion.setJointVelocityRel(0.1);
 
-		        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
+	        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
-		        getLogger().info("Starting the SmartServo in " + controlMode);
-		        IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-		                aSmartServoMotion.setMode(controlMode));
-		        // Fetch the Runtime of the Motion part
-		        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
-		                .getRuntime();
+	        getLogger().info("Starting the SmartServo in " + controlMode);
+	        IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
+	                aSmartServoMotion.setMode(controlMode));
+	        // Fetch the Runtime of the Motion part
+	        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
+	                .getRuntime();
 
-		        // create an JointPosition Instance, to play with
-		        final JointPosition destination = new JointPosition(
-		                lbr.getJointCount());
+	        // create an JointPosition Instance, to play with
+	        final JointPosition destination = new JointPosition(
+	                lbr.getJointCount());
 
-		        // For Roundtrip time measurement...
-		        final StatisticTimer timing = new StatisticTimer();
-		        try
-		        {
-		            // do a cyclic loop
-		            // Refer to some timing...
-		            // in nanosec
-		            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
-		            final long startTimeStamp = System.nanoTime();
-		            
+	        // For Roundtrip time measurement...
+	        final StatisticTimer timing = new StatisticTimer();
+	        try
+	        {
+	            // do a cyclic loop
+	            // Refer to some timing...
+	            // in nanosec
+	            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
+	            final long startTimeStamp = System.nanoTime();
+                final JointPosition currentPos = lbr.getCurrentJointPosition();
 
-		            while(nWorkingmode==3)
-		            {
-		            	
-		                // Timing - draw one step
-		                final OneTimeStep aStep = timing.newTimeStep();
-		                // ///////////////////////////////////////////////////////
-		                // Insert your code here
-		                // e.g Visual Servoing or the like
-		                // emulate some computational effort - or waiting for external
-		                // stuff
-		                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+	            while(SafeDataIO.getInput4()==false)
+	            {
+	            	final JointPosition currentPos_now = lbr.getCurrentJointPosition();
+//	            	System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+	           
+	                // Timing - draw one step
+	                final OneTimeStep aStep = timing.newTimeStep();
+	                // ///////////////////////////////////////////////////////
+	                // Insert your code here
+	                // e.g Visual Servoing or the like
+	                // emulate some computational effort - or waiting for external
+	                // stuff
+	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
-		                theSmartServoRuntime.updateWithRealtimeSystem();
+	                theSmartServoRuntime.updateWithRealtimeSystem();
 
-		                // Get the measured position in cartesian...
-		                final JointPosition curMsrJntPose = theSmartServoRuntime
-		                        .getAxisQMsrOnController();
-		                final JointPosition currentPos = lbr.getCurrentJointPosition();
-		                
-		   
-		                if(Math.toDegrees(currentPos.get(JointEnum.J4)) < -100){
-		                	 if (controlMode instanceof JointImpedanceControlMode)
-		                       {  		 
-		                       final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-		                       double para = 0;
-		                       para = 150.0 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos.get(JointEnum.J4))));
-//		                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos.get(JointEnum.J4)))));
-		                       jointImp.setStiffness(1, 1, 1, para, 1, 1, 1);
-//		                       System.out.println(para);
-		                       jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-		                       theSmartServoRuntime
-		                               .changeControlModeSettings(jointImp);
-		                		 
-		                		 
-		                       }
-		                }
-		                else{
-		                
-		                    
-		                	if (controlMode instanceof JointImpedanceControlMode)
-		               	 	{
-		               	 		final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-		               	 		jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
-		               	 		jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-		               	 		// Send the new Stiffness settings down to the
-		               	 		// controller
-		               	 		theSmartServoRuntime
-		               	 		.changeControlModeSettings(jointImp);
-		               	 	} 	
-		                }
-		                
-		                
-//		                
-		                if(Math.toDegrees(currentPos.get(JointEnum.J4))<-110)
-		                {
-		                JointPosition currentPos1=new JointPosition(currentPos.get(JointEnum.J1), currentPos.get(JointEnum.J2), currentPos.get(JointEnum.J3), -1.9198, currentPos.get(JointEnum.J5), currentPos.get(JointEnum.J6), currentPos.get(JointEnum.J7));
-		                destination.set(currentPos1);
-		            	System.out.println("change.."+currentPos1);
-		                }
-		                else{
-		                	destination.set(currentPos);
-		                }
-		                
-		                
-		                
-		                theSmartServoRuntime
-		                        .setDestination(destination);
+	                // Get the measured position in cartesian...
+	                final JointPosition curMsrJntPose = theSmartServoRuntime
+	                        .getAxisQMsrOnController();
 
-		                aStep.end();
+	                
+	   
+	                if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+	                	 if (controlMode instanceof JointImpedanceControlMode)
+	                       {  		 
+	                		 
+	                       final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+	                       double para =200;
+	                       double para1=200;
+	                       double para2=200;
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160){
+	                    	   para = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5))));  
+//	                    	   System.out.println(para);
+	                       }
+	                       else{
+	                    	   para=200;
+	                       }
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110){
+	                    	   para1 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos_now.get(JointEnum.J6))));  
+	                       }
+	                       else{
+	                    	   para1=200;
+	                       }
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+	                    	   para2 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(175)) - Math.abs(currentPos_now.get(JointEnum.J7))));  
+	                       }
+	                       else{
+	                    	   para2=200;
+	                       }
+	                       
+//	                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+	                       jointImp.setStiffness(2000, 2000, 2000, 2000, para, para1, para2);
+//	                       System.out.println(para);
+	                       jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+	                       theSmartServoRuntime
+	                               .changeControlModeSettings(jointImp);
+	                		 
+	                		 
+	                       }
+	                }
+	                else{
+	                
+	                    
+	                	if (controlMode instanceof JointImpedanceControlMode)
+	               	 	{
+	               	 		final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+	               	 		jointImp.setStiffness(2000, 2000, 2000, 2000, 200, 200, 200);
+	               	 		jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+	               	 		// Send the new Stiffness settings down to the
+	               	 		// controller
+	               	 		theSmartServoRuntime
+	               	 		.changeControlModeSettings(jointImp);
+	               	 	} 	
+	                }
+	                
+	                
+//	                
+//	                if(Math.toDegrees(currentPos_now.get(JointEnum.J5))>160)
+//	                {
+//	                JointPosition currentPos1=new JointPosition(currentPos.get(JointEnum.J1), currentPos.get(JointEnum.J2), currentPos.get(JointEnum.J3), currentPos.get(JointEnum.J4), 2.7925, currentPos.get(JointEnum.J6), currentPos.get(JointEnum.J7));
+//	                destination.set(currentPos1);
+//	            	System.out.println("change.."+currentPos1);
+//	                }
+//	                else{
+//	                	destination.set(currentPos);
+//	                }
+	                
+	                destination.set(currentPos);
+	                
+	                theSmartServoRuntime
+	                        .setDestination(destination);
+
+	                aStep.end();
 
 
-		            }
-		        }
-		        catch (final Exception e)
-		        {
-		            getLogger().info(e.getLocalizedMessage());
-		            e.printStackTrace();
-		        }
+	            }
+	        }
+	        catch (final Exception e)
+	        {
+	            getLogger().info(e.getLocalizedMessage());
+	            e.printStackTrace();
+	        }
 
-		        //Print statistics and parameters of the motion
-		        getLogger().info("Displaying final states after loop "
-		                + controlMode.getClass().getName());
-		        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
-		        // Stop the motion
-		        theSmartServoRuntime.stopMotion();
-		        getLogger().info("Statistic Timing of Overall Loop " + timing);
-		        if (timing.getMeanTimeMillis() > 150)
-		        {
-		            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-		            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
-		        }
+	        //Print statistics and parameters of the motion
+	        getLogger().info("Displaying final states after loop "
+	                + controlMode.getClass().getName());
+	        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
+	        // Stop the motion
+	        theSmartServoRuntime.stopMotion();
+	        getLogger().info("Statistic Timing of Overall Loop " + timing);
+	        if (timing.getMeanTimeMillis() > 150)
+	        {
+	            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+	            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
+	        }
 
-		    }
+	    }
 		 
 		    protected JointImpedanceControlMode createJointImp()
 		    {
-		        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(1, 1, 1, 1, 1, 1, 1);
+		        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(2000, 2000, 2000, 2000, 200, 200, 200);
 //		        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
 		   
 		        jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
@@ -1303,23 +1330,23 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //			        runSmartCartesianMotion(cartImp);
                
 			    	
-			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
-			    		
-			    	System.out.println("ConeLimit");
-			    	JointPosition jReady =lbr.getCurrentJointPosition();
-//	                final JointPosition currentPos = lbr.getCurrentJointPosition();
-	                
-	     		   
-	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-	                	System.out.println("dangermove1");
-	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
-				    	DangerMove=true;
-	                }
-	                else{
-				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
-	                }
+//			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+//			    		
+//			    	System.out.println("ConeLimit");
+//			    	JointPosition jReady =lbr.getCurrentJointPosition();
+////	                final JointPosition currentPos = lbr.getCurrentJointPosition();
+//	                
+//	     		   
+//	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+//	                	System.out.println("dangermove1");
+//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+//				    	DangerMove=true;
+//	                }
+//	                else{
+//				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+//	                }
 	                
 
                     
@@ -1328,9 +1355,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //					moveToInitialPosition();
 //			        final JointImpedanceControlMode jointImp = createJointImp();
 //			        runSmartServoMotion(jointImp);
-                    
+					System.out.println("JointimplentMode"+nWorkingmode);
+					moveToInitialPosition();
+			        final JointImpedanceControlMode jointImp = createJointImp();
+			        runSmartServoMotion(jointImp);
+			        nWorkingmode=0;
 
-			    	nWorkingmode=0;
 					
 			        
 //			  if(bDangerous==true){
@@ -1341,22 +1371,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 				else{
 					
-					if(DangerMove==false && nLastWorkingmode==4){
-						JointPosition jReady =lbr.getCurrentJointPosition();
-//		                final JointPosition currentPos = lbr.getCurrentJointPosition();
-		                
-		     		   
-						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-		                	System.out.println("dangermove1");
-		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-					    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					    	DangerMove=true;
-		                }
-					}
-					
 //					
 					
-					ThreadUtil.milliSleep(4);
+					ThreadUtil.milliSleep(20);
 				}
 
 			
