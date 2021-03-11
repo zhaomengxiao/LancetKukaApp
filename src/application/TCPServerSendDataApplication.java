@@ -1179,7 +1179,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					}
 					else{
 						//其他指的是打磨模式
-						needle.getFrame("/tcp_3").move(createhandGuidingMotion());
+						needle.getFrame("/tcp_2").move(createhandGuidingMotion());
 						bDangerous=false;
 						nWorkingmode=0;
 					}
