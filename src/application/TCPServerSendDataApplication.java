@@ -120,7 +120,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
-	 private static final double[] TRANSLATION_OF_TOOL = { -150.7, 0, 227.9 };
+	 private static final double[] TRANSLATION_OF_TOOL = { 175.2, -10.3, 237.4 };
 	 private static final double MASS = 0;
 	 private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
 	 private static final String TOOL_FRAME = "toolFrame";
@@ -1472,12 +1472,29 @@ public HandGuidingMotion createhandGuidingMotion(){
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				
-				if (nToolMode==2){
-					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
-				}
-				else{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-				}
+				
+				////
+		        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,1.047,0);
+		        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+		                + "(TCP)", trans);
+		        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+		        // Attach tool to the robot
+		        _toolAttachedToLBR.attachTo(lbr.getFlange());
+		        
+		        
+				////
+				
+		        
+		        
+//				if (nToolMode==2){
+//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
+//				}
+//				else{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//				}
+		        cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getFrame("/tcp_anfang"));
+		        
+		        
 							
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
