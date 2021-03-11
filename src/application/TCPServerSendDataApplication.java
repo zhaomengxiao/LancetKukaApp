@@ -120,7 +120,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
-	 private static final double[] TRANSLATION_OF_TOOL = { 175.2, -10.3, 237.4 };
+	 private static final double[] TRANSLATION_OF_TOOL = { 185.2, -10.3, 237.4 };
 	 private static final double MASS = 0;
 	 private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
 	 private static final String TOOL_FRAME = "toolFrame";
