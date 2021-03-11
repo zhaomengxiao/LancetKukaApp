@@ -524,14 +524,45 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							String para2 = units[3].substring(0, units[3].length() - 1);
 							if(Double.parseDouble(para2)==2 )
 							{
-								System.out.println("RobotMove1");
+								System.out.println("RobotMove2");
 								nToolMode=2;
 							}
-							else{
-								System.out.println("RobotMove2");
+							else if(Double.parseDouble(para2)==1 ) {
+								System.out.println("RobotMove1");
 								nToolMode=1;
 							}
-
+							else if(Double.parseDouble(para2)==3 ) {
+								System.out.println("RobotMove3");
+								nToolMode=3;
+							}
+							else if(Double.parseDouble(para2)==4 ) {
+								System.out.println("RobotMove4");
+								nToolMode=4;
+							}
+							else if(Double.parseDouble(para2)==5 ) {
+								System.out.println("RobotMove5");
+								nToolMode=5;
+							}
+							else if(Double.parseDouble(para2)==6 ) {
+								System.out.println("RobotMove6");
+								nToolMode=6;
+							}
+							else if(Double.parseDouble(para2)==7 ) {
+								System.out.println("RobotMove7");
+								nToolMode=7;
+							}
+							else if(Double.parseDouble(para2)==8 ) {
+								System.out.println("RobotMove8");
+								nToolMode=8;
+							}
+							else if(Double.parseDouble(para2)==9 ) {
+								System.out.println("RobotMove9");
+								nToolMode=9;
+							}
+							else if(Double.parseDouble(para2)==10 ) {
+								System.out.println("RobotMove10");
+								nToolMode=10;
+							}
 							writer_recive.write("$res,RobotMove,0$");
 							writer_recive.flush();
 							
