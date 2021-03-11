@@ -1172,7 +1172,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					if (nToolMode==2)
 					{
 						//nToolMode==2指的是安放模式
-						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+						needle_gripper.getFrame("/tcp_2").move(createhandGuidingMotion());
 						bDangerous=false;
 						nWorkingmode=0;
 					}
@@ -1203,21 +1203,21 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	{
 			    		
 			    		System.out.println("zhunbei_ready");
-			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));	
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    	}
 			    	//左侧
 			    	else if(nX==2)
 			    	{
 			    		System.out.println("zuoce_ready");
 			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
-			    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 			    	}
 			    	//右侧
 			    	else if(nX==3)
 			    	{
 			    		System.out.println("youce_ready");
 			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
-			    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2));
 			    	}
 			    	else{
 			    		System.out.println("err");
