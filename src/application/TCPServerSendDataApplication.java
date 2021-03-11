@@ -721,7 +721,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		
 	    public void moveToInitialPosition()
 	    {
-
+	    	System.out.println("11");
 	        if (!ServoMotion.validateForImpedanceMode(lbr))
 	        {
 	            getLogger()
@@ -735,18 +735,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 	    public void runSmartServoMotion(final IMotionControlMode controlMode)
 	    {
 
-	        
+	    	System.out.println("22");
 	        final boolean doDebugPrints = false;
 
 	        final JointPosition initialPosition = new JointPosition(
 	                lbr.getCurrentJointPosition());
-
+	        System.out.println("33");
 	        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
 
 	        // Set the motion properties to 10% of the systems abilities
 	        aSmartServoMotion.setJointAccelerationRel(0.1);
 	        aSmartServoMotion.setJointVelocityRel(0.1);
-
+	        System.out.println("44");
 	        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
 	        getLogger().info("Starting the SmartServo in " + controlMode);
@@ -759,7 +759,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	        // create an JointPosition Instance, to play with
 	        final JointPosition destination = new JointPosition(
 	                lbr.getJointCount());
-
+	        System.out.println("55");
 	        // For Roundtrip time measurement...
 	        final StatisticTimer timing = new StatisticTimer();
 	        try
