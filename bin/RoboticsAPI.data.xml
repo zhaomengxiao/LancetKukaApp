@@ -79,7 +79,7 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="-0.0095" c="1.060985652287" x="-2.802" y="175.2" z="240.388"/>
+                    <transformation a="0.0" b="0.01" c="-1.06098565228" x="-2.802" y="175.2" z="240.388"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
                     <transformation a="0.0" b="1.06098565" c="0.0" x="171.2" y="-5.3" z="237.4"/>
