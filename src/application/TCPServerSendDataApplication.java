@@ -213,7 +213,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
                 Math.toRadians(52.8),
                 Math.toRadians(-49.1),
                 Math.toRadians(-92.1),
-                Math.toRadians(142.6));
+                Math.toRadians(17.5));
 		
 		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
                 Math.toRadians(-7.41),
