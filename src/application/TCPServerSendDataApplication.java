@@ -1205,7 +1205,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	{
 			    		
 			    		System.out.println("zhunbei_ready");
-			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));	
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    	}
 			    	//左侧
 			    	else if(nX==2)
