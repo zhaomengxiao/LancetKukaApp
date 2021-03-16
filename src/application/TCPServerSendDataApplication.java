@@ -1362,24 +1362,24 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					final CartesianImpedanceControlMode cartImp = createCartImp();
 //			        runSmartCartesianMotion(cartImp);
                
-			    	
-//			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
-//			    		
-//			    	System.out.println("ConeLimit");
-//			    	JointPosition jReady =lbr.getCurrentJointPosition();
-////	                final JointPosition currentPos = lbr.getCurrentJointPosition();
-//	                
-//	     		   
-//	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-//	                	System.out.println("dangermove1");
-//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-//				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
-//				    	DangerMove=true;
-//	                }
-//	                else{
-//				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-//				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
-//	                }
+			    	//圆锥打磨模式
+			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+			    		
+			    	System.out.println("ConeLimit");
+			    	JointPosition jReady =lbr.getCurrentJointPosition();
+//	                final JointPosition currentPos = lbr.getCurrentJointPosition();
+	                
+	     		   
+	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+	                	System.out.println("dangermove1");
+	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+				    	DangerMove=true;
+	                }
+	                else{
+				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+	                }
 	                
 
                     
@@ -1388,25 +1388,35 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					moveToInitialPosition();
 //			        final JointImpedanceControlMode jointImp = createJointImp();
 //			        runSmartServoMotion(jointImp);
-					System.out.println("JointimplentMode"+nWorkingmode);
-					moveToInitialPosition();
-			        final JointImpedanceControlMode jointImp = createJointImp();
-			        runSmartServoMotion(jointImp);
+	                
+	                
+
 			        nWorkingmode=0;
 
 					
 			        
-//			  if(bDangerous==true){
-//				  nWorkingmode=1;
-//				  System.out.println("WorkingModeForceToSet1");
-//			  }
+			  if(bDangerous==true){
+				  nWorkingmode=1;
+				  System.out.println("WorkingModeForceToSet1");
+			  }
 
 				}
 				else{
 					
 //					
-					
-					ThreadUtil.milliSleep(20);
+					if(DangerMove==false && nLastWorkingmode==4){
+						JointPosition jReady =lbr.getCurrentJointPosition();
+//		                final JointPosition currentPos = lbr.getCurrentJointPosition();
+		                
+		     		   
+						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -80 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+		                	System.out.println("dangermove1");
+		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+					    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					    	DangerMove=true;
+		                }
+					}
+					ThreadUtil.milliSleep(4);
 				}
 
 			
