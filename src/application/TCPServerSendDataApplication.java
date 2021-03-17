@@ -503,7 +503,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							writer_recive.flush();
 						}
 						else if(units[1].equals("sIO")){
-							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[2]);
 							String para2 = units[3].substring(0, units[3].length() - 1);
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
