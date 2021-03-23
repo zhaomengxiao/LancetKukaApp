@@ -1170,27 +1170,32 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("start handguiding");
 					ThreadUtil.milliSleep(500);
 					nLastWorkingmode=nWorkingmode;
-					DangerMove=false;
-					if (nToolMode==2)
+					if(SafeDataIO.getInput4()==true)
 					{
-						//nToolMode==2指的是安放模式
-						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
-						bDangerous=false;
-						nWorkingmode=0;
+						DangerMove=false;
+						if (nToolMode==2)
+						{
+							//nToolMode==2指的是安放模式
+							needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+							bDangerous=false;
+							nWorkingmode=0;
+						}
+						else{
+							//其他指的是打磨模式
+							needle.getFrame("/tcp_2").move(createhandGuidingMotion());
+							bDangerous=false;
+							nWorkingmode=0;
+						}
+						
+		                nX=0;
+		                nY=0;
+		                nZ=0;
+		                nA=0;
+		                nB=0;
+		                nC=0;
 					}
-					else{
-						//其他指的是打磨模式
-						needle.getFrame("/tcp_2").move(createhandGuidingMotion());
-						bDangerous=false;
-						nWorkingmode=0;
-					}
+					nWorkingmode=0;
 					
-	                nX=0;
-	                nY=0;
-	                nZ=0;
-	                nA=0;
-	                nB=0;
-	                nC=0;
 				}
 			    else if (nWorkingmode==2 ){
 			    	nLastWorkingmode=nWorkingmode;
