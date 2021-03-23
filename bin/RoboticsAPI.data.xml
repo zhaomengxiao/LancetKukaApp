@@ -55,25 +55,15 @@
             </additionalInformation>
         </frame>
         <frame id="_42d608c5-6e42-452b-9b58-05ff9d16a8c0" name="P7">
-            <transformation a="-3.044036505818344" b="-0.24105005836928428" c="2.1945172295888344" x="-656.8382800682036" y="181.18719314900923" z="247.37297177087515"/>
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1616397851940"/>
-                <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_x_1_yz1" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
-                    <tcpTransformation a="0.0" b="0.0" c="-1.04719" x="0.0" y="168.827" z="265.583"/>
-                </info>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082886739"/>
             </additionalInformation>
-            <redundancyData>
-                <redundancy transformationProviderName="KUKA_Sunrise_Cabinet_1/LBR_Med_14_R820_1" type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy">
-                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$StatusParameter" value="5" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="102" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.6298969130092643" valueType="java.lang.Double"/>
-                </redundancy>
-            </redundancyData>
         </frame>
         <frame id="_346e90a7-6fd4-4219-9fcd-a9efc6db32e5" name="P8">
-            <transformation a="-2.247" b="0.552" c="-0.452" x="-683.1" y="217.083" z="213.358"/>
+            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1616404488266"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1614082888064"/>
             </additionalInformation>
         </frame>
     </world>
@@ -89,10 +79,10 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="0.0" c="-1.04719" x="0.0" y="125.309" z="240.458"/>
+                    <transformation a="0.0" b="0.01" c="-1.06098565228" x="-2.802" y="175.2" z="237.808"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
-                    <transformation a="0.0" b="0.0" c="-1.04719" x="0.0" y="168.827" z="265.583"/>
+                    <transformation a="0.0" b="0.0073303" c="-1.061509" x="-1.903" y="151.336" z="224.139"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
                     <transformation a="0.0" b="1.0" c="0.0" x="0.0" y="-10.3" z="250.9"/>

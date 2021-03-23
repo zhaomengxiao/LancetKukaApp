@@ -907,7 +907,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-		        cartImp.parametrize(CartDOF.ROT).setStiffness(220.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(190.0);
 	
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
