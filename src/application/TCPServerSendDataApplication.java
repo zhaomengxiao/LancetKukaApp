@@ -1208,9 +1208,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode cartImp = createCartImp();	
 			    	if(nX==1)
 			    	{
-			    		
+//			    		needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
 			    		System.out.println("zhunbei_ready");
-			    		lbr.move(new PTP(jointPos).setJointVelocityRel(0.2));	
+			    		needle.getFrame("/tcp_2").move(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    	}
 			    	//左侧
 			    	else if(nX==2)
