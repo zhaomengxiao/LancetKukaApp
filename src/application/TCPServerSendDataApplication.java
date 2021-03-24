@@ -1614,7 +1614,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 //				data18=a1+"$";
-				data18=String.valueOf(a1)+"$";
+				data18=String.valueOf(a1)+",$";
 				}catch(Exception ex){
 					break;
 				}
