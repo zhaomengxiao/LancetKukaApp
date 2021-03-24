@@ -1217,16 +1217,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 							//$cmd,RobotMove,1$
 					
-								Ptest1.setX(-568.11);
-								Ptest1.setY(246.89);
-								Ptest1.setZ(481.69);
-//								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-								Ptest1.setAlphaRad(Math.toRadians(151.47));
-								Ptest1.setBetaRad(Math.toRadians(-21.5));
-								Ptest1.setGammaRad(Math.toRadians(125.05));
+//								Ptest1.setX(-568.11);
+//								Ptest1.setY(246.89);
+//								Ptest1.setZ(481.69);
+////								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+//								Ptest1.setAlphaRad(Math.toRadians(151.47));
+//								Ptest1.setBetaRad(Math.toRadians(-21.5));
+//								Ptest1.setGammaRad(Math.toRadians(125.05));
 
 								
-							 needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
+							 //needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
 			    	
 			    	}
 			    	//左侧
