@@ -207,9 +207,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		nB=0;
 		nC=0;
 		io.setOutput5(false);
-		jointPos=new JointPosition(   Math.toRadians(-20.3),
+		jointPos=new JointPosition(   Math.toRadians(0),
                 Math.toRadians(-40.9),
-                Math.toRadians(65.6),
+                Math.toRadians(35.6),
                 Math.toRadians(52.8),
                 Math.toRadians(-49.1),
                 Math.toRadians(-92.1),
