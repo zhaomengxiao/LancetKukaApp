@@ -307,7 +307,172 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 	public  class sendRTdata implements Callable<String> {
          
+		 public void GetData()
+		    {
+				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
+				data0 = "$0,";
+				
+				//æŠ¥è­¦ä»£ç �
+				data1 = "0,";
+				
+				//å·¥ä½œæ¨¡å¼�
+				data2 = "0,";
+				
+				//æ˜¯å�¦ä¸Šç”µ
+				data3 = "1,";
+				
+				//å½“å‰�é€Ÿåº¦
+				//CartesianVelocityLimitInfo infoObject = lbr.getCartesianVelocityLimitInfo();
+				double a1 =getApplicationControl().getApplicationOverride();
+				BigDecimal bigDecimal0 = new BigDecimal(a1);
+				a1 = bigDecimal0.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data4 = String.valueOf(a1)+",";
+				
+				//æ— æ„�ä¹‰
+				data5 = "0,";
+				
+//				//å…³èŠ‚åº¦æ•°1
+				JointPosition actPos = lbr.getCurrentJointPosition();
+				a1 = Math.toDegrees(actPos.get(0));
+				BigDecimal bigDecimal = new BigDecimal(a1);
+				a1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data6=String.valueOf(a1)+",";
+				
+//				//å…³èŠ‚åº¦æ•°2
+				a1 = Math.toDegrees(actPos.get(1));
+				BigDecimal bigDecimal1 = new BigDecimal(a1);
+				a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data7=String.valueOf(a1)+",";
+				
+//				//å…³èŠ‚åº¦æ•°3
+				a1 = Math.toDegrees(actPos.get(2));
+				BigDecimal bigDecimal2 = new BigDecimal(a1);
+				a1 = bigDecimal2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data8=String.valueOf(a1)+",";
+				
+				//å…³èŠ‚åº¦æ•°4
+				a1 = Math.toDegrees(actPos.get(3));
+				BigDecimal bigDecimal3 = new BigDecimal(a1);
+				a1 = bigDecimal3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data9=String.valueOf(a1)+",";
+				
+				//å…³èŠ‚åº¦æ•°5
+				a1 = Math.toDegrees(actPos.get(4));
+				BigDecimal bigDecimal4 = new BigDecimal(a1);
+				a1 = bigDecimal4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data10=String.valueOf(a1)+",";
+				
+				//å…³èŠ‚åº¦æ•°6
+				a1 = Math.toDegrees(actPos.get(5));
+				BigDecimal bigDecimal5 = new BigDecimal(a1);
+				a1 = bigDecimal5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data11=String.valueOf(a1)+",";
+				
+				//å…³èŠ‚åº¦æ•°7
+				a1 = Math.toDegrees(actPos.get(6));
+				BigDecimal bigDecimal6 = new BigDecimal(a1);
+				a1 = bigDecimal6.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				data12=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡x
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				
+				
+				
+//				if (nToolMode==2){
+//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
+//				}
+//				else{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//				}
+				
+				if (nToolMode==1){
+					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				}
+				else if(nToolMode==2)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+				}	
+				else if(nToolMode==3)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+				}	
+				else if(nToolMode==4)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+				}	
+				else if(nToolMode==5)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+				}	
+				else if(nToolMode==6)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
+				}	
+				else if(nToolMode==7)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz3"));
+				}	
+				else if(nToolMode==8)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz4"));
+				}	
+				else if(nToolMode==9)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz3"));
+				}	
+				else if(nToolMode==10)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz4"));
+				}	
+				else
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+				}
+				
+				a1=cmdPos.getX();
+				BigDecimal bigDecimal7 = new BigDecimal(a1);
+				a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data13=a1+",";
+				data13=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡y
+				a1=cmdPos.getY();
+				BigDecimal bigDecimal8 = new BigDecimal(a1);
+				a1 = bigDecimal8.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data14=a1+",";
+				data14=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡z
+				a1=cmdPos.getZ();
+				BigDecimal bigDecimal9 = new BigDecimal(a1);
+				a1 = bigDecimal9.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data15=a1+",";
+				data15=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡rx
+				a1=Math.toDegrees(cmdPos.getAlphaRad());
+				BigDecimal bigDecima20 = new BigDecimal(a1);
+				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data16=a1+",";
+				data16=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡ry
+				a1=Math.toDegrees(cmdPos.getBetaRad());
+				BigDecimal bigDecima21 = new BigDecimal(a1);
+				a1 = bigDecima21.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data17=a1+",";
+				data17=String.valueOf(a1)+",";
+				
+				//è½´å��æ ‡rz
 
+				
+				a1=Math.toDegrees(cmdPos.getGammaRad());
+				BigDecimal bigDecima22 = new BigDecimal(a1);
+				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+//				data18=a1+"$";
+				data18=String.valueOf(a1)+",$";
+		    }
 		
 		public String call() {
 			
@@ -333,6 +498,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 				try{
+					GetData();
 //					ThreadUtil.milliSleep(1000);
 //					System.out.println("x1");
 ////				    System.out.println(socket_recive.isBound());
@@ -1464,7 +1630,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 				
 				try{
-				ThreadUtil.milliSleep(20);
+				ThreadUtil.milliSleep(50);
 
 			
 			
@@ -1693,7 +1859,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
-        Monitor();
+        //Monitor();
 
 		try {
 			System.out.println(add.get());
