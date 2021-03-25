@@ -1526,7 +1526,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-							needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
+							needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));	
 						}
 						else{
 							System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
