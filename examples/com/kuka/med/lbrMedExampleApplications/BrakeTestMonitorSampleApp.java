@@ -125,14 +125,14 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
             }
 
             // ******************* PTP motions to simulate the normal workflow of an application *******************
-           // if (null == _mc || _mc.isFinished())
-            //{
+            if (null == _mc || _mc.isFinished())
+            {
                 // reverse angle of one joint for next motion
                 _jointPos.set(0, _jointPos.get(0) * -1.0);
 
-            //    getLogger().info("PTP motion to simulate a normal application workflow is started!");
+                getLogger().info("PTP motion to simulate a normal application workflow is started!");
                 _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
-            //}
+            }
         }
     }
 
@@ -274,12 +274,12 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         }
         if (postponeUnacceptable)
         {
-            text = "A postponement is not possible anymore! Do you want to start the brake test now?";
-            if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
-                    text, "Yes"))
-            {
+           // text = "A postponement is not possible anymore! Do you want to start the brake test now?";
+            //if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
+           //         text, "Yes"))
+            //{
                 _action = UserAction.START_BRAKETEST;
-            }
+            //}
         }
     }
 
