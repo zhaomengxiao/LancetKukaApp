@@ -169,11 +169,11 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         String text = "";
         if (_isBrakeTestExecutable)
         {
-//            text = "Do you want to start a brake test execution now?";
-//            if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION, text, "Yes", "No"))
-//            {
+            text = "Do you want to start a brake test execution now?";
+            if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION, text, "Yes", "No"))
+            {
                 _action = UserAction.START_BRAKETEST;
-//            }
+            }
         }
         else
         {
