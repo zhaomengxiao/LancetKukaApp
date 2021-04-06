@@ -115,6 +115,10 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         	ThreadUtil.milliSleep(8000);
         	_lbr.move(ptp(getFrame("/P6")).setJointVelocityRel(0.35));
         	ThreadUtil.milliSleep(8000);
+        	_lbr.move(ptp(getFrame("/P7")).setJointVelocityRel(0.35));
+        	ThreadUtil.milliSleep(8000);
+        	_lbr.move(ptp(getFrame("/P8")).setJointVelocityRel(0.35));
+        	ThreadUtil.milliSleep(8000);
         }
         
         
