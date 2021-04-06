@@ -94,66 +94,84 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
     @Override
     public void run()
     {
-        // check the current status of the cyclic brake test because an event could have been missed due to
-        // late start of the application
-        _currentStatus = _brakeTestMonitor.getCurrentState();
-        _logger.info("current state: " + _currentStatus);
-        _diskStatus = _brakeTestMonitor.checkFreeDiskSpace();
-        _logger.info("current disk space state: " + _diskStatus);
-        // check whether a postponement is possible
-        _isPostponementAcceptable = _brakeTestMonitor.isPostponementPossible();
-        _isBrakeTestExecutable = _brakeTestMonitor.isBrakeTestExecutable();
-
-        // handle the brake test execution at start of the application
-        handleInitialBraketestExecution();
-
-        while (!_action.equals(UserAction.EXIT_APPLICATION))
-        {
-            // ******************* Execution of a brake test commanded via user interaction *******************
-            if (_action.equals(UserAction.START_BRAKETEST) && _isBrakeTestExecutable)
-            {
-                // if another motion is active, cancel it first
-                if (null != _mc && !_mc.isFinished())
-                {
-                    _mc.cancel();
-                }
-
-                // execute the brake test
-                BrakeTestOutcome outcome = _brakeTestMonitor.executeBrakeTest(_lbr);
-                _logger.info("The overall result of the brake test is '"
-                        + outcome.getOverallResult().toString() + "'!");
-                if (_brakeTestMonitor.getCurrentState().equals(CyclicMonitoringState.OK))
-                {
-                    _action = UserAction.NO_ACTION;
-                }
-            }
-
-            // ******************* PTP motions to simulate the normal workflow of an application *******************
-            if (null == _mc || _mc.isFinished())
-            {
-                // reverse angle of one joint for next motion
-//                _jointPos.set(0, _jointPos.get(0) * -1.0);
-//
-//                getLogger().info("PTP motion to simulate a normal application workflow is started!");
-//                _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
-              while (true){
-            	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
-            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
-            	  ThreadUtil.milliSleep(8000);
-            	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
-            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
-            	  ThreadUtil.milliSleep(8000);
-            	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
-            	  ThreadUtil.milliSleep(8000);
-            	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
-            	  ThreadUtil.milliSleep(8000);
-              }
-                
-                
-            }
+    	
+    	
+        while (true){
+      	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
+      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
+      	  ThreadUtil.milliSleep(8000);
+      	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
+      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
+      	  ThreadUtil.milliSleep(8000);
+      	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
+      	  ThreadUtil.milliSleep(8000);
+      	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
+      	  ThreadUtil.milliSleep(8000);
         }
+        
+        
+//        // check the current status of the cyclic brake test because an event could have been missed due to
+//        // late start of the application
+//        _currentStatus = _brakeTestMonitor.getCurrentState();
+//        _logger.info("current state: " + _currentStatus);
+//        _diskStatus = _brakeTestMonitor.checkFreeDiskSpace();
+//        _logger.info("current disk space state: " + _diskStatus);
+//        // check whether a postponement is possible
+//        _isPostponementAcceptable = _brakeTestMonitor.isPostponementPossible();
+//        _isBrakeTestExecutable = _brakeTestMonitor.isBrakeTestExecutable();
+//
+//        // handle the brake test execution at start of the application
+//        handleInitialBraketestExecution();
+//
+//        while (!_action.equals(UserAction.EXIT_APPLICATION))
+//        {
+//            // ******************* Execution of a brake test commanded via user interaction *******************
+//            if (_action.equals(UserAction.START_BRAKETEST) && _isBrakeTestExecutable)
+//            {
+//                // if another motion is active, cancel it first
+//                if (null != _mc && !_mc.isFinished())
+//                {
+//                    _mc.cancel();
+//                }
+//
+//                // execute the brake test
+//                BrakeTestOutcome outcome = _brakeTestMonitor.executeBrakeTest(_lbr);
+//                _logger.info("The overall result of the brake test is '"
+//                        + outcome.getOverallResult().toString() + "'!");
+//                if (_brakeTestMonitor.getCurrentState().equals(CyclicMonitoringState.OK))
+//                {
+//                    _action = UserAction.NO_ACTION;
+//                }
+//            }
+//
+//            // ******************* PTP motions to simulate the normal workflow of an application *******************
+//            if (null == _mc || _mc.isFinished())
+//            {
+//                // reverse angle of one joint for next motion
+////                _jointPos.set(0, _jointPos.get(0) * -1.0);
+////
+////                getLogger().info("PTP motion to simulate a normal application workflow is started!");
+////                _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
+//              while (true){
+//            	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
+//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
+//            	  ThreadUtil.milliSleep(8000);
+//            	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
+//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
+//            	  ThreadUtil.milliSleep(8000);
+//            	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
+//            	  ThreadUtil.milliSleep(8000);
+//            	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
+//            	  ThreadUtil.milliSleep(8000);
+//              }
+//                
+//                
+//            }
+//        }
     }
 
     /**
