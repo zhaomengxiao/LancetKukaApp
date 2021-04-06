@@ -97,18 +97,25 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
     	
     	
         while (true){
-      	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
-      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
-      	  ThreadUtil.milliSleep(8000);
-      	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
-      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
-      	  ThreadUtil.milliSleep(8000);
-      	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
-      	  ThreadUtil.milliSleep(8000);
-      	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
-      	  ThreadUtil.milliSleep(8000);
+//      	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
+//      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
+//      	  ThreadUtil.milliSleep(8000);
+//      	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
+//      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
+//      	  ThreadUtil.milliSleep(8000);
+//      	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+//      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
+//      	  ThreadUtil.milliSleep(8000);
+//      	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
+//      	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
+//      	  ThreadUtil.milliSleep(8000);
+      	  
+       //  reverse angle of one joint for next motion
+        	ThreadUtil.milliSleep(8000);
+      _jointPos.set(0, _jointPos.get(0) * -1.0);
+
+      getLogger().info("PTP motion to simulate a normal application workflow is started!");
+      _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
         }
         
         
