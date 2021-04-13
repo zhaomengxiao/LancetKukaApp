@@ -1688,9 +1688,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object2.setX(-714.741);
 					Object2.setY(144.732);
 					Object2.setZ(315.285);
-					Object2.setAlphaRad(Math.toRadians(-139.612));
-					Object2.setBetaRad(Math.toRadians(39.7936));
-					Object2.setGammaRad(Math.toRadians(154.836));	
+					Object2.setAlphaRad(Math.toRadians(134));
+					Object2.setBetaRad(Math.toRadians(-14.9));
+					Object2.setGammaRad(Math.toRadians(151.6));	
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 					System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
 					
