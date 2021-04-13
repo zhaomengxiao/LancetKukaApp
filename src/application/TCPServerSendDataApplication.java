@@ -1691,12 +1691,34 @@ public HandGuidingMotion createhandGuidingMotion(){
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(lbr.getCurrentCartesianPosition(lbr.getFlange()));
 					System.out.println(test);
 					
-					Object2.setX(-737.34);
-					Object2.setY(216.63);
-					Object2.setZ(232.6);
-					Object2.setAlphaRad(Math.toRadians(-164.18));
-					Object2.setBetaRad(Math.toRadians(-5.54));
-					Object2.setGammaRad(Math.toRadians(134.19));
+//					Object2.setX(-737.34);
+//					Object2.setY(216.63);
+//					Object2.setZ(232.6);
+//					Object2.setAlphaRad(Math.toRadians(-164.18));
+//					Object2.setBetaRad(Math.toRadians(-5.54));
+//					Object2.setGammaRad(Math.toRadians(134.19));
+//					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+//					System.out.println(test1);
+//					
+//					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+//					System.out.println(Object3);
+//					
+//					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
+//					System.out.println(Object4);
+//					
+//			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
+//				//	System.out.println("112");
+					
+					Object2.setX(-680);
+					Object2.setY(130.49);
+					Object2.setZ(529.9);
+					Object2.setAlphaRad(Math.toRadians(-164.23));
+					Object2.setBetaRad(Math.toRadians(-5.83));
+					Object2.setGammaRad(Math.toRadians(-165.8));
 					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 					System.out.println(test1);
 					
@@ -1705,13 +1727,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
 					System.out.println(Object3);
 					
-					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+					Frame Object4 = Object2.transform((Transformation.ofDeg(0.8,168.5,265.6, 0, 0, -59.999999931439994)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println(Object4);
 					
 			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
 				//	System.out.println("112");
+					
+					
 					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 						//needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
 					}
