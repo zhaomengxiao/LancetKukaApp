@@ -1722,11 +1722,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 					System.out.println(test1);
 					System.out.println("Object21"+Object2);
-					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
-					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
-					System.out.println(Object3);
-					System.out.println("Object22"+Object2);
+//					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+//					System.out.println(Object3);
+//					System.out.println("Object22"+Object2);
 					Frame Object4 = Object2.transform((Transformation.ofDeg(0.8,168.5,265.6, 0, 0, 59.999999931439994)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
