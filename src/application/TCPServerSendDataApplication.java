@@ -1612,6 +1612,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
 						
 						
+						
+						nA=151.54;
+						nB=-20.97;
+						nC=124.07;
 						//目标点位
 						Frame destFrame = current.setX(nX);
 						destFrame = current.setY(nY);
