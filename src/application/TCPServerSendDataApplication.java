@@ -1684,16 +1684,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object1.setGammaRad(Math.toRadians(nObjectC));
 					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
 					
-//					Frame Object2=lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					Object2.setX(-682);
-//					Object2.setY(154);
-//					Object2.setZ(535);
-//					Object2.setAlphaRad(Math.toRadians(134));
-//					Object2.setBetaRad(Math.toRadians(-14.9));
-//					Object2.setGammaRad(Math.toRadians(-148));	
+					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					Object2.setX(-750.51);
+					Object2.setY(249.61);
+					Object2.setZ(198.28);
+					Object2.setAlphaRad(Math.toRadians(-164.17));
+					Object2.setBetaRad(Math.toRadians(-5.54));
+					Object2.setGammaRad(Math.toRadians(134.19));	
 					System.out.println("111");
 //					lbr.geti
-					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(lbr.getCurrentCartesianPosition(lbr.getFlange()));
+					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 					System.out.println(test);
 			
 			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
