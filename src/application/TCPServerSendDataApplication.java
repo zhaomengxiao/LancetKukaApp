@@ -1684,16 +1684,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object1.setGammaRad(Math.toRadians(nObjectC));
 					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
 					
-					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
-					Object2.setX(-682);
-					Object2.setY(154);
-					Object2.setZ(535);
-					Object2.setAlphaRad(Math.toRadians(134));
-					Object2.setBetaRad(Math.toRadians(-14.9));
-					Object2.setGammaRad(Math.toRadians(-148));	
+//					Frame Object2=lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					Object2.setX(-682);
+//					Object2.setY(154);
+//					Object2.setZ(535);
+//					Object2.setAlphaRad(Math.toRadians(134));
+//					Object2.setBetaRad(Math.toRadians(-14.9));
+//					Object2.setGammaRad(Math.toRadians(-148));	
 					System.out.println("111");
 //					lbr.geti
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(lbr.getCurrentCartesianPosition(lbr.getFlange()));
+					System.out.println("112");
 					System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
 					System.out.println("112");
 					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
