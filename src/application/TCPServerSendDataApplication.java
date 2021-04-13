@@ -1602,6 +1602,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Frame destObject1 = current.setX(current.getX());
 					System.out.println("current.getX():"+current.getX());
 					System.out.println("current.getA():"+current.getAlphaRad());
+					System.out.println("current.getB():"+current.getBetaRad());
+					System.out.println("current.getC():"+current.getGammaRad());
 					for (num = 0; num < 360; num = num + 1){
 						//当前点位
 //						Frame destObject = current.setX(current.getX());
@@ -1614,10 +1616,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 						Frame destObject = current.setX(-737.37);
 						destObject = Object.setY(216.62);
 						destObject = Object.setZ(232.57);
-						destObject = Object.setGammaRad(-2.86530);		
+						destObject = Object.setAlphaRad(-2.86530);
 						destObject = Object.setBetaRad(-0.096691);
-						destObject = Object.setAlphaRad(2.342057);
+						destObject = Object.setGammaRad(2.3420570);		
 						
+					
 						
 						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
 						
