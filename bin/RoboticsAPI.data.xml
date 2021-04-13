@@ -43,9 +43,9 @@
             </additionalInformation>
         </frame>
         <frame id="_76ce27d7-878d-4c55-9236-4a046f4b8de5" name="P5">
-            <transformation a="2.6504733215122687" b="-0.3236508089863944" c="3.1290167053313023" x="-559.9639491442244" y="248.56215539710362" z="466.34924842176054"/>
+            <transformation a="-2.8651942942454753" b="-0.09669501444815377" c="2.342104880251528" x="-658.5067585576174" y="-31.764428842292066" z="309.80817377845835"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1617712057263"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618320656499"/>
                 <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Flange" tool="Flange" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                     <tcpTransformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </info>
@@ -53,15 +53,15 @@
             <redundancyData>
                 <redundancy transformationProviderName="KUKA_Sunrise_Cabinet_1/LBR_Med_14_R820_1" type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy">
                     <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$StatusParameter" value="5" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="101" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.56176108168056" valueType="java.lang.Double"/>
+                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="52" valueType="java.lang.Integer"/>
+                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.5860604159741464" valueType="java.lang.Double"/>
                 </redundancy>
             </redundancyData>
         </frame>
         <frame id="_c792b30b-6a0e-433f-8719-5886ebf0d99b" name="P6">
             <transformation a="-2.866426265915891" b="-0.10167910907734298" c="-2.893708347523857" x="-680.7251701364225" y="130.49437072244874" z="529.9033725214215"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1618319934766"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618320589078"/>
                 <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="gripper" tool="gripper" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                     <tcpTransformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </info>
@@ -70,7 +70,7 @@
                 <redundancy transformationProviderName="KUKA_Sunrise_Cabinet_1/LBR_Med_14_R820_1" type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy">
                     <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$StatusParameter" value="5" valueType="java.lang.Integer"/>
                     <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="100" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.5860291371650398" valueType="java.lang.Double"/>
+                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.5860290772784299" valueType="java.lang.Double"/>
                 </redundancy>
             </redundancyData>
         </frame>
@@ -125,7 +125,7 @@
                     <transformation a="0.0" b="-0.00495" c="-1.04719755" x="0.847" y="168.5" z="265.646"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
-                    <transformation a="0.0" b="0" c="0" x="0.63348846" y="125.81561987" z="240.84919751"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.63348846" y="125.81561987" z="240.84919751"/>
                 </frame>
                 <frame id="_9532b7d2-ebfc-4656-9111-7878bd093dcc" name="tcp_anfang">
                     <transformation a="0.0" b="1.047" c="0.0" x="175.2" y="-10.3" z="237.4"/>
