@@ -1593,32 +1593,34 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==5){
 					
 					ThreadUtil.milliSleep(1000);
-					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+//					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					int num=0;
 					double nMinA=0,nMinB=0,nMinC=0;
 					double nMinSun=10000000;
 					double nObjectA=10000,nObjectB=100000,nObjectC=100000;
-					Frame destObject1 = current.setX(current.getX());
-					System.out.println("current.getX():"+current.getX());
-					System.out.println("current.getA():"+current.getAlphaRad());
-					System.out.println("current.getB():"+current.getBetaRad());
-					System.out.println("current.getC():"+current.getGammaRad());
+//					Frame destObject1 = current.setX(current.getX());
+//					System.out.println("current.getX():"+current.getX());
+//					System.out.println("current.getA():"+current.getAlphaRad());
+//					System.out.println("current.getB():"+current.getBetaRad());
+//					System.out.println("current.getC():"+current.getGammaRad());
 					for (num = 0; num < 360; num = num + 1){
 						//当前点位
-//						Frame destObject = current.setX(current.getX());
-//						destObject = Object.setY(current.getY());
-//						destObject = Object.setZ(current.getZ());
-//						destObject = Object.setGammaRad(current.getGammaRad());		
-//						destObject = Object.setBetaRad(current.getBetaRad());
-//						destObject = Object.setAlphaRad(current.getAlphaRad());
+						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+						Frame destObject = current.setX(current.getX());
+						destObject = Object.setY(current.getY());
+						destObject = Object.setZ(current.getZ());
+						destObject = Object.setGammaRad(current.getGammaRad());		
+						destObject = Object.setBetaRad(current.getBetaRad());
+						destObject = Object.setAlphaRad(current.getAlphaRad());
 						
-						Frame destObject = current.setX(-737.37);
-						destObject = Object.setY(216.62);
-						destObject = Object.setZ(232.57);
-						destObject = Object.setAlphaRad(-2.86530);
-						destObject = Object.setBetaRad(-0.096691);
-						destObject = Object.setGammaRad(2.3420570);		
+						
+//						Frame destObject = current.setX(-737.37);
+//						destObject = Object.setY(216.62);
+//						destObject = Object.setZ(232.57);
+//						destObject = Object.setAlphaRad(-2.86530);
+//						destObject = Object.setBetaRad(-0.096691);
+//						destObject = Object.setGammaRad(2.3420570);		
 						
 					
 						
