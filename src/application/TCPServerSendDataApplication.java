@@ -1599,7 +1599,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					double nMinA=0,nMinB=0,nMinC=0;
 					double nMinSun=10000000;
 					double nObjectA=10000,nObjectB=100000,nObjectC=100000;
-
+					Frame destObject1 = current.setX(current.getX());
+					System.out.println("current.getX():"+current.getX());
+					System.out.println("current.getA():"+current.getAlphaRad());
 					for (num = 0; num < 360; num = num + 1){
 						//当前点位
 //						Frame destObject = current.setX(current.getX());
