@@ -1705,9 +1705,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
 					System.out.println(Object3);
 					
-					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,0,0, 0, 0, 0)));
-					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
+					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+//					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+//					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println(Object4);
 					
 			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
