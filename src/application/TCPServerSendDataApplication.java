@@ -1678,10 +1678,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println((nMinSun));
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
-					
-					//if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-					//	needle.getFrame("/tcp_x_1_yz1").move(ptp(Ptest1).setJointVelocityRel(0.35));	
-					//}
+					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					Object1.setAlphaRad(nObjectA);
+					Object1.setBetaRad(nObjectB);
+					Object1.setGammaRad(nObjectC);
+					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
+//					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+//						needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
+//					}
 					
 					nWorkingmode=0;
 				}
