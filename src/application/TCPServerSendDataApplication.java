@@ -1613,9 +1613,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						
 						
-						nA=151.54;
-						nB=-20.97;
-						nC=124.07;
+						nA=-157.22;
+						nB=22.9288;
+						nC=157.359;
 						//目标点位
 						Frame destFrame = current.setX(nX);
 						destFrame = current.setY(nY);
@@ -1663,6 +1663,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println((nMinSun));
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
+					
+					//if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+					//	needle.getFrame("/tcp_x_1_yz1").move(ptp(Ptest1).setJointVelocityRel(0.35));	
+					//}
 					
 					nWorkingmode=0;
 				}
