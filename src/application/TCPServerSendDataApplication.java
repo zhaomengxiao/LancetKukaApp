@@ -1588,6 +1588,79 @@ public HandGuidingMotion createhandGuidingMotion(){
 				  System.out.println("WorkingModeForceToSet1");
 			  }
 
+			}
+				//自动矫正点位
+				else if(nWorkingmode==5){
+					
+					ThreadUtil.milliSleep(1000);
+					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					int num=0;
+					double nMinA=0,nMinB=0,nMinC=0;
+					double nMinSun=10000000;
+					double nObjectA=10000,nObjectB=100000,nObjectC=100000;
+
+					for (num = 0; num < 360; num = num + 1){
+						//当前点位
+						Frame destObject = current.setX(current.getX());
+						destObject = Object.setY(current.getY());
+						destObject = Object.setZ(current.getZ());
+						destObject = Object.setGammaRad(current.getGammaRad());		
+						destObject = Object.setBetaRad(current.getBetaRad());
+						destObject = Object.setAlphaRad(current.getAlphaRad());
+						
+						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
+						
+						
+						//目标点位
+						Frame destFrame = current.setX(nX);
+						destFrame = current.setY(nY);
+						destFrame = current.setZ(nZ);
+						destFrame=  current.setAlphaRad(Math.toRadians(nA));
+						destFrame=  current.setBetaRad(Math.toRadians(nB));
+						destFrame=  current.setGammaRad(Math.toRadians(nC));
+						
+//						System.out.println("11"+destFrame);
+//						
+//						destFrame = current.setX(-714.741);
+//						destFrame = current.setY(144.732);
+//						destFrame = current.setZ(315.285);
+//						destFrame = current.setAlphaRad(Math.toRadians(-139.612));
+//						destFrame = current.setBetaRad(Math.toRadians(39.7936));
+//						destFrame = current.setGammaRad(Math.toRadians(154.836));	
+//						System.out.println("22"+destFrame);
+						
+						
+						Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
+						
+						nMinA=Math.abs(Math.abs(Math.toDegrees(destObject.getAlphaRad()))-Math.abs(Math.toDegrees(Ptest1.getAlphaRad())));
+						nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
+						nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
+						
+//						nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
+//						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(destObject.getBetaRad()));
+//						nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
+						
+						//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
+						//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
+						
+						//System.out.println("a:"+nMinA+" b:"+nMinB+" c:"+nMinC);
+						if((nMinA+nMinB+nMinC)<nMinSun)
+						{
+							
+							nMinSun=(nMinA+nMinB+nMinC);
+							nObjectA=Math.toDegrees(Ptest1.getAlphaRad());
+							nObjectB=Math.toDegrees(Ptest1.getBetaRad());
+							nObjectC=Math.toDegrees(Ptest1.getGammaRad());
+						}
+					
+						//ThreadUtil.milliSleep(10);
+					}
+					System.out.println((nMinSun));
+					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
+					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
+					
+					nWorkingmode=0;
 				}
 				else{
 					
