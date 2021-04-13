@@ -1692,9 +1692,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object2.setBetaRad(Math.toRadians(-14.9));
 					Object2.setGammaRad(Math.toRadians(-148));	
 					System.out.println("111");
-					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+//					lbr.geti
+					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(lbr.getCurrentCartesianPosition(lbr.getFlange()));
 					System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
-					
+					System.out.println("112");
 					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 						needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
 					}
