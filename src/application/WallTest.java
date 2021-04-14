@@ -124,7 +124,7 @@ public class WallTest extends RoboticsAPIApplication {
 			try{
 			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 			}
-			catch (IllegalArgumentException e)
+			catch (Throwable cause)
 			{
 				System.out.println("ss3");
 			} 
