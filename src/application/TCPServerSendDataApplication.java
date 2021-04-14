@@ -1604,7 +1604,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					System.out.println("current.getA():"+current.getAlphaRad());
 //					System.out.println("current.getB():"+current.getBetaRad());
 //					System.out.println("current.getC():"+current.getGammaRad());
-					for (num = 0; num < 3; num = num + 1){
+					for (num = 0; num < 36; num = num + 1){
 						//当前点位
 						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 						Frame destObject = current.setX(current.getX());
@@ -1613,7 +1613,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						destObject = Object.setGammaRad(current.getGammaRad());		
 						destObject = Object.setBetaRad(current.getBetaRad());
 						destObject = Object.setAlphaRad(current.getAlphaRad());
-						System.out.println("333"+destObject);
+					//	System.out.println("333"+destObject);
 						
 //						Frame destObject = current.setX(-737.37);
 //						destObject = Object.setY(216.62);
@@ -1656,10 +1656,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 //						nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
 //						nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
 						
+						
 						nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
 						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(destObject.getBetaRad()));
 						nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
-						
+						double sum=nMinA+nMinB+nMinC;
+						System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+"  b:"+Math.toDegrees(Ptest1.getBetaRad())+"  c:"+Math.toDegrees(Ptest1.getGammaRad())+"  min:"+sum);
 						//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
 						//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
 						
