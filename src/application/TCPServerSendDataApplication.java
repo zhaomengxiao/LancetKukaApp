@@ -2006,7 +2006,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("222");	
-					Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					System.out.println("333");	
 					Object5.setX(Object4.getX());
 					Object5.setY(Object4.getY());
@@ -2024,7 +2024,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					}
 					System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"J2:"+Math.toDegrees(test.get(JointEnum.J2))+"J3:"+Math.toDegrees(test.get(JointEnum.J3))+"J4:"+Math.toDegrees(test.get(JointEnum.J4))+"J5:"+Math.toDegrees(test.get(JointEnum.J5))+"J6:"+Math.toDegrees(test.get(JointEnum.J6))+"J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
 					}
-					catch(IllegalArgumentException e)
+					catch(Throwable cause)
 					{
 						System.out.println("OutOfRange2");
 					}
