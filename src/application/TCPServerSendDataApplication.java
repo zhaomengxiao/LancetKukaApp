@@ -2002,8 +2002,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					try{
-						
+						System.out.println("222");	
 					Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					System.out.println("333");	
 					Object5.setX(Object4.getX());
 					Object5.setY(Object4.getY());
 					Object5.setZ(Object4.getZ());
