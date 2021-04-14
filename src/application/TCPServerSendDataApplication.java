@@ -1433,8 +1433,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 		                nA=0;
 		                nB=0;
 		                nC=0;
+		        
 		               
-		                
+		        
 //					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
 			    	
 			    	//随动模式
@@ -2002,6 +2003,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					try{
+						
+						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("222");	
 					Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 					System.out.println("333");	
