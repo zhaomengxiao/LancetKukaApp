@@ -267,23 +267,23 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		}
 		
 		
-        lbr = getContext().getDeviceFromType(LBR.class);
-
-     	_loadData = new LoadData();
-        _loadData.setMass(MASS);
-        _loadData.setCenterOfMass(
-                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-                CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool", _loadData);
-
-        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
-        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-                + "(TCP)", trans);
-        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-        // Attach tool to the robot
-        _toolAttachedToLBR.attachTo(lbr.getFlange());
+//        lbr = getContext().getDeviceFromType(LBR.class);
+//
+//     	_loadData = new LoadData();
+//        _loadData.setMass(MASS);
+//        _loadData.setCenterOfMass(
+//                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+//                CENTER_OF_MASS_IN_MILLIMETER[2]);
+//        _toolAttachedToLBR = new Tool("Tool", _loadData);
+//
+//        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
+//        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+//                + "(TCP)", trans);
+//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+//        // Attach tool to the robot
+//        _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-//		needle.attachTo(lbr.getFlange());
+		needle.attachTo(lbr.getFlange());
 //		needle_gripper.attachTo(lbr.getFlange());
 	}
 
