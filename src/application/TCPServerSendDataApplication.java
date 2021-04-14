@@ -1775,7 +1775,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("Object4"+Object4);	
 					try {
 						JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+						System.out.println("ss1");
 						System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+						System.out.println("ss");
 						if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-47 && Math.toDegrees(test.get(JointEnum.J2))<1 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 && Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
 							//needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
 						}
