@@ -1937,6 +1937,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
 					System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
 					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					if (nToolMode==1){
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+					}
+					else if(nToolMode==2){
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					
 					//判断使用最优值还是备选值
 					if(nObjectA>0){
 						Object1.setAlphaRad(Math.toRadians(nObjectA));
@@ -1952,7 +1959,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
 					
 					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
-	
+					if (nToolMode==1){
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+					}
+					else if(nToolMode==2){
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
 					System.out.println("111");
 //					lbr.geti
 
