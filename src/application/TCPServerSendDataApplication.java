@@ -1688,8 +1688,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	
 					System.out.println("111");
 //					lbr.geti
-					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(lbr.getCurrentCartesianPosition(lbr.getFlange()));
-					System.out.println(test);
+
 					
 //					Object2.setX(-737.34);
 //					Object2.setY(216.63);
@@ -1772,7 +1771,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					
-					
+					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+					System.out.println(test);
 					
 					
 					
