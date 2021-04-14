@@ -51,7 +51,6 @@ import com.kuka.roboticsAPI.deviceModel.CartesianVelocityLimitInfo;
 import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
-import com.kuka.roboticsAPI.executionModel.CommandInvalidException;
 import com.kuka.roboticsAPI.executionModel.ExecutionState;
 import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
@@ -2038,8 +2037,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 	
 	//@SuppressWarnings("null")
 	public void run() throws InterruptedException, ExecutionException {
+		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
-			JointPosition actPos = lbr.getCurrentJointPosition();
+		
 			Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 			Object5.setX(0);
 			Object5.setY(0);
@@ -2049,12 +2049,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 			Object5.setGammaRad(0);
 //			lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 			System.out.println("ss2");
+			try{
 			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+			}
+			catch (IllegalArgumentException e)
+			{
+				System.out.println("ss3");
+			} 
 			System.out.println("ss1");
 //			System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
 			System.out.println("ss");
 		}
-		catch (CommandInvalidException ex)
+		catch (IllegalArgumentException e)
 		{
 			System.out.println("ss3");
 		} 
