@@ -1312,7 +1312,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		    }
 		    
 		
-		@SuppressWarnings("null")
+	//	@SuppressWarnings("null")
 		public String call() {
 //			int answer;
 //			answer = getApplicationUI().displayModalDialog(
@@ -2035,6 +2035,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	}
 
 	
+	//@SuppressWarnings("null")
 	public void run() {
 		Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 		Object5.setX(0);
