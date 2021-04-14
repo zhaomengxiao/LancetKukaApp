@@ -2036,7 +2036,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 	
 	//@SuppressWarnings("null")
-	public void run() {
+	public void run() throws InterruptedException, ExecutionException {
 		try{
 			Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 			Object5.setX(0);
@@ -2055,8 +2055,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		catch (IllegalArgumentException e)
 		{
 			System.out.println("ss3");
-		}
-		
+		} 
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
