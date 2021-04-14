@@ -1783,12 +1783,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 					try{
 						
 						Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
-						Object5.setX(0);
-						Object5.setY(0);
-						Object5.setZ(0);
-						Object5.setAlphaRad(0);
-						Object5.setBetaRad(0);
-						Object5.setGammaRad(0);
+						Object5.setX(Object4.getX());
+						Object5.setY(Object4.getY());
+						Object5.setZ(Object4.getZ());
+						Object5.setAlphaRad(Object4.getAlphaRad());
+						Object5.setBetaRad(Object4.getBetaRad());
+						Object5.setGammaRad(Object4.getGammaRad());
 //						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("ss2");
 						try{
@@ -1804,7 +1804,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					}
 					catch (IllegalArgumentException e)
 					{
-						System.out.println("ss3");
+						System.out.println("ss31");
 					} 	
 					
 					
