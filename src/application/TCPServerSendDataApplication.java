@@ -573,7 +573,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-		    //socket_recive.setSoTimeout(2500);
+		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		    
 			InputStream in = socket_recive.getInputStream();
@@ -1827,10 +1827,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 					
 		//++++++++++++++++++++++++++++++++++			
-					
+					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));;
+						
 					ThreadUtil.milliSleep(1000);
 //					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
-					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					if (nToolMode==1){
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+					}
+					else if(nToolMode==2){
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					
 					int num=0;
 					double nMinA=0,nMinB=0,nMinC=0;
 					double nMinSun=10000000;
@@ -1844,6 +1851,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 					for (num = 0; num < 360; num = num + 1){
 						//当前点位
 						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+						
+						if (nToolMode==1){
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+						}
+						else if(nToolMode==2){
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+						}
+						
 						Frame destObject = current.setX(current.getX());
 						destObject = Object.setY(current.getY());
 						destObject = Object.setZ(current.getZ());
@@ -2033,7 +2048,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("Object5"+Object5);
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 					if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
-						needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.2));
+					
+						if (nToolMode==1){
+							needle.getFrame("/tcp_2").move(ptp(Object1).setJointVelocityRel(0.2));
+						}
+						else if(nToolMode==2){
+							needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.2));
+						}
+						
 						System.out.println("InRange");
 					}
 					else{
