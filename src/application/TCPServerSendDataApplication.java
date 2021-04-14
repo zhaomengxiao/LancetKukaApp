@@ -1664,7 +1664,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println((nMinSun));
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
-					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					Frame Object1=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 					Object1.setAlphaRad(Math.toRadians(nObjectA));
 					Object1.setBetaRad(Math.toRadians(nObjectB));
 					Object1.setGammaRad(Math.toRadians(nObjectC));
@@ -1782,17 +1782,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					} 
 					try{
 						
-						Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
-						Object5.setX(0);
-						Object5.setY(0);
-						Object5.setZ(0);
-						Object5.setAlphaRad(0);
-						Object5.setBetaRad(0);
-						Object5.setGammaRad(0);
+						Object1.setX(0);
+						Object1.setY(0);
+						Object1.setZ(0);
+						Object1.setAlphaRad(0);
+						Object1.setBetaRad(0);
+						Object1.setGammaRad(0);
 //						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("ss2");
 						try{
-					     JointPosition  actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+					     JointPosition  actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object1);
 						}
 						catch (IllegalArgumentException e)
 						{
