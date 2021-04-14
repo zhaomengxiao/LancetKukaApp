@@ -1782,16 +1782,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					} 
 					try{
 						
-						Object1.setX(0);
-						Object1.setY(0);
-						Object1.setZ(0);
-						Object1.setAlphaRad(0);
-						Object1.setBetaRad(0);
-						Object1.setGammaRad(0);
+						Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+						Object5.setX(0);
+						Object5.setY(0);
+						Object5.setZ(0);
+						Object5.setAlphaRad(0);
+						Object5.setBetaRad(0);
+						Object5.setGammaRad(0);
 //						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("ss2");
 						try{
-					     JointPosition  actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object1);
+					     JointPosition  actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 						}
 						catch (IllegalArgumentException e)
 						{
