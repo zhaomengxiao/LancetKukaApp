@@ -2020,7 +2020,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-		//needle.attachTo(lbr.getFlange());
+		needle.attachTo(lbr.getFlange());
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
 		
