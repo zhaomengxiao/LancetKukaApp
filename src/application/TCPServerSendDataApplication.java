@@ -1947,12 +1947,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
 //				//	System.out.println("112");
 					
-//					Object2.setX(0);
-//					Object2.setY(0);
-//					Object2.setZ(0);
-//					Object2.setAlphaRad(Math.toRadians(0));
-//					Object2.setBetaRad(Math.toRadians(0));
-//					Object2.setGammaRad(Math.toRadians(0));
+					Object2.setX(0);
+					Object2.setY(0);
+					Object2.setZ(0);
+					Object2.setAlphaRad(Math.toRadians(0));
+					Object2.setBetaRad(Math.toRadians(0));
+					Object2.setGammaRad(Math.toRadians(0));
 //					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 //					System.out.println(test1);
 //					System.out.println("Object21"+Object2);
