@@ -2035,9 +2035,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	}
 
 	
-	@SuppressWarnings("null")
 	public void run() {
-		Frame Object5 = null;
+		Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 		Object5.setX(0);
 		Object5.setY(0);
 		Object5.setZ(0);
