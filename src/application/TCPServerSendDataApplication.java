@@ -2035,7 +2035,20 @@ public HandGuidingMotion createhandGuidingMotion(){
 	}
 
 	
+	@SuppressWarnings("null")
 	public void run() {
+		Frame Object5 = null;
+		Object5.setX(0);
+		Object5.setY(0);
+		Object5.setZ(0);
+		Object5.setAlphaRad(0);
+		Object5.setBetaRad(0);
+		Object5.setGammaRad(0);
+//		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object5));
+		System.out.println("ss1");
+//		System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+		System.out.println("ss");
 		
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
