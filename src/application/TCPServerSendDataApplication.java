@@ -1892,7 +1892,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //						nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
 						
 						nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
-						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(destObject.getBetaRad()));
+						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(Ptest1.getBetaRad()));
 						nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
 						
 						//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
@@ -1986,12 +1986,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 ////					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 //					System.out.println("Object4"+Object4);
 					
-					Object2.setX(-737.34);
-					Object2.setY(216.63);
-					Object2.setZ(232.6);
-					Object2.setAlphaRad(Math.toRadians(-164.18));
-					Object2.setBetaRad(Math.toRadians(-5.54));
-					Object2.setGammaRad(Math.toRadians(134.19));
+
 					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 					System.out.println(test1);
 					System.out.println("Object21"+Object2);
