@@ -1661,7 +1661,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(destObject.getBetaRad()));
 						nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
 						double sum=nMinA+nMinB+nMinC;
-						System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+"  b:"+Math.toDegrees(Ptest1.getBetaRad())+"  c:"+Math.toDegrees(Ptest1.getGammaRad())+"  min:"+sum);
+						System.out.println("**nMinA:"+nMinA+"  nMinB:"+nMinB+"  nMinC:"+nMinC);
+						System.out.println("++a:"+Math.toDegrees(Ptest1.getAlphaRad())+"  b:"+Math.toDegrees(Ptest1.getBetaRad())+"  c:"+Math.toDegrees(Ptest1.getGammaRad())+"  min:"+sum);
 						//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
 						//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
 						
