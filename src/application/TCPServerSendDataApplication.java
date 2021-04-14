@@ -1664,7 +1664,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println((nMinSun));
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
-					Frame Object1=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					Object1.setAlphaRad(Math.toRadians(nObjectA));
 					Object1.setBetaRad(Math.toRadians(nObjectB));
 					Object1.setGammaRad(Math.toRadians(nObjectC));
