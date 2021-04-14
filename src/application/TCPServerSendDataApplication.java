@@ -2039,6 +2039,27 @@ public HandGuidingMotion createhandGuidingMotion(){
 					else{
 						System.out.println("OutOfRange");
 					}
+					if(Math.toDegrees(test.get(JointEnum.J1))>11 || Math.toDegrees(test.get(JointEnum.J1))<-11){
+						System.out.println("err1："+Math.toDegrees(test.get(JointEnum.J1)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J2))>31 || Math.toDegrees(test.get(JointEnum.J2))<-15){
+						System.out.println("err2："+Math.toDegrees(test.get(JointEnum.J2)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J3))>46 || Math.toDegrees(test.get(JointEnum.J3))<-46){
+						System.out.println("err3："+Math.toDegrees(test.get(JointEnum.J3)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J4))>116 || Math.toDegrees(test.get(JointEnum.J4))<-1){
+						System.out.println("err4："+Math.toDegrees(test.get(JointEnum.J4)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J5))>66 || Math.toDegrees(test.get(JointEnum.J5))<-66){
+						System.out.println("err5："+Math.toDegrees(test.get(JointEnum.J5)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J6))>-46 || Math.toDegrees(test.get(JointEnum.J6))<-111){
+						System.out.println("err6："+Math.toDegrees(test.get(JointEnum.J6)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J7))>166 || Math.toDegrees(test.get(JointEnum.J7))<-166){
+						System.out.println("err7："+Math.toDegrees(test.get(JointEnum.J7)));
+					}
 					System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
 					}
 					catch(Throwable cause)
