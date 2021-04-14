@@ -105,6 +105,7 @@ public class WallTest extends RoboticsAPIApplication {
         cic.parametrize(CartDOF.TRANSL).setStiffness(2000);
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void run() {
 		// your application execution starts here
@@ -112,7 +113,7 @@ public class WallTest extends RoboticsAPIApplication {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
 			
-			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+			Frame Object5 = null;
 			Object5.setX(0);
 			Object5.setY(0);
 			Object5.setZ(0);
