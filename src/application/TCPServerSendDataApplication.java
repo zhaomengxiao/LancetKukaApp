@@ -1690,12 +1690,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 ////					lbr.geti
 //
 //					
-					Object1.setX(-737.34);
-					Object1.setY(216.63);
-					Object1.setZ(232.6);
-					Object1.setAlphaRad(Math.toRadians(-164.18));
-					Object1.setBetaRad(Math.toRadians(-5.54));
-					Object1.setGammaRad(Math.toRadians(134.19)); 
+//					Object1.setX(-737.34);
+//					Object1.setY(216.63);
+//					Object1.setZ(232.6);
+//					Object1.setAlphaRad(Math.toRadians(-164.18));
+//					Object1.setBetaRad(Math.toRadians(-5.54));
+//					Object1.setGammaRad(Math.toRadians(134.19)); 
 ////					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 ////					System.out.println(test1);
 ////					
@@ -1773,7 +1773,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 					
-					System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"J2:"+Math.toDegrees(test.get(JointEnum.J2))+"J3:"+Math.toDegrees(test.get(JointEnum.J3))+"J4:"+Math.toDegrees(test.get(JointEnum.J4))+"J5:"+Math.toDegrees(test.get(JointEnum.J5))+"J6:"+Math.toDegrees(test.get(JointEnum.J6))+"J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+					System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
 					
 					
 					
