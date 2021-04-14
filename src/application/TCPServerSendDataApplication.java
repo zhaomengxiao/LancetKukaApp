@@ -2,6 +2,7 @@ package application;
 
 
 
+import static com.kuka.roboticsAPI.motionModel.BasicMotions.lin;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.positionHold;
 
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
@@ -2062,10 +2063,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
 					
 						if (nToolMode==1){
-							needle.getFrame("/tcp_2").move(ptp(Object1).setJointVelocityRel(0.2));
+							needle.getFrame("/tcp_2").move(lin(Object1).setJointVelocityRel(0.2));
 						}
 						else if(nToolMode==2){
-							needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.2));
+							needle.getFrame("/tcp_x_1_yz1").move(lin(Object1).setJointVelocityRel(0.2));
 						}
 						
 						System.out.println("InRange");
@@ -2124,7 +2125,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
 		                	System.out.println("dangermove1");
 		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-					    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
 					    	DangerMove=true;
 		                }
 					}
