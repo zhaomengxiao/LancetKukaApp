@@ -1889,7 +1889,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
 						
-						if(Math.toDegrees(Ptest1.getAlphaRad())>170 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
+						if(Math.toDegrees(Ptest1.getAlphaRad())>174 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
 							nObjectA_BackUp=Math.toDegrees(Ptest1.getAlphaRad());
 							nObjectB_BackUp=Math.toDegrees(Ptest1.getBetaRad());
 							nObjectC_BackUp=Math.toDegrees(Ptest1.getGammaRad());
@@ -1922,9 +1922,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
 					System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
 					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
-					Object1.setAlphaRad(Math.toRadians(nObjectA));
-					Object1.setBetaRad(Math.toRadians(nObjectB));
-					Object1.setGammaRad(Math.toRadians(nObjectC));
+					//判断使用最优值还是备选值
+					if(nObjectA>0){
+						Object1.setAlphaRad(Math.toRadians(nObjectA));
+						Object1.setBetaRad(Math.toRadians(nObjectB));
+						Object1.setGammaRad(Math.toRadians(nObjectC));
+					}
+					else{
+						Object1.setAlphaRad(Math.toRadians(nObjectA_BackUp));
+						Object1.setBetaRad(Math.toRadians(nObjectB_BackUp));
+						Object1.setGammaRad(Math.toRadians(nObjectC_BackUp));
+					}
+
 					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
 					
 					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
