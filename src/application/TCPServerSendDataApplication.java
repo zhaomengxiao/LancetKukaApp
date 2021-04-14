@@ -2020,11 +2020,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-//		needle.attachTo(lbr.getFlange());
+		//needle.attachTo(lbr.getFlange());
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
 		
-			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 			Object5.setX(0);
 			Object5.setY(0);
 			Object5.setZ(0);
