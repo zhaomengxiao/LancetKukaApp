@@ -1756,8 +1756,33 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
-					try {
-						Frame Object5 = null;
+//					try {
+//						Frame Object5 = null;
+//						Object5.setX(0);
+//						Object5.setY(0);
+//						Object5.setZ(0);
+//						Object5.setAlphaRad(0);
+//						Object5.setBetaRad(0);
+//						Object5.setGammaRad(0);
+////						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+//						System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object5));
+//						System.out.println("ss1");
+////						System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+//						System.out.println("ss");
+////						if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-47 && Math.toDegrees(test.get(JointEnum.J2))<1 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 && Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
+////							//needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
+////						}
+////						else{
+////							System.out.println("OutOfRange");
+////						}
+//					} 
+//				    catch (IllegalArgumentException  e) {
+//						// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//				    	System.out.println("OutOfRange1");
+//					} 
+					try{
+						
+						Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 						Object5.setX(0);
 						Object5.setY(0);
 						Object5.setZ(0);
@@ -1765,23 +1790,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 						Object5.setBetaRad(0);
 						Object5.setGammaRad(0);
 //						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-						System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object5));
+						System.out.println("ss2");
+						try{
+					     JointPosition  actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+						}
+						catch (IllegalArgumentException e)
+						{
+							System.out.println("ss3");
+						} 
 						System.out.println("ss1");
 //						System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
 						System.out.println("ss");
-//						if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-47 && Math.toDegrees(test.get(JointEnum.J2))<1 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 && Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
-//							//needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
-//						}
-//						else{
-//							System.out.println("OutOfRange");
-//						}
-					} 
-				    catch (IllegalArgumentException  e) {
-						// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-				    	System.out.println("OutOfRange1");
-					} 
-					
-					
+					}
+					catch (IllegalArgumentException e)
+					{
+						System.out.println("ss3");
+					} 	
 					
 					
 					
@@ -2021,32 +2045,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
-		try{
-		
-			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
-			Object5.setX(0);
-			Object5.setY(0);
-			Object5.setZ(0);
-			Object5.setAlphaRad(0);
-			Object5.setBetaRad(0);
-			Object5.setGammaRad(0);
-//			lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-			System.out.println("ss2");
-			try{
-			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-			}
-			catch (IllegalArgumentException e)
-			{
-				System.out.println("ss3");
-			} 
-			System.out.println("ss1");
-//			System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
-			System.out.println("ss");
-		}
-		catch (IllegalArgumentException e)
-		{
-			System.out.println("ss3");
-		} 
+
 		
 		
 		
