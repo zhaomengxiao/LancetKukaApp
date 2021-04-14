@@ -1835,6 +1835,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					double nMinA=0,nMinB=0,nMinC=0;
 					double nMinSun=10000000;
 					double nObjectA=10000,nObjectB=100000,nObjectC=100000;
+					double nObjectA_BackUp=10000,nObjectB_BackUp=100000,nObjectC_BackUp=100000;
 //					Frame destObject1 = current.setX(current.getX());
 //					System.out.println("current.getX():"+current.getX());
 //					System.out.println("current.getA():"+current.getAlphaRad());
@@ -1888,6 +1889,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
 						
+						if(Math.toDegrees(Ptest1.getAlphaRad())>170 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
+							nObjectA_BackUp=Math.toDegrees(Ptest1.getAlphaRad());
+							nObjectB_BackUp=Math.toDegrees(Ptest1.getBetaRad());
+							nObjectC_BackUp=Math.toDegrees(Ptest1.getGammaRad());
+						}
 //						nMinA=Math.abs(Math.abs(Math.toDegrees(destObject.getAlphaRad()))-Math.abs(Math.toDegrees(Ptest1.getAlphaRad())));
 //						nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
 //						nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
@@ -1914,6 +1920,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println((nMinSun));
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
+					System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
 					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					Object1.setAlphaRad(Math.toRadians(nObjectA));
 					Object1.setBetaRad(Math.toRadians(nObjectB));
