@@ -196,95 +196,95 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-//		nWorkingmode=0;
-//		nToolMode=1;
-//		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
-//		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
-//		nX=0;
-//		nY=0;
-//		nZ=0;
-//		nA=0;
-//		nB=0;
-//		nC=0;
-//		io.setOutput5(false);
-//		jointPos=new JointPosition(   Math.toRadians(0),
-//                Math.toRadians(-40.9),
-//                Math.toRadians(35.6),
-//                Math.toRadians(52.8),
-//                Math.toRadians(-49.1),
-//                Math.toRadians(-92.1),
-//                Math.toRadians(17.5));
-//		
-//		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
-//                Math.toRadians(-7.41),
-//                Math.toRadians(40.42),
-//                Math.toRadians(115),
-//                Math.toRadians(-2.17),
-//                Math.toRadians(-55.7),
-//                Math.toRadians(122));
-//		
-//		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
-//                Math.toRadians(-4.63),
-//                Math.toRadians(-44.98),
-//                Math.toRadians(115),
-//                Math.toRadians(-2.29),
-//                Math.toRadians(-65.18),
-//                Math.toRadians(-127));
-//		
-//
-//		
-//		
-//		try {
-//			ThreadUtil.milliSleep(1000);
-//			if(serverSocket!=null){
-//				serverSocket.close();
-//				serverSocket=null;
-//				System.out.println("022");
-//			}
-//			if(serverSocketSend!=null ){
-//				serverSocketSend.close();
-//				serverSocketSend=null;
-//				System.out.println("02222");
-//			}
-//			if(writer!=null ){
-//				writer.close();
-//				writer=null;
-//				System.out.println("0333");
-//			}
-//			if(outputStream!=null ){
-//				outputStream.close();
-//				outputStream=null;
-//				System.out.println("033333");
-//			}
-//			if(socket!=null ){
-//				socket.close();
-//				socket=null;
-//				System.out.println("033333");
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		nWorkingmode=0;
+		nToolMode=1;
+		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
+		SafeDataIO = new SafeDataIOGroup(kuka_Sunrise_Cabinet_1);
+		nX=0;
+		nY=0;
+		nZ=0;
+		nA=0;
+		nB=0;
+		nC=0;
+		io.setOutput5(false);
+		jointPos=new JointPosition(   Math.toRadians(0),
+                Math.toRadians(-40.9),
+                Math.toRadians(35.6),
+                Math.toRadians(52.8),
+                Math.toRadians(-49.1),
+                Math.toRadians(-92.1),
+                Math.toRadians(17.5));
+		
+		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
+                Math.toRadians(-7.41),
+                Math.toRadians(40.42),
+                Math.toRadians(115),
+                Math.toRadians(-2.17),
+                Math.toRadians(-55.7),
+                Math.toRadians(122));
+		
+		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
+                Math.toRadians(-4.63),
+                Math.toRadians(-44.98),
+                Math.toRadians(115),
+                Math.toRadians(-2.29),
+                Math.toRadians(-65.18),
+                Math.toRadians(-127));
+		
+
 		
 		
-//        lbr = getContext().getDeviceFromType(LBR.class);
-//
-//     	_loadData = new LoadData();
-//        _loadData.setMass(MASS);
-//        _loadData.setCenterOfMass(
-//                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-//                CENTER_OF_MASS_IN_MILLIMETER[2]);
-//        _toolAttachedToLBR = new Tool("Tool", _loadData);
-//
-//        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
-//        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-//                + "(TCP)", trans);
-//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-//        // Attach tool to the robot
-//        _toolAttachedToLBR.attachTo(lbr.getFlange());
+		try {
+			ThreadUtil.milliSleep(1000);
+			if(serverSocket!=null){
+				serverSocket.close();
+				serverSocket=null;
+				System.out.println("022");
+			}
+			if(serverSocketSend!=null ){
+				serverSocketSend.close();
+				serverSocketSend=null;
+				System.out.println("02222");
+			}
+			if(writer!=null ){
+				writer.close();
+				writer=null;
+				System.out.println("0333");
+			}
+			if(outputStream!=null ){
+				outputStream.close();
+				outputStream=null;
+				System.out.println("033333");
+			}
+			if(socket!=null ){
+				socket.close();
+				socket=null;
+				System.out.println("033333");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+       lbr = getContext().getDeviceFromType(LBR.class);
+
+     	_loadData = new LoadData();
+        _loadData.setMass(MASS);
+        _loadData.setCenterOfMass(
+                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+                CENTER_OF_MASS_IN_MILLIMETER[2]);
+        _toolAttachedToLBR = new Tool("Tool", _loadData);
+
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
+        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+                + "(TCP)", trans);
+        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-//		needle.attachTo(lbr.getFlange());
-//		needle_gripper.attachTo(lbr.getFlange());
+		needle.attachTo(lbr.getFlange());
+		needle_gripper.attachTo(lbr.getFlange());
 	}
 
 	public  class sendRTdata implements Callable<String> {
@@ -2020,11 +2020,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-		needle.attachTo(lbr.getFlange());
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
 		
-			Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 			Object5.setX(0);
 			Object5.setY(0);
 			Object5.setZ(0);
