@@ -2036,7 +2036,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 	
 	//@SuppressWarnings("null")
-	public void run() throws InterruptedException, ExecutionException {
+	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		try{
 		
