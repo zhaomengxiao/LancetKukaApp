@@ -2014,12 +2014,6 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object5.setAlphaRad(Object4.getAlphaRad());
 					Object5.setBetaRad(Object4.getBetaRad());
 					Object5.setGammaRad(Object4.getGammaRad());
-					Object5.setX(0);
-					Object5.setY(0);
-					Object5.setZ(0);
-					Object5.setAlphaRad(0);
-					Object5.setBetaRad(0);
-					Object5.setGammaRad(0);
 					System.out.println("Object5"+Object5);
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 					if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-47 && Math.toDegrees(test.get(JointEnum.J2))<1 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 && Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
