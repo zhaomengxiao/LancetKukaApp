@@ -574,7 +574,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-		    //socket_recive.setSoTimeout(2500);
+		    socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		    
 			InputStream in = socket_recive.getInputStream();
@@ -1881,9 +1881,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						
 						
-						nA=-157.22;
-						nB=22.9288;
-						nC=157.359;
+//						nA=-157.22;
+//						nB=22.9288;
+//						nC=157.359;
 						//目标点位
 						Frame destFrame = current.setX(nX);
 						destFrame = current.setY(nY);
@@ -2060,7 +2060,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Object5.setGammaRad(Object4.getGammaRad());
 					System.out.println("Object5"+Object5);
 					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-					if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
+					if(Math.toDegrees(test.get(JointEnum.J1))<15 && Math.toDegrees(test.get(JointEnum.J1))>-15 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
 					
 						if (nToolMode==1){
 							needle.getFrame("/tcp_2").move(lin(Object1).setJointVelocityRel(0.2));
