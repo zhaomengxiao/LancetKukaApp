@@ -9,6 +9,8 @@ import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.*;
+
+import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
 import com.kuka.roboticsAPI.geometricModel.Frame;
@@ -107,151 +109,177 @@ public class WallTest extends RoboticsAPIApplication {
 	public void run() {
 		// your application execution starts here
 		// lbr.move(ptpHome());
-		
-		   if (!ServoMotion.validateForImpedanceMode(lbr))
-	        {
-	            getLogger()
-	                    .info("Validation of torque model failed - correct your mass property settings");
-	            getLogger()
-	                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
-	        }
-
-		lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.5));
-
-		Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
-		SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-		aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-		log.info("Start Smart Servo Lin motion");
-
-		 _toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
-
-		getLogger().info("Get the runtime of the SmartServoLIN motion");
-		ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-				.getRuntime();
-
-		px = py = pz = 0.2;
-
-		Frame destFrame = current.copyWithRedundancy();
-
-		double zFx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getX();
-		double zFy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getY();
-		double zFz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getZ();
-
-		ccx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-		ccy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-		ccz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-
-		log.info("get Force in x " + zFx);
-		log.info("get Force in y " + zFy);
-		log.info("get Force in z " + zFz);
-
-		try {
-			while (!bstop) {
-
-				fx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getX();
-				fy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getY();
-				fz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getZ();
-				
-				dfx = -1 * px * (fx - zFx);
-				dfy = +1 * py * (fy - zFy);
-				dfz = -1 * pz * (fz - zFz);
-
-				cx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-				cy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-				cz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-
-				if(Math.abs(ccx-cx)>50 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.5){
-					dfx = 0;
-				}
-				if(Math.abs(ccy-cy)>50 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.5){
-					dfy = 0;
-				}
-				if(Math.abs(ccz-cz)>50 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.5){
-					dfz = 0;
-				}
-				
-//				if (Math.abs(dfx) < 0.5) {
+		JointPosition actPos = lbr.getCurrentJointPosition();
+		try{
+			
+			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+			Object5.setX(0);
+			Object5.setY(0);
+			Object5.setZ(0);
+			Object5.setAlphaRad(0);
+			Object5.setBetaRad(0);
+			Object5.setGammaRad(0);
+//			lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+			System.out.println("ss2");
+			try{
+			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+			}
+			catch (IllegalArgumentException e)
+			{
+				System.out.println("ss3");
+			} 
+			System.out.println("ss1");
+//			System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+			System.out.println("ss");
+		}
+		catch (IllegalArgumentException e)
+		{
+			System.out.println("ss3");
+		} 
+//		   if (!ServoMotion.validateForImpedanceMode(lbr))
+//	        {
+//	            getLogger()
+//	                    .info("Validation of torque model failed - correct your mass property settings");
+//	            getLogger()
+//	                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+//	        }
+//
+//		lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.5));
+//
+//		Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//		SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
+//		aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
+//
+//		log.info("Start Smart Servo Lin motion");
+//
+//		 _toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
+//
+//		getLogger().info("Get the runtime of the SmartServoLIN motion");
+//		ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
+//				.getRuntime();
+//
+//		px = py = pz = 0.2;
+//
+//		Frame destFrame = current.copyWithRedundancy();
+//
+//		double zFx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//				.getX();
+//		double zFy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//				.getY();
+//		double zFz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//				.getZ();
+//
+//		ccx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
+//		ccy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
+//		ccz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
+//
+//		log.info("get Force in x " + zFx);
+//		log.info("get Force in y " + zFy);
+//		log.info("get Force in z " + zFz);
+//
+//		try {
+//			while (!bstop) {
+//
+//				fx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//						.getX();
+//				fy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//						.getY();
+//				fz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
+//						.getZ();
+//				
+//				dfx = -1 * px * (fx - zFx);
+//				dfy = +1 * py * (fy - zFy);
+//				dfz = -1 * pz * (fz - zFz);
+//
+//				cx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
+//				cy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
+//				cz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
+//
+//				if(Math.abs(ccx-cx)>50 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.5){
 //					dfx = 0;
 //				}
-//				if (ccx - cx > 50) {
-//					if (fx > 0) {
-//						dfx = 0;
-//
-//					}
-//				}
-//
-//				if (ccx - cx < -50) {
-//					if (fx < 0) {
-//						dfx = 0;
-//
-//					}
-//				}
-
-//				if (Math.abs(dfy) < 0.5) {
+//				if(Math.abs(ccy-cy)>50 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.5){
 //					dfy = 0;
 //				}
-//				if (ccy - cy >= 50) {
-//					if (fy < 0) {
-//						dfy = 0;
+//				if(Math.abs(ccz-cz)>50 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.5){
+//					dfz = 0;
+//				}
+//				
+////				if (Math.abs(dfx) < 0.5) {
+////					dfx = 0;
+////				}
+////				if (ccx - cx > 50) {
+////					if (fx > 0) {
+////						dfx = 0;
+////
+////					}
+////				}
+////
+////				if (ccx - cx < -50) {
+////					if (fx < 0) {
+////						dfx = 0;
+////
+////					}
+////				}
+//
+////				if (Math.abs(dfy) < 0.5) {
+////					dfy = 0;
+////				}
+////				if (ccy - cy >= 50) {
+////					if (fy < 0) {
+////						dfy = 0;
+////
+////					}
+////				}
+////				if (ccy - cy <= -50) {
+////					if (fy > 0) {
+////						dfy = 0;
+////
+////					}
+////				}
+//
+//				if (Math.abs(dfz) < 0.5) {
+//					dfz = 0;
+//				}
+//				if (ccz - cz > 50) {
+//					if (fz > 0) {
+//						dfz = 0;
 //
 //					}
 //				}
-//				if (ccy - cy <= -50) {
-//					if (fy > 0) {
-//						dfy = 0;
+//
+//				if (ccz - cz < -50) {
+//					if (fz < 0) {
+//						dfz = 0;
 //
 //					}
+//
 //				}
-
-				if (Math.abs(dfz) < 0.5) {
-					dfz = 0;
-				}
-				if (ccz - cz > 50) {
-					if (fz > 0) {
-						dfz = 0;
-
-					}
-				}
-
-				if (ccz - cz < -50) {
-					if (fz < 0) {
-						dfz = 0;
-
-					}
-
-				}
-
-				// log.info("get Force in delta x" + dfx + ",y " + dfy + ",z " +
-				// dfz);
-				destFrame.setX(destFrame.getX() + dfx);
-				destFrame.setY(destFrame.getY() + dfy);
-				destFrame.setZ(destFrame.getZ() + dfz);
-
-				smartServoLINRuntime.updateWithRealtimeSystem();
-				
-				smartServoLINRuntime.setDestination(destFrame);
-
-				smartServoLINRuntime.changeControlModeSettings(cic);
-				if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-//					bstop = true;
-				}
-
-				ThreadUtil.milliSleep(5);
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.info(e.toString());
-		}
-
-		smartServoLINRuntime.stopMotion();
+//
+//				// log.info("get Force in delta x" + dfx + ",y " + dfy + ",z " +
+//				// dfz);
+//				destFrame.setX(destFrame.getX() + dfx);
+//				destFrame.setY(destFrame.getY() + dfy);
+//				destFrame.setZ(destFrame.getZ() + dfz);
+//
+//				smartServoLINRuntime.updateWithRealtimeSystem();
+//				
+//				smartServoLINRuntime.setDestination(destFrame);
+//
+//				smartServoLINRuntime.changeControlModeSettings(cic);
+//				if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
+////					bstop = true;
+//				}
+//
+//				ThreadUtil.milliSleep(5);
+//			}
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			log.info(e.toString());
+//		}
+//
+//		smartServoLINRuntime.stopMotion();
 
 	}
 
