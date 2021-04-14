@@ -1947,12 +1947,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
 //				//	System.out.println("112");
 					
-					Object2.setX(0);
-					Object2.setY(0);
-					Object2.setZ(0);
-					Object2.setAlphaRad(Math.toRadians(0));
-					Object2.setBetaRad(Math.toRadians(0));
-					Object2.setGammaRad(Math.toRadians(0));
+//					Object2.setX(0);
+//					Object2.setY(0);
+//					Object2.setZ(0);
+//					Object2.setAlphaRad(Math.toRadians(0));
+//					Object2.setBetaRad(Math.toRadians(0));
+//					Object2.setGammaRad(Math.toRadians(0));
 //					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
 //					System.out.println(test1);
 //					System.out.println("Object21"+Object2);
@@ -1996,13 +1996,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					System.out.println(Object3);
 //					System.out.println("Object22"+Object2);
 					//Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
-					Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
 					Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
 //					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					try{
-					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+						
+					Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					Object5.setX(0);
+					Object5.setY(0);
+					Object5.setZ(0);
+					Object5.setAlphaRad(Math.toRadians(0));
+					Object5.setBetaRad(Math.toRadians(0));
+					Object5.setGammaRad(Math.toRadians(0));
+					
+					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 					if(Math.toDegrees(test.get(JointEnum.J1))<11 && Math.toDegrees(test.get(JointEnum.J1))>-11 && Math.toDegrees(test.get(JointEnum.J2))>-47 && Math.toDegrees(test.get(JointEnum.J2))<1 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 && Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
 						needle.getFrame("/tcp_x_1_yz1").move(ptp(Object1).setJointVelocityRel(0.35));	
 					}
