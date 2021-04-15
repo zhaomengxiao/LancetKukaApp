@@ -10,14 +10,20 @@
             <frame id="_3ae1fd6d-dc8d-46a7-aa6b-d865f6a4ad85" name="SmallCover">
                 <transformation a="0.0" b="0.0" c="0.0" x="1.0" y="0.0" z="0.0"/>
                 <additionalInformation>
-                    <info key="LastModificationTime" type="java.lang.Long" value="1618458620579"/>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1618458620598"/>
                 </additionalInformation>
+                <frame id="_93a1c040-caf5-4338-b435-57f95a00d89d" name="P1">
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+                    <additionalInformation>
+                        <info key="LastModificationTime" type="java.lang.Long" value="1618472757007"/>
+                    </additionalInformation>
+                </frame>
             </frame>
         </frame>
         <frame id="_da0843f9-2b2e-4f78-93bc-0f764d5f35ea" name="P1">
-            <transformation a="0.783769769623626" b="-0.9026925218417508" c="-2.7447403368931584" x="-633.5359140731555" y="77.9246191981565" z="430.4472480702648"/>
+            <transformation a="0.0" b="0.5235987755982988" c="0.0" x="0.0" y="0.0" z="0.0"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1614303840235"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618474187948"/>
                 <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_2" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                     <tcpTransformation a="0.0" b="1.0" c="0.0" x="150.7" y="0.0" z="227.9"/>
                 </info>

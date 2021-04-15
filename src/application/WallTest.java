@@ -12,6 +12,7 @@ import static com.kuka.roboticsAPI.motionModel.BasicMotions.*;
 
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
+import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
 import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.geometricModel.ITransformationProvider;
@@ -129,7 +130,18 @@ public class WallTest extends RoboticsAPIApplication {
 //			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 ////			Transformation Ptest3 = cmdPos.
 ////			System.out.println("3111:"+Ptest3);
-//			ObjectFrame frameOnFlange = null;
+			ObjectFrame frameOnFlange = null;
+			Transformation trasfo=lbr.getFrame("/P1").getTransformationFromParent();
+			
+			cmdPos2.setX(0);
+			cmdPos2.setY(0);
+			cmdPos2.setZ(0);
+			cmdPos2.setAlphaRad(0);
+			cmdPos2.setBetaRad(Math.toRadians(-30));
+			cmdPos2.setGammaRad(0);
+			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
+			AbstractFrame re=new Frame(cmdPos,trasfo);
+			System.out.println("3:"+re);
 //			frameOnFlange.transformationTo(cmdPos2);
 //			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 //			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
