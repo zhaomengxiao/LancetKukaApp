@@ -113,6 +113,7 @@ public class WallTest extends RoboticsAPIApplication {
 		while (true)
 		{
 			Frame cmdPos1 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+			System.out.println("1:"+cmdPos1);
 			Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 			cmdPos2.setX(0);
 			cmdPos2.setY(0);
@@ -121,9 +122,16 @@ public class WallTest extends RoboticsAPIApplication {
 			cmdPos2.setBetaRad(Math.toRadians(-30));
 			cmdPos2.setGammaRad(0);
 			Frame cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
+			System.out.println("2:"+cmdPos);
+			
+			
+			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 			Frame Ptest3 = cmdPos.transform((Transformation.ofDeg(0, 0, 0, 0, 30, 0)));
+			System.out.println("3111:"+Ptest3);
+			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
+			System.out.println("3112:"+Ptest4);
 //			ITransformationProvider tt;
 //			ObjectFrame newHomeFrame;
 //			newHomeFrame.
@@ -131,10 +139,10 @@ public class WallTest extends RoboticsAPIApplication {
 //			Frame cmdPos4=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 			
 			
-			System.out.println("1:"+cmdPos1);
-			System.out.println("2:"+cmdPos);
-			System.out.println("3111:"+Ptest3);
-			System.out.println("3112:"+Ptest4);
+		
+			
+			
+			
 			ThreadUtil.milliSleep(5000);
 		}
 		
