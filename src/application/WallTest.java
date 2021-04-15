@@ -110,9 +110,9 @@ public class WallTest extends RoboticsAPIApplication {
 		
 		while (true)
 		{
-			ThreadUtil.milliSleep(5000);
-			Frame cmdPos1 = lbr.getCommandedCartesianPosition(lbr.getFrame("/CoverScrewing/SmallCover"));
+			Frame cmdPos1 = lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_2"));
 			System.out.println(cmdPos1);
+			ThreadUtil.milliSleep(5000);
 		}
 		
 		
