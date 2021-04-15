@@ -1561,7 +1561,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					else{
 						ThreadUtil.milliSleep(10);
 					}
-					nWorkingmode=0;
+					//nWorkingmode=0;
 
 				}
 				else if(nWorkingmode==4){
