@@ -111,7 +111,16 @@ public class WallTest extends RoboticsAPIApplication {
 		while (true)
 		{
 			Frame cmdPos1 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+			Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+			cmdPos2.setX(0);
+			cmdPos2.setY(0);
+			cmdPos2.setZ(0);
+			cmdPos2.setAlphaRad(0);
+			cmdPos2.setBetaRad(Math.toRadians(-30));
+			cmdPos2.setGammaRad(0);
+			Frame cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			System.out.println(cmdPos1);
+			System.out.println(cmdPos);
 			ThreadUtil.milliSleep(5000);
 		}
 		
