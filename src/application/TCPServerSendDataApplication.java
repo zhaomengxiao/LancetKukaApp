@@ -2403,8 +2403,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
-
 		
+		pre_Place = getApplicationData().getFrame("/CoverScrewing/P1").copyWithRedundancy();
+		needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
 		
 		
 //		Vector vec=Vector.of(841.79, -84.76, 178.95);
@@ -2447,23 +2448,25 @@ public HandGuidingMotion createhandGuidingMotion(){
 ////		needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 //		currentPos_test=lbr.getCurrentJointPosition();
 
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String> add = executor.submit(new sendRTdata());
-		Future<String> say = executor.submit(new motion());
-		Future<String> sdd2 = executor.submit(new reciveRTdata());
-        //Monitor();
-
-		try {
-			System.out.println(add.get());
-			System.out.println(say.get());
-			System.out.println(sdd2.get());
-		} catch (InterruptedException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} 
+		
+		//jjj
+//		ExecutorService executor = Executors.newCachedThreadPool();
+//		Future<String> add = executor.submit(new sendRTdata());
+//		Future<String> say = executor.submit(new motion());
+//		Future<String> sdd2 = executor.submit(new reciveRTdata());
+//        //Monitor();
+//
+//		try {
+//			System.out.println(add.get());
+//			System.out.println(say.get());
+//			System.out.println(sdd2.get());
+//		} catch (InterruptedException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} catch (ExecutionException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} 
 
 	}
 	@Override
