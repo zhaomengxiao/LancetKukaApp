@@ -2406,7 +2406,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		
 		pre_Place = getApplicationData().getFrame("/CoverScrewing/P1").copyWithRedundancy();
 		needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
-		
+		System.out.println("start");
 		
 //		Vector vec=Vector.of(841.79, -84.76, 178.95);
 //		Matrix translation = Matrix.ofRowFirst(0.302, -0.933, -0.194, -0.302, -0.287, 0.909, -0.904, -0.216, -0.368);
