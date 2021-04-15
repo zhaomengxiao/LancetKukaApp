@@ -383,7 +383,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						cmdPos2.setBetaRad(Math.toRadians(-30));
 						cmdPos2.setGammaRad(0);
 						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
-						System.out.println("22:"+cmdPos);
+						//System.out.println("22:"+cmdPos);
 						
 				}
 				else if(nToolMode==2)
