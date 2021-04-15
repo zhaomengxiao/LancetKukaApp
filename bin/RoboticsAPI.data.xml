@@ -10,7 +10,7 @@
             <frame id="_3ae1fd6d-dc8d-46a7-aa6b-d865f6a4ad85" name="SmallCover">
                 <transformation a="2.8" b="-1.0" c="2.6" x="-450.4" y="-26.0" z="733.4"/>
                 <additionalInformation>
-                    <info key="LastModificationTime" type="java.lang.Long" value="1618487714915"/>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1618487714917"/>
                 </additionalInformation>
             </frame>
         </frame>
@@ -107,9 +107,9 @@
             </redundancyData>
         </frame>
         <frame id="_f360d545-10de-4571-9b83-56c9d0956990" name="CoverScrewing2">
-            <transformation a="0.0" b="0.5" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <transformation a="0.0" b="0.5235987755982988" c="0.0" x="0.0" y="0.0" z="0.0"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1618456640068"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618488191782"/>
             </additionalInformation>
             <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="P1">
                 <transformation a="2.76" b="-1.01" c="2.56" x="-450.44" y="-25.99" z="733.43"/>
