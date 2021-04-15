@@ -2227,6 +2227,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 				
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				System.out.println("1:"+cmdPos);
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
+				System.out.println("2:"+cmdPos);
 				
 				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle.getFrame("/CoverScrewing"));
 				System.out.println("getFlange()"+cmdPos1);
@@ -2243,7 +2254,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 				if (nToolMode==1){
 					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
 					cmdPos2.setY(0);
 					cmdPos2.setZ(0);
