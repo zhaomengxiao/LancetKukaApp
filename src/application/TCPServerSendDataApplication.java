@@ -679,9 +679,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							pre_Place.setX(nX);
 							pre_Place.setY(nY);
 							pre_Place.setZ(nZ);
-							pre_Place.setAlphaRad(nA);
-							pre_Place.setBetaRad(nB);
-							pre_Place.setGammaRad(nC);
+							pre_Place.setAlphaRad(Math.toRadians(nA));
+							pre_Place.setBetaRad(Math.toRadians(nB));
+							pre_Place.setGammaRad(Math.toRadians(nC));
+							System.out.println("pre_Place"+pre_Place);
 							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 							writer_recive.write("$para,mp,0$");
 							writer_recive.flush();
