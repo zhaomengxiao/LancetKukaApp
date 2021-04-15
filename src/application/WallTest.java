@@ -108,6 +108,7 @@ public class WallTest extends RoboticsAPIApplication {
         cic.parametrize(CartDOF.TRANSL).setStiffness(2000);
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void run() {
 		
@@ -130,7 +131,7 @@ public class WallTest extends RoboticsAPIApplication {
 //			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 ////			Transformation Ptest3 = cmdPos.
 ////			System.out.println("3111:"+Ptest3);
-			ObjectFrame frameOnFlange = null;
+			//ObjectFrame frameOnFlange = null;
 			Transformation trasfo=lbr.getFrame("/P1").getTransformationFromParent();
 			
 			cmdPos2.setX(0);
@@ -139,6 +140,7 @@ public class WallTest extends RoboticsAPIApplication {
 			cmdPos2.setAlphaRad(0);
 			cmdPos2.setBetaRad(Math.toRadians(-30));
 			cmdPos2.setGammaRad(0);
+			
 			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			AbstractFrame re=new Frame(cmdPos,trasfo);
 			System.out.println("3:"+re);
@@ -147,8 +149,9 @@ public class WallTest extends RoboticsAPIApplication {
 //			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
 //			System.out.println("3112:"+Ptest4);
 //			ITransformationProvider tt;
-//			ObjectFrame newHomeFrame;
-//			newHomeFrame.
+			ObjectFrame newHomeFrame = null;
+			newHomeFrame.copy(cmdPos);
+			System.out.println(newHomeFrame);
 //			lbr.getFlange().setTransformationProvider(provider)
 //			Frame cmdPos4=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 			
