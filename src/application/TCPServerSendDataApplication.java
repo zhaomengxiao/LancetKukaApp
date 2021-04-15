@@ -2404,7 +2404,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		pre_Place = getApplicationData().getFrame("/CoverScrewing/P1").copyWithRedundancy();
+		pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
 		needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
 		System.out.println("start");
 		
