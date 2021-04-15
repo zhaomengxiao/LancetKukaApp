@@ -123,37 +123,48 @@ public class WallTest extends RoboticsAPIApplication {
 			cmdPos2.setAlphaRad(0);
 			cmdPos2.setBetaRad(Math.toRadians(-30));
 			cmdPos2.setGammaRad(0);
+			System.out.println("222");
 			Frame cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			System.out.println("2:"+cmdPos);
 			
-			
-//			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
-//			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
-////			Transformation Ptest3 = cmdPos.
-////			System.out.println("3111:"+Ptest3);
-			//ObjectFrame frameOnFlange = null;
-			Transformation trasfo=lbr.getFrame("/P1").getTransformationFromParent();
-			
-			cmdPos2.setX(0);
-			cmdPos2.setY(0);
-			cmdPos2.setZ(0);
-			cmdPos2.setAlphaRad(0);
-			cmdPos2.setBetaRad(Math.toRadians(-30));
-			cmdPos2.setGammaRad(0);
-			
-			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
-			AbstractFrame re=new Frame(cmdPos,trasfo);
-			System.out.println("3:"+re);
-//			frameOnFlange.transformationTo(cmdPos2);
-//			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
-//			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
-//			System.out.println("3112:"+Ptest4);
-//			ITransformationProvider tt;
+			System.out.println(lbr.getCommandedCartesianPosition(lbr.getFlange()));
+			System.out.println("333");
 			ObjectFrame newHomeFrame = null;
-			newHomeFrame.copy(cmdPos);
+			newHomeFrame.transformationTo(cmdPos);
 			System.out.println(newHomeFrame);
-//			lbr.getFlange().setTransformationProvider(provider)
-//			Frame cmdPos4=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
+			
+//			
+//			
+////			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
+////			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
+//////			Transformation Ptest3 = cmdPos.
+//////			System.out.println("3111:"+Ptest3);
+//			//ObjectFrame frameOnFlange = null;
+//			Transformation trasfo=lbr.getFrame("/P1").getTransformationFromParent();
+//			
+//			cmdPos2.setX(0);
+//			cmdPos2.setY(0);
+//			cmdPos2.setZ(0);
+//			cmdPos2.setAlphaRad(0);
+//			cmdPos2.setBetaRad(Math.toRadians(-30));
+//			cmdPos2.setGammaRad(0);
+//			
+//			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
+//			
+//			AbstractFrame re=new Frame(cmdPos,trasfo);
+//			System.out.println("3:"+re);
+////			frameOnFlange.transformationTo(cmdPos2);
+////			cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
+////			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
+////			System.out.println("3112:"+Ptest4);
+////			ITransformationProvider tt;
+//			
+//			
+//			lbr.attachTo(newHomeFrame);
+//			
+//			System.out.println(newHomeFrame);
+////			lbr.getFlange().setTransformationProvider(provider)
+////			Frame cmdPos4=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 			
 			
 		
