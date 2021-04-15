@@ -133,6 +133,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private JointPosition jointPos;
 	 private JointPosition jointPos_zuo;
 	 private JointPosition jointPos_you;
+	 Frame pre_Place;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -671,6 +672,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							nA=Double.parseDouble(units[5]);
 							nB=Double.parseDouble(units[6]);
 							nC=Double.parseDouble(para1);
+							
+							//ss
+							
+							pre_Place = getApplicationData().getFrame("/CoverScrewing2/P1").copyWithRedundancy();
+							pre_Place.setX(nX);
+							pre_Place.setY(nY);
+							pre_Place.setZ(nZ);
+							pre_Place.setAlphaRad(nA);
+							pre_Place.setBetaRad(nB);
+							pre_Place.setGammaRad(nC);
 							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 							writer_recive.write("$para,mp,0$");
 							writer_recive.flush();
@@ -1535,7 +1546,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-							needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));	
+							needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
 						}
 						else{
 							System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
@@ -1548,7 +1559,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					else{
 						ThreadUtil.milliSleep(10);
 					}
-					
+					nWorkingmode=0;
 
 				}
 				else if(nWorkingmode==4){
