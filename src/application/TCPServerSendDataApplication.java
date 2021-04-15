@@ -2155,7 +2155,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 				
 				try{
-				ThreadUtil.milliSleep(50);
+				ThreadUtil.milliSleep(5000);
 
 			
 			
@@ -2227,6 +2227,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				
+				Frame cmdPos1 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				System.out.println("getFlange()"+cmdPos1);
 				
 				
 				

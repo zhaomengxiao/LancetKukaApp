@@ -3,9 +3,9 @@
     <world>
         <gravitation x="0.0" y="0.0" z="9.81"/>
         <frame id="_1077c2d9-b861-478c-9d79-262c537e5006" name="CoverScrewing">
-            <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <transformation a="0.0" b="-0.5235987755982988" c="0.0" x="0.0" y="0.0" z="0.0"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1614082845693"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618456394291"/>
             </additionalInformation>
             <frame id="_3ae1fd6d-dc8d-46a7-aa6b-d865f6a4ad85" name="SmallCover">
                 <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
@@ -105,6 +105,18 @@
                     <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.586124591512576" valueType="java.lang.Double"/>
                 </redundancy>
             </redundancyData>
+        </frame>
+        <frame id="_f360d545-10de-4571-9b83-56c9d0956990" name="CoverScrewing2">
+            <transformation a="0.0" b="0.5" c="0.0" x="0.0" y="0.0" z="0.0"/>
+            <additionalInformation>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618456640048"/>
+            </additionalInformation>
+            <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="P1">
+                <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
+                <additionalInformation>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1618456528520"/>
+                </additionalInformation>
+            </frame>
         </frame>
     </world>
     <objectTemplates>
