@@ -107,35 +107,50 @@ public class WallTest extends RoboticsAPIApplication {
 
 	@Override
 	public void run() {
+		
+		while (true)
+		{
+			ThreadUtil.milliSleep(5000);
+			Frame cmdPos1 = lbr.getCommandedCartesianPosition(lbr.getFrame("/CoverScrewing/SmallCover"));
+			System.out.println(cmdPos1);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 		// your application execution starts here
 		// lbr.move(ptpHome());
-		JointPosition actPos = lbr.getCurrentJointPosition();
-		try{
-			
-			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-			Object5.setX(0);
-			Object5.setY(0);
-			Object5.setZ(0);
-			Object5.setAlphaRad(0);
-			Object5.setBetaRad(0);
-			Object5.setGammaRad(0);
-//			lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-			System.out.println("ss2");
-			try{
-			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-			}
-			catch (Throwable cause)
-			{
-				System.out.println("ss3");
-			} 
-			System.out.println("ss1");
-//			System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
-			System.out.println("ss");
-		}
-		catch (IllegalArgumentException e)
-		{
-			System.out.println("ss3");
-		} 
+//		JointPosition actPos = lbr.getCurrentJointPosition();
+//		try{
+//			
+//			Frame Object5 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//			Object5.setX(0);
+//			Object5.setY(0);
+//			Object5.setZ(0);
+//			Object5.setAlphaRad(0);
+//			Object5.setBetaRad(0);
+//			Object5.setGammaRad(0);
+////			lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+//			System.out.println("ss2");
+//			try{
+//			actPos=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+//			}
+//			catch (Throwable cause)
+//			{
+//				System.out.println("ss3");
+//			} 
+//			System.out.println("ss1");
+////			System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+//			System.out.println("ss");
+//		}
+//		catch (IllegalArgumentException e)
+//		{
+//			System.out.println("ss3");
+//		} 
 //		   if (!ServoMotion.validateForImpedanceMode(lbr))
 //	        {
 //	            getLogger()

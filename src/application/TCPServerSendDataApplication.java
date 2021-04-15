@@ -2228,7 +2228,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				
-				Frame cmdPos1 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle.getFrame("/CoverScrewing"));
 				System.out.println("getFlange()"+cmdPos1);
 				
 				
