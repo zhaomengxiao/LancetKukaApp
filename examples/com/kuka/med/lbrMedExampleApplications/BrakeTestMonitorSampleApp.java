@@ -1,14 +1,11 @@
 package com.kuka.med.lbrMedExampleApplications;
 
-import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import com.kuka.common.ThreadUtil;
 import com.kuka.med.controllerModel.MedController;
 import com.kuka.med.cyclicBrakeTest.BrakeTestDiskSpaceState;
 import com.kuka.med.cyclicBrakeTest.BrakeTestMonitor;
@@ -19,7 +16,6 @@ import com.kuka.med.cyclicBrakeTest.IBrakeTestMonitorListener;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
-import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
 import com.kuka.roboticsAPI.motionModel.PTP;
 import com.kuka.roboticsAPI.uiModel.ApplicationDialogType;
@@ -94,11 +90,6 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
     @Override
     public void run()
     {
-    	
-    	
-
-        
-        
         // check the current status of the cyclic brake test because an event could have been missed due to
         // late start of the application
         _currentStatus = _brakeTestMonitor.getCurrentState();
@@ -137,36 +128,10 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
             if (null == _mc || _mc.isFinished())
             {
                 // reverse angle of one joint for next motion
-//                _jointPos.set(0, _jointPos.get(0) * -1.0);
-//
-//                getLogger().info("PTP motion to simulate a normal application workflow is started!");
-//                _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
-                while (true){
-//            	  Frame Ptest1= getApplicationData().getFrame("/P5").copyWithRedundancy();	
-//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.35));
-//            	  ThreadUtil.milliSleep(8000);
-//            	  Frame Ptest2= getApplicationData().getFrame("/P6").copyWithRedundancy();	
-//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest2).setJointVelocityRel(0.35));
-//            	  ThreadUtil.milliSleep(8000);
-//            	  Frame Ptest3= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest3).setJointVelocityRel(0.35));
-//            	  ThreadUtil.milliSleep(8000);
-//            	  Frame Ptest4= getApplicationData().getFrame("/P7").copyWithRedundancy();	
-//            	  _lbr.getFrame("/tcp_2").move(ptp(Ptest4).setJointVelocityRel(0.35));
-//            	  ThreadUtil.milliSleep(8000);
-            	  
-             //  reverse angle of one joint for next motion
-              	_lbr.move(ptp(getFrame("/P5")).setJointVelocityRel(0.35));
-              	ThreadUtil.milliSleep(8000);
-              	_lbr.move(ptp(getFrame("/P6")).setJointVelocityRel(0.35));
-              	ThreadUtil.milliSleep(8000);
-              	_lbr.move(ptp(getFrame("/P7")).setJointVelocityRel(0.35));
-              	ThreadUtil.milliSleep(8000);
-              	_lbr.move(ptp(getFrame("/P8")).setJointVelocityRel(0.35));
-              	ThreadUtil.milliSleep(8000);
-              }
-                
-                
+                _jointPos.set(0, _jointPos.get(0) * -1.0);
+
+                getLogger().info("PTP motion to simulate a normal application workflow is started!");
+                _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
             }
         }
     }
@@ -204,11 +169,11 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         String text = "";
         if (_isBrakeTestExecutable)
         {
-           // text = "Do you want to start a brake test execution now?";
-            //if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION, text, "Yes", "No"))
-            //{
+            text = "Do you want to start a brake test execution now?";
+            if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION, text, "Yes", "No"))
+            {
                 _action = UserAction.START_BRAKETEST;
-            //}
+            }
         }
         else
         {
@@ -309,12 +274,12 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         }
         if (postponeUnacceptable)
         {
-           // text = "A postponement is not possible anymore! Do you want to start the brake test now?";
-            //if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
-           //         text, "Yes"))
-            //{
+            text = "A postponement is not possible anymore! Do you want to start the brake test now?";
+            if (0 == getApplicationUI().displayModalDialog(ApplicationDialogType.QUESTION,
+                    text, "Yes"))
+            {
                 _action = UserAction.START_BRAKETEST;
-            //}
+            }
         }
     }
 

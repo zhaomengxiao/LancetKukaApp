@@ -41,7 +41,7 @@
                         <Value>0.0</Value>
                     </Property>
                     <Property displayName="Drehung um Y-Achse in ° (B-Winkel)" key="B" regex="(-|\+)?(((9)(0)(\.0)?)|(([0-8])?([0-9])((\.)[0-9])?))" showInEditor="true" showInWizard="true" type="Double">
-                        <Value>-30.0</Value>
+                        <Value>0.0</Value>
                     </Property>
                     <Property displayName="Drehung um X-Achse in ° (C-Winkel)" key="C" regex="(-|\+)?(((1)(8)(0)((\.)(0))?)|((1)[0-7][0-9]((\.)[0-9])?)|([1-9][0-9]((\.)[0-9])?)|([0-9]((\.)[0-9])?))" showInEditor="true" showInWizard="true" type="Double">
                         <Value>0.0</Value>
