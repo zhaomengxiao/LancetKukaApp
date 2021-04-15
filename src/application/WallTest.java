@@ -123,6 +123,7 @@ public class WallTest extends RoboticsAPIApplication {
 			Frame cmdPos=lbr.getCommandedCartesianPosition(lbr.getFlange(), cmdPos2);
 			//Frame cmdPos3=lbr.getCurrentCartesianPosition(lbr.getFlange(), cmdPos2);
 			Frame Ptest3 = cmdPos.transform((Transformation.ofDeg(0, 0, 0, 0, 30, 0)));
+			Frame Ptest4 = cmdPos.transform((Transformation.ofDeg(220, 0, 0, 0, 30, 0)));
 //			ITransformationProvider tt;
 //			ObjectFrame newHomeFrame;
 //			newHomeFrame.
@@ -132,7 +133,8 @@ public class WallTest extends RoboticsAPIApplication {
 			
 			System.out.println("1:"+cmdPos1);
 			System.out.println("2:"+cmdPos);
-			System.out.println("3:"+Ptest3);
+			System.out.println("3111:"+Ptest3);
+			System.out.println("3112:"+Ptest4);
 			ThreadUtil.milliSleep(5000);
 		}
 		
