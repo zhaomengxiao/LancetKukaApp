@@ -2188,7 +2188,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					    	DangerMove=true;
 //		                }
 						 
-			                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 115 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+			                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
 			                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
 			                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
 			                	}
@@ -2199,7 +2199,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
 			                	}
 			                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
-			                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:115;MIN:-10");
+			                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
 			                	}
 			                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
 			                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
