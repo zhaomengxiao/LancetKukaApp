@@ -2218,7 +2218,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			                	
 						 
 					}
-					ThreadUtil.milliSleep(4);
+					//ThreadUtil.milliSleep(4);
 				}
 
 			
