@@ -878,8 +878,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(30), Math.toRadians(45), Math.toRadians(100), Math.toRadians(65),Math.toRadians(-45), Math.toRadians(165))
-		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-14), Math.toRadians(-45), Math.toRadians(0), Math.toRadians(-65),Math.toRadians(-110), Math.toRadians(-165))
+		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(30), Math.toRadians(45), Math.toRadians(100), Math.toRadians(65),Math.toRadians(-40), Math.toRadians(165))
+		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-14), Math.toRadians(-45), Math.toRadians(0), Math.toRadians(-65),Math.toRadians(-100), Math.toRadians(-165))
 		.setJointLimitsEnabled(true,true,true,true,true,true,true)
 
 
