@@ -599,7 +599,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-		    socket_recive.setSoTimeout(2500);
+		    //socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		    
 			InputStream in = socket_recive.getInputStream();
