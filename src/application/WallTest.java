@@ -599,11 +599,11 @@ public class WallTest extends RoboticsAPIApplication {
 //						{
 //							dfy=0;
 //						}
-						if(dfa>0.1){
-							dfa=0.1;
+						if(dfa>0.3){
+							dfa=0.3;
 						}
-						if(dfa<-0.1){
-							dfa=-0.1;
+						if(dfa<-0.3){
+							dfa=-0.3;
 						}
 						
 //						Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
