@@ -670,7 +670,7 @@ public class WallTest extends RoboticsAPIApplication {
 //							bstop = true;
 						}
 
-						ThreadUtil.milliSleep(100);
+						ThreadUtil.milliSleep(10);
 					}
 
 				} catch (Exception e) {
