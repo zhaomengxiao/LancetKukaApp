@@ -571,11 +571,19 @@ public class WallTest extends RoboticsAPIApplication {
 							dfx=-0.6;
 						}
 						
+						if(Math.abs(dfx)<0.2)
+						{
+							dfx=0;
+						}
 						if(dfy>0.6){
 							dfy=0.6;
 						}
 						if(dfy<-0.6){
 							dfy=-0.6;
+						}
+						if(Math.abs(dfy)<0.2)
+						{
+							dfy=0;
 						}
 						
 						if(dfz>0.6){
@@ -584,6 +592,11 @@ public class WallTest extends RoboticsAPIApplication {
 						if(dfz<-0.6){
 							dfz=-0.6;
 						}
+						if(Math.abs(dfz)<0.2)
+						{
+							dfz=0;
+						}
+						
 						if(dfa>0.1){
 							dfa=0.1;
 						}
