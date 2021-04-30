@@ -151,7 +151,7 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="0.0" c="0.0" x="-0.09" y="70.0" z="47.5"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-0.09" y="0.03" z="99.99"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
                     <transformation a="-0.003490658503988659" b="-0.006108652381980153" c="-1.0480702158225947" x="-0.32" y="168.11" z="264.87"/>
