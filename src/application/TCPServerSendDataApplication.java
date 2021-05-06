@@ -1907,12 +1907,28 @@ public HandGuidingMotion createhandGuidingMotion(){
 //							needle.getFrame("/tcp_2").move(lin(Object1).setJointVelocityRel(0.2));
 							
 							Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-							pre_Point.setX(Object1.getX());
-							pre_Point.setY(Object1.getY());
-							pre_Point.setZ(Object1.getZ());
+
+							
+							
+							Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//							System.out.println("1:"+cmdPos);
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
+							
+							
+							pre_Point.setX(cmdPos.getX());
+							pre_Point.setY(cmdPos.getY());
+							pre_Point.setZ(cmdPos.getZ());
 							pre_Point.setAlphaRad(Object1.getAlphaRad());
 							pre_Point.setBetaRad(Object1.getBetaRad());
 							pre_Point.setGammaRad(Object1.getGammaRad());
+							
 							
 							System.out.println("Object511111"+pre_Point);
 							needle.getFrame("/tcp_2").move(lin(pre_Point).setJointVelocityRel(0.2));
