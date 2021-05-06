@@ -1692,9 +1692,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //						nA=-157.22;
 //						nB=22.9288;
 //						nC=157.359;
-						nA=-99.17;
-						nB=29.1859;
-						nC=72.4758;
+						nA=164.7;
+						nB=-31.71;
+						nC=-164.418;
 //						System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
 						
 						pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
