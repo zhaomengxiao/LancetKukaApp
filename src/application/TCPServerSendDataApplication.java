@@ -2109,7 +2109,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("222");	
-					Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 					System.out.println("333");	
 					Object5.setX(Object4.getX());
 					Object5.setY(Object4.getY());
