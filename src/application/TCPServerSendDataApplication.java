@@ -1940,12 +1940,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						
 						
-						nA=-157.22;
-						nB=22.9288;
-						nC=157.359;
+//						nA=-157.22;
+//						nB=22.9288;
+//						nC=157.359;
 //						nA=96;
 //						nB=-15;
 //						nC=-175;
+						System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
 						//目标点位
 						Frame destFrame = current.setX(nX);
 						destFrame = current.setY(nY);
