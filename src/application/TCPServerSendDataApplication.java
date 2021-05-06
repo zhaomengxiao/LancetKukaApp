@@ -1657,15 +1657,38 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					System.out.println("current.getA():"+current.getAlphaRad());
 //					System.out.println("current.getB():"+current.getBetaRad());
 //					System.out.println("current.getC():"+current.getGammaRad());
-					for (num = 0; num < 360; num = num + 1){
+					for (num = 0; num < 360; num = num + 30){
 						//当前点位
 						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 						
 						if (nToolMode==1){
-							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+							
+							
+//							cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//							System.out.println("1:"+cmdPos);
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
+							System.out.println("current.getC():"+current);
+							
 						}
 						else if(nToolMode==2){
-							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
+							System.out.println("current.getC():"+current);
 						}
 						
 						Frame destObject = current.setX(current.getX());
@@ -1697,13 +1720,6 @@ public HandGuidingMotion createhandGuidingMotion(){
 						nC=-164.418;
 //						System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
 						
-						pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-						pre_Place.setX(nX);
-						pre_Place.setY(nY);
-						pre_Place.setZ(nZ);
-						pre_Place.setAlphaRad(Math.toRadians(nA));
-						pre_Place.setBetaRad(Math.toRadians(nB));
-						pre_Place.setGammaRad(Math.toRadians(nC));
 //						System.out.println("pre_Place"+pre_Place);
 //						System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 						
@@ -1712,9 +1728,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 						Frame destFrame = current.setX(nX);
 						destFrame = current.setY(nY);
 						destFrame = current.setZ(nZ);
-						destFrame=  current.setAlphaRad(Math.toRadians(pre_Place.getAlphaRad()));
-						destFrame=  current.setBetaRad(Math.toRadians(pre_Place.getBetaRad()));
-						destFrame=  current.setGammaRad(Math.toRadians(pre_Place.getGammaRad()));
+						destFrame=  current.setAlphaRad(Math.toRadians(nA));
+						destFrame=  current.setBetaRad(Math.toRadians(nB));
+						destFrame=  current.setGammaRad(Math.toRadians(nC));
 						
 //						System.out.println("11"+destFrame);
 //						
