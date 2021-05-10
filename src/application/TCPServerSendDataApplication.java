@@ -98,7 +98,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //    int i=0;
 	private HandGuidingMotion motion;
 
-
+	@Inject
+	private BrakeTestMonitorSampleApp BreakTest;
 	@Inject
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
@@ -2269,70 +2270,26 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
-		
-//		pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-//		needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
-//		System.out.println("start");
-		
-//		Vector vec=Vector.of(841.79, -84.76, 178.95);
-//		Matrix translation = Matrix.ofRowFirst(0.302, -0.933, -0.194, -0.302, -0.287, 0.909, -0.904, -0.216, -0.368);
-//		MatrixTransformation trans2=MatrixTransformation.of(vec, translation);
-////		Transformation trans1 = Transformation.of(matrix);
-////		needle.getInverseKinematic(trans2, actPos);
-//	    
-//		
+		BreakTest.initialize();
+		BreakTest.run();
+
+//		ExecutorService executor = Executors.newCachedThreadPool();
+//		Future<String> add = executor.submit(new sendRTdata());
+//		Future<String> say = executor.submit(new motion());
+//		Future<String> sdd2 = executor.submit(new reciveRTdata());
+//        //Monitor();
 //
-//		System.out.println("start");
-//		System.out.println(trans2);
-//		System.out.println(actPos);
-		
-//		motion = handGuiding()
-//				 .setJointLimitsMax(+1.407, +0.872, +0.087, -0.785, +0.087,
-//				 +1.571, +0.087)
-//				 .setJointLimitsMin(-1.407, +0.175, -0.087, -1.571, -0.087,
-//				 -1.571, -0.087)
-//				 .setJointLimitsEnabled(false, true, false, true, false,
-//				 true, false)
-//				 .setJointLimitViolationFreezesAll(false)
-//				 .setPermanentPullOnViolationAtStart(true);
-//		lbr.move(motion);
-//		//lbr.move(handGuiding());
-//		System.out.close();
-//		JointPosition actPos = lbr.getCurrentJointPosition();
-//		//tcp.move(ptp(getApplicationData().getFrame("/P2")).setJointVelocityRel(.3));
-//		
-//		Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
-//		Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
-//		Frame Ptest3 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 0)));
-//		Frame Ptest4 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 0)));
-//		Frame Ptest5 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 200)));
-//		Frame Ptest6 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 200)));
-//		Frame Ptest7 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 200)));
-//		Frame Ptest8 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 200)));
-//		
-//		//ThreadUtil.milliSleep(5000);//frequency of recording
-////		needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-//		currentPos_test=lbr.getCurrentJointPosition();
-
-		
-		//jjj
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String> add = executor.submit(new sendRTdata());
-		Future<String> say = executor.submit(new motion());
-		Future<String> sdd2 = executor.submit(new reciveRTdata());
-        //Monitor();
-
-		try {
-			System.out.println(add.get());
-			System.out.println(say.get());
-			System.out.println(sdd2.get());
-		} catch (InterruptedException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} 
+//		try {
+//			System.out.println(add.get());
+//			System.out.println(say.get());
+//			System.out.println(sdd2.get());
+//		} catch (InterruptedException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} catch (ExecutionException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} 
 
 	}
 	@Override
