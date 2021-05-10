@@ -103,8 +103,8 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
         // handle the brake test execution at start of the application
         handleInitialBraketestExecution();
 
-        while (!_action.equals(UserAction.EXIT_APPLICATION))
-        {
+//        while (!_action.equals(UserAction.EXIT_APPLICATION))
+//        {
             // ******************* Execution of a brake test commanded via user interaction *******************
             if (_action.equals(UserAction.START_BRAKETEST) && _isBrakeTestExecutable)
             {
@@ -133,7 +133,7 @@ public class BrakeTestMonitorSampleApp extends RoboticsAPIApplication implements
 //                getLogger().info("PTP motion to simulate a normal application workflow is started!");
 //                _mc = _lbr.moveAsync(new PTP(_jointPos).setJointVelocityRel(_vel));
 //            }
-        }
+//        }
     }
 
     /**
