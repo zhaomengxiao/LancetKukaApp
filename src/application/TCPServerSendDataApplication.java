@@ -1180,7 +1180,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	boolean bDanger=false;
 //		         	System.out.println("hhh");
 		         	System.out.println(bDangerous+"dd"+nWorkingmode);
-		         	nWorkingmode=3;
+		         	
 		            while (nWorkingmode==4 && bDangerous==false)
 		            {
 		          
