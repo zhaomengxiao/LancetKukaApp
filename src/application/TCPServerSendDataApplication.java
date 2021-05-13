@@ -118,7 +118,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	Socket socket=null;
 	Socket socket_recive=null;
 	DataOutputStream outputStream_recive=null;
-	
+	Frame ForPingyi;
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
@@ -384,6 +384,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						cmdPos2.setBetaRad(Math.toRadians(-30));
 						cmdPos2.setGammaRad(0);
 						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
+						ForPingyi.setAlphaRad(cmdPos.getAlphaRad());
+						ForPingyi.setBetaRad(cmdPos.getBetaRad());
+						ForPingyi.setGammaRad(cmdPos.getGammaRad());
 						//System.out.println("22:"+cmdPos);
 						
 				}
@@ -1680,6 +1683,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //							System.out.println("current.getC():"+current);
 							
 						}
+
 						else if(nToolMode==2){
 //							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
@@ -1988,6 +1992,52 @@ public HandGuidingMotion createhandGuidingMotion(){
 					nWorkingmode=0;
 					
 					
+				}
+				else if(nToolMode==6){
+					DangerMove=false;
+					nLastWorkingmode=nWorkingmode;
+//			        // Initialize Joint impedance mode    
+//					System.out.println("JointimplentMode"+nWorkingmode);
+//					moveToInitialPosition();
+//			        final JointImpedanceControlMode jointImp = createJointImp();
+//			        runSmartServoMotion(jointImp);
+					
+//					Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
+//					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//					System.out.println("automode"+nWorkingmode);
+//					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
+					
+					
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+
+                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+					//$cmd,RobotMove,1$
+					if(nX!=0 && nY!=0 && nZ!=0){
+						Ptest1.setX(nX);
+						Ptest1.setY(nY);
+						Ptest1.setZ(nZ);
+//						System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+						Ptest1.setAlphaRad(Math.toRadians(nA));
+						Ptest1.setBetaRad(Math.toRadians(nB));
+						Ptest1.setGammaRad(Math.toRadians(nC));
+						pre_Place.setAlphaRad(ForPingyi.getAlphaRad());
+						pre_Place.setBetaRad(ForPingyi.getBetaRad());
+						pre_Place.setGammaRad(ForPingyi.getGammaRad());
+						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+							//System.out.println("pre_Place11***:"+pre_Place);
+							needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+						}
+						else{
+							//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+						}
+						
+						
+//						ThreadUtil.milliSleep(500);
+//						System.out.println("222");
+					}
+					else{
+						ThreadUtil.milliSleep(10);
+					}
 				}
 				else{
 					
