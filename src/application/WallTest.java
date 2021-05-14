@@ -451,22 +451,22 @@ public class WallTest extends RoboticsAPIApplication {
 				Frame destFrame = current.copyWithRedundancy();
 				Frame destFrame_Dangerous = current.copyWithRedundancy();
 				
-				double zFx = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+				double zFx = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 						.getX();
-				double zFy = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+				double zFy = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 						.getY();
-				double zFz = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+				double zFz = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 						.getZ();
-				double zFa = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getZ();
-				double zFb = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getY();
-				double zFc = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce().getX();
+				double zFa = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getZ();
+				double zFb = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getY();
+				double zFc = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce().getX();
 
-				ccx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getX();
-				ccy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getY();
-				ccz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getZ();
-				cca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getAlphaRad();
-				ccb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getBetaRad();
-				ccc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getGammaRad();
+				ccx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getX();
+				ccy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getY();
+				ccz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getZ();
+				cca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getAlphaRad();
+				ccb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getBetaRad();
+				ccc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getGammaRad();
 				
 				
 				
@@ -481,15 +481,15 @@ public class WallTest extends RoboticsAPIApplication {
 					
 					while (SafeDataIO.getInput4()==false) {
 
-						fx = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+						fx = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 								.getX();
-						fy = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+						fy = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 								.getY();
-						fz = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
+						fz = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
 								.getZ();
-						fa = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getZ();
-						fb = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getY();
-						fc = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getX();
+						fa = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getZ();
+						fb = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getY();
+						fc = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getX();
 						
 						dfx = 1 * px * (fx - zFx);
 						dfy = 1 * py * (fy - zFy);
@@ -498,12 +498,12 @@ public class WallTest extends RoboticsAPIApplication {
 						dfb = 1 * pb * (fb - zFb);
 						dfc = 1 * pc * (fc - zFc);
 
-						cx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getX();
-						cy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getY();
-						cz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getZ();
-						ca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getAlphaRad();
-						cb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getBetaRad();
-						cc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getGammaRad();
+						cx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getX();
+						cy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getY();
+						cz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getZ();
+						ca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getAlphaRad();
+						cb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getBetaRad();
+						cc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getGammaRad();
 						
 						if (Math.abs(dfx) < 0.1) {
 							dfx = 0;
