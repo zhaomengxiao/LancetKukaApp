@@ -166,7 +166,7 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="170.2" y="-4.3" z="237.4"/>
                 </frame>
                 <frame id="_ec2a9c18-1cfb-4871-91f3-df8c6dd09fc8" name="tcp_3">
-                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="105.0"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="87.0" z="56.0"/>
                 </frame>
                 <frame id="_371fb737-1163-4b67-b9c0-5389e8a46a43" name="tcp_x_1_yz2">
                     <transformation a="0.0" b="1.0472" c="0.0" x="171.2" y="-4.3" z="237.4"/>
