@@ -151,7 +151,6 @@ public class DirectServoSampleSimpleJointMotion extends RoboticsAPIApplication
                 }
                 _theDirectServoRuntime
                         .setDestination(destination);
-                
 
                 aStep.end();
             }
