@@ -446,7 +446,7 @@ public class WallTest extends RoboticsAPIApplication {
 						.getRuntime();
 
 				px = py = pz = 0.05;
-				pa = pb = pc = 0.0005;
+				pa = pb = pc = 0.0015;
 
 				Frame destFrame = current.copyWithRedundancy();
 				Frame destFrame_Dangerous = current.copyWithRedundancy();
