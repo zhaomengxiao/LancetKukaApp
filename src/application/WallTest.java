@@ -446,7 +446,7 @@ public class WallTest extends RoboticsAPIApplication {
 						.getRuntime();
 
 				px = py = pz = 0.05;
-				pa = pb = pc = 0.0005;
+				pa = pb = pc = 0.005;
 
 				Frame destFrame = current.copyWithRedundancy();
 				Frame destFrame_Dangerous = current.copyWithRedundancy();
@@ -605,11 +605,11 @@ public class WallTest extends RoboticsAPIApplication {
 						if(dfa<-0.3){
 							dfa=-0.3;
 						}
-						if(dfb>0.3){
-							dfb=0.3;
+						if(dfb>0.6){
+							dfb=0.6;
 						}
-						if(dfb<-0.3){
-							dfb=-0.3;
+						if(dfb<-0.6){
+							dfb=-0.6;
 						}
 //						Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofTranslation(dfx, dfy, 0)));
