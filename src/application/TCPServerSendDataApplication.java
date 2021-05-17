@@ -2203,7 +2203,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 							//System.out.println("pre_Place11***:"+pre_Place);
-							needle.getFrame("/tcp_x_1_yz1").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+							needle.getFrame("/tcp_x_1_yz1").move(ptp(pre_Place).setJointVelocityRel(0.1));	
 						}
 						else{
 							//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
