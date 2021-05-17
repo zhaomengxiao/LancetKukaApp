@@ -2187,7 +2187,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
 					
 					
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
@@ -2203,7 +2203,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 							//System.out.println("pre_Place11***:"+pre_Place);
-							needle.getFrame("/tcp_3").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+							needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
 						}
 						else{
 							//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
