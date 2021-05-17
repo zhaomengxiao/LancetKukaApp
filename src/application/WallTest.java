@@ -151,8 +151,8 @@ public class WallTest extends RoboticsAPIApplication {
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(75), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-45), Math.toRadians(-120), -0.087,-1.571, -0.087)
+		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-25), Math.toRadians(0), -0.087,-1.571, -0.087)
 		.setJointLimitsEnabled(true,true,true,true,false,false,false)
 
 
@@ -446,27 +446,27 @@ public class WallTest extends RoboticsAPIApplication {
 						.getRuntime();
 
 				px = py = pz = 0.05;
-				pa = pb = pc = 0.0015;
+				pa = pb = pc = 0.0005;
 
 				Frame destFrame = current.copyWithRedundancy();
 				Frame destFrame_Dangerous = current.copyWithRedundancy();
 				
-				double zFx = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+				double zFx = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 						.getX();
-				double zFy = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+				double zFy = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 						.getY();
-				double zFz = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+				double zFz = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 						.getZ();
-				double zFa = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getZ();
-				double zFb = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getY();
-				double zFc = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce().getX();
+				double zFa = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getZ();
+				double zFb = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getY();
+				double zFc = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce().getX();
 
-				ccx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getX();
-				ccy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getY();
-				ccz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getZ();
-				cca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getAlphaRad();
-				ccb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getBetaRad();
-				ccc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getGammaRad();
+				ccx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getX();
+				ccy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getY();
+				ccz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getZ();
+				cca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getAlphaRad();
+				ccb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getBetaRad();
+				ccc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getGammaRad();
 				
 				
 				
@@ -481,15 +481,15 @@ public class WallTest extends RoboticsAPIApplication {
 					
 					while (SafeDataIO.getInput4()==false) {
 
-						fx = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+						fx = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 								.getX();
-						fy = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+						fy = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 								.getY();
-						fz = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getForce()
+						fz = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 								.getZ();
-						fa = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getZ();
-						fb = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getY();
-						fc = lbr.getExternalForceTorque(needle.getFrame("/tcp_3")).getTorque().getX();
+						fa = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getZ();
+						fb = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getY();
+						fc = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getTorque().getX();
 						
 						dfx = 1 * px * (fx - zFx);
 						dfy = 1 * py * (fy - zFy);
@@ -498,12 +498,12 @@ public class WallTest extends RoboticsAPIApplication {
 						dfb = 1 * pb * (fb - zFb);
 						dfc = 1 * pc * (fc - zFc);
 
-						cx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getX();
-						cy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getY();
-						cz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getZ();
-						ca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getAlphaRad();
-						cb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getBetaRad();
-						cc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3")).getGammaRad();
+						cx = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getX();
+						cy = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getY();
+						cz = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getZ();
+						ca = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getAlphaRad();
+						cb = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getBetaRad();
+						cc = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2")).getGammaRad();
 						
 						if (Math.abs(dfx) < 0.1) {
 							dfx = 0;
@@ -571,11 +571,6 @@ public class WallTest extends RoboticsAPIApplication {
 							dfx=-0.6;
 						}
 						
-//						if(Math.abs(dfx)<0.2)
-//						{
-//							dfx=0;
-//						}
-						
 						if(dfy>0.6){
 							dfy=0.6;
 						}
@@ -583,40 +578,25 @@ public class WallTest extends RoboticsAPIApplication {
 							dfy=-0.6;
 						}
 						
-//						if(Math.abs(dfy)<0.2)
-//						{
-//							dfy=0;
-//						}
-						
 						if(dfz>0.6){
 							dfz=0.6;
 						}
 						if(dfz<-0.6){
 							dfz=-0.6;
 						}
+						if(dfa>0.1){
+							dfa=0.1;
+						}
+						if(dfa<-0.1){
+							dfa=-0.1;
+						}
 						
-//						if(Math.abs(dfy)<0.2)
-//						{
-//							dfy=0;
-//						}
-						if(dfa>0.3){
-							dfa=0.3;
-						}
-						if(dfa<-0.3){
-							dfa=-0.3;
-						}
-						if(dfb>0.3){
-							dfb=0.3;
-						}
-						if(dfb<-0.3){
-							dfb=-0.3;
-						}
 //						Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofTranslation(dfx, dfy, 0)));
-						Frame Ptest3 = destFrame_Dangerous.transform((Transformation.ofTranslation(dfx*0.1, 0, dfz*0.1)));
+						Frame Ptest3 = destFrame_Dangerous.transform((Transformation.ofTranslation(dfx*0.1, dfy*0.1, 0)));
 
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, dfy, dfz, dfa, dfb, dfc)));
-						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, 0, dfz, 0, 0, 0)));
+						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx*2, 0, 0, 0, 0, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, 0, 0, 0, 0, 0)));
 //						destFrame.setX(destFrame.getX() + dfx);
 //						destFrame.setY(destFrame.getY() + dfy);
@@ -675,7 +655,7 @@ public class WallTest extends RoboticsAPIApplication {
 //							bstop = true;
 						}
 
-						ThreadUtil.milliSleep(10);
+						//ThreadUtil.milliSleep(10);
 					}
 
 				} catch (Exception e) {
