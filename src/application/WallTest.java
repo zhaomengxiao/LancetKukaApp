@@ -151,8 +151,8 @@ public class WallTest extends RoboticsAPIApplication {
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-25), Math.toRadians(0), -0.087,-1.571, -0.087)
+		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(75), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-45), Math.toRadians(-120), -0.087,-1.571, -0.087)
 		.setJointLimitsEnabled(true,true,true,true,false,false,false)
 
 
@@ -571,6 +571,11 @@ public class WallTest extends RoboticsAPIApplication {
 							dfx=-0.6;
 						}
 						
+//						if(Math.abs(dfx)<0.2)
+//						{
+//							dfx=0;
+//						}
+						
 						if(dfy>0.6){
 							dfy=0.6;
 						}
@@ -578,25 +583,40 @@ public class WallTest extends RoboticsAPIApplication {
 							dfy=-0.6;
 						}
 						
+//						if(Math.abs(dfy)<0.2)
+//						{
+//							dfy=0;
+//						}
+						
 						if(dfz>0.6){
 							dfz=0.6;
 						}
 						if(dfz<-0.6){
 							dfz=-0.6;
 						}
-						if(dfa>0.1){
-							dfa=0.1;
-						}
-						if(dfa<-0.1){
-							dfa=-0.1;
-						}
 						
+//						if(Math.abs(dfy)<0.2)
+//						{
+//							dfy=0;
+//						}
+						if(dfa>0.3){
+							dfa=0.3;
+						}
+						if(dfa<-0.3){
+							dfa=-0.3;
+						}
+						if(dfb>0.3){
+							dfb=0.3;
+						}
+						if(dfb<-0.3){
+							dfb=-0.3;
+						}
 //						Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofTranslation(dfx, dfy, 0)));
 						Frame Ptest3 = destFrame_Dangerous.transform((Transformation.ofTranslation(dfx*0.1, dfy*0.1, 0)));
 
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, dfy, dfz, dfa, dfb, dfc)));
-						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx*2, 0, 0, 0, 0, 0)));
+						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, 0, dfz, 0, dfb, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, 0, 0, 0, 0, 0)));
 //						destFrame.setX(destFrame.getX() + dfx);
 //						destFrame.setY(destFrame.getY() + dfy);
@@ -655,7 +675,7 @@ public class WallTest extends RoboticsAPIApplication {
 //							bstop = true;
 						}
 
-						//ThreadUtil.milliSleep(10);
+						ThreadUtil.milliSleep(10);
 					}
 
 				} catch (Exception e) {

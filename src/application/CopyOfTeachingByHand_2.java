@@ -449,6 +449,30 @@ public class CopyOfTeachingByHand_2 extends RoboticsAPIApplication
     	System.out.println("333333");
     	_lbr.getExternalForceTorque(_lbr.getFlange());
     	
+    	
+        //moveToInitialPosition();
+//
+//        // Initialize Cartesian impedance mode       
+//        final JointImpedanceControlMode jointImp = createJointImp();
+//        
+//        // Initialize Cartesian impedance mode       
+//        //final CartesianImpedanceControlMode cartImp = createCartImp();
+//
+//        runSmartServoMotion(jointImp);
+       
+   	
+        // Return to initial position
+//        moveToInitialPosition();
+
+//        final PositionControlMode positionCtrlMode = new PositionControlMode();
+//
+//        runSmartServoMotion(positionCtrlMode);
+//
+//        moveToInitialPosition();
+//
+//        switchMotionControlMode();
+        
+//        System.out.println(statusMonitor.getActiveStatusGroups());
     }
 
     /**
