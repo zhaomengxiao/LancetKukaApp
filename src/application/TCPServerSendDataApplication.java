@@ -1886,7 +1886,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 					//Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
-					Object4 = Object4.transform((Transformation.ofDeg(0 ,-59.1,-141, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-48.8,-143, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					try{
 						
