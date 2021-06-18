@@ -2085,6 +2085,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -100, -100)));
 					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -100, 0)));
 					
+					Frame Ptest9 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(500, -50, -50)));
+					
 					//ThreadUtil.milliSleep(5000);//frequency of recording
 					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest1");
@@ -2109,6 +2111,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest8).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest8");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest9).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest9");
+					
 					nWorkingmode=0;
 				}
 				else{
@@ -2393,8 +2399,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
-//		BreakTest.initialize();
-//		BreakTest.run();
+		BreakTest.initialize();
+		BreakTest.run();
 
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Future<String> add = executor.submit(new sendRTdata());
