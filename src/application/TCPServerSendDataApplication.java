@@ -2074,6 +2074,43 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("Ptest8");
 					nWorkingmode=0;
 				}
+				else if(nWorkingmode==8){
+					Frame Ptest1= getApplicationData().getFrame("/P6").copyWithRedundancy();		
+					Frame Ptest2 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, -100)));
+					Frame Ptest3 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, 0, -100)));
+					Frame Ptest4 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, 0, 0)));
+					
+					Frame Ptest5 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -100, 0)));
+					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -100, -100)));
+					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -100, -100)));
+					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -100, 0)));
+					
+					//ThreadUtil.milliSleep(5000);//frequency of recording
+					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest1");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest2).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest2");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest3).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest3");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest4).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest4");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest5).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest5");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest6).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest6");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest7).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest7");
+					ThreadUtil.milliSleep(20000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest8).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest8");
+					nWorkingmode=0;
+				}
 				else{
 					
 //					
