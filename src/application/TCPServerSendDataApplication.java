@@ -2046,7 +2046,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 200)));
 					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 200, 200)));
 					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(-200, 0, 200)));
-					
+					System.out.println("1:222");
 					//ThreadUtil.milliSleep(5000);//frequency of recording
 					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					ThreadUtil.milliSleep(1000);
