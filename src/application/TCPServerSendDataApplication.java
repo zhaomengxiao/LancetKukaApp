@@ -2039,30 +2039,40 @@ public HandGuidingMotion createhandGuidingMotion(){
 				}
 				else if(nWorkingmode==7){
 					Frame Ptest1= getApplicationData().getFrame("/P6").copyWithRedundancy();		
-					Frame Ptest2 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, -200)));
-					Frame Ptest3 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, 0, -200)));
-					Frame Ptest4 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, 0, 0)));
-					Frame Ptest5 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -200, 0)));
-					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, -200, -200)));
-					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, -200, -200)));
-					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -200, 0)));
-					System.out.println("1:222");
+					Frame Ptest2 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, -300)));
+					Frame Ptest3 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, 0, -300)));
+					Frame Ptest4 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, 0, 0)));
+					
+					Frame Ptest5 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -300, 0)));
+					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -300, -300)));
+					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -300, -300)));
+					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(100, -300, 0)));
+					
 					//ThreadUtil.milliSleep(5000);//frequency of recording
 					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest1");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest2).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest2");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest3).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest3");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest4).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest4");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest5).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest5");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest6).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest6");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest7).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest7");
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest8).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					System.out.println("Ptest8");
+					ThreadUtil.milliSleep(1000);
 					nWorkingmode=0;
 				}
 				else{
