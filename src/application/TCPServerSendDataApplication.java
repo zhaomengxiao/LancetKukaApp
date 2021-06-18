@@ -2339,8 +2339,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Future<String> add = executor.submit(new sendRTdata());
