@@ -2040,11 +2040,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==7){
 					Frame Ptest1= getApplicationData().getFrame("/P6").copyWithRedundancy();		
 					Frame Ptest2 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, -200)));
-					Frame Ptest3 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(200, 0, -200)));
-					Frame Ptest4 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(200, 0, 0)));
+					Frame Ptest3 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, 0, -200)));
+					Frame Ptest4 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, 0, 0)));
 					Frame Ptest5 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -200, 0)));
-					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(200, -200, -200)));
-					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(200, -200, -200)));
+					Frame Ptest6 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, -200, -200)));
+					Frame Ptest7 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(50, -200, -200)));
 					Frame Ptest8 = getApplicationData().getFrame("/P6").copyWithRedundancy().transform((Transformation.ofTranslation(0, -200, 0)));
 					System.out.println("1:222");
 					//ThreadUtil.milliSleep(5000);//frequency of recording
