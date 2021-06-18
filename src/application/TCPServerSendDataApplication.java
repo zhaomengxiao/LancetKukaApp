@@ -2051,28 +2051,27 @@ public HandGuidingMotion createhandGuidingMotion(){
 					//ThreadUtil.milliSleep(5000);//frequency of recording
 					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest1");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest2).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest2");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest3).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest3");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest4).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest4");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest5).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest5");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest6).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest6");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest7).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest7");
-					ThreadUtil.milliSleep(30000);
+					ThreadUtil.milliSleep(20000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest8).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					System.out.println("Ptest8");
-					ThreadUtil.milliSleep(30000);
 					nWorkingmode=0;
 				}
 				else{
