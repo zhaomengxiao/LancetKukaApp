@@ -2052,9 +2052,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 					ThreadUtil.milliSleep(1000);
 					needle.getFrame("/tcp_2").move(ptp(Ptest2).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					ThreadUtil.milliSleep(1000);
-					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					needle.getFrame("/tcp_2").move(ptp(Ptest3).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					ThreadUtil.milliSleep(1000);
-					needle.getFrame("/tcp_2").move(ptp(Ptest2).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					needle.getFrame("/tcp_2").move(ptp(Ptest4).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					ThreadUtil.milliSleep(1000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest5).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					ThreadUtil.milliSleep(1000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest6).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					ThreadUtil.milliSleep(1000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest7).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+					ThreadUtil.milliSleep(1000);
+					needle.getFrame("/tcp_2").move(ptp(Ptest8).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 					nWorkingmode=0;
 				}
 				else{
