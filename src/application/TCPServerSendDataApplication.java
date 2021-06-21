@@ -1884,9 +1884,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					System.out.println("Object22"+Object2);
 					//Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
 					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
-					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -90)));
 					//Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
-					Object4 = Object4.transform((Transformation.ofDeg(0 ,-48.8,-143, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-45,-147.5, 0, 0, 0)));
 					System.out.println("Object4"+Object4);	
 					try{
 						
@@ -1941,7 +1941,36 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 						}
 						else if(nToolMode==2){
-							needle.getFrame("/tcp_x_1_yz1").move(lin(Object1).setJointVelocityRel(0.2));
+							Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+
+							
+							
+							Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+//							System.out.println("1:"+cmdPos);
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
+							
+							
+							pre_Point.setX(cmdPos.getX());
+							pre_Point.setY(cmdPos.getY());
+							pre_Point.setZ(cmdPos.getZ());
+//							pre_Point.setAlphaRad(Object1.getAlphaRad());
+//							pre_Point.setBetaRad(Object1.getBetaRad());
+//							pre_Point.setGammaRad(Object1.getGammaRad());
+							//用优化角度还是直接角度赋值
+							pre_Point.setAlphaRad(Math.toRadians(nA));
+							pre_Point.setBetaRad(Math.toRadians(nB));
+							pre_Point.setGammaRad(Math.toRadians(nC));
+							
+							
+							System.out.println("Object511111"+pre_Point);
+							needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Point).setJointVelocityRel(0.2));
 						}
 						
 						System.out.println("InRange");
