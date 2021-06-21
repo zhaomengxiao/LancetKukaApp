@@ -1927,13 +1927,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 							pre_Point.setX(cmdPos.getX());
 							pre_Point.setY(cmdPos.getY());
 							pre_Point.setZ(cmdPos.getZ());
-							pre_Point.setAlphaRad(Object1.getAlphaRad());
-							pre_Point.setBetaRad(Object1.getBetaRad());
-							pre_Point.setGammaRad(Object1.getGammaRad());
+//							pre_Point.setAlphaRad(Object1.getAlphaRad());
+//							pre_Point.setBetaRad(Object1.getBetaRad());
+//							pre_Point.setGammaRad(Object1.getGammaRad());
 							//用优化角度还是直接角度赋值
-//							pre_Point.setAlphaRad(Math.toRadians(nA));
-//							pre_Point.setBetaRad(Math.toRadians(nB));
-//							pre_Point.setGammaRad(Math.toRadians(nC));
+							pre_Point.setAlphaRad(Math.toRadians(nA));
+							pre_Point.setBetaRad(Math.toRadians(nB));
+							pre_Point.setGammaRad(Math.toRadians(nC));
 							
 							
 							System.out.println("Object511111"+pre_Point);
@@ -2033,7 +2033,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					else{
 						ThreadUtil.milliSleep(10);
 					}
-					nWorkingmode=0;
+					//nWorkingmode=0;
 					
 					
 				}
