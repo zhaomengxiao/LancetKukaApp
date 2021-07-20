@@ -356,9 +356,10 @@ public class motion2 extends RoboticsAPIApplication
             
             double i1=0;
             double nAix4=0;
+            double nAix7=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false )
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && Math.abs(nAix7)<165)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -369,8 +370,8 @@ public class motion2 extends RoboticsAPIApplication
     		 
     		 
     		 JointPosition jReady =_lbr.getCurrentJointPosition();
-    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J1));
-            	
+    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J4));
+    		 nAix7=Math.toDegrees(jReady.get(JointEnum.J7));	
                 final OneTimeStep aStep = timing.newTimeStep();
                 // ///////////////////////////////////////////////////////
                 // Insert your code here
@@ -436,6 +437,8 @@ public class motion2 extends RoboticsAPIApplication
        		if (i1 % 200 == 0){
            		System.out.println("DistanceToPlane:"+DistanceToPlane.getX());
            		System.out.println("initialPosition1:"+initialPosition);
+           		System.out.println(Math.abs(nAix4));
+
            		
        		}
        		

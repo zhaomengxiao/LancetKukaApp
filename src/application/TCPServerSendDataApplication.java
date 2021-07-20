@@ -2236,6 +2236,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	            		System.out.println("ForPlane");
 //						OnlyPlane.initialize();
 						OnlyPlane.run();
+		           		Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
 						nWorkingmode=0;
 	            	}
 					else{
