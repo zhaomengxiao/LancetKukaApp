@@ -2370,7 +2370,7 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 //						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-						lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
+			       	 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
 						 System.out.println("finish");
 					}
 					else if(nToolMode==3){
@@ -3139,31 +3139,35 @@ public  class motion implements Callable<String> {
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-//		BreakTest.initialize();
-//		BreakTest.run();
-
-//		ISafetyState currentState = lbr.getSafetyState();
-	
-		//jjj
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String> add = executor.submit(new sendRTdata());
-		Future<String> say = executor.submit(new motion());
-		Future<String> sdd2 = executor.submit(new reciveRTdata());
-        //Monitor();
-
-		try {
-			System.out.println(add.get());
-			System.out.println(say.get());
-			System.out.println(sdd2.get());
-		} catch (InterruptedException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} 
+      	 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800));
+		 System.out.println("finish");
+		
+//		JointPosition actPos = lbr.getCurrentJointPosition();
+//		
+////		BreakTest.initialize();
+////		BreakTest.run();
+//
+////		ISafetyState currentState = lbr.getSafetyState();
+//	
+//		//jjj
+//		ExecutorService executor = Executors.newCachedThreadPool();
+//		Future<String> add = executor.submit(new sendRTdata());
+//		Future<String> say = executor.submit(new motion());
+//		Future<String> sdd2 = executor.submit(new reciveRTdata());
+//        //Monitor();
+//
+//		try {
+//			System.out.println(add.get());
+//			System.out.println(say.get());
+//			System.out.println(sdd2.get());
+//		} catch (InterruptedException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} catch (ExecutionException e) {
+//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+//			e.printStackTrace();
+//		} 
 
 		
 		
