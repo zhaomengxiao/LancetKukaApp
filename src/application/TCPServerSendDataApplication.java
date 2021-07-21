@@ -2321,6 +2321,7 @@ public  class motion implements Callable<String> {
 			       	    
 						needle.getFrame("/zuo_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
 						
+						
 					}
 					else if(nToolMode==2){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2369,6 +2370,8 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+						 System.out.println("finish");
 					}
 					else if(nToolMode==3){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2451,6 +2454,7 @@ public  class motion implements Callable<String> {
 			       	    
 			       	    
 			       	    
+			       	    
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
@@ -2505,6 +2509,9 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+						 System.out.println("finish");
+						
 					}
 					else if(nToolMode==6){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2641,6 +2648,8 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+						 System.out.println("finish");
 					}
 					else if(nToolMode==10){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2732,6 +2741,8 @@ public  class motion implements Callable<String> {
 			       	    
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/you_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+						 System.out.println("finish");
 					}
 //					System.out.println("InRange");
 				}
@@ -3152,6 +3163,10 @@ public  class motion implements Callable<String> {
 			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
 			e.printStackTrace();
 		} 
+
+		
+		
+		
 
 	}
 	@Override
