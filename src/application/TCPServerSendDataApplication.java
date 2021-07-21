@@ -1241,9 +1241,9 @@ public  class motion implements Callable<String> {
 	    protected CartesianImpedanceControlMode ZoneLimit()
 	    {
 	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	        cartImp.parametrize(CartDOF.X).setStiffness(2000.0);
-	        cartImp.parametrize(CartDOF.Y).setStiffness(2000.0);
-	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
+	        cartImp.parametrize(CartDOF.X).setStiffness(1000.0);
+	        cartImp.parametrize(CartDOF.Y).setStiffness(1000.0);
+	        cartImp.parametrize(CartDOF.Z).setStiffness(1000.0);
 	        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 
 //	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
@@ -1488,7 +1488,7 @@ public  class motion implements Callable<String> {
 		final CartesianImpedanceControlMode cartImp22 = ZoneLimit();
 
 //		lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-		 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.2)).setMode(cartImp22));
+		 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1)).setMode(cartImp22));
 		 System.out.println("finish");
 		 nWorkingmode=0;
 		
