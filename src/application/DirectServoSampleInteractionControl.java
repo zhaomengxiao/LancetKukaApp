@@ -37,7 +37,7 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
     // Tool Data
 
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { -150.7 , 0, 227.9 };
+    private static final double[] TRANSLATION_OF_TOOL = { -0.4 , 125.6, 240.5,-0.00418,-0.007,-1.0477 };
     private static final double MASS = 1;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
@@ -93,9 +93,9 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
         _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-                TRANSLATION_OF_TOOL[2]);
+                TRANSLATION_OF_TOOL[2],TRANSLATION_OF_TOOL[3], TRANSLATION_OF_TOOL[4],TRANSLATION_OF_TOOL[5]);
         ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
                 + "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
@@ -136,35 +136,39 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
          	destination.set(currentPos);
             while (true)
             {
-          
-        
+            	 final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
+            	cartImp.parametrize(CartDOF.X).setStiffness(5000);
+            	cartImp.parametrize(CartDOF.Y).setStiffness(5000);
+            	cartImp.parametrize(CartDOF.Z).setStiffness(100);
+                cartImp.parametrize(CartDOF.ROT).setStiffness(300);
+                
                   theServoRuntime
                   .setDestination(destination);
                 
                 
-//                // Timing - draw one step
-//                final OneTimeStep aStep = timing.newTimeStep();
-//                // ///////////////////////////////////////////////////////
-//                // Insert your code here
-//                // e.g Visual Servoing or the like
-//                // emulate some computational effort - or waiting for external
-//                // stuff
-//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-//
-//                theServoRuntime.updateWithRealtimeSystem();
-//
-//                final double curTime = System.nanoTime() - startTimeStamp;
-//                final double sinArgument = omega * curTime;
-//
-//                for (int k = 0; k < destination.getAxisCount(); ++k)
-//                {
-//                    destination.set(k, Math.sin(sinArgument)
-//                            * AMPLITUDE + initialPosition.get(k));
-//                }
-//                theServoRuntime
-//                        .setDestination(destination);
-//
-//                // Modify the stiffness settings every now and then               
+                // Timing - draw one step
+                final OneTimeStep aStep = timing.newTimeStep();
+                // ///////////////////////////////////////////////////////
+                // Insert your code here
+                // e.g Visual Servoing or the like
+                // emulate some computational effort - or waiting for external
+                // stuff
+                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+                theServoRuntime.updateWithRealtimeSystem();
+
+                final double curTime = System.nanoTime() - startTimeStamp;
+                final double sinArgument = omega * curTime;
+
+                for (int k = 0; k < destination.getAxisCount(); ++k)
+                {
+                    destination.set(k, Math.sin(sinArgument)
+                            * AMPLITUDE + initialPosition.get(k));
+                }
+                theServoRuntime
+                        .setDestination(destination);
+
+                // Modify the stiffness settings every now and then               
 //                if (i % (NUM_RUNS / 10) == 0)
 //                {
 //                    // update realtime system
@@ -183,7 +187,7 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
 //                                .changeControlModeSettings(cartImp);
 //                    }
 //                }
-//                aStep.end();
+                aStep.end();
             }
         }
         catch (final Exception e)
