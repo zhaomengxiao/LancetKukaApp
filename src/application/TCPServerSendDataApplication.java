@@ -1788,7 +1788,7 @@ public  class motion implements Callable<String> {
 			//自动矫正点位
 			else if(nWorkingmode==5){
 				Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));;
-				
+				System.out.println("StartAuto");
 //				ThreadUtil.milliSleep(1000);
 //				Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
 				if (nToolMode==1){
@@ -3129,8 +3129,8 @@ public  class motion implements Callable<String> {
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 //		ISafetyState currentState = lbr.getSafetyState();
 	
