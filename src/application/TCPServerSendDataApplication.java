@@ -3140,7 +3140,7 @@ public  class motion implements Callable<String> {
 	@Override
 	public void run()  {
 		
-      	 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800));
+      	 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)));
 		 System.out.println("finish");
 		
 //		JointPosition actPos = lbr.getCurrentJointPosition();
