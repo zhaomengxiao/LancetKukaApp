@@ -1484,6 +1484,14 @@ public  class motion implements Callable<String> {
 	
 //	@SuppressWarnings("null")
 	public String call() {
+		
+		final CartesianImpedanceControlMode cartImp22 = ZoneLimit();
+
+//		lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+		 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setMode(cartImp22));
+		 System.out.println("finish");
+		 nWorkingmode=0;
+		
 //		int answer;
 //		answer = getApplicationUI().displayModalDialog(
 //		ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
@@ -2930,6 +2938,7 @@ public  class motion implements Callable<String> {
 	
 	//ä¿¡å�·é‡‡é›†
 	public void Monitor() {
+		
 		
 			while (true)
 			{
