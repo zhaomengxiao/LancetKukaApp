@@ -2369,7 +2369,7 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+//						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
 						lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
 						 System.out.println("finish");
 					}
@@ -2508,7 +2508,7 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+//						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
 						lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
 						 System.out.println("finish");
 						
@@ -2647,8 +2647,8 @@ public  class motion implements Callable<String> {
 			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
 			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-						lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
+//						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
 						 System.out.println("finish");
 					}
 					else if(nToolMode==10){
