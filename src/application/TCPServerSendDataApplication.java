@@ -1241,9 +1241,9 @@ public  class motion implements Callable<String> {
 	    protected CartesianImpedanceControlMode ZoneLimit()
 	    {
 	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	        cartImp.parametrize(CartDOF.X).setStiffness(1000.0);
-	        cartImp.parametrize(CartDOF.Y).setStiffness(1000.0);
-	        cartImp.parametrize(CartDOF.Z).setStiffness(1000.0);
+	        cartImp.parametrize(CartDOF.X).setStiffness(4000.0);
+	        cartImp.parametrize(CartDOF.Y).setStiffness(4000.0);
+	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
 	        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 
 //	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
@@ -1484,14 +1484,6 @@ public  class motion implements Callable<String> {
 	
 //	@SuppressWarnings("null")
 	public String call() {
-		
-		final CartesianImpedanceControlMode cartImp22 = ZoneLimit();
-
-//		lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-		 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1)).setMode(cartImp22));
-		 System.out.println("finish");
-		 nWorkingmode=0;
-		
 //		int answer;
 //		answer = getApplicationUI().displayModalDialog(
 //		ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
@@ -1795,16 +1787,8 @@ public  class motion implements Callable<String> {
 			//自动矫正点位
 			//自动矫正点位
 			else if(nWorkingmode==5){
-				final CartesianImpedanceControlMode cartImp = ZoneLimit();
-
-//				lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-				 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
-				 System.out.println("finish");
-				 nWorkingmode=0;
-			}
-			else if(nWorkingmode==50){
 				Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));;
-				System.out.println("StartAuto");
+//				System.out.println("StartAuto");
 //				ThreadUtil.milliSleep(1000);
 //				Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
 				if (nToolMode==1){
@@ -2332,8 +2316,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 						needle.getFrame("/zuo_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
 						
@@ -2382,12 +2366,10 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-//						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-			       	 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
-						 System.out.println("finish");
+						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
 					}
 					else if(nToolMode==3){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2428,8 +2410,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/zuo_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
@@ -2474,8 +2456,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/you_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
 					}
@@ -2521,12 +2503,12 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-//						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-						lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
-						 System.out.println("finish");
+						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+//						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+//						 System.out.println("finish");
 						
 					}
 					else if(nToolMode==6){
@@ -2568,8 +2550,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/you_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
 					}
@@ -2612,8 +2594,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/zuo_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
 					}
@@ -2660,12 +2642,12 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
-//						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-						 System.out.println("finish");
+						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+//						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
+//						 System.out.println("finish");
 					}
 					else if(nToolMode==10){
 //						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
@@ -2706,8 +2688,8 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/you_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
@@ -2752,14 +2734,14 @@ public  class motion implements Callable<String> {
 			       	    DistanceToPlane.getGammaRad();
 			       	    
 			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
 			       	    
 //						System.out.println("Object511111"+pre_Point);
 						needle.getFrame("/you_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
 //						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-						 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
-						 System.out.println("finish");
+//						 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
+//						 System.out.println("finish");
 					}
 //					System.out.println("InRange");
 				}
@@ -2938,7 +2920,6 @@ public  class motion implements Callable<String> {
 	
 	//ä¿¡å�·é‡‡é›†
 	public void Monitor() {
-		
 		
 			while (true)
 			{
@@ -3156,13 +3137,10 @@ public  class motion implements Callable<String> {
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-		
-
-		
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-//		BreakTest.initialize();
-//		BreakTest.run();
+		BreakTest.initialize();
+		BreakTest.run();
 
 //		ISafetyState currentState = lbr.getSafetyState();
 	
