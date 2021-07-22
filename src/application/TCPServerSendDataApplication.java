@@ -870,6 +870,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("stcp")){
+							System.out.println("units[1]"+units[1]);
+							System.out.println("units[2]"+units[2]);
 							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
 							System.out.println("stcp: " + para4);
@@ -3130,8 +3132,8 @@ public  class motion implements Callable<String> {
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 //		double offset=10;
 //		Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
