@@ -870,17 +870,48 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("stcp")){
-							System.out.println("units[1]"+units[1]);
-							System.out.println("units[2]"+units[2]);
-							System.out.println("units[3]"+units[3]);
-							System.out.println("units[4]"+units[4]);
-							System.out.println("units[5]"+units[5]);
-							System.out.println("units[6]"+units[6]);
+							System.out.println("units[1]"+Double.parseDouble(units[1]));
+							System.out.println("units[2]"+Double.parseDouble(units[2]));
+							System.out.println("units[3]"+Double.parseDouble(units[3]));
+							System.out.println("units[4]"+Double.parseDouble(units[4]));
+							System.out.println("units[5]"+Double.parseDouble(units[5]));
+							System.out.println("units[6]"+Double.parseDouble(units[6]));
 							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
 							System.out.println("stcp: " + para4);
 //							nToolMode=Integer.parseInt(para4);
 							writer_recive.write("$res,stcp,1");
+							writer_recive.flush();
+						}
+						else if(units[1].equals("ml")){
+//							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[3]);
+//							System.out.println("para: " + units[4]);
+//							System.out.println("para: " + units[5]);
+//							System.out.println("para: " + units[6]);
+//							String para1 = units[7].substring(0, units[7].length() - 1);
+//							System.out.println("para" + para1);
+							System.out.println("ml");
+							System.out.println("units[1]"+Double.parseDouble(units[1]));
+							System.out.println("units[2]"+Double.parseDouble(units[2]));
+							System.out.println("units[3]"+Double.parseDouble(units[3]));
+							System.out.println("units[4]"+Double.parseDouble(units[4]));
+							System.out.println("units[5]"+Double.parseDouble(units[5]));
+							System.out.println("units[6]"+Double.parseDouble(units[6]));
+							
+							//ss
+
+							
+//							pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+//							pre_Place.setX(nX);
+//							pre_Place.setY(nY);
+//							pre_Place.setZ(nZ);
+//							pre_Place.setAlphaRad(Math.toRadians(nA));
+//							pre_Place.setBetaRad(Math.toRadians(nB));
+//							pre_Place.setGammaRad(Math.toRadians(nC));
+//							System.out.println("pre_Place"+pre_Place);
+//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+							writer_recive.write("$para,ml,0$");
 							writer_recive.flush();
 						}
 						else{
