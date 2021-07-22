@@ -872,6 +872,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						else if(units[1].equals("stcp")){
 							System.out.println("units[1]"+units[1]);
 							System.out.println("units[2]"+units[2]);
+							System.out.println("units[3]"+units[3]);
+							System.out.println("units[4]"+units[4]);
+							System.out.println("units[5]"+units[5]);
+							System.out.println("units[6]"+units[6]);
 							System.out.println("normal " + units);
 							String para4 = units[2].substring(0, units[2].length() - 1);
 							System.out.println("stcp: " + para4);
