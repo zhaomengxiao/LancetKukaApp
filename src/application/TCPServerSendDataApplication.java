@@ -3143,12 +3143,12 @@ public  class motion implements Callable<String> {
 //		BreakTest.initialize();
 //		BreakTest.run();
 
-		double offsetX=-0.85;
-		double offsetY=-168.52;
-		double offsetZ=275.15;
-		double offsetA=-0.0049;
-		double offsetB=-0.0084;
-		double offsetC=1.0462;
+		double offsetX=100;
+		double offsetY=50;
+		double offsetZ=20;
+		double offsetA=1;
+		double offsetB=0;
+		double offsetC=0;
 		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
 		Frame target = toolcurFrame.copyWithRedundancy();
 		target.setX(target.getX()+offsetX);
