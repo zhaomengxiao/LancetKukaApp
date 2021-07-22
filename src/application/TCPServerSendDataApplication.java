@@ -3144,12 +3144,12 @@ public  class motion implements Callable<String> {
 //		BreakTest.run();
 
 		double offset=10;
-		Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
+		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
 		Frame target = toolcurFrame.copyWithRedundancy();
 		target.setX(target.getX()+offset);
 		
 		LIN linMotion = new LIN(target);
-		tool.getDefaultMotionFrame().move(linMotion);
+		needle.getDefaultMotionFrame().move(linMotion);
 //		ISafetyState currentState = lbr.getSafetyState();
 	
 		//jjj
