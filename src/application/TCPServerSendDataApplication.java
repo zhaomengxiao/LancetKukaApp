@@ -2145,7 +2145,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==6){
 					nLastWorkingmode=nWorkingmode;
 //			        // Initialize Joint impedance mode    
-
+					nX=-552;
+					nY=-56;
+					nZ=955;
+					nA=-71;
+					nB=44;
+					nC=54;
 					ThreadUtil.milliSleep(3000);
 					if(nX!=0 && nY!=0 && nZ!=0){
 
