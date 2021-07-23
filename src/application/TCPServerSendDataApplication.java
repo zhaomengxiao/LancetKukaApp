@@ -383,9 +383,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				if (nToolMode==1){
 					
 					
-					    double offsetX=1.43;
-					    double offsetY=-168.7;
-					    double offsetZ=-273.8;
+					    double offsetX=-1.43;
+					    double offsetY=168.7;
+					    double offsetZ=273.8;
 					    double offsetA=0;
 					    double offsetB=0;
 					    double offsetC=0;
