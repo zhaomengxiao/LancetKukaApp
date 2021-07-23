@@ -154,7 +154,7 @@
                     <transformation a="0.0075" b="-0.013" c="-1.0496" x="-1.29" y="126.35" z="249.48"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="zuo_21002_zhiSet">
-                    <transformation a="0.0073" b="-0.0129" c="-1.0498" x="-1.43" y="168.7" z="273.8"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-1.43" y="168.7" z="273.8"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
