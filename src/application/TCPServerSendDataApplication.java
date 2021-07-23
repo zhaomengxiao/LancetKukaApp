@@ -2210,9 +2210,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
 //								num_ForTest=num_ForTest+5;
-								Err="3,";
+								Err="1,";
 								System.out.println("Move");
-								Err="3,";
+								Err="1,";
 					    		}	
 								catch(Throwable cause)
 								{
