@@ -8,9 +8,9 @@
                 <info key="LastModificationTime" type="java.lang.Long" value="1618456394291"/>
             </additionalInformation>
             <frame id="_3ae1fd6d-dc8d-46a7-aa6b-d865f6a4ad85" name="SmallCover">
-                <transformation a="-3.0890377218759584" b="-0.789239280976984" c="2.6261322629196275" x="-419.6614685975926" y="-182.978128548484" z="697.6161224807622"/>
+                <transformation a="-0.83775" b="-0.558" c="0.733" x="-645.0" y="-122.0" z="725.0"/>
                 <additionalInformation>
-                    <info key="LastModificationTime" type="java.lang.Long" value="1618485550780"/>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1625794668148"/>
                     <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_2" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                         <tcpTransformation a="0.0" b="-0.004953" c="-1.04719755" x="0.63348846" y="125.81561987" z="240.84919751"/>
                     </info>
@@ -69,18 +69,18 @@
             </redundancyData>
         </frame>
         <frame id="_c792b30b-6a0e-433f-8719-5886ebf0d99b" name="P6">
-            <transformation a="3.1387083212010056" b="0.10196350112956466" c="1.5878613524698226" x="-684.3592786914576" y="70.70983691322441" z="533.1462860807865"/>
+            <transformation a="-2.866426265915891" b="-0.10167910907734298" c="-2.893708347523857" x="-680.7251701364225" y="130.49437072244874" z="529.9033725214215"/>
             <additionalInformation>
-                <info key="LastModificationTime" type="java.lang.Long" value="1624014768770"/>
-                <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_2" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
-                    <tcpTransformation a="0.0" b="0.0" c="-1.5708" x="23.85" y="0.0" z="104.47"/>
+                <info key="LastModificationTime" type="java.lang.Long" value="1618319934766"/>
+                <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="gripper" tool="gripper" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
+                    <tcpTransformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </info>
             </additionalInformation>
             <redundancyData>
                 <redundancy transformationProviderName="KUKA_Sunrise_Cabinet_1/LBR_Med_14_R820_1" type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy">
                     <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$StatusParameter" value="5" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="97" valueType="java.lang.Integer"/>
-                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="0.3624194394459493" valueType="java.lang.Double"/>
+                    <info type="com.kuka.roboticsAPI.deviceModel.StatusTurnRedundancy$TurnParameter" value="100" valueType="java.lang.Integer"/>
+                    <info type="com.kuka.roboticsAPI.deviceModel.LBRE1Redundancy$E1Parameter" value="-0.5860291371650398" valueType="java.lang.Double"/>
                 </redundancy>
             </redundancyData>
         </frame>
@@ -151,13 +151,13 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="0.0" c="-1.5708" x="23.8" y="0.0" z="104.47"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="74.5" y="0.0" z="137.3"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
-                    <transformation a="0.0" b="0.0" c="-1.57" x="0.0" y="100.0" z="147.5"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-18.5" y="-209.0" z="117.5"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
-                    <transformation a="0.0" b="0.0" c="0.0" x="0.63348846" y="125.81561987" z="240.84919751"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </frame>
                 <frame id="_9532b7d2-ebfc-4656-9111-7878bd093dcc" name="tcp_anfang">
                     <transformation a="0.0" b="1.047" c="0.0" x="175.2" y="-10.3" z="237.4"/>
@@ -166,7 +166,7 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="170.2" y="-4.3" z="237.4"/>
                 </frame>
                 <frame id="_ec2a9c18-1cfb-4871-91f3-df8c6dd09fc8" name="tcp_3">
-                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="120.0"/>
+                    <transformation a="0.0" b="1.57" c="0.0" x="0.0" y="0.0" z="120.0"/>
                 </frame>
                 <frame id="_371fb737-1163-4b67-b9c0-5389e8a46a43" name="tcp_x_1_yz2">
                     <transformation a="0.0" b="1.0472" c="0.0" x="171.2" y="-4.3" z="237.4"/>
@@ -190,7 +190,7 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="172.2" y="-6.3" z="235.4"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="-32.0" cogZ="105.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.2"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-44.99" cogY="2.67" cogZ="120.35" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.2"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
