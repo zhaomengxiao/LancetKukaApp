@@ -2145,36 +2145,36 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==6){
 					nLastWorkingmode=nWorkingmode;
 //			        // Initialize Joint impedance mode    
-					nX=-552;
-					nY=-56;
-					nZ=955;
-					nA=-71;
-					nB=44;
-					nC=54;
+					double nX1=-552;
+					double nY1=-56;
+					double nZ1=955;
+					double nA1=-71;
+					double nB1=44;
+					double nC1=54;
 					ThreadUtil.milliSleep(3000);
-					if(nX!=0 && nY!=0 && nZ!=0){
-
+//					if(nX!=0 && nY!=0 && nZ!=0){
+                    if(true){   
 //						if(num_ForTest!=0)
 						if(true)
 						{
 							System.out.println("num_ForTest!=0");
 							Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
 
-							pre_Place1.setX(nX);
-							pre_Place1.setY(nY);
-							pre_Place1.setZ(nZ);
-							pre_Place1.setAlphaRad(Math.toRadians(nA));
-							pre_Place1.setBetaRad(Math.toRadians(nB));
-							pre_Place1.setGammaRad(Math.toRadians(nC));
+							pre_Place1.setX(nX1);
+							pre_Place1.setY(nY1);
+							pre_Place1.setZ(nZ1);
+							pre_Place1.setAlphaRad(Math.toRadians(nA1));
+							pre_Place1.setBetaRad(Math.toRadians(nB1));
+							pre_Place1.setGammaRad(Math.toRadians(nC1));
 						
 							Frame pre_Place2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
 	 
-							pre_Place2.setX(nX);
-							pre_Place2.setY(nY);
-							pre_Place2.setZ(nZ);
-							pre_Place2.setAlphaRad(Math.toRadians(nA));
-							pre_Place2.setBetaRad(Math.toRadians(nB));
-							pre_Place2.setGammaRad(Math.toRadians(nC));
+							pre_Place2.setX(nX1);
+							pre_Place2.setY(nY1);
+							pre_Place2.setZ(nZ1);
+							pre_Place2.setAlphaRad(Math.toRadians(nA1));
+							pre_Place2.setBetaRad(Math.toRadians(nB1));
+							pre_Place2.setGammaRad(Math.toRadians(nC1));
 							
 							
 							
