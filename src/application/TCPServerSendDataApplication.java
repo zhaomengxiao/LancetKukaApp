@@ -306,7 +306,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
          
 		 public void GetData()
 		    {
-			// ThreadUtil.milliSleep(1000);
+		        ThreadUtil.milliSleep(1000);
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
 				
@@ -316,7 +316,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//å·¥ä½œæ¨¡å¼�
 		
 				data2 = Err;
-				
+				System.out.println(Err);
 				//æ˜¯å�¦ä¸Šç”µ
 				data3 = "2,";
 				
@@ -2210,6 +2210,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
 //								num_ForTest=num_ForTest+5;
+								Err="3,";
 								System.out.println("Move");
 								Err="3,";
 					    		}	
