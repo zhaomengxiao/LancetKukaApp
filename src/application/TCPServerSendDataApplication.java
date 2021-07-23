@@ -1864,10 +1864,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
 						
 						
+						//test
+						nA=-157.22;
+						nB=22.9288;
+						nC=157.359;
 						
-//						nA=-157.22;
-//						nB=22.9288;
-//						nC=157.359;
 //						nA=164.7;
 //						nB=-31.71;
 //						nC=-164.418;
@@ -2205,6 +2206,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
 //								num_ForTest=num_ForTest+5;
 								System.out.println("Move");
+								Err="3,";
 					    		}	
 								catch(Throwable cause)
 								{
