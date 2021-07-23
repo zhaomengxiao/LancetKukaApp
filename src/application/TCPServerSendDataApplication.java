@@ -207,7 +207,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-		Err="0,";
+		Err="1,";
 		num_ForTest=0;
 		OnlyPlane.initialize();
 		bForPlane=false;
