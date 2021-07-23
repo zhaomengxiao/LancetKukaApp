@@ -383,12 +383,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				if (nToolMode==1){
 					
 					
-					    double offsetX=-1.43;
-					    double offsetY=168.7;
-					    double offsetZ=273.8;
-					    double offsetA=0.0073;
-					    double offsetB=-0.0129;
-					    double offsetC=-1.0498;
+					    double offsetX=1.43;
+					    double offsetY=-168.7;
+					    double offsetZ=-273.8;
+					    double offsetA=-0.0073;
+					    double offsetB=0.0129;
+					    double offsetC=1.0498;
 						Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
 						Frame target = toolcurFrame.copyWithRedundancy();
 						target.setX(target.getX()+offsetX);
