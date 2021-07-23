@@ -365,7 +365,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//è½´å��æ ‡x
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
 				
-				
+//				double offset=10;
+//				Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
+//				Frame target = toolcurFrame.copyWithRedundancy();
+//				target.setX(target.getX()+offset);
+//				
+//				LIN linMotion =new LIN(target);
+//				tool.getDefaultMotionFrame().move(linMotion);
 				
 //				if (nToolMode==2){
 //					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
@@ -375,17 +381,49 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //				}
 				
 				if (nToolMode==1){
-					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					
+					
+					    double offsetX=-1.43;
+					    double offsetY=168.7;
+					    double offsetZ=273.8;
+					    double offsetA=0.0073;
+					    double offsetB=-0.0129;
+					    double offsetC=-1.0498;
+						Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
+						Frame target = toolcurFrame.copyWithRedundancy();
+						target.setX(target.getX()+offsetX);
+						target.setY(target.getY()+offsetY);
+						target.setZ(target.getZ()+offsetZ);
+						target.setAlphaRad(target.getAlphaRad()+offsetA);
+						target.setBetaRad(target.getBetaRad()+offsetB);
+						target.setGammaRad(target.getGammaRad()+offsetC);
+						Frame pre_SendPoint = getApplicationData().getFrame("/CoverScrewing2/BigCover").copyWithRedundancy();
+						pre_SendPoint.setX(target.getX());
+						pre_SendPoint.setY(target.getY());
+						pre_SendPoint.setZ(target.getZ());
+						pre_SendPoint.setAlphaRad(target.getAlphaRad());
+						pre_SendPoint.setBetaRad(target.getBetaRad());
+						pre_SendPoint.setGammaRad(target.getGammaRad());
+						System.out.println(pre_SendPoint);
+						
+						
 						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+						cmdPos.setX(pre_SendPoint.getX());
+						cmdPos.setY(pre_SendPoint.getY());
+						cmdPos.setZ(pre_SendPoint.getZ());
+						cmdPos.setAlphaRad(pre_SendPoint.getAlphaRad());
+						cmdPos.setBetaRad(pre_SendPoint.getBetaRad());
+						cmdPos.setGammaRad(pre_SendPoint.getGammaRad());
+////						System.out.println("1:"+cmdPos);
+//						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//						cmdPos2.setX(0);
+//						cmdPos2.setY(0);
+//						cmdPos2.setZ(0);
+//						cmdPos2.setAlphaRad(0);
+//						cmdPos2.setBetaRad(Math.toRadians(-30));
+//						cmdPos2.setGammaRad(0);
+						
+						
 						//System.out.println("22:"+cmdPos);
 						
 				}
@@ -3172,13 +3210,7 @@ public  class motion implements Callable<String> {
 //		BreakTest.initialize();
 //		BreakTest.run();
 
-//		double offset=10;
-//		Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
-//		Frame target = toolcurFrame.copyWithRedundancy();
-//		target.setX(target.getX()+offset);
-//		
-//		LIN linMotion =new LIN(target);
-//		tool.getDefaultMotionFrame().move(linMotion);
+
 		
 //		ISafetyState currentState = lbr.getSafetyState();
 	

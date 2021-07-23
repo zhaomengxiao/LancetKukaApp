@@ -121,10 +121,10 @@
             <additionalInformation>
                 <info key="LastModificationTime" type="java.lang.Long" value="1618488191782"/>
             </additionalInformation>
-            <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="P1">
+            <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="BigCover">
                 <transformation a="-3.103324044695101" b="0.2570871881543072" c="2.6731884895110207" x="-813.984085615656" y="-182.97811449596435" z="-14.629408125653072"/>
                 <additionalInformation>
-                    <info key="LastModificationTime" type="java.lang.Long" value="1618485562191"/>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1627007617713"/>
                     <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_2" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                         <tcpTransformation a="0.0" b="-0.004953" c="-1.04719755" x="0.63348846" y="125.81561987" z="240.84919751"/>
                     </info>
