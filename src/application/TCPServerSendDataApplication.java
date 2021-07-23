@@ -3219,7 +3219,7 @@ public  class motion implements Callable<String> {
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
-        //Monitor();
+        Monitor();
 
 		try {
 			System.out.println(add.get());
