@@ -296,7 +296,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
          
 		 public void GetData()
 		    {
-			// ThreadUtil.milliSleep(1000);
+			 ThreadUtil.milliSleep(1000);
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
 				
@@ -391,6 +391,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					    double offsetC=0;
 						Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
 						Frame target = toolcurFrame.copyWithRedundancy();
+						System.out.println(target);
+						
 						target.setX(target.getX()+offsetX);
 						target.setY(target.getY()+offsetY);
 						target.setZ(target.getZ()+offsetZ);
