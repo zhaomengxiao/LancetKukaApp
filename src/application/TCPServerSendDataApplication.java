@@ -2528,9 +2528,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 
-		BreakTest.initialize();
-		BreakTest.run();
-		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+//		BreakTest.initialize();
+//		BreakTest.run();
+//		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 //		ThreadUtil.milliSleep(2000);
 		
 //		OnlyPlane.run();
