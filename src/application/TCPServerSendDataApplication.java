@@ -389,7 +389,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					    double offsetA=0.0073;
 					    double offsetB=-0.0129;
 					    double offsetC=-1.0498;
-						Frame toolcurFrame=lbr.getCurrentCartesianPosition(tool.getDefaultMotionFrame());
+						Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
 						Frame target = toolcurFrame.copyWithRedundancy();
 						target.setX(target.getX()+offsetX);
 						target.setY(target.getY()+offsetY);
@@ -3216,13 +3216,13 @@ public  class motion implements Callable<String> {
 	
 		//jjj
 		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String> add = executor.submit(new sendRTdata());
+//		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
         Monitor();
 
 		try {
-			System.out.println(add.get());
+//			System.out.println(add.get());
 			System.out.println(say.get());
 			System.out.println(sdd2.get());
 		} catch (InterruptedException e) {
