@@ -3220,8 +3220,8 @@ public  class motion implements Callable<String> {
 //		BreakTest.run();
 
 		double offsetX=100;
-		double offsetY=50;
-		double offsetZ=20;
+		double offsetY=0;
+		double offsetZ=0;
 		double offsetA=0;
 		double offsetB=0;
 		double offsetC=0;
