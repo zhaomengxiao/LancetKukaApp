@@ -121,10 +121,10 @@
             <additionalInformation>
                 <info key="LastModificationTime" type="java.lang.Long" value="1618488191782"/>
             </additionalInformation>
-            <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="P1">
+            <frame id="_6e5581bc-e14b-4225-bab2-4410077a6b51" name="BigCover">
                 <transformation a="-3.103324044695101" b="0.2570871881543072" c="2.6731884895110207" x="-813.984085615656" y="-182.97811449596435" z="-14.629408125653072"/>
                 <additionalInformation>
-                    <info key="LastModificationTime" type="java.lang.Long" value="1618485562191"/>
+                    <info key="LastModificationTime" type="java.lang.Long" value="1627007617713"/>
                     <info base="LBR_Med_14_R820_1" controller="KUKA_Sunrise_Cabinet_1" device="LBR_Med_14_R820_1" tcpName="Tool_2/tcp_2" tool="Tool_2" type="com.kuka.roboticsAPI.deviceModel.TeachInformation">
                         <tcpTransformation a="0.0" b="-0.004953" c="-1.04719755" x="0.63348846" y="125.81561987" z="240.84919751"/>
                     </info>
@@ -154,7 +154,7 @@
                     <transformation a="0.0075" b="-0.013" c="-1.0496" x="-1.29" y="126.35" z="249.48"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="zuo_21002_zhiSet">
-                    <transformation a="0.0073" b="-0.0129" c="-1.0498" x="-1.43" y="168.7" z="273.8"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-1.43" y="168.7" z="273.8"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
@@ -166,7 +166,7 @@
                     <transformation a="-0.0195" b="-0.0337" c="1.0428" x="1.24" y="-157.64" z="309.06"/>
                 </frame>
                 <frame id="_ec2a9c18-1cfb-4871-91f3-df8c6dd09fc8" name="tcp_3">
-                    <transformation a="1.0" b="0.0" c="0.0" x="100.0" y="50.0" z="20.0"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="59.1" z="141.0"/>
                 </frame>
                 <frame id="_371fb737-1163-4b67-b9c0-5389e8a46a43" name="zuo_21002_wanPolish">
                     <transformation a="-0.0195" b="0.0337" c="-1.0428" x="-1.24" y="157.64" z="309.06"/>
