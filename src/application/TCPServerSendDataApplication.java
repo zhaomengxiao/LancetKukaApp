@@ -3226,7 +3226,7 @@ public  class motion implements Callable<String> {
 		double offsetB=0;
 		double offsetC=0;
 		
-		lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+//		lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
 //		Frame target = toolcurFrame.copyWithRedundancy();
 //		target.setX(target.getX()+offsetX);
 //		target.setY(target.getY()+offsetY);
@@ -3261,9 +3261,15 @@ public  class motion implements Callable<String> {
         
        
         Frame Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
+        System.out.println(Fnow);
+        trans = XyzAbcTransformation.ofTranslation(-100, 0,0);
+        aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+                + "(TCP)", trans);
+        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-        
-        
+        Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
         
         System.out.println(Fnow);
 		
