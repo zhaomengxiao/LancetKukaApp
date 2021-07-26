@@ -3216,48 +3216,48 @@ public  class motion implements Callable<String> {
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
-//		double offsetX=100;
-//		double offsetY=50;
-//		double offsetZ=20;
-//		double offsetA=1;
-//		double offsetB=0;
-//		double offsetC=0;
-//		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
-//		Frame target = toolcurFrame.copyWithRedundancy();
-//		target.setX(target.getX()+offsetX);
-//		target.setY(target.getY()+offsetY);
-//		target.setZ(target.getZ()+offsetZ);
-//		target.setAlphaRad(target.getAlphaRad()+offsetA);
-//		target.setBetaRad(target.getBetaRad()+offsetB);
-//		target.setGammaRad(target.getGammaRad()+offsetC);
-//		
-//		LIN linMotion =new LIN(target);
-//		needle.getDefaultMotionFrame().move(linMotion);
+		double offsetX=100;
+		double offsetY=50;
+		double offsetZ=20;
+		double offsetA=1;
+		double offsetB=0;
+		double offsetC=0;
+		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
+		Frame target = toolcurFrame.copyWithRedundancy();
+		target.setX(target.getX()+offsetX);
+		target.setY(target.getY()+offsetY);
+		target.setZ(target.getZ()+offsetZ);
+		target.setAlphaRad(target.getAlphaRad()+offsetA);
+		target.setBetaRad(target.getBetaRad()+offsetB);
+		target.setGammaRad(target.getGammaRad()+offsetC);
+		
+		LIN linMotion =new LIN(target);
+		needle.getDefaultMotionFrame().move(linMotion);
 		
 		
 //		ISafetyState currentState = lbr.getSafetyState();
 	
-//		//jjj
-//		ExecutorService executor = Executors.newCachedThreadPool();
-//		Future<String> add = executor.submit(new sendRTdata());
-//		Future<String> say = executor.submit(new motion());
-//		Future<String> sdd2 = executor.submit(new reciveRTdata());
-////        Monitor();
-//
-//		try {
-//			System.out.println(add.get());
-//			System.out.println(say.get());
-//			System.out.println(sdd2.get());
-//		} catch (InterruptedException e) {
-//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-//			e.printStackTrace();
-//		} catch (ExecutionException e) {
-//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-//			e.printStackTrace();
-//		} 
+		//jjj
+		ExecutorService executor = Executors.newCachedThreadPool();
+		Future<String> add = executor.submit(new sendRTdata());
+		Future<String> say = executor.submit(new motion());
+		Future<String> sdd2 = executor.submit(new reciveRTdata());
+//        Monitor();
+
+		try {
+			System.out.println(add.get());
+			System.out.println(say.get());
+			System.out.println(sdd2.get());
+		} catch (InterruptedException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} 
 
 	}
 	@Override
