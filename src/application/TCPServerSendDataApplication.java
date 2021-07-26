@@ -3239,6 +3239,10 @@ public  class motion implements Callable<String> {
 
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
+        lbr = getContext().getDeviceFromType(LBR.class);
+
+        // Create a Tool by Hand this is the tool we want to move with some mass
+        // properties and a TCP-Z-offset of 100.
         _loadData = new LoadData();
         _loadData.setMass(MASS);
         _loadData.setCenterOfMass(
@@ -3246,18 +3250,22 @@ public  class motion implements Callable<String> {
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
         _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(
+        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-                TRANSLATION_OF_TOOL[2],TRANSLATION_OF_TOOL[3], TRANSLATION_OF_TOOL[4],TRANSLATION_OF_TOOL[5]);
+                TRANSLATION_OF_TOOL[2]);
         ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
                 + "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
-        Frame toolcurFrame1=lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getFrame("/Tool"));
         
-        Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
-        System.out.println(toolcurFrame1);
+       
+        Frame Fnow=lbr.getCurrentCartesianPosition( lbr.getFlange());
+        
+        
+        
+        
+        System.out.println(Fnow);
 		
 //		LIN linMotion =new LIN(target);
 //		needle.getDefaultMotionFrame().move(linMotion);
