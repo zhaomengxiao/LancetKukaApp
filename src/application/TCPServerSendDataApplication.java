@@ -104,6 +104,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Inject
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
+	private Tool _toolAttachedToLBR1;
 	private Controller kuka_Sunrise_Cabinet_1;
     @Inject
     private MytestIOIOGroup io;
@@ -3253,8 +3254,7 @@ public  class motion implements Callable<String> {
         XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
                 TRANSLATION_OF_TOOL[2]);
-        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-                + "(TCP)", trans);
+        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME+ "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
@@ -3262,13 +3262,16 @@ public  class motion implements Callable<String> {
        
         Frame Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
         System.out.println(Fnow);
-        trans = XyzAbcTransformation.ofTranslation(-100, 0,0);
-
-//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-        // Attach tool to the robot
-        _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-        Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
+        
+        _toolAttachedToLBR1 = new Tool("Tool1", _loadData);
+        trans = XyzAbcTransformation.ofTranslation(-100, 0,0);
+        aTransformation = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME+ "(TCP)", trans);
+        _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR1.attachTo(lbr.getFlange());
+        
+        Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR1.getDefaultMotionFrame());
         
         System.out.println(Fnow);
 		
