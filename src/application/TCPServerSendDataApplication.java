@@ -3260,7 +3260,7 @@ public  class motion implements Callable<String> {
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
        
-        Frame Fnow=lbr.getCurrentCartesianPosition( lbr.getFlange());
+        Frame Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
         
         
         
