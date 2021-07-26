@@ -3264,7 +3264,7 @@ public  class motion implements Callable<String> {
         System.out.println(Fnow);
         trans = XyzAbcTransformation.ofTranslation(-100, 0,0);
 
-        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
