@@ -123,7 +123,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
-	 private static final double[] TRANSLATION_OF_TOOL = { -150.7, 0, 227.9 };
+	 private static final double[] TRANSLATION_OF_TOOL = { 100, 0, 0,0,0,0 };
 	 private static final double MASS = 0;
 	 private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
 	 private static final String TOOL_FRAME = "toolFrame";
@@ -272,21 +272,21 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		}
 		
 		
-       lbr = getContext().getDeviceFromType(LBR.class);
-
-     	_loadData = new LoadData();
-        _loadData.setMass(MASS);
-        _loadData.setCenterOfMass(
-                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-                CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool", _loadData);
-
-        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
-        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-                + "(TCP)", trans);
-        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-        // Attach tool to the robot
-        _toolAttachedToLBR.attachTo(lbr.getFlange());
+//       lbr = getContext().getDeviceFromType(LBR.class);
+//
+//     	_loadData = new LoadData();
+//        _loadData.setMass(MASS);
+//        _loadData.setCenterOfMass(
+//                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+//                CENTER_OF_MASS_IN_MILLIMETER[2]);
+//        _toolAttachedToLBR = new Tool("Tool", _loadData);
+//
+//        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
+//        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+//                + "(TCP)", trans);
+//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+//        // Attach tool to the robot
+//        _toolAttachedToLBR.attachTo(lbr.getFlange());
         
 		needle.attachTo(lbr.getFlange());
 		needle_gripper.attachTo(lbr.getFlange());
@@ -3225,17 +3225,42 @@ public  class motion implements Callable<String> {
 		double offsetA=0;
 		double offsetB=0;
 		double offsetC=0;
-		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
-		Frame target = toolcurFrame.copyWithRedundancy();
-		target.setX(target.getX()+offsetX);
-		target.setY(target.getY()+offsetY);
-		target.setZ(target.getZ()+offsetZ);
-		target.setAlphaRad(target.getAlphaRad()+offsetA);
-		target.setBetaRad(target.getBetaRad()+offsetB);
-		target.setGammaRad(target.getGammaRad()+offsetC);
 		
-		LIN linMotion =new LIN(target);
-		needle.getDefaultMotionFrame().move(linMotion);
+		lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+//		Frame target = toolcurFrame.copyWithRedundancy();
+//		target.setX(target.getX()+offsetX);
+//		target.setY(target.getY()+offsetY);
+//		target.setZ(target.getZ()+offsetZ);
+//		target.setAlphaRad(target.getAlphaRad()+offsetA);
+//		target.setBetaRad(target.getBetaRad()+offsetB);
+//		target.setGammaRad(target.getGammaRad()+offsetC);
+		
+        lbr = getContext().getDeviceFromType(LBR.class);
+
+        // Create a Tool by Hand this is the tool we want to move with some mass
+        // properties and a TCP-Z-offset of 100.
+        _loadData = new LoadData();
+        _loadData.setMass(MASS);
+        _loadData.setCenterOfMass(
+                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+                CENTER_OF_MASS_IN_MILLIMETER[2]);
+        _toolAttachedToLBR = new Tool("Tool", _loadData);
+
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(
+                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
+                TRANSLATION_OF_TOOL[2],TRANSLATION_OF_TOOL[3], TRANSLATION_OF_TOOL[4],TRANSLATION_OF_TOOL[5]);
+        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+                + "(TCP)", trans);
+        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR.attachTo(lbr.getFlange());
+        Frame toolcurFrame1=lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getFrame("/Tool"));
+        
+        Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
+        System.out.println(toolcurFrame1);
+		
+//		LIN linMotion =new LIN(target);
+//		needle.getDefaultMotionFrame().move(linMotion);
 		
 		
 //		ISafetyState currentState = lbr.getSafetyState();
