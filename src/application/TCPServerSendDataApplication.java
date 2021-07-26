@@ -3222,7 +3222,7 @@ public  class motion implements Callable<String> {
 		double offsetX=100;
 		double offsetY=50;
 		double offsetZ=20;
-		double offsetA=1;
+		double offsetA=0;
 		double offsetB=0;
 		double offsetC=0;
 		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
