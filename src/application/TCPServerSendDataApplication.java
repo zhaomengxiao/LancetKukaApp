@@ -3263,8 +3263,7 @@ public  class motion implements Callable<String> {
         Frame Fnow=lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
         System.out.println(Fnow);
         trans = XyzAbcTransformation.ofTranslation(-100, 0,0);
-        aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-                + "(TCP)", trans);
+
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
