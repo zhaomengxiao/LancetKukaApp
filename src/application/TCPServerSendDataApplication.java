@@ -3249,11 +3249,10 @@ public  class motion implements Callable<String> {
         _loadData.setCenterOfMass(
                 CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
+        
         _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
-                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-                TRANSLATION_OF_TOOL[2]);
+        XyzAbcTransformation trans = XyzAbcTransformation.ofDeg(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2], 0, 0, 0);
         ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME+ "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
@@ -3282,23 +3281,23 @@ public  class motion implements Callable<String> {
 //		ISafetyState currentState = lbr.getSafetyState();
 	
 		//jjj
-//		ExecutorService executor = Executors.newCachedThreadPool();
-//		Future<String> add = executor.submit(new sendRTdata());
-//		Future<String> say = executor.submit(new motion());
-//		Future<String> sdd2 = executor.submit(new reciveRTdata());
-////        Monitor();
-//
-//		try {
-//			System.out.println(add.get());
-//			System.out.println(say.get());
-//			System.out.println(sdd2.get());
-//		} catch (InterruptedException e) {
-//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-//			e.printStackTrace();
-//		} catch (ExecutionException e) {
-//			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-//			e.printStackTrace();
-//		} 
+		ExecutorService executor = Executors.newCachedThreadPool();
+		Future<String> add = executor.submit(new sendRTdata());
+		Future<String> say = executor.submit(new motion());
+		Future<String> sdd2 = executor.submit(new reciveRTdata());
+//        Monitor();
+
+		try {
+			System.out.println(add.get());
+			System.out.println(say.get());
+			System.out.println(sdd2.get());
+		} catch (InterruptedException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} 
 
 	}
 	@Override
