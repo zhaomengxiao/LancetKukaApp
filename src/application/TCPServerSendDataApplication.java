@@ -124,7 +124,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
-	 private static final double[] TRANSLATION_OF_TOOL = { 100, 0, 0,0,0,0 };
+	 private static final double[] TRANSLATION_OF_TOOL = { -1.29, 126.35, 249.48,0.0075,-0.013,-1.0496 };
 	 private static final double MASS = 0;
 	 private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
 	 private static final String TOOL_FRAME = "toolFrame";
@@ -3252,7 +3252,7 @@ public  class motion implements Callable<String> {
         
         _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofDeg(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2], 0, 0, 0);
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2], TRANSLATION_OF_TOOL[3], TRANSLATION_OF_TOOL[4], TRANSLATION_OF_TOOL[5]);
         ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME+ "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
