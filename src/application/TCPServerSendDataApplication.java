@@ -203,6 +203,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		OnlyPlane.initialize();
 		nWorkingmode=0;
 		nToolMode=1;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
