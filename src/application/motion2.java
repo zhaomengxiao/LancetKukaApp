@@ -359,7 +359,7 @@ public class motion2 extends RoboticsAPIApplication
             double nAix4=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance>105)
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance<105)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();

@@ -2866,6 +2866,9 @@ public  class motion implements Callable<String> {
             		System.out.println("ForPlane");
 //					OnlyPlane.initialize();
 					OnlyPlane.run();
+					System.out.println("ForPlane");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
 					nWorkingmode=0;
             	}
 				else{
