@@ -59,12 +59,13 @@ public class motion2 extends RoboticsAPIApplication
     public double nP=0.5;
     public double nI=0.02;
     public double nD=0;
-    
+    public double nDistance=0;
     
     
     @Override
     public void initialize()
     {
+    	nDistance=0;
         _lbr = getContext().getDeviceFromType(LBR.class);
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
@@ -358,7 +359,7 @@ public class motion2 extends RoboticsAPIApplication
             double nAix4=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false )
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance>105)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -472,7 +473,7 @@ public class motion2 extends RoboticsAPIApplication
                				nForceY=5000;
                			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-
+                         nDistance=DistanceToPlane.getY();
                         cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
 
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
