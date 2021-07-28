@@ -207,6 +207,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Override
 	public void initialize() {
 		OnlyPlane.initialize();
+		OnlyPlane1.initialize();
 		nWorkingmode=0;
 		nToolMode=1;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
