@@ -451,7 +451,14 @@ public class motion2 extends RoboticsAPIApplication
                  {
                		 if (Math.abs(DistanceToPlane.getY())>100)
                		 {
-               			 double nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100);
+               			 double nForceY=0;
+               			 if(DistanceToPlane.getY()<0){
+               				nForceY=50+5*(Math.abs(DistanceToPlane.getY())-10); 
+               			 }
+               			 else{
+               				nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100);
+               			 }
+               			
                			 double nForceZ=300+5*(Math.abs(DistanceToPlane.getY())-100);
                			 if (nForceY>5000)
                			 {
