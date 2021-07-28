@@ -449,46 +449,43 @@ public class motion2 extends RoboticsAPIApplication
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
-               		 if (Math.abs(DistanceToPlane.getY())>100)
-               		 {
+   
                			 double nForceY=0;
                			 if(DistanceToPlane.getY()<0){
-               				nForceY=50+5*(Math.abs(DistanceToPlane.getY())-10); 
+               				 if(Math.abs(DistanceToPlane.getY())<10){
+               					nForceY=50;
+               				 }
+               				 else{
+               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-10); 
+               				 }
                			 }
                			 else{
-               				nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100);
+               				 if(Math.abs(DistanceToPlane.getY())<100){
+               					nForceY=50;
+               				 }
+               				 else{
+               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100); 
+               				 }
                			 }
-               			
-               			 double nForceZ=300+5*(Math.abs(DistanceToPlane.getY())-100);
                			 if (nForceY>5000)
                			 {
                				nForceY=5000;
                			 }
-               			 if (nForceZ>5000)
-               			 {
-               				nForceZ=5000;
-               			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-//                       final double aTransStiffVal = Math.max(100. * (i
-//                               / (double) NUM_RUNS + 1), 1000.);
-//                       final double aRotStiffVal = Math.max(10. * (i
-//                               / (double) NUM_RUNS + 1), 150.);
-                       cartImp.parametrize(CartDOF.Y).setStiffness(
-                      		 nForceY);
-//                       cartImp.parametrize(CartDOF.Z).setStiffness(
-//                        		 nForceZ);
-//               			 System.out.println(nForceY);
+
+                        cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
+
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-               		 }
-               		 else
-               		 {
-               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
-                         cartImp1.parametrize(CartDOF.Y).setStiffness(
-                          		 50);
-//                           cartImp1.parametrize(CartDOF.Z).setStiffness(
-//                            		 300);
-                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
-               		 }
+//               		 }
+//               		 else
+//               		 {
+//               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+//                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+//                          		 50);
+////                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+////                            		 300);
+//                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+//               		 }
                      // We are in CartImp Mode,
                      // Modify the settings:
                      // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
