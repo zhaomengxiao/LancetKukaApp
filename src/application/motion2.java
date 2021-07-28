@@ -328,7 +328,7 @@ public class motion2 extends RoboticsAPIApplication
         cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
         cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
+//        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
         cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         return cartImp;
     }
@@ -468,8 +468,8 @@ public class motion2 extends RoboticsAPIApplication
 //                               / (double) NUM_RUNS + 1), 150.);
                        cartImp.parametrize(CartDOF.Y).setStiffness(
                       		 nForceY);
-                       cartImp.parametrize(CartDOF.Z).setStiffness(
-                        		 nForceZ);
+//                       cartImp.parametrize(CartDOF.Z).setStiffness(
+//                        		 nForceZ);
 //               			 System.out.println(nForceY);
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
                		 }
@@ -478,8 +478,8 @@ public class motion2 extends RoboticsAPIApplication
                			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
                          cartImp1.parametrize(CartDOF.Y).setStiffness(
                           		 50);
-                           cartImp1.parametrize(CartDOF.Z).setStiffness(
-                            		 300);
+//                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+//                            		 300);
                            theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
                		 }
                      // We are in CartImp Mode,
