@@ -449,10 +449,10 @@ public class motion2 extends RoboticsAPIApplication
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
-               		 if (Distance>100)
+               		 if (Math.abs(DistanceToPlane.getY())>100)
                		 {
-               			 double nForceY=50+5*(Distance-100);
-               			 double nForceZ=300+5*(Distance-100);
+               			 double nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100);
+               			 double nForceZ=300+5*(Math.abs(DistanceToPlane.getY())-100);
                			 if (nForceY>5000)
                			 {
                				nForceY=5000;
