@@ -434,7 +434,7 @@ public class motion2 extends RoboticsAPIApplication
       		
        		
        		if (i1 % 200 == 0){
-           		System.out.println("DistanceToPlane:"+DistanceToPlane.getX());
+           		System.out.println("DistanceToPlaneX:"+DistanceToPlane.getX()+"DistanceToPlaneY:"+DistanceToPlane.getY()+"DistanceToPlaneZ:"+DistanceToPlane.getZ());
            		System.out.println("initialPosition1:"+initialPosition);
            		
        		}
