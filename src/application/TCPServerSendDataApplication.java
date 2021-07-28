@@ -104,6 +104,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private motion_Y_Positive OnlyPlane;
 	
 	@Inject
+	private motion_Y_Negtive OnlyPlane1;
+	
+	@Inject
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
 	private Controller kuka_Sunrise_Cabinet_1;
@@ -2865,7 +2868,8 @@ public  class motion implements Callable<String> {
 				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
             		System.out.println("ForPlane");
 //					OnlyPlane.initialize();
-					OnlyPlane.run();
+            		OnlyPlane1.run();
+//					ff
 					System.out.println("ForPlane");
 			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
