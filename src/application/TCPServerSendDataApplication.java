@@ -101,7 +101,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private HandGuidingMotion motion;
 
 	@Inject
-	private motion2 OnlyPlane;
+	private motion_Y_Positive OnlyPlane;
 	
 	@Inject
 	private  LBR lbr;
@@ -2876,7 +2876,22 @@ public  class motion implements Callable<String> {
 				}
 				
 			}
-			
+			else if(nWorkingmode==9){
+				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+            		System.out.println("ForPlane");
+//					OnlyPlane.initialize();
+					OnlyPlane.run();
+					System.out.println("ForPlane");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					nWorkingmode=0;
+            	}
+				else{
+				
+				}
+				
+			}
 			else{
 				
 //				
