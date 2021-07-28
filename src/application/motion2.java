@@ -506,7 +506,7 @@ public class motion2 extends RoboticsAPIApplication
              }
              aStep.end();
             }
-
+    	 nDistance=0;
  
         }
         catch (Exception e)
