@@ -429,7 +429,7 @@ public class motion2 extends RoboticsAPIApplication
        	    nPrevious_error=DistanceToPlane.getX();
        	    
        	    
-      		initialPosition.setX(initialPosition1.getX()-nOutput);
+//      		initialPosition.setX(initialPosition1.getX()-nOutput);
       		
       		
        		

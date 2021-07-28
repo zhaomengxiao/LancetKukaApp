@@ -190,7 +190,7 @@
                     <transformation a="-0.0049" b="-0.0086" c="1.0463" x="-0.63" y="-125.82" z="250.35"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="-44.5" cogZ="84.88" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.2"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="-44.5" cogZ="84.88" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.5"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
