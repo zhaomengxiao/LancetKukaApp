@@ -327,7 +327,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
         cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
+//        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
 //        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
         cartImp.parametrize(CartDOF.Y).setStiffness(50.0);

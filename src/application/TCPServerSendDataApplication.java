@@ -107,6 +107,18 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private motion_Y_Negtive OnlyPlane1;
 	
 	@Inject
+	private motion_X_Positive OnlyPlane2;
+	
+	@Inject
+	private motion_X_Negtive OnlyPlane3;
+	
+	@Inject
+	private motion_Z_Positive OnlyPlane4;
+	
+	@Inject
+	private motion_Z_Negtive OnlyPlane5;
+	
+	@Inject
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
 	private Controller kuka_Sunrise_Cabinet_1;
@@ -208,6 +220,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public void initialize() {
 		OnlyPlane.initialize();
 		OnlyPlane1.initialize();
+		OnlyPlane2.initialize();
+		OnlyPlane3.initialize();
+		OnlyPlane4.initialize();
+		OnlyPlane5.initialize();
 		nWorkingmode=0;
 		nToolMode=1;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
@@ -2867,11 +2883,10 @@ public  class motion implements Callable<String> {
 			else if(nWorkingmode==8){
 				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
 				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlane");
+            		System.out.println("ForPlaneY_Positive");
 //					OnlyPlane.initialize();
-            		OnlyPlane1.run();
-//					ff
-					System.out.println("ForPlane");
+            		OnlyPlane.run();
+					System.out.println("ForPlaneY_Positive_End");
 			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
 					nWorkingmode=0;
@@ -2884,10 +2899,74 @@ public  class motion implements Callable<String> {
 			else if(nWorkingmode==9){
 				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
 				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlane");
+            		System.out.println("ForPlaneY_Negtive");
 //					OnlyPlane.initialize();
-					OnlyPlane.run();
-					System.out.println("ForPlane");
+					OnlyPlane1.run();
+					System.out.println("ForPlaneY_Negtive_End");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					nWorkingmode=0;
+            	}
+				else{
+				
+				}
+				
+			}
+			else if(nWorkingmode==10){
+				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+            		System.out.println("ForPlaneX_Positive");
+//					OnlyPlane.initialize();
+					OnlyPlane2.run();
+					System.out.println("ForPlaneX_Positive_End");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					nWorkingmode=0;
+            	}
+				else{
+				
+				}
+				
+			}
+			else if(nWorkingmode==11){
+				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+            		System.out.println("ForPlaneX_Negtive");
+//					OnlyPlane.initialize();
+					OnlyPlane3.run();
+					System.out.println("ForPlaneX_Negtive_End");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					nWorkingmode=0;
+            	}
+				else{
+				
+				}
+				
+			}
+			else if(nWorkingmode==12){
+				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+            		System.out.println("ForPlaneZ_Positove");
+//					OnlyPlane.initialize();
+					OnlyPlane4.run();
+					System.out.println("ForPlaneZ_Positive_End");
+			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+					nWorkingmode=0;
+            	}
+				else{
+				
+				}
+				
+			}
+			else if(nWorkingmode==13){
+				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+            		System.out.println("ForPlaneZ_Negtive");
+//					OnlyPlane.initialize();
+					OnlyPlane5.run();
+					System.out.println("ForPlaneZ_Negtive_End");
 			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
 					nWorkingmode=0;

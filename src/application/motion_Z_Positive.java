@@ -32,7 +32,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
-public class motion_Y_Negtive extends RoboticsAPIApplication
+public class motion_Z_Positive extends RoboticsAPIApplication
 {
 	@Inject
 	private TCPServerSendDataApplication _vi;
@@ -74,7 +74,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
         _loadData.setCenterOfMass(
                 CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool_ForPlane1", _loadData);
+        _toolAttachedToLBR = new Tool("Tool_ForPlane", _loadData);
 
         XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
@@ -113,7 +113,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
              catch (Exception e)
              {
              	ThreadUtil.milliSleep(500);
-             	 System.out.println("try to restart");
+   
              }
         }
     }
@@ -121,7 +121,129 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
     @Override
     public void run()
     {
-         getLogger().info("Move to start position.");
+    	
+//    	//ForTest
+//    	////////////////////////////////////////////
+//    	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+//                 .getFlange());
+//    	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
+//                 .getFlange());
+//    	 System.out.println("initialPosition"+initialPosition);
+//    	 
+////    	 
+//// 		Frame Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());		
+//// 		Frame Ptest2 = Ptest1.transform((Transformation.ofTranslation(0, 200, 0)));
+//// 		System.out.println("Ptest21"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//// 		System.out.println("Ptest22"+" X:"+Ptest2.getX()+" b:"+Ptest2.getY()+" c:"+Ptest2.getZ()); 
+//// 		
+////// 		Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());	
+////// 		 Ptest2 = Ptest1.transform((Transformation.ofDeg(0, 0, 0, 0, 10, 0)));
+////// 		System.out.println("Ptest23"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//// 	
+//// 		Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());	
+////		 Ptest2 = Ptest1.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+////		System.out.println("Ptest24"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//
+//		
+//
+////    	 while(true)
+////    	 {
+//    		 Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 
+//////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, -(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))*5.72957795130, 0)));
+//////    		 System.out.println("err1: "+(-(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad())))+"Ptest2"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, (Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))*5.72957795130, 0)));
+//////    		 System.out.println("err2: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+//////    		 System.out.println("err3: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, -5.72957795130, 0)));
+//////    		 System.out.println("err4: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+////    		 
+////    		 initialPosition.setX(initialPosition1.getX());
+////    		 initialPosition.setY(initialPosition1.getY());
+////    		 initialPosition.setZ(initialPosition1.getZ());
+////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+//////    		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+////    		 System.out.println("1"+initialPosition.getX());
+////    		 System.out.println("2"+destFrame.getX());
+////    		 
+//////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(destFrame.getX()-initialPosition.getX(), 0, destFrame.getY()-initialPosition.getY(), 0, 0, 0)));
+////    		 Frame cmdPos = initialPosition.transform(Transformation.ofTranslation(-20,31.63,-13.09));
+////    		 System.out.println("err1: "+" x:"+Ptest2.getX()+" y:"+Ptest2.getY()+" z:"+Ptest2.getZ());
+////    		 
+////    		 
+//    		 initialPosition.setX(initialPosition1.getX());
+//    		 initialPosition.setY(initialPosition1.getY());
+//    		 initialPosition.setZ(initialPosition1.getZ());
+//    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+////    		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+////    		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+////    		 System.out.println("1"+initialPosition.getX());
+////    		 System.out.println("2"+destFrame.getX());
+//    		 
+////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(destFrame.getX()-initialPosition.getX(), 0, destFrame.getY()-initialPosition.getY(), 0, 0, 0)));
+//    	     Frame Ptest2 = initialPosition.transform(Transformation.ofTranslation(-40,0,0));
+//    	     
+//    		 System.out.println("err2: "+" x:"+Ptest2.getX()+" y:"+Ptest2.getY()+" z:"+Ptest2.getZ());
+//    		 
+//    		 
+////    		 System.out.println(Math.toDegrees(Math.toRadians(1)));
+////    		 Frame Ptest3 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+////    		 System.out.println("err2: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//    		 ThreadUtil.milliSleep(1000);
+//    		 
+//				Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//				cmdPos2.setX(-659.13);
+//				cmdPos2.setY(48.82);
+//				cmdPos2.setZ(631.26);
+//				cmdPos2.setAlphaRad(0);
+//				cmdPos2.setBetaRad(Math.toRadians(0));
+//				cmdPos2.setGammaRad(0);
+//			    Frame cmdPos=_lbr.getCurrentCartesianPosition(_lbr.getFlange(), cmdPos2);
+//				 System.out.println("err2: "+" x:"+cmdPos.getX()+" y:"+cmdPos.getY()+" z:"+cmdPos.getZ());
+				
+//    	 }
+    	///////////////////////////////////////////
+    	
+//    	while (true)
+//    	{
+    		
+    	
+    	
+        getLogger().info("Move to start position.");
         moveToInitialPosition();
 
         // Initialize Cartesian impedance control mode
@@ -130,6 +252,20 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
         getLogger()
                 .info("Sample Application - SmartServoLIN motion in cartesian impedance control mode");
         runSmartServoLINMotion(cartImp);
+//        ThreadUtil.milliSleep(2000);
+        
+//    	}
+        
+        
+//        // Return to initial position
+//        moveToInitialPosition();
+//
+//        // Initialize position control mode
+//        final PositionControlMode positionCtrlMode = new PositionControlMode();
+//
+//        getLogger()
+//                .info("Sample Application -  SmartServoLIN motion in position control mode");
+//        runSmartServoLINMotion(positionCtrlMode);
     }
 
     /**
@@ -194,7 +330,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
 //        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
 //        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
+        cartImp.parametrize(CartDOF.Z).setStiffness(50.0);
         return cartImp;
     }
 
@@ -223,7 +359,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
             double nAix4=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance>-105)
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance<105)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -260,9 +396,26 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
        		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
        		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
        		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
-
+//       		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+//       		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+                
+                
+                // Set new destination
        		double Distance=Math.sqrt( (initialPosition.getX()-destFrame.getX())*(initialPosition.getX()-destFrame.getX())+(initialPosition.getY()-destFrame.getY())*(initialPosition.getY()-destFrame.getY())+(initialPosition.getZ()-destFrame.getZ())*(initialPosition.getZ()-destFrame.getZ()));
-
+//       		System.out.println("Distance"+Distance);
+//       		System.out.println(initialPosition);
+//       		System.out.println(destFrame);
+       		
+//       		ThreadUtil.milliSleep(100);
+//       		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.729577951308232*(Math.toDegrees(destFrame.getBetaRad())-Math.toDegrees(initialPosition.getBetaRad())), 0)));
+//       		 System.out.println("err1: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+      
+             
+//             ThreadUtil.milliSleep(1000);
+//             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
+//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+             // Modify the stiffness settings every now and then
        		i1++;
        		
        		
@@ -277,6 +430,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
        	    nPrevious_error=DistanceToPlane.getX();
        	    
        	    
+//      		initialPosition.setX(initialPosition1.getX()-nOutput);
       		
       		
        		
@@ -297,32 +451,52 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
    
-               			 double nForceY=0;
-               			 if(DistanceToPlane.getY()>0){
-               				 if(Math.abs(DistanceToPlane.getY())<10){
-               					nForceY=50;
+               			 double nForceZ=0;
+               			 if(DistanceToPlane.getZ()<0){
+               				 if(Math.abs(DistanceToPlane.getZ())<10){
+               					nForceZ=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-10); 
+               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-10); 
                				 }
                			 }
                			 else{
-               				 if(Math.abs(DistanceToPlane.getY())<100){
-               					nForceY=50;
+               				 if(Math.abs(DistanceToPlane.getZ())<100){
+               					nForceZ=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-100); 
+               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-100); 
                				 }
                			 }
-               			 if (nForceY>5000)
+               			 if (nForceZ>5000)
                			 {
-               				nForceY=5000;
+               				nForceZ=5000;
                			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                         nDistance=DistanceToPlane.getY();
-                        cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
+                         nDistance=DistanceToPlane.getZ();
+                        cartImp.parametrize(CartDOF.Z).setStiffness(nForceZ);
 
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+//               		 }
+//               		 else
+//               		 {
+//               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+//                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+//                          		 50);
+////                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+////                            		 300);
+//                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+//               		 }
+                     // We are in CartImp Mode,
+                     // Modify the settings:
+                     // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
+                     // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
+                     // WILL DESTABILIZE THE CONTROLLER
+
+//                     cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+
+                     // Send the new Stiffness settings down to the
+                     // controller
                      
                  }
              }
@@ -333,8 +507,8 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
              aStep.end();
             }
     	 nDistance=0;
-//	    	Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-//	    	 _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
+//	    Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//	    _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
         }
         catch (Exception e)
         {
@@ -353,7 +527,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
     public static void main()
     {
     	
-        final motion_Y_Negtive app = new motion_Y_Negtive();
+        final motion_Z_Positive app = new motion_Z_Positive();
         app.runApplication();
     }
 }

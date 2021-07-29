@@ -32,7 +32,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
-public class motion_Y_Negtive extends RoboticsAPIApplication
+public class motion_X_Negtive extends RoboticsAPIApplication
 {
 	@Inject
 	private TCPServerSendDataApplication _vi;
@@ -194,7 +194,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
 //        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
 //        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
+        cartImp.parametrize(CartDOF.X).setStiffness(50.0);
         return cartImp;
     }
 
@@ -297,30 +297,30 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
    
-               			 double nForceY=0;
-               			 if(DistanceToPlane.getY()>0){
-               				 if(Math.abs(DistanceToPlane.getY())<10){
-               					nForceY=50;
+               			 double nForceX=0;
+               			 if(DistanceToPlane.getX()>0){
+               				 if(Math.abs(DistanceToPlane.getX())<10){
+               					nForceX=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-10); 
+               					nForceX=50+20*(Math.abs(DistanceToPlane.getX())-10); 
                				 }
                			 }
                			 else{
-               				 if(Math.abs(DistanceToPlane.getY())<100){
-               					nForceY=50;
+               				 if(Math.abs(DistanceToPlane.getX())<100){
+               					nForceX=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-100); 
+               					nForceX=50+20*(Math.abs(DistanceToPlane.getX())-100); 
                				 }
                			 }
-               			 if (nForceY>5000)
+               			 if (nForceX>5000)
                			 {
-               				nForceY=5000;
+               				nForceX=5000;
                			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                         nDistance=DistanceToPlane.getY();
-                        cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
+                         nDistance=DistanceToPlane.getX();
+                        cartImp.parametrize(CartDOF.X).setStiffness(nForceX);
 
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
                      
@@ -353,7 +353,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
     public static void main()
     {
     	
-        final motion_Y_Negtive app = new motion_Y_Negtive();
+        final motion_X_Negtive app = new motion_X_Negtive();
         app.runApplication();
     }
 }
