@@ -457,7 +457,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-10); 
+               					nForceY=50+100*(Math.abs(DistanceToPlane.getY())-10); 
                				 }
                			 }
                			 else{
@@ -465,7 +465,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100); 
+               					nForceY=50+100*(Math.abs(DistanceToPlane.getY())-100); 
                				 }
                			 }
                			 if (nForceY>5000)
@@ -507,7 +507,8 @@ public class motion_Y_Positive extends RoboticsAPIApplication
              aStep.end();
             }
     	 nDistance=0;
- 
+	    Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+	    _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
         }
         catch (Exception e)
         {
