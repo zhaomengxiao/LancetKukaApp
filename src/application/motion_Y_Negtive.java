@@ -299,19 +299,19 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
    
                			 double nForceY=0;
                			 if(DistanceToPlane.getY()>0){
-               				 if(Math.abs(DistanceToPlane.getY())<10){
+               				 if(Math.abs(DistanceToPlane.getY())<5){
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-10); 
+               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-5); 
                				 }
                			 }
                			 else{
-               				 if(Math.abs(DistanceToPlane.getY())<100){
+               				 if(Math.abs(DistanceToPlane.getY())<90){
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-100); 
+               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-90); 
                				 }
                			 }
                			 if (nForceY>5000)

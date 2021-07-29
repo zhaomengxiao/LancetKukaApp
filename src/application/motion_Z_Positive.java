@@ -453,19 +453,19 @@ public class motion_Z_Positive extends RoboticsAPIApplication
    
                			 double nForceZ=0;
                			 if(DistanceToPlane.getZ()<0){
-               				 if(Math.abs(DistanceToPlane.getZ())<10){
+               				 if(Math.abs(DistanceToPlane.getZ())<5){
                					nForceZ=50;
                				 }
                				 else{
-               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-10); 
+               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-5); 
                				 }
                			 }
                			 else{
-               				 if(Math.abs(DistanceToPlane.getZ())<100){
+               				 if(Math.abs(DistanceToPlane.getZ())<90){
                					nForceZ=50;
                				 }
                				 else{
-               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-100); 
+               					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-90); 
                				 }
                			 }
                			 if (nForceZ>5000)
