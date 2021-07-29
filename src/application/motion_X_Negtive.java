@@ -281,8 +281,8 @@ public class motion_X_Negtive extends RoboticsAPIApplication
       		
        		
        		if (i1 % 200 == 0){
-           		System.out.println("DistanceToPlaneX:"+DistanceToPlane.getX()+"DistanceToPlaneY:"+DistanceToPlane.getY()+"DistanceToPlaneZ:"+DistanceToPlane.getZ());
-           		System.out.println("initialPosition1:"+initialPosition);
+//           		System.out.println("DistanceToPlaneX:"+DistanceToPlane.getX()+"DistanceToPlaneY:"+DistanceToPlane.getY()+"DistanceToPlaneZ:"+DistanceToPlane.getZ());
+//           		System.out.println("initialPosition1:"+initialPosition);
            		
        		}
        		
@@ -291,7 +291,7 @@ public class motion_X_Negtive extends RoboticsAPIApplication
        		}
        		
        		
-             if (i1 % 2 == 0)
+             if (true)
              {
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
