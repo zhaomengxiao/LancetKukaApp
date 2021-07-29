@@ -457,7 +457,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+100*(Math.abs(DistanceToPlane.getY())-10); 
+               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-10); 
                				 }
                			 }
                			 else{
@@ -465,7 +465,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                					nForceY=50;
                				 }
                				 else{
-               					nForceY=50+100*(Math.abs(DistanceToPlane.getY())-100); 
+               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-100); 
                				 }
                			 }
                			 if (nForceY>5000)
