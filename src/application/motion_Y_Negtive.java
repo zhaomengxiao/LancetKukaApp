@@ -113,7 +113,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
              catch (Exception e)
              {
              	ThreadUtil.milliSleep(500);
-   
+             	 System.out.println("try to restart");
              }
         }
     }
