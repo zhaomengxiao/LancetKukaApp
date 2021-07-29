@@ -74,7 +74,7 @@ public class motion_Z_Negtive extends RoboticsAPIApplication
         _loadData.setCenterOfMass(
                 CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool_ForPlane1", _loadData);
+        _toolAttachedToLBR = new Tool("Tool_ForPlane5", _loadData);
 
         XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
