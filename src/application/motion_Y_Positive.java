@@ -507,8 +507,8 @@ public class motion_Y_Positive extends RoboticsAPIApplication
              aStep.end();
             }
     	 nDistance=0;
-	    Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-	    _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
+//	    Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//	    _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
         }
         catch (Exception e)
         {
