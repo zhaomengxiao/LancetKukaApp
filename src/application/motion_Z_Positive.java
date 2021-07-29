@@ -298,7 +298,7 @@ public class motion_Z_Positive extends RoboticsAPIApplication
         getLogger().info("Do sine movement");
         timing = startSineMovement(_theSmartServoLINRuntime, timing, controlMode);
 
-        ThreadUtil.milliSleep(500);
+//        ThreadUtil.milliSleep(500);
 
         // Print statistic timing
         getLogger().info(
