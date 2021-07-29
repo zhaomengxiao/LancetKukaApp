@@ -3261,8 +3261,8 @@ public  class motion implements Callable<String> {
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 //		double offsetX=100;
 //		double offsetY=50;
