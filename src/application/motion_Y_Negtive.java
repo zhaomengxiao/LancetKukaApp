@@ -242,7 +242,7 @@ public class motion_Y_Negtive extends RoboticsAPIApplication
                 // e.g Visual Servoing or the like
                 // Synchronize with the realtime system
 
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
