@@ -341,8 +341,8 @@ public class motion2 extends RoboticsAPIApplication
             StatisticTimer timing, IMotionControlMode mode)
     {
         Frame aFrame = theSmartServoLINRuntime
-                .getCurrentCartesianDestination(_lbr.getFlange());
-
+                .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+        System.out.println(aFrame);
         try
         {
             getLogger().info("Start SmartServoLIN sine movement");
