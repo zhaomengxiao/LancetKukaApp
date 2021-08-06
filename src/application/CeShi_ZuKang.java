@@ -11,6 +11,8 @@ import com.kuka.connectivity.motionModel.smartServo.ServoMotion;
 import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
+import com.kuka.roboticsAPI.deviceModel.JointEnum;
+import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
 import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
@@ -28,7 +30,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
-public class SmartServoLINInteractionControl extends RoboticsAPIApplication
+public class CeShi_ZuKang extends RoboticsAPIApplication
 {
 
     private LBR _lbr;
@@ -38,7 +40,7 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
 
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 237 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
@@ -78,17 +80,30 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
      */
     public void moveToInitialPosition()
     {
-        _lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
-                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
+    	JointPosition jReady =_lbr.getCurrentJointPosition();
+        _lbr.move(ptp(jReady.get(JointEnum.J1), jReady.get(JointEnum.J2), jReady.get(JointEnum.J3), jReady.get(JointEnum.J4), jReady.get(JointEnum.J5),
+        		jReady.get(JointEnum.J6), jReady.get(JointEnum.J7)).setJointVelocityRel(0.1));
+        System.out.println("getCurrentJointPosition");
         /* Note: The Validation itself justifies, that in this very time instance, the load parameter setting was
          * sufficient. This does not mean by far, that the parameter setting is valid in the sequel or lifetime of this
          * program */
-        if (!ServoMotion.validateForImpedanceMode(_lbr))
-        {
-            getLogger()
-                    .info("Validation of torque model failed - correct your mass property settings");
-            getLogger()
-                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+        boolean bReady=false;
+        while (bReady==false){
+        	 try{
+                 if (!ServoMotion.validateForImpedanceMode(_lbr))
+                 {
+                     getLogger()
+                             .info("Validation of torque model failed - correct your mass property settings");
+                     getLogger()
+                             .info("Servo motion will be available for position controlled mode only, until validation is performed");
+                 }
+                 bReady=true;
+             }
+             catch (Exception e)
+             {
+             	ThreadUtil.milliSleep(500);
+   
+             }
         }
     }
 
@@ -126,8 +141,10 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
 
     protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
     {
-        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
-                .getFlange());
+//        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+//                .getFlange());
+        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+        
 
         // Create a new smart servo linear motion
         SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
@@ -174,7 +191,9 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
     private CartesianImpedanceControlMode createCartImp()
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-        cartImp.parametrize(CartDOF.Z).setStiffness(800.0);
+//        cartImp.parametrize(CartDOF.ALL).setStiffness(800.0);
+        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
         return cartImp;
     }
 
@@ -182,8 +201,9 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
             ISmartServoLINRuntime theSmartServoLINRuntime,
             StatisticTimer timing, IMotionControlMode mode)
     {
-        Frame aFrame = theSmartServoLINRuntime
-                .getCurrentCartesianDestination(_lbr.getFlange());
+//        Frame aFrame = theSmartServoLINRuntime
+//                .getCurrentCartesianDestination(_lbr.getFlange());
+        Frame aFrame = theSmartServoLINRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
 
         try
         {
@@ -192,7 +212,7 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
             long startTimeStamp = System.nanoTime();
             int i;
 
-            for (i = 0; i < NUM_RUNS; ++i)
+            for (; ; )
             {
                 final OneTimeStep aStep = timing.newTimeStep();
                 // ///////////////////////////////////////////////////////
@@ -200,7 +220,7 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
                 // e.g Visual Servoing or the like
                 // Synchronize with the realtime system
 
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
@@ -210,37 +230,38 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
 
                 // Compute the sine function
                 Frame destFrame = new Frame(aFrame);
-                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+//                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
 
                 // Set new destination
                 theSmartServoLINRuntime.setDestination(destFrame);
                 aStep.end();
             }
 
-            // Modify the stiffness settings every now and then
-            if (i % (NUM_RUNS / 10) == 0)
-            {
-                if (mode instanceof CartesianImpedanceControlMode)
-                {
-                    // We are in CartImp Mode,
-                    // Modify the settings:
-                    // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
-                    // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
-                    // WILL DESTABILIZE THE CONTROLLER
-                    final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                    final double aTransStiffVal = Math.max(100. * (i
-                            / (double) NUM_RUNS + 1), 1000.);
-                    final double aRotStiffVal = Math.max(10. * (i
-                            / (double) NUM_RUNS + 1), 150.);
-                    cartImp.parametrize(CartDOF.TRANSL).setStiffness(
-                            aTransStiffVal);
-                    cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
-
-                    // Send the new Stiffness settings down to the
-                    // controller
-                    theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-                }
-            }
+//            // Modify the stiffness settings every now and then
+//            if (i % (NUM_RUNS / 10) == 0)
+//            {
+//                if (mode instanceof CartesianImpedanceControlMode)
+//                {
+//                    // We are in CartImp Mode,
+//                    // Modify the settings:
+//                    // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
+//                    // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
+//                    // WILL DESTABILIZE THE CONTROLLER
+//                    final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+//                    final double aTransStiffVal = Math.max(100. * (i
+//                            / (double) NUM_RUNS + 1), 1000.);
+//                    final double aRotStiffVal = Math.max(10. * (i
+//                            / (double) NUM_RUNS + 1), 150.);
+//                    cartImp.parametrize(CartDOF.TRANSL).setStiffness(
+//                            aTransStiffVal);
+//                    cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+//
+//                    // Send the new Stiffness settings down to the
+//                    // controller
+//                    theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+//                }
+//            }
+            
         }
         catch (Exception e)
         {
@@ -258,7 +279,7 @@ public class SmartServoLINInteractionControl extends RoboticsAPIApplication
      */
     public static void main(final String[] args)
     {
-        final SmartServoLINInteractionControl app = new SmartServoLINInteractionControl();
+        final CeShi_ZuKang app = new CeShi_ZuKang();
         app.runApplication();
     }
 }
