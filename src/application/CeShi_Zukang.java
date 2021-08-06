@@ -11,6 +11,8 @@ import com.kuka.connectivity.motionModel.smartServo.ServoMotion;
 import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
+import com.kuka.roboticsAPI.deviceModel.JointEnum;
+import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
 import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
@@ -78,17 +80,30 @@ public class CeShi_Zukang extends RoboticsAPIApplication
      */
     public void moveToInitialPosition()
     {
-        _lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
-                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
+    	JointPosition jReady =_lbr.getCurrentJointPosition();
+        _lbr.move(ptp(jReady.get(JointEnum.J1), jReady.get(JointEnum.J2), jReady.get(JointEnum.J3), jReady.get(JointEnum.J4), jReady.get(JointEnum.J5),
+        		jReady.get(JointEnum.J6), jReady.get(JointEnum.J7)).setJointVelocityRel(0.1));
+        System.out.println("getCurrentJointPosition");
         /* Note: The Validation itself justifies, that in this very time instance, the load parameter setting was
          * sufficient. This does not mean by far, that the parameter setting is valid in the sequel or lifetime of this
          * program */
-        if (!ServoMotion.validateForImpedanceMode(_lbr))
-        {
-            getLogger()
-                    .info("Validation of torque model failed - correct your mass property settings");
-            getLogger()
-                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+        boolean bReady=false;
+        while (bReady==false){
+        	 try{
+                 if (!ServoMotion.validateForImpedanceMode(_lbr))
+                 {
+                     getLogger()
+                             .info("Validation of torque model failed - correct your mass property settings");
+                     getLogger()
+                             .info("Servo motion will be available for position controlled mode only, until validation is performed");
+                 }
+                 bReady=true;
+             }
+             catch (Exception e)
+             {
+             	ThreadUtil.milliSleep(500);
+   
+             }
         }
     }
 
