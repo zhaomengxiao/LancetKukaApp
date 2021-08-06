@@ -208,12 +208,14 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
         try
         {
             getLogger().info("Start SmartServoLIN sine movement");
+            System.out.println("1");
             double omega = FREQENCY * 2 * Math.PI * 1e-9;
             long startTimeStamp = System.nanoTime();
             int i;
 
             for (; ; )
             {
+            	 System.out.println("2");
                 final OneTimeStep aStep = timing.newTimeStep();
                 // ///////////////////////////////////////////////////////
                 // Insert your code here
@@ -224,10 +226,10 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
 
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
-
+                System.out.println("3");
                 double curTime = System.nanoTime() - startTimeStamp;
                 double sinArgument = omega * curTime;
-
+                System.out.println("4");
                 // Compute the sine function
                 Frame destFrame = new Frame(aFrame);
 //                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
