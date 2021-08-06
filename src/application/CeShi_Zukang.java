@@ -189,7 +189,8 @@ public class CeShi_Zukang extends RoboticsAPIApplication
     private CartesianImpedanceControlMode createCartImp()
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-        cartImp.parametrize(CartDOF.Z).setStiffness(800.0);
+        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
         return cartImp;
     }
 
