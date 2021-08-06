@@ -370,9 +370,9 @@ public class motion2 extends RoboticsAPIApplication
             System.out.println("cmdPosTest.getZ:"+cmdPosTest.getZ());
             
             Frame destFrame1= new Frame(aFrame);
-            destFrame1.setX(-891);
-            destFrame1.setY(534);
-            destFrame1.setZ(378);
+            destFrame1.setX(-757);
+            destFrame1.setY(618);
+            destFrame1.setZ(474);
     	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
             {
 //    		 System.out.println(i1);
