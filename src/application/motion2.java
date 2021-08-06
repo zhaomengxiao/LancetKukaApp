@@ -351,7 +351,8 @@ public class motion2 extends RoboticsAPIApplication
             int i;
           	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
                      .getFlange());
-       	 Frame destFrame2 = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+//       	 Frame destFrame2 = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+    	 Frame destFrame2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
     	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
                  .getFlange());
        	 Frame initialPosition2 = _lbr.getCurrentCartesianPosition(_lbr
