@@ -1258,7 +1258,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		    protected CartesianImpedanceControlMode HardLimit()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		        cartImp.parametrize(CartDOF.X).setStiffness(50.0);
+		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
