@@ -44,7 +44,7 @@ public class motion2 extends RoboticsAPIApplication
     public int s=1;
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 208 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 0 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
@@ -370,9 +370,9 @@ public class motion2 extends RoboticsAPIApplication
             System.out.println("cmdPosTest.getZ:"+cmdPosTest.getZ());
             
             Frame destFrame1= new Frame(aFrame);
-            destFrame1.setX(-757);
-            destFrame1.setY(618);
-            destFrame1.setZ(474);
+            destFrame1.setX(-648);
+            destFrame1.setY(684);
+            destFrame1.setZ(433);
     	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
             {
 //    		 System.out.println(i1);
@@ -458,7 +458,7 @@ public class motion2 extends RoboticsAPIApplication
        		if (true){
        	      // Compute the sine function
 
-       			theSmartServoLINRuntime.setDestination(destFrame1);
+       			((ISmartServoLINRuntime) destFrame1).setDestination(destFrame1);
        		}
        		
        		
