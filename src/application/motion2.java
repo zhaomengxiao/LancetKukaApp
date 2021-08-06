@@ -372,7 +372,7 @@ public class motion2 extends RoboticsAPIApplication
 //            destFrame1.setX(-648);
 //            destFrame1.setY(684);
 //            destFrame1.setZ(433);
-            destFrame1.setX(0);
+            destFrame1.setX(10);
             destFrame1.setY(0);
             destFrame1.setZ(0);
 //    	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
@@ -432,7 +432,7 @@ public class motion2 extends RoboticsAPIApplication
 ////             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
 ////             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
 //             // Modify the stiffness settings every now and then
-//       		i1++;
+       		i1++;
 //       		
 //       		
 //       		Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
