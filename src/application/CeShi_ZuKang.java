@@ -223,7 +223,7 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
                 // Synchronize with the realtime system
 
 //                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
+                System.out.println("2.5");
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
                 System.out.println("3");
