@@ -44,7 +44,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
     private static final double MASS = 2.2;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
-    private static final int NUM_RUNS = 600;
+    private static final int NUM_RUNS = 60000;
     private static final double AMPLITUDE = 70;
     private static final double FREQENCY = 0.6;
 
