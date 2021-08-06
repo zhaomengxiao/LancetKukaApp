@@ -141,9 +141,9 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
 
     protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
     {
-//        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
-//                .getFlange());
-        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+                .getFlange());
+//        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
         
 
         // Create a new smart servo linear motion
@@ -201,9 +201,9 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
             ISmartServoLINRuntime theSmartServoLINRuntime,
             StatisticTimer timing, IMotionControlMode mode)
     {
-//        Frame aFrame = theSmartServoLINRuntime
-//                .getCurrentCartesianDestination(_lbr.getFlange());
-        Frame aFrame = theSmartServoLINRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+        Frame aFrame = theSmartServoLINRuntime
+                .getCurrentCartesianDestination(_lbr.getFlange());
+//        Frame aFrame = theSmartServoLINRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
 
         try
         {
