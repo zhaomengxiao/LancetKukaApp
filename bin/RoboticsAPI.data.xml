@@ -169,10 +169,10 @@
                     <transformation a="0.0" b="1.57" c="0.0" x="0.0" y="0.0" z="120.0"/>
                 </frame>
                 <frame id="_371fb737-1163-4b67-b9c0-5389e8a46a43" name="tcp_x_1_yz2">
-                    <transformation a="0.0" b="1.0472" c="0.0" x="171.2" y="-4.3" z="237.4"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-19.0" y="-207.51" z="113.5"/>
                 </frame>
                 <frame id="_d14a1b0b-17b7-4c53-bd90-501a8643724d" name="tcp_x_1_yz3">
-                    <transformation a="0.0" b="1.0472" c="0.0" x="171.2" y="-3.3" z="237.4"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="-7.0" z="237.4"/>
                 </frame>
                 <frame id="_0a55bb58-c765-4217-b568-3c7e886f36d2" name="tcp_x_1_yz4">
                     <transformation a="0.0" b="1.0472" c="0.0" x="171.2" y="-2.3" z="237.4"/>
@@ -190,7 +190,7 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="172.2" y="-6.3" z="235.4"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="5.57" cogY="-11.07" cogZ="98.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.2"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-44.99" cogY="2.67" cogZ="120.35" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.2"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>

@@ -306,7 +306,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
          
 		 public void GetData()
 		    {
-			// ThreadUtil.milliSleep(1000);
+//		        ThreadUtil.milliSleep(1000);
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
 				
@@ -316,7 +316,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//å·¥ä½œæ¨¡å¼�
 		
 				data2 = Err;
-				
+//				System.out.println(Err);
 				//æ˜¯å�¦ä¸Šç”µ
 				data3 = "2,";
 				
@@ -1255,7 +1255,25 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
 		        return cartImp; 	
 		    }
-		    
+		    protected CartesianImpedanceControlMode HardLimit()
+		    {
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		        cartImp.parametrize(CartDOF.X).setStiffness(50.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+	
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		   
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+		        return cartImp; 	
+		    }
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
@@ -1864,10 +1882,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
 						
 						
+						//test
+						nA=-157.22;
+						nB=22.9288;
+						nC=157.359;
 						
-//						nA=-157.22;
-//						nB=22.9288;
-//						nC=157.359;
 //						nA=164.7;
 //						nB=-31.71;
 //						nC=-164.418;
@@ -2144,10 +2163,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==6){
 					nLastWorkingmode=nWorkingmode;
 //			        // Initialize Joint impedance mode    
-
+//					double nX1=-552;
+//					double nY1=-56;
+//					double nZ1=955;
+//					double nA1=-71;
+//					double nB1=44;
+//					double nC1=54;
 					ThreadUtil.milliSleep(3000);
-					if(nX!=0 && nY!=0 && nZ!=0){
-
+//					if(nX!=0 && nY!=0 && nZ!=0){
+                    if(true){   
 //						if(num_ForTest!=0)
 						if(true)
 						{
@@ -2181,7 +2205,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 					    		System.out.println("zhunbei_ready");
 					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-					    		Object4 = Object4.transform((Transformation.ofDeg(22.5 ,209,-130, 0, 0, 0)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(18 ,209,-117.5, 0, 0, 0)));
 					    		System.out.println("Object4"+Object4);
 					    		
 					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
@@ -2204,7 +2228,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
 //								num_ForTest=num_ForTest+5;
+								Err="3,";
 								System.out.println("Move");
+								Err="3,";
+								ThreadUtil.milliSleep(1000);
+								Err="0,";
 					    		}	
 								catch(Throwable cause)
 								{
@@ -2236,14 +2264,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 	            		System.out.println("ForPlane");
 //						OnlyPlane.initialize();
 						OnlyPlane.run();
-		           		Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
 						nWorkingmode=0;
+	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
 	            	}
 					else{
 						Err="2,";
 					}
 					
+				}
+				else if(nWorkingmode==8){
+			    	//圆锥打磨模式
+					System.out.println("nWorkingmode==8");
+			    	final CartesianImpedanceControlMode carthard = HardLimit();
+                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
+			    	nWorkingmode=0;
 				}
 				else{
 					
@@ -2528,10 +2564,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 
-		BreakTest.initialize();
-		BreakTest.run();
-		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
-		ThreadUtil.milliSleep(2000);
+//		BreakTest.initialize();
+//		BreakTest.run();
+//		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+//		ThreadUtil.milliSleep(2000);
 		
 //		OnlyPlane.run();
 //		ThreadUtil.milliSleep(2000);

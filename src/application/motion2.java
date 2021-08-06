@@ -32,6 +32,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
+//test for svn upload
 public class motion2 extends RoboticsAPIApplication
 {
 	@Inject
@@ -43,7 +44,7 @@ public class motion2 extends RoboticsAPIApplication
     public int s=1;
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 208 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
@@ -56,16 +57,17 @@ public class motion2 extends RoboticsAPIApplication
     public double nderivative=0;
     public double nPrevious_error=0;
     public double nOutput=0;
-    public double nP=0.5;
+    public double nP=0.6;
     public double nI=0.02;
-    public double nD=0;
-    
+    public double nD=0.01;
+    public double nDistance=0;
     
     
     @Override
     public void initialize()
     {
         _lbr = getContext().getDeviceFromType(LBR.class);
+      
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
         _loadData = new LoadData();
@@ -325,11 +327,13 @@ public class motion2 extends RoboticsAPIApplication
     private CartesianImpedanceControlMode createCartImp()
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+//        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
+//        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
+//        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
+//        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         return cartImp;
     }
 
@@ -338,7 +342,7 @@ public class motion2 extends RoboticsAPIApplication
             StatisticTimer timing, IMotionControlMode mode)
     {
         Frame aFrame = theSmartServoLINRuntime
-                .getCurrentCartesianDestination(_lbr.getFlange());
+                .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
 
         try
         {
@@ -356,10 +360,15 @@ public class motion2 extends RoboticsAPIApplication
             
             double i1=0;
             double nAix4=0;
-            double nAix7=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && Math.abs(nAix7)<165)
+            JointPosition jReady =_lbr.getCurrentJointPosition();
+            
+            Frame cmdPosTest = _lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
+            System.out.println("cmdPosTest.getX:"+cmdPosTest.getX());
+            System.out.println("cmdPosTest.getY:"+cmdPosTest.getY());
+            System.out.println("cmdPosTest.getZ:"+cmdPosTest.getZ());
+    	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -369,16 +378,15 @@ public class motion2 extends RoboticsAPIApplication
     		 }
     		 
     		 
-    		 JointPosition jReady =_lbr.getCurrentJointPosition();
-    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J4));
-    		 nAix7=Math.toDegrees(jReady.get(JointEnum.J7));	
+    		   jReady =_lbr.getCurrentJointPosition();
+    		
                 final OneTimeStep aStep = timing.newTimeStep();
                 // ///////////////////////////////////////////////////////
                 // Insert your code here
                 // e.g Visual Servoing or the like
                 // Synchronize with the realtime system
 
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
@@ -430,61 +438,129 @@ public class motion2 extends RoboticsAPIApplication
        	    nPrevious_error=DistanceToPlane.getX();
        	    
        	    
-      		initialPosition.setX(initialPosition1.getX()-nOutput);
+//      		initialPosition.setX(initialPosition1.getX()-nOutput);
       		
       		
        		
        		if (i1 % 200 == 0){
-           		System.out.println("DistanceToPlane:"+DistanceToPlane.getX());
-           		System.out.println("initialPosition1:"+initialPosition);
-           		System.out.println(Math.abs(nAix4));
-
+//           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
+           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
+//           		System.out.println("DistanceToPlaney:"+DistanceToPlane.getY());
+//           		System.out.println("J4"+Math.toDegrees(jReady.get(JointEnum.J4)));
            		
        		}
        		
-       		if (i1 % 5 == 0){
-       			theSmartServoLINRuntime.setDestination(initialPosition);
+       		if (true){
+       	      // Compute the sine function
+                Frame destFrame1= new Frame(aFrame);
+                destFrame1.setX(cmdPosTest.getX());
+                destFrame1.setY(cmdPosTest.getY());
+                destFrame1.setZ(cmdPosTest.getZ());
+       			theSmartServoLINRuntime.setDestination(destFrame1);
        		}
        		
        		
-             if (i1 % 2 == 0)
+             if (true)
              {
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
-               		 if (Distance>100)
-               		 {
-               			 double nForceY=50+5*(Distance-100);
-               			 double nForceZ=300+5*(Distance-100);
-               			 if (nForceY>5000)
-               			 {
-               				nForceY=5000;
-               			 }
-               			 if (nForceZ>5000)
-               			 {
-               				nForceZ=5000;
-               			 }
-                         final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-//                       final double aTransStiffVal = Math.max(100. * (i
-//                               / (double) NUM_RUNS + 1), 1000.);
-//                       final double aRotStiffVal = Math.max(10. * (i
-//                               / (double) NUM_RUNS + 1), 150.);
-                       cartImp.parametrize(CartDOF.Y).setStiffness(
-                      		 nForceY);
-                       cartImp.parametrize(CartDOF.Z).setStiffness(
-                        		 nForceZ);
-//               			 System.out.println(nForceY);
-               			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-               		 }
-               		 else
-               		 {
-               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
-                         cartImp1.parametrize(CartDOF.Y).setStiffness(
-                          		 50);
-                           cartImp1.parametrize(CartDOF.Z).setStiffness(
-                            		 300);
-                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
-               		 }
+//               		 if (Distance>100)
+//               		 {
+//               			 double nForceY=50+5*(Distance-100);
+//               			 double nForceZ=300+5*(Distance-100);
+//               			 if (nForceY>5000)
+//               			 {
+//               				nForceY=5000;
+//               			 }
+//               			 if (nForceZ>5000)
+//               			 {
+//               				nForceZ=5000;
+//               			 }
+//                         final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+////                       final double aTransStiffVal = Math.max(100. * (i
+////                               / (double) NUM_RUNS + 1), 1000.);
+////                       final double aRotStiffVal = Math.max(10. * (i
+////                               / (double) NUM_RUNS + 1), 150.);
+//                       cartImp.parametrize(CartDOF.Y).setStiffness(
+//                      		 nForceY);
+//                       cartImp.parametrize(CartDOF.Z).setStiffness(
+//                        		 nForceZ);
+////               			 System.out.println(nForceY);
+//               			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+//               		 }
+//               		 else
+//               		 {
+//               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+//                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+//                          		 50);
+//                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+//                            		 300);
+//                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+//               		 }
+                	 
+                	 double nForceZ=0;
+                	 //z平面保证机械臂来回的平面
+           			 if(DistanceToPlane.getZ()>0){
+           				 if(Math.abs(DistanceToPlane.getZ())<50){
+           					nForceZ=50;
+           				 }
+           				 else{
+           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
+           				 }
+           			 }
+           			 else{
+           				 if(Math.abs(DistanceToPlane.getZ())<50){
+           					nForceZ=50;
+           				 }
+           				 else{
+           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
+           				 }
+           			 }
+           			 if (nForceZ>5000)
+           			 {
+           				nForceZ=5000;
+           			 }
+           			 
+                	 double nForceY=0;
+                	 //y平面保证机械臂来回的平面
+           			 if(DistanceToPlane.getY()>0){
+           				 if(Math.abs(DistanceToPlane.getY())<5){
+           					nForceY=50;
+           				 }
+           				 else{
+           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-5); 
+           				 }
+           			 }
+           			 else{
+           				 if(Math.abs(DistanceToPlane.getY())<150){
+           					nForceY=50;
+           				 }
+           				 else{
+           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-150); 
+           				 }
+           			 }
+           			 if (nForceY>5000)
+           			 {
+           				nForceY=5000;
+           			 }
+           			 
+           			 
+           			 
+           			 
+                     final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+                     
+                     
+                     
+                     
+                     nDistance=DistanceToPlane.getZ();
+//                    cartImp.parametrize(CartDOF.Z).setStiffness(nForceZ);
+//                    cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
+                    
+//           			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+                	 
+                	 
+                	 
                      // We are in CartImp Mode,
                      // Modify the settings:
                      // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
