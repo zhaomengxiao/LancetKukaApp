@@ -342,7 +342,7 @@ public class motion2 extends RoboticsAPIApplication
     {
         Frame aFrame = theSmartServoLINRuntime
                 .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
-        System.out.println(aFrame);
+        System.out.println("aFrame:"+aFrame);
         try
         {
             getLogger().info("Start SmartServoLIN sine movement");
