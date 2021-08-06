@@ -368,6 +368,11 @@ public class motion2 extends RoboticsAPIApplication
             System.out.println("cmdPosTest.getX:"+cmdPosTest.getX());
             System.out.println("cmdPosTest.getY:"+cmdPosTest.getY());
             System.out.println("cmdPosTest.getZ:"+cmdPosTest.getZ());
+            
+            Frame destFrame1= new Frame(aFrame);
+            destFrame1.setX(-891);
+            destFrame1.setY(534);
+            destFrame1.setZ(378);
     	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
             {
 //    		 System.out.println(i1);
@@ -452,10 +457,7 @@ public class motion2 extends RoboticsAPIApplication
        		
        		if (true){
        	      // Compute the sine function
-                Frame destFrame1= new Frame(aFrame);
-                destFrame1.setX(-891);
-                destFrame1.setY(534);
-                destFrame1.setZ(378);
+
        			theSmartServoLINRuntime.setDestination(destFrame1);
        		}
        		
