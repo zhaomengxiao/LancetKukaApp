@@ -59,13 +59,12 @@ public class motion2 extends RoboticsAPIApplication
     public double nP=0.5;
     public double nI=0.02;
     public double nD=0;
-    public double nDistance=0;
+    
     
     
     @Override
     public void initialize()
     {
-    	nDistance=0;
         _lbr = getContext().getDeviceFromType(LBR.class);
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
@@ -329,7 +328,7 @@ public class motion2 extends RoboticsAPIApplication
         cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
         cartImp.parametrize(CartDOF.C).setStiffness(50.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-//        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
         cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         return cartImp;
     }
@@ -357,9 +356,10 @@ public class motion2 extends RoboticsAPIApplication
             
             double i1=0;
             double nAix4=0;
+            double nAix7=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance<105)
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && Math.abs(nAix7)<165)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -370,8 +370,8 @@ public class motion2 extends RoboticsAPIApplication
     		 
     		 
     		 JointPosition jReady =_lbr.getCurrentJointPosition();
-    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J1));
-            	
+    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J4));
+    		 nAix7=Math.toDegrees(jReady.get(JointEnum.J7));	
                 final OneTimeStep aStep = timing.newTimeStep();
                 // ///////////////////////////////////////////////////////
                 // Insert your code here
@@ -430,13 +430,15 @@ public class motion2 extends RoboticsAPIApplication
        	    nPrevious_error=DistanceToPlane.getX();
        	    
        	    
-//      		initialPosition.setX(initialPosition1.getX()-nOutput);
+      		initialPosition.setX(initialPosition1.getX()-nOutput);
       		
       		
        		
        		if (i1 % 200 == 0){
-           		System.out.println("DistanceToPlaneX:"+DistanceToPlane.getX()+"DistanceToPlaneY:"+DistanceToPlane.getY()+"DistanceToPlaneZ:"+DistanceToPlane.getZ());
+           		System.out.println("DistanceToPlane:"+DistanceToPlane.getX());
            		System.out.println("initialPosition1:"+initialPosition);
+           		System.out.println(Math.abs(nAix4));
+
            		
        		}
        		
@@ -450,43 +452,39 @@ public class motion2 extends RoboticsAPIApplication
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
-   
-               			 double nForceY=0;
-               			 if(DistanceToPlane.getY()<0){
-               				 if(Math.abs(DistanceToPlane.getY())<10){
-               					nForceY=50;
-               				 }
-               				 else{
-               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-10); 
-               				 }
-               			 }
-               			 else{
-               				 if(Math.abs(DistanceToPlane.getY())<100){
-               					nForceY=50;
-               				 }
-               				 else{
-               					nForceY=50+5*(Math.abs(DistanceToPlane.getY())-100); 
-               				 }
-               			 }
+               		 if (Distance>100)
+               		 {
+               			 double nForceY=50+5*(Distance-100);
+               			 double nForceZ=300+5*(Distance-100);
                			 if (nForceY>5000)
                			 {
                				nForceY=5000;
                			 }
+               			 if (nForceZ>5000)
+               			 {
+               				nForceZ=5000;
+               			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                         nDistance=DistanceToPlane.getY();
-                        cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
-
+//                       final double aTransStiffVal = Math.max(100. * (i
+//                               / (double) NUM_RUNS + 1), 1000.);
+//                       final double aRotStiffVal = Math.max(10. * (i
+//                               / (double) NUM_RUNS + 1), 150.);
+                       cartImp.parametrize(CartDOF.Y).setStiffness(
+                      		 nForceY);
+                       cartImp.parametrize(CartDOF.Z).setStiffness(
+                        		 nForceZ);
+//               			 System.out.println(nForceY);
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-//               		 }
-//               		 else
-//               		 {
-//               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
-//                         cartImp1.parametrize(CartDOF.Y).setStiffness(
-//                          		 50);
-////                           cartImp1.parametrize(CartDOF.Z).setStiffness(
-////                            		 300);
-//                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
-//               		 }
+               		 }
+               		 else
+               		 {
+               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+                          		 50);
+                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+                            		 300);
+                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+               		 }
                      // We are in CartImp Mode,
                      // Modify the settings:
                      // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
@@ -506,7 +504,7 @@ public class motion2 extends RoboticsAPIApplication
              }
              aStep.end();
             }
-    	 nDistance=0;
+
  
         }
         catch (Exception e)

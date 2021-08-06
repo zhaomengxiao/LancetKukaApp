@@ -32,7 +32,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
-public class motion_Y_Positive extends RoboticsAPIApplication
+public class motion1 extends RoboticsAPIApplication
 {
 	@Inject
 	private TCPServerSendDataApplication _vi;
@@ -44,7 +44,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
     private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
-    private static final double MASS = 0;
+    private static final double MASS = 2.2;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
     private static final int NUM_RUNS = 60000;
@@ -52,20 +52,10 @@ public class motion_Y_Positive extends RoboticsAPIApplication
     private static final double FREQENCY = 0.6;
     private static final double[] MAX_TRANSLATION_VELOCITY = { 150, 150, 150 };
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-    public double nintegral=0;
-    public double nderivative=0;
-    public double nPrevious_error=0;
-    public double nOutput=0;
-    public double nP=0.5;
-    public double nI=0.02;
-    public double nD=0;
-    public double nDistance=0;
-    
-    
+   
     @Override
     public void initialize()
     {
-    	nDistance=0;
         _lbr = getContext().getDeviceFromType(LBR.class);
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
@@ -74,7 +64,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
         _loadData.setCenterOfMass(
                 CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool_ForPlane", _loadData);
+        _toolAttachedToLBR = new Tool("Tool_ForPlanetest", _loadData);
 
         XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
@@ -103,6 +93,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
         	 try{
                  if (!ServoMotion.validateForImpedanceMode(_lbr))
                  {
+                 	System.out.println("2wwww23");
                      getLogger()
                              .info("Validation of torque model failed - correct your mass property settings");
                      getLogger()
@@ -112,10 +103,25 @@ public class motion_Y_Positive extends RoboticsAPIApplication
              }
              catch (Exception e)
              {
-             	ThreadUtil.milliSleep(500);
+             	ThreadUtil.milliSleep(1000);
+             	System.out.println("ttt");
    
              }
         }
+       
+        
+//        if (!ServoMotion.validateForImpedanceMode(_lbr))
+//        {
+//        	System.out.println("2wwww23");
+//            getLogger()
+//                    .info("Validation of torque model failed - correct your mass property settings");
+//            getLogger()
+//                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+//        }
+//        else{
+//        	System.out.println("2wwww3");
+//        }
+		 System.out.println("233");
     }
 
     @Override
@@ -238,11 +244,11 @@ public class motion_Y_Positive extends RoboticsAPIApplication
 //    	 }
     	///////////////////////////////////////////
     	
-//    	while (true)
-//    	{
+    	while (true)
+    	{
     		
     	
-    	
+//    	initialize();
         getLogger().info("Move to start position.");
         moveToInitialPosition();
 
@@ -252,9 +258,9 @@ public class motion_Y_Positive extends RoboticsAPIApplication
         getLogger()
                 .info("Sample Application - SmartServoLIN motion in cartesian impedance control mode");
         runSmartServoLINMotion(cartImp);
-//        ThreadUtil.milliSleep(2000);
+        ThreadUtil.milliSleep(2000);
         
-//    	}
+    	}
         
         
 //        // Return to initial position
@@ -298,7 +304,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
         getLogger().info("Do sine movement");
         timing = startSineMovement(_theSmartServoLINRuntime, timing, controlMode);
 
-//        ThreadUtil.milliSleep(500);
+        ThreadUtil.milliSleep(500);
 
         // Print statistic timing
         getLogger().info(
@@ -327,9 +333,9 @@ public class motion_Y_Positive extends RoboticsAPIApplication
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
         cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-//        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
+        cartImp.parametrize(CartDOF.C).setStiffness(5.0);
         cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-//        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.Z).setStiffness(50.0);
         cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         return cartImp;
     }
@@ -345,29 +351,31 @@ public class motion_Y_Positive extends RoboticsAPIApplication
         {
             getLogger().info("Start SmartServoLIN sine movement");
             double omega = FREQENCY * 2 * Math.PI * 1e-9;
+
             long startTimeStamp = System.nanoTime();
+           
             int i;
        	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
                  .getFlange());
     	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
                  .getFlange());
-       	 Frame initialPosition2 = _lbr.getCurrentCartesianPosition(_lbr
-                 .getFlange());
+    
 //    	 System.out.println("initialPosition"+initialPosition);
             
             double i1=0;
             double nAix4=0;
             //for (i = 0; i < NUM_RUNS; ++i)
             boolean bOnlyForPlane=false;
-    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && nDistance<105)
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false )
             {
 //    		 System.out.println(i1);
-    		 bOnlyForPlane=_vi.MotionType();
+    		 
+//    		 bOnlyForPlane=_vi.MotionType();
 //    		 
     		 if(bOnlyForPlane==true){
     			 System.out.println("11");
     		 }
-    		 
+    
     		 
     		 JointPosition jReady =_lbr.getCurrentJointPosition();
     		 nAix4=Math.toDegrees(jReady.get(JointEnum.J1));
@@ -378,7 +386,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                 // e.g Visual Servoing or the like
                 // Synchronize with the realtime system
 
-//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
                 // Update the smart servo LIN runtime
                 theSmartServoLINRuntime.updateWithRealtimeSystem();
@@ -389,7 +397,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
                 // Compute the sine function
                 Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
                 
-             
+
        		 initialPosition.setX(initialPosition1.getX());
        		 initialPosition.setY(initialPosition1.getY());
        		 initialPosition.setZ(initialPosition1.getZ());
@@ -411,82 +419,51 @@ public class motion_Y_Positive extends RoboticsAPIApplication
 //       		 System.out.println("err1: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
 //             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
       
-             
+             theSmartServoLINRuntime.setDestination(initialPosition);
 //             ThreadUtil.milliSleep(1000);
 //             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
 //             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
              // Modify the stiffness settings every now and then
        		i1++;
        		
-       		
-       		Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-       	    Transformation DistanceToPlane=initialPosition.staticTransformationTo(cmdPos2);
-       	    DistanceToPlane.getX();
-       	    
-       	    //setPid
-       	    nintegral=nintegral+DistanceToPlane.getX();
-       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-       	    nPrevious_error=DistanceToPlane.getX();
-       	    
-       	    
-//      		initialPosition.setX(initialPosition1.getX()-nOutput);
-      		
-      		
-       		
-       		if (i1 % 200 == 0){
-           		System.out.println("DistanceToPlaneX:"+DistanceToPlane.getX()+"DistanceToPlaneY:"+DistanceToPlane.getY()+"DistanceToPlaneZ:"+DistanceToPlane.getZ());
-           		System.out.println("initialPosition1:"+initialPosition);
-           		
-       		}
-       		
-       		if (i1 % 5 == 0){
-       			theSmartServoLINRuntime.setDestination(initialPosition);
-       		}
-       		
-       		
              if (i1 % 2 == 0)
              {
 //            	 System.out.println("ss");
                  if (mode instanceof CartesianImpedanceControlMode)
                  {
-   
-               			 double nForceY=0;
-               			 if(DistanceToPlane.getY()<0){
-               				 if(Math.abs(DistanceToPlane.getY())<5){
-               					nForceY=50;
-               				 }
-               				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-5); 
-               				 }
-               			 }
-               			 else{
-               				 if(Math.abs(DistanceToPlane.getY())<90){
-               					nForceY=50;
-               				 }
-               				 else{
-               					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-90); 
-               				 }
-               			 }
+               		 if (Distance>100)
+               		 {
+               			 double nForceY=50+3*(Distance-100);
+               			 double nForceZ=50+3*(Distance-100);
                			 if (nForceY>5000)
                			 {
                				nForceY=5000;
                			 }
+               			 if (nForceZ>5000)
+               			 {
+               				nForceZ=5000;
+               			 }
                          final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                         nDistance=DistanceToPlane.getY();
-                        cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
-
+//                       final double aTransStiffVal = Math.max(100. * (i
+//                               / (double) NUM_RUNS + 1), 1000.);
+//                       final double aRotStiffVal = Math.max(10. * (i
+//                               / (double) NUM_RUNS + 1), 150.);
+                       cartImp.parametrize(CartDOF.Y).setStiffness(
+                      		 nForceY);
+                       cartImp.parametrize(CartDOF.Z).setStiffness(
+                        		 nForceY);
+               			 System.out.println(nForceY);
                			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-//               		 }
-//               		 else
-//               		 {
-//               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
-//                         cartImp1.parametrize(CartDOF.Y).setStiffness(
-//                          		 50);
-////                           cartImp1.parametrize(CartDOF.Z).setStiffness(
-////                            		 300);
-//                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
-//               		 }
+               		 }
+               		 else
+               		 {
+               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+                          		 50);
+                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+                            		 50);
+                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+               		 }
                      // We are in CartImp Mode,
                      // Modify the settings:
                      // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
@@ -506,12 +483,12 @@ public class motion_Y_Positive extends RoboticsAPIApplication
              }
              aStep.end();
             }
-    	 nDistance=0;
-//	    Frame Ptest1 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-//	    _lbr.move(ptp(Ptest1).setJointVelocityRel(0.2));
+
+ 
         }
         catch (Exception e)
         {
+        	System.out.println("66");
             getLogger().error(e.getLocalizedMessage());
             e.printStackTrace();
         }
@@ -527,7 +504,7 @@ public class motion_Y_Positive extends RoboticsAPIApplication
     public static void main()
     {
     	
-        final motion_Y_Positive app = new motion_Y_Positive();
+        final motion2 app = new motion2();
         app.runApplication();
     }
 }

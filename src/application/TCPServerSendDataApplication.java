@@ -48,7 +48,6 @@ import com.kuka.roboticsAPI.applicationModel.tasks.RoboticsAPITask;
 import com.kuka.roboticsAPI.applicationModel.tasks.UseRoboticsAPIContext;
 import com.kuka.roboticsAPI.conditionModel.BooleanIOCondition;
 import com.kuka.roboticsAPI.controllerModel.Controller;
-import com.kuka.roboticsAPI.controllerModel.sunrise.ISafetyState;
 import com.kuka.roboticsAPI.deviceModel.CartesianVelocityLimitInfo;
 import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
@@ -70,7 +69,6 @@ import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.HandGuidingMotion;
 import com.kuka.roboticsAPI.motionModel.IMotion;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
-import com.kuka.roboticsAPI.motionModel.LIN;
 import com.kuka.roboticsAPI.motionModel.PTP;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
@@ -101,23 +99,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private HandGuidingMotion motion;
 
 	@Inject
-	private motion_Y_Positive OnlyPlane;
+	private BrakeTestMonitorSampleApp BreakTest;
 	
 	@Inject
-	private motion_Y_Negtive OnlyPlane1;
+	private motion2 OnlyPlane;
 	
-	@Inject
-	private motion_X_Positive OnlyPlane2;
-	
-	@Inject
-	private motion_X_Negtive OnlyPlane3;
-	
-	@Inject
-	private motion_Z_Positive OnlyPlane4;
-	
-	@Inject
-	private motion_Z_Negtive OnlyPlane5;
-	
+  
 	@Inject
 	private  LBR lbr;
 	private Tool _toolAttachedToLBR;
@@ -152,7 +139,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private JointPosition jointPos;
 	 private JointPosition jointPos_zuo;
 	 private JointPosition jointPos_you;
+	 public boolean bForPlane;
 	 Frame pre_Place;
+	 
+	 int  num_ForTest=0;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -169,8 +159,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Named("gripper")
 	@Inject
 	private Tool needle_gripper;
-	@Inject
-	private BrakeTestMonitorSampleApp BreakTest;
+	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
 	private ObjectFrame handle;
@@ -207,8 +196,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public static double nA=0;
 	public static double nB=0;
 	public static double nC=0;
+	public String Err="0,";
 	
-	public boolean bForPlane;
 	 JointPosition currentPos_test;
 
 	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
@@ -218,12 +207,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		Err="0,";
+		num_ForTest=0;
 		OnlyPlane.initialize();
-		OnlyPlane1.initialize();
-		OnlyPlane2.initialize();
-		OnlyPlane3.initialize();
-		OnlyPlane4.initialize();
-		OnlyPlane5.initialize();
+		bForPlane=false;
 		nWorkingmode=0;
 		nToolMode=1;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
@@ -243,13 +230,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
                 Math.toRadians(-59.95),
                 Math.toRadians(27.77));
 		
-		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
-                Math.toRadians(-7.41),
-                Math.toRadians(40.42),
-                Math.toRadians(115),
-                Math.toRadians(-2.17),
-                Math.toRadians(-55.7),
-                Math.toRadians(122));
+		jointPos_zuo=new JointPosition(   Math.toRadians(26.39),
+                Math.toRadians(20.06),
+                Math.toRadians(-15.64),
+                Math.toRadians(77.97),
+                Math.toRadians(-98.35),
+                Math.toRadians(32.88),
+                Math.toRadians(-30.42));
 		
 		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
                 Math.toRadians(-4.63),
@@ -327,10 +314,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data1 = "0,";
 				
 				//å·¥ä½œæ¨¡å¼�
-				data2 = "0,";
+		
+				data2 = Err;
 				
 				//æ˜¯å�¦ä¸Šç”µ
-				data3 = "1,";
+				data3 = "2,";
 				
 				//å½“å‰�é€Ÿåº¦
 				//CartesianVelocityLimitInfo infoObject = lbr.getCartesianVelocityLimitInfo();
@@ -340,7 +328,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data4 = String.valueOf(a1)+",";
 				
 				//æ— æ„�ä¹‰
-				data5 = "0,";
+				data5 = "3,";
 				
 //				//å…³èŠ‚åº¦æ•°1
 				JointPosition actPos = lbr.getCurrentJointPosition();
@@ -386,7 +374,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data12=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡x
-				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				
 				
 				
@@ -394,12 +382,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
 //				}
 //				else{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //				}
 				
 				if (nToolMode==1){
-					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //						System.out.println("1:"+cmdPos);
 						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 						cmdPos2.setX(0);
@@ -408,14 +396,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						cmdPos2.setAlphaRad(0);
 						cmdPos2.setBetaRad(Math.toRadians(-30));
 						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 						//System.out.println("22:"+cmdPos);
 						
 				}
 				else if(nToolMode==2)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 //					System.out.println("1:"+cmdPos);
 					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
@@ -424,146 +412,44 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					cmdPos2.setAlphaRad(0);
 					cmdPos2.setBetaRad(Math.toRadians(-30));
 					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
 //					System.out.println("2:"+cmdPos);
 				}	
 				else if(nToolMode==3)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
-
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 				}	
 				else if(nToolMode==4)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				}	
 				else if(nToolMode==5)
 				{
-			
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				}	
 				else if(nToolMode==6)
 				{
-
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 				}	
 				else if(nToolMode==7)
 				{
-
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz3"));
 				}	
 				else if(nToolMode==8)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz4"));
 				}	
-				else if(nToolMode==11)
+				else if(nToolMode==9)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz3"));
 				}	
 				else if(nToolMode==10)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-//					System.out.println("1:"+cmdPos);
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);
-					
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz4"));
 				}	
 				else
 				{
-					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
-						//System.out.println("22:"+cmdPos);
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 				}
 				
 				a1=cmdPos.getX();
@@ -727,7 +613,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			
 			System.out.println("New socket.");
 		    socket_recive = serverSocket.accept();
-//		    socket_recive.setSoTimeout(2500);
+		   // socket_recive.setSoTimeout(2500);
 			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
 		    
 			InputStream in = socket_recive.getInputStream();
@@ -786,13 +672,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("mp")){
-//							System.out.println("para: " + units[2]);
-//							System.out.println("para: " + units[3]);
-//							System.out.println("para: " + units[4]);
-//							System.out.println("para: " + units[5]);
-//							System.out.println("para: " + units[6]);
+							System.out.println("para: " + units[2]);
+							System.out.println("para: " + units[3]);
+							System.out.println("para: " + units[4]);
+							System.out.println("para: " + units[5]);
+							System.out.println("para: " + units[6]);
 							String para1 = units[7].substring(0, units[7].length() - 1);
-//							System.out.println("para" + para1);
+							System.out.println("para" + para1);
 
 							nX=Double.parseDouble(units[2]);
 							nY=Double.parseDouble(units[3]);
@@ -811,8 +697,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							pre_Place.setAlphaRad(Math.toRadians(nA));
 							pre_Place.setBetaRad(Math.toRadians(nB));
 							pre_Place.setGammaRad(Math.toRadians(nC));
-//							System.out.println("pre_Place"+pre_Place);
-//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+							System.out.println("pre_Place"+pre_Place);
+							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 							writer_recive.write("$para,mp,0$");
 							writer_recive.flush();
 						}
@@ -835,7 +721,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("RobotMove")){
-							System.out.println("RobotMove " + units);
 //							System.out.println("para: " + units[2]);
 							String para2 = units[3].substring(0, units[3].length() - 1);
 							if(Double.parseDouble(para2)==2 )
@@ -888,7 +773,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //							System.out.println("setwm: " + para3);
 							nWorkingmode=Integer.parseInt(para3);
 							writer_recive.write("$res,setwm"+nWorkingmode);
-//							System.out.println("setwm:"+nWorkingmode);
+							System.out.println("setwm:"+nWorkingmode);
 							writer_recive.flush();
 							
 						}
@@ -1002,31 +887,148 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	}
 
 	
-	public HandGuidingMotion createhandGuidingMotion(){
-		double min=0;
-		double max=0;
-		JointPosition jReady =lbr.getCurrentJointPosition();
-		if(Math.toDegrees(jReady.get(JointEnum.J1)) < -10){
-			min=Math.toDegrees(jReady.get(JointEnum.J1));
-		}
-		else
-		{
-			min=-10;
-		}
+public HandGuidingMotion createhandGuidingMotion(){
 		
-		if(Math.toDegrees(jReady.get(JointEnum.J1)) > 10){
-			max=Math.toDegrees(jReady.get(JointEnum.J1));
-		}
-		else
-		{
-			max=10;
-		}
-		
+	double min1=0;
+	double max1=0;
+	JointPosition jReady =lbr.getCurrentJointPosition();
+	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -40){
+		min1=Math.toDegrees(jReady.get(JointEnum.J1));
+	}
+	else
+	{
+		min1=-40;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J1)) > 40){
+		max1=Math.toDegrees(jReady.get(JointEnum.J1));
+	}
+	else
+	{
+		max1=40;
+	}
+	
+	double min2=0;
+	double max2=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -60){
+		min2=Math.toDegrees(jReady.get(JointEnum.J2));
+	}
+	else
+	{
+		min2=-60;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J2)) > 60){
+		max2=Math.toDegrees(jReady.get(JointEnum.J2));
+	}
+	else
+	{
+		max2=60;
+	}
+	
+	
+	double min3=0;
+	double max3=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -55){
+		min3=Math.toDegrees(jReady.get(JointEnum.J3));
+	}
+	else
+	{
+		min3=-55;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J3)) > 10){
+		max3=Math.toDegrees(jReady.get(JointEnum.J3));
+	}
+	else
+	{
+		max3=10;
+	}
+	
+	double min4=0;
+	double max4=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J4)) < 50){
+		min4=Math.toDegrees(jReady.get(JointEnum.J4));
+	}
+	else
+	{
+		min4=50;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J4)) > 100){
+		max4=Math.toDegrees(jReady.get(JointEnum.J4));
+	}
+	else
+	{
+		max4=100;
+	}
+	
+	double min5=0;
+	double max5=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -150){
+		min5=Math.toDegrees(jReady.get(JointEnum.J5));
+	}
+	else
+	{
+		min5=-150;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J5)) > 50){
+		max5=Math.toDegrees(jReady.get(JointEnum.J5));
+	}
+	else
+	{
+		max5=50;
+	}
+	
+	double min6=0;
+	double max6=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J6)) < 0){
+		min6=Math.toDegrees(jReady.get(JointEnum.J6));
+	}
+	else
+	{
+		min6=0;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J6)) > 100){
+		max6=Math.toDegrees(jReady.get(JointEnum.J6));
+	}
+	else
+	{
+		max6=100;
+	}
+	
+	double min7=0;
+	double max7=0;
+
+	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -150){
+		min7=Math.toDegrees(jReady.get(JointEnum.J7));
+	}
+	else
+	{
+		min7=-150;
+	}
+	
+	if(Math.toDegrees(jReady.get(JointEnum.J7)) > 150){
+		max7=Math.toDegrees(jReady.get(JointEnum.J7));
+	}
+	else
+	{
+		max7=150;
+	}
+	
+	
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(max), Math.toRadians(30), Math.toRadians(45), Math.toRadians(100), Math.toRadians(65),Math.toRadians(-40), Math.toRadians(165))
-		.setJointLimitsMin(Math.toRadians(min), Math.toRadians(-14), Math.toRadians(-45), Math.toRadians(0), Math.toRadians(-65),Math.toRadians(-100), Math.toRadians(-165))
+		.setJointLimitsMax(Math.toRadians(max1), Math.toRadians(max2), Math.toRadians(max3), Math.toRadians(max4), Math.toRadians(max5),Math.toRadians(max6), Math.toRadians(max7))
+		.setJointLimitsMin(Math.toRadians(min1), Math.toRadians(min2), Math.toRadians(min3), Math.toRadians(min4), Math.toRadians(min5),Math.toRadians(min6), Math.toRadians(min7))
 		.setJointLimitsEnabled(true,true,true,true,true,true,true)
 
 
@@ -1036,388 +1038,172 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		return motion;
 	}
 
-public CartesianImpedanceControlMode createCartImp(){
-	CartesianImpedanceControlMode mode = new CartesianImpedanceControlMode();
-	mode.parametrize(CartDOF.ROT).setStiffness(300);
-	mode.parametrize(CartDOF.X).setStiffness(1);
-	mode.parametrize(CartDOF.Y).setStiffness(5000);
-	mode.parametrize(CartDOF.Z).setStiffness(5000);
-
-	return mode;
-}
-
-
-
-
-public  class motion implements Callable<String> {
+	public CartesianImpedanceControlMode createCartImp(){
+		CartesianImpedanceControlMode mode = new CartesianImpedanceControlMode();
+		mode.parametrize(CartDOF.ROT).setStiffness(300);
+		mode.parametrize(CartDOF.X).setStiffness(1);
+		mode.parametrize(CartDOF.Y).setStiffness(5000);
+		mode.parametrize(CartDOF.Z).setStiffness(5000);
 	
-	
-	public void resetmotion()
-	{
-		System.out.println("start");
-		io.setOutput6(true);
-		ThreadUtil.milliSleep(200);
-		System.out.println("dleay");
-		io.setOutput6(false);
+		return mode;
 	}
 	
-    public void moveToInitialPosition()
-    {
-    	System.out.println("11");
-        if (!ServoMotion.validateForImpedanceMode(lbr))
-        {
-            getLogger()
-                    .info("Validation of torque model failed - correct your mass property settings");
-            getLogger()
-                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
-        }
-    }
-    
-	//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
-    public void runSmartServoMotion(final IMotionControlMode controlMode)
-    {
 
-    	System.out.println("22");
-        final boolean doDebugPrints = false;
-
-        final JointPosition initialPosition = new JointPosition(
-                lbr.getCurrentJointPosition());
-        System.out.println("33");
-        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
-
-        // Set the motion properties to 10% of the systems abilities
-        aSmartServoMotion.setJointAccelerationRel(0.1);
-        aSmartServoMotion.setJointVelocityRel(0.1);
-        System.out.println("44");
-        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-        getLogger().info("Starting the SmartServo in " + controlMode);
-        IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-                aSmartServoMotion.setMode(controlMode));
-        // Fetch the Runtime of the Motion part
-        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
-                .getRuntime();
-
-        // create an JointPosition Instance, to play with
-        final JointPosition destination = new JointPosition(
-                lbr.getJointCount());
-        System.out.println("55");
-        // For Roundtrip time measurement...
-        final StatisticTimer timing = new StatisticTimer();
-        try
-        {
-            // do a cyclic loop
-            // Refer to some timing...
-            // in nanosec
-            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
-            final long startTimeStamp = System.nanoTime();
-            final JointPosition currentPos = lbr.getCurrentJointPosition();
-
-            while(SafeDataIO.getInput4()==false)
-            {
-            	final JointPosition currentPos_now = lbr.getCurrentJointPosition();
-//            	System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
-           
-                // Timing - draw one step
-                final OneTimeStep aStep = timing.newTimeStep();
-                // ///////////////////////////////////////////////////////
-                // Insert your code here
-                // e.g Visual Servoing or the like
-                // emulate some computational effort - or waiting for external
-                // stuff
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
-                theSmartServoRuntime.updateWithRealtimeSystem();
-
-                // Get the measured position in cartesian...
-                final JointPosition curMsrJntPose = theSmartServoRuntime
-                        .getAxisQMsrOnController();
-
-                
-   
-                if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
-                	 if (controlMode instanceof JointImpedanceControlMode)
-                       {  		 
-                		 
-                       final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-                       double para =200;
-                       double para1=200;
-                       double para2=200;
-                       
-                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160){
-                    	   para = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5))));  
-//                    	   System.out.println(para);
-                       }
-                       else{
-                    	   para=200;
-                       }
-                       
-                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110){
-                    	   para1 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos_now.get(JointEnum.J6))));  
-                       }
-                       else{
-                    	   para1=200;
-                       }
-                       
-                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
-                    	   para2 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(175)) - Math.abs(currentPos_now.get(JointEnum.J7))));  
-                       }
-                       else{
-                    	   para2=200;
-                       }
-                       
-//                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
-                       jointImp.setStiffness(2000, 2000, 2000, 2000, para, para1, para2);
-//                       System.out.println(para);
-                       jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-                       theSmartServoRuntime
-                               .changeControlModeSettings(jointImp);
-                		 
-                		 
-                       }
-                }
-                else{
-                
-                    
-                	if (controlMode instanceof JointImpedanceControlMode)
-               	 	{
-               	 		final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-               	 		jointImp.setStiffness(2000, 2000, 2000, 2000, 200, 200, 200);
-               	 		jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-               	 		// Send the new Stiffness settings down to the
-               	 		// controller
-               	 		theSmartServoRuntime
-               	 		.changeControlModeSettings(jointImp);
-               	 	} 	
-                }
-                
-                
-//                
-//                if(Math.toDegrees(currentPos_now.get(JointEnum.J5))>160)
-//                {
-//                JointPosition currentPos1=new JointPosition(currentPos.get(JointEnum.J1), currentPos.get(JointEnum.J2), currentPos.get(JointEnum.J3), currentPos.get(JointEnum.J4), 2.7925, currentPos.get(JointEnum.J6), currentPos.get(JointEnum.J7));
-//                destination.set(currentPos1);
-//            	System.out.println("change.."+currentPos1);
-//                }
-//                else{
-//                	destination.set(currentPos);
-//                }
-                
-                destination.set(currentPos);
-                
-                theSmartServoRuntime
-                        .setDestination(destination);
-
-                aStep.end();
-
-
-            }
-        }
-        catch (final Exception e)
-        {
-            getLogger().info(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-
-        //Print statistics and parameters of the motion
-        getLogger().info("Displaying final states after loop "
-                + controlMode.getClass().getName());
-        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
-        // Stop the motion
-        theSmartServoRuntime.stopMotion();
-        getLogger().info("Statistic Timing of Overall Loop " + timing);
-        if (timing.getMeanTimeMillis() > 150)
-        {
-            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
-        }
-
-    }
-	 
-	    protected JointImpedanceControlMode createJointImp()
+	
+	
+	public  class motion implements Callable<String> {
+		
+		
+	    public void moveToInitialPosition()
 	    {
-	        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(2000, 2000, 2000, 2000, 200, 200, 200);
-//	        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
-	   
-	        jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-	        return jointImp;
+	    	System.out.println("11");
+	        if (!ServoMotion.validateForImpedanceMode(lbr))
+	        {
+	            getLogger()
+	                    .info("Validation of torque model failed - correct your mass property settings");
+	            getLogger()
+	                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+	        }
 	    }
 	    
-	    protected CartesianImpedanceControlMode ConeLimit()
+		//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
+	    public void runSmartServoMotion(final IMotionControlMode controlMode)
 	    {
-	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-	        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-	        cartImp.parametrize(CartDOF.ROT).setStiffness(190.0);
 
-//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-	        cartImp.setNullSpaceStiffness(100.);
-	   
-//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-	        // For your own safety, shrink the motion abilities to useful limits
-//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-//	        cartImp.setMaxControlForce(1,z 1, 1, 1, 1, 1, true);
-	        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
-	        return cartImp; 	
-	    }
-	    protected CartesianImpedanceControlMode ZoneLimit()
-	    {
-	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	        cartImp.parametrize(CartDOF.X).setStiffness(4000.0);
-	        cartImp.parametrize(CartDOF.Y).setStiffness(4000.0);
-	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-	        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+	    	System.out.println("22");
+	        final boolean doDebugPrints = false;
 
-//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-	        cartImp.setNullSpaceStiffness(100.);
-	   
-//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-	        // For your own safety, shrink the motion abilities to useful limits
-//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-//	        cartImp.setMaxControlForce(1,z 1, 1, 1, 1, 1, true);
-	        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
-	        return cartImp; 	
-	    }
-	    protected CartesianImpedanceControlMode createCartImp()
-	    {
-	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
-	        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
-//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-	        cartImp.setNullSpaceStiffness(100.);
-	        
-//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-	        // For your own safety, shrink the motion abilities to useful limits
-	        cartImp.setMaxPathDeviation(150., 150., 50., 50., 50., 50.);
-	        return cartImp;
-	    }
-	    
-	 //ç¬›å�¡å°”é˜»æŠ—æŽ§åˆ¶ä»£ç �
-	    public void runSmartCartesianMotion(final IMotionControlMode controlMode){
-//	     	_loadData = new LoadData();
-//	        _loadData.setMass(MASS);
-//	        _loadData.setCenterOfMass(
-//	                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-//	                CENTER_OF_MASS_IN_MILLIMETER[2]);
-//	        _toolAttachedToLBR = new Tool("Tool", _loadData);
-//
-//	        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
-//	                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-//	                TRANSLATION_OF_TOOL[2]);
-//	        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-//	                + "(TCP)", trans);
-//	        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-//	        // Attach tool to the robot
-//	        _toolAttachedToLBR.attachTo(lbr.getFlange());
-	        
 	        final JointPosition initialPosition = new JointPosition(
 	                lbr.getCurrentJointPosition());
+	        System.out.println("33");
+	        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
 
-	        final DirectServo aDirectServoMotion = new DirectServo(initialPosition);
+	        // Set the motion properties to 10% of the systems abilities
+	        aSmartServoMotion.setJointAccelerationRel(0.1);
+	        aSmartServoMotion.setJointVelocityRel(0.1);
+	        System.out.println("44");
+	        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
-	        aDirectServoMotion.setMinimumTrajectoryExecutionTime(40e-3);
-
-	        getLogger().info("Starting the DirectServo motion in " + controlMode);
-	        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-	                aDirectServoMotion.setMode(controlMode));
-	        System.out.println("sss ");
-	        final IDirectServoRuntime theServoRuntime = aDirectServoMotion
+	        getLogger().info("Starting the SmartServo in " + controlMode);
+	        IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
+	                aSmartServoMotion.setMode(controlMode));
+	        // Fetch the Runtime of the Motion part
+	        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
 	                .getRuntime();
-	        System.out.println("ggg ");
+
 	        // create an JointPosition Instance, to play with
 	        final JointPosition destination = new JointPosition(
 	                lbr.getJointCount());
-	        System.out.println("vvv ");
+	        System.out.println("55");
 	        // For Roundtrip time measurement...
 	        final StatisticTimer timing = new StatisticTimer();
-	        System.out.println("ccc");
 	        try
 	        {
 	            // do a cyclic loop
 	            // Refer to some timing...
 	            // in nanosec
-	            // freqency * ...
 	            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
 	            final long startTimeStamp = System.nanoTime();
+                final JointPosition currentPos = lbr.getCurrentJointPosition();
 
-	            //for (int i = 0; i < NUM_RUNS; ++i)
-	         	final JointPosition currentPos = lbr.getCurrentJointPosition();
-	         	
-	         	JointPosition currentPos_CheckSafety;
-//	         	destination.set(currentPos_test);
-	         	destination.set(currentPos);
-	         	
-	         	boolean bDanger=false;
-//	         	System.out.println("hhh");
-	         	System.out.println(bDangerous+"dd"+nWorkingmode);
-	            while (nWorkingmode==4 && bDangerous==false)
+	            while(SafeDataIO.getInput4()==false)
 	            {
-	          
-	            	currentPos_CheckSafety=lbr.getCurrentJointPosition();
-	            	if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 165){
-	            		bDangerous=false;
-	            		
-	            	}
-	            	else{
-	            		System.out.println("J1"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1)));
-	            		System.out.println("J2"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2)));
-	            		System.out.println("J3"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3)));
-	            		System.out.println("J4"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4)));
-	            		System.out.println("J5"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5)));
-	            		System.out.println("J6"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6)));
-	            		System.out.println("J7"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7)));
-	            		getLogger().info("bDangerous==true");
-	            		
-	            		bDangerous=true;
-	            	}
-	            	
-	                theServoRuntime.setDestination(destination);
-	                     
-//	                // Timing - draw one step
-//	                final OneTimeStep aStep = timing.newTimeStep();
-//	                // ///////////////////////////////////////////////////////
-//	                // Insert your code here
-//	                // e.g Visual Servoing or the like
-//	                // emulate some computational effort - or waiting for external
-//	                // stuff
-//	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-	//
-//	                theServoRuntime.updateWithRealtimeSystem();
-	//
-//	                final double curTime = System.nanoTime() - startTimeStamp;
-//	                final double sinArgument = omega * curTime;
-	//
-//	                for (int k = 0; k < destination.getAxisCount(); ++k)
+	            	final JointPosition currentPos_now = lbr.getCurrentJointPosition();
+//	            	System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+	           
+	                // Timing - draw one step
+	                final OneTimeStep aStep = timing.newTimeStep();
+	                // ///////////////////////////////////////////////////////
+	                // Insert your code here
+	                // e.g Visual Servoing or the like
+	                // emulate some computational effort - or waiting for external
+	                // stuff
+	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+	                theSmartServoRuntime.updateWithRealtimeSystem();
+
+	                // Get the measured position in cartesian...
+	                final JointPosition curMsrJntPose = theSmartServoRuntime
+	                        .getAxisQMsrOnController();
+
+	                
+	   
+	                if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+	                	 if (controlMode instanceof JointImpedanceControlMode)
+	                       {  		 
+	                		 
+	                       final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+	                       double para =200;
+	                       double para1=200;
+	                       double para2=200;
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160){
+	                    	   para = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5))));  
+//	                    	   System.out.println(para);
+	                       }
+	                       else{
+	                    	   para=200;
+	                       }
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110){
+	                    	   para1 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos_now.get(JointEnum.J6))));  
+	                       }
+	                       else{
+	                    	   para1=200;
+	                       }
+	                       
+	                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+	                    	   para2 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(175)) - Math.abs(currentPos_now.get(JointEnum.J7))));  
+	                       }
+	                       else{
+	                    	   para2=200;
+	                       }
+	                       
+//	                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+	                       jointImp.setStiffness(2000, 2000, 2000, 2000, para, para1, para2);
+//	                       System.out.println(para);
+	                       jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+	                       theSmartServoRuntime
+	                               .changeControlModeSettings(jointImp);
+	                		 
+	                		 
+	                       }
+	                }
+	                else{
+	                
+	                    
+	                	if (controlMode instanceof JointImpedanceControlMode)
+	               	 	{
+	               	 		final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+	               	 		jointImp.setStiffness(2000, 2000, 2000, 2000, 200, 200, 200);
+	               	 		jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+	               	 		// Send the new Stiffness settings down to the
+	               	 		// controller
+	               	 		theSmartServoRuntime
+	               	 		.changeControlModeSettings(jointImp);
+	               	 	} 	
+	                }
+	                
+	                
+//	                
+//	                if(Math.toDegrees(currentPos_now.get(JointEnum.J5))>160)
 //	                {
-//	                    destination.set(k, Math.sin(sinArgument)
-//	                            * AMPLITUDE + initialPosition.get(k));
+//	                JointPosition currentPos1=new JointPosition(currentPos.get(JointEnum.J1), currentPos.get(JointEnum.J2), currentPos.get(JointEnum.J3), currentPos.get(JointEnum.J4), 2.7925, currentPos.get(JointEnum.J6), currentPos.get(JointEnum.J7));
+//	                destination.set(currentPos1);
+//	            	System.out.println("change.."+currentPos1);
 //	                }
-//	                theServoRuntime
-//	                        .setDestination(destination);
-	//
-//	                // Modify the stiffness settings every now and then               
-//	                if (i % (NUM_RUNS / 10) == 0)
-//	                {
-//	                    // update realtime system
-//	                    if (controlMode instanceof CartesianImpedanceControlMode)
-//	                    {
-//	                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
-//	                        final double aTransStiffVal = Math.max(100. * (i
-//	                                / (double) NUM_RUNS + 1), 1000.);
-//	                        final double aRotStiffVal = Math.max(10. * (i
-//	                                / (double) NUM_RUNS + 1), 150.);
-//	                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
-//	                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
-//	                        // Send the new Stiffness settings down to the
-//	                        // controller
-//	                        theServoRuntime
-//	                                .changeControlModeSettings(cartImp);
-//	                    }
+//	                else{
+//	                	destination.set(currentPos);
 //	                }
-//	                aStep.end();
+	                
+	                destination.set(currentPos);
+	                
+	                theSmartServoRuntime
+	                        .setDestination(destination);
+
+	                aStep.end();
+
+
 	            }
 	        }
 	        catch (final Exception e)
@@ -1426,1613 +1212,1095 @@ public  class motion implements Callable<String> {
 	            e.printStackTrace();
 	        }
 
-	        // Print statistics and parameters of the motion
+	        //Print statistics and parameters of the motion
 	        getLogger().info("Displaying final states after loop "
 	                + controlMode.getClass().getName());
-
-	        getLogger().info(getClass().getName() + "\n" + theServoRuntime.toString());
-
+	        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
 	        // Stop the motion
-	        theServoRuntime.stopMotion();
+	        theSmartServoRuntime.stopMotion();
 	        getLogger().info("Statistic Timing of Overall Loop " + timing);
 	        if (timing.getMeanTimeMillis() > 150)
 	        {
 	            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-	            getLogger().info("You should check the TCP/IP Stack Configuration - see the manual for details");
+	            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
 	        }
+
 	    }
+		 
+		    protected JointImpedanceControlMode createJointImp()
+		    {
+		        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(2000, 2000, 2000, 2000, 200, 200, 200);
+//		        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
+		   
+		        jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+		        return jointImp;
+		    }
+		    
+		    protected CartesianImpedanceControlMode ConeLimit()
+		    {
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		        cartImp.parametrize(CartDOF.X).setStiffness(500.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(500.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+	
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		   
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+		        return cartImp; 	
+		    }
+		    
+		    protected CartesianImpedanceControlMode createCartImp()
+		    {
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		        
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+		        cartImp.setMaxPathDeviation(150., 150., 50., 50., 50., 50.);
+		        return cartImp;
+		    }
+		    
+		 //ç¬›å�¡å°”é˜»æŠ—æŽ§åˆ¶ä»£ç �
+		    public void runSmartCartesianMotion(final IMotionControlMode controlMode){
+//		     	_loadData = new LoadData();
+//		        _loadData.setMass(MASS);
+//		        _loadData.setCenterOfMass(
+//		                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+//		                CENTER_OF_MASS_IN_MILLIMETER[2]);
+//		        _toolAttachedToLBR = new Tool("Tool", _loadData);
+//
+//		        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
+//		                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
+//		                TRANSLATION_OF_TOOL[2]);
+//		        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+//		                + "(TCP)", trans);
+//		        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+//		        // Attach tool to the robot
+//		        _toolAttachedToLBR.attachTo(lbr.getFlange());
+		        
+		        final JointPosition initialPosition = new JointPosition(
+		                lbr.getCurrentJointPosition());
 
-	    private StatisticTimer startSineMovement(
-	            ISmartServoLINRuntime smartServoLINRuntime, StatisticTimer timing)
-	    {
-	        Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(lbr
-	                .getFlange());
+		        final DirectServo aDirectServoMotion = new DirectServo(initialPosition);
 
-	        getLogger().info("Do sine movement");
-	        try
-	        {
-	            double omega = FREQENCY * 2 * Math.PI * 1e-9;
-	            long startTimeStamp = System.nanoTime();
-	        	Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-	         	
-	           while(nWorkingmode==2)
-	            {
-	            
-	                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-						//$cmd,RobotMove,1$
-						if(nX!=0 && nY!=0 && nZ!=0 ){
-							Ptest2.setX(nX);
-							Ptest2.setY(nY);
-							Ptest2.setZ(nZ);
-//							System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-							Ptest2.setAlphaRad(Math.toRadians(nA));
-							Ptest2.setBetaRad(Math.toRadians(nB));
-							Ptest2.setGammaRad(Math.toRadians(nC));
+		        aDirectServoMotion.setMinimumTrajectoryExecutionTime(40e-3);
+
+		        getLogger().info("Starting the DirectServo motion in " + controlMode);
+		        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
+		                aDirectServoMotion.setMode(controlMode));
+		        System.out.println("sss ");
+		        final IDirectServoRuntime theServoRuntime = aDirectServoMotion
+		                .getRuntime();
+		        System.out.println("ggg ");
+		        // create an JointPosition Instance, to play with
+		        final JointPosition destination = new JointPosition(
+		                lbr.getJointCount());
+		        System.out.println("vvv ");
+		        // For Roundtrip time measurement...
+		        final StatisticTimer timing = new StatisticTimer();
+		        System.out.println("ccc");
+		        try
+		        {
+		            // do a cyclic loop
+		            // Refer to some timing...
+		            // in nanosec
+		            // freqency * ...
+		            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
+		            final long startTimeStamp = System.nanoTime();
+
+		            //for (int i = 0; i < NUM_RUNS; ++i)
+		         	final JointPosition currentPos = lbr.getCurrentJointPosition();
+		         	
+		         	JointPosition currentPos_CheckSafety;
+//		         	destination.set(currentPos_test);
+		         	destination.set(currentPos);
+		         	
+		         	boolean bDanger=false;
+//		         	System.out.println("hhh");
+		         	System.out.println(bDangerous+"dd"+nWorkingmode);
+		         	
+		            while (nWorkingmode==4 && bDangerous==false)
+		            {
+		          
+		            	currentPos_CheckSafety=lbr.getCurrentJointPosition();
+		            	if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 165){
+		            		bDangerous=false;
+		            		
+		            	}
+		            	else{
+		            		System.out.println("J1"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1)));
+		            		System.out.println("J2"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2)));
+		            		System.out.println("J3"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3)));
+		            		System.out.println("J4"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4)));
+		            		System.out.println("J5"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5)));
+		            		System.out.println("J6"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6)));
+		            		System.out.println("J7"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7)));
+		            		getLogger().info("bDangerous==true");
+		            		
+		            		bDangerous=true;
+		            	}
+		            	
+		                theServoRuntime.setDestination(destination);
+		                     
+//		                // Timing - draw one step
+//		                final OneTimeStep aStep = timing.newTimeStep();
+//		                // ///////////////////////////////////////////////////////
+//		                // Insert your code here
+//		                // e.g Visual Servoing or the like
+//		                // emulate some computational effort - or waiting for external
+//		                // stuff
+//		                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+		//
+//		                theServoRuntime.updateWithRealtimeSystem();
+		//
+//		                final double curTime = System.nanoTime() - startTimeStamp;
+//		                final double sinArgument = omega * curTime;
+		//
+//		                for (int k = 0; k < destination.getAxisCount(); ++k)
+//		                {
+//		                    destination.set(k, Math.sin(sinArgument)
+//		                            * AMPLITUDE + initialPosition.get(k));
+//		                }
+//		                theServoRuntime
+//		                        .setDestination(destination);
+		//
+//		                // Modify the stiffness settings every now and then               
+//		                if (i % (NUM_RUNS / 10) == 0)
+//		                {
+//		                    // update realtime system
+//		                    if (controlMode instanceof CartesianImpedanceControlMode)
+//		                    {
+//		                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
+//		                        final double aTransStiffVal = Math.max(100. * (i
+//		                                / (double) NUM_RUNS + 1), 1000.);
+//		                        final double aRotStiffVal = Math.max(10. * (i
+//		                                / (double) NUM_RUNS + 1), 150.);
+//		                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
+//		                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+//		                        // Send the new Stiffness settings down to the
+//		                        // controller
+//		                        theServoRuntime
+//		                                .changeControlModeSettings(cartImp);
+//		                    }
+//		                }
+//		                aStep.end();
+		            }
+		        }
+		        catch (final Exception e)
+		        {
+		            getLogger().info(e.getLocalizedMessage());
+		            e.printStackTrace();
+		        }
+
+		        // Print statistics and parameters of the motion
+		        getLogger().info("Displaying final states after loop "
+		                + controlMode.getClass().getName());
+
+		        getLogger().info(getClass().getName() + "\n" + theServoRuntime.toString());
+
+		        // Stop the motion
+		        theServoRuntime.stopMotion();
+		        getLogger().info("Statistic Timing of Overall Loop " + timing);
+		        if (timing.getMeanTimeMillis() > 150)
+		        {
+		            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+		            getLogger().info("You should check the TCP/IP Stack Configuration - see the manual for details");
+		        }
+		    }
+	
+		    private StatisticTimer startSineMovement(
+		            ISmartServoLINRuntime smartServoLINRuntime, StatisticTimer timing)
+		    {
+		        Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(lbr
+		                .getFlange());
+
+		        getLogger().info("Do sine movement");
+		        try
+		        {
+		            double omega = FREQENCY * 2 * Math.PI * 1e-9;
+		            long startTimeStamp = System.nanoTime();
+		        	Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+		         	
+		           while(nWorkingmode==2)
+		            {
+		            
+		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+							//$cmd,RobotMove,1$
+							if(nX!=0 && nY!=0 && nZ!=0 ){
+								Ptest2.setX(nX);
+								Ptest2.setY(nY);
+								Ptest2.setZ(nZ);
+//								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+								Ptest2.setAlphaRad(Math.toRadians(nA));
+								Ptest2.setBetaRad(Math.toRadians(nB));
+								Ptest2.setGammaRad(Math.toRadians(nC));
+								
+//								ThreadUtil.milliSleep(500);
+//								System.out.println("222");
+							}
 							
-//							ThreadUtil.milliSleep(500);
-//							System.out.println("222");
+		                final OneTimeStep aStep = timing.newTimeStep();
+		                // ///////////////////////////////////////////////////////
+		                // Insert your code here
+		                // e.g Visual Servoing or the like
+		                // Synchronize with the realtime system
+
+		                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+		                // Update the smart servo LIN runtime
+		                smartServoLINRuntime.updateWithRealtimeSystem();
+
+		                double curTime = System.nanoTime() - startTimeStamp;
+		                double sinArgument = omega * curTime;
+
+		                // Compute the sine function
+		                Frame destFrame = new Frame(aFrame);
+		                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+
+		                // Set new destination
+		                smartServoLINRuntime.setDestination(Ptest2);
+		                aStep.end();
+		            }
+
+		        }
+		        catch (Exception e)
+		        {
+		            getLogger().error(e.getLocalizedMessage());
+		            e.printStackTrace();
+		        }
+		        return timing;
+		    }
+		    
+		
+	//	@SuppressWarnings("null")
+		public String call() {
+//			int answer;
+//			answer = getApplicationUI().displayModalDialog(
+//			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
+			boolean DangerMove=false;
+			int nLastWorkingmode=0;
+			while (true)
+			{ 
+//				boolean btest=SafeDataIO.getInput4();
+//				if (btest==true)
+//				{
+//					nWorkingmode=1;
+//					System.out.println("SafeDataIO.getInput4"+btest);
+//				}
+//				System.out.println(btest);
+				boolean btest=SafeDataIO.getInput4();
+				if (btest==true)
+				{
+					nWorkingmode=1;
+				}
+				if (nWorkingmode==1){
+					Err="0,";
+					System.out.println("start handguiding");
+					ThreadUtil.milliSleep(500);
+					nLastWorkingmode=nWorkingmode;
+					if(SafeDataIO.getInput4()==true)
+					{
+						bForPlane=true;
+						ThreadUtil.milliSleep(500);
+						DangerMove=false;
+						if (nToolMode==2)
+						{
+							//nToolMode==2指的是安放模式
+							needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
+							bDangerous=false;
+							nWorkingmode=0;
+						}
+						else{
+							//其他指的是打磨模式
+							needle.getFrame("/tcp_2").move(createhandGuidingMotion());
+							bDangerous=false;
+							nWorkingmode=0;
 						}
 						
-	                final OneTimeStep aStep = timing.newTimeStep();
-	                // ///////////////////////////////////////////////////////
-	                // Insert your code here
-	                // e.g Visual Servoing or the like
-	                // Synchronize with the realtime system
-
-	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
-	                // Update the smart servo LIN runtime
-	                smartServoLINRuntime.updateWithRealtimeSystem();
-
-	                double curTime = System.nanoTime() - startTimeStamp;
-	                double sinArgument = omega * curTime;
-
-	                // Compute the sine function
-	                Frame destFrame = new Frame(aFrame);
-	                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
-
-	                // Set new destination
-	                smartServoLINRuntime.setDestination(Ptest2);
-	                aStep.end();
-	            }
-
-	        }
-	        catch (Exception e)
-	        {
-	            getLogger().error(e.getLocalizedMessage());
-	            e.printStackTrace();
-	        }
-	        return timing;
-	    }
-	    
-	
-//	@SuppressWarnings("null")
-	public String call() {
-//		int answer;
-//		answer = getApplicationUI().displayModalDialog(
-//		ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
-		boolean DangerMove=false;
-		int nLastWorkingmode=0;
-		while (true)
-		{ 
-//			boolean btest=SafeDataIO.getInput4();
-//			if (btest==true)
-//			{
-//				nWorkingmode=1;
-//				System.out.println("SafeDataIO.getInput4"+btest);
-//			}
-//			System.out.println(btest);
-			boolean btest=SafeDataIO.getInput4();
-			if (btest==true)
-			{
-				nWorkingmode=1;
-			}
-			if (nWorkingmode==1){
-				System.out.println("start handguiding");
-				ThreadUtil.milliSleep(500);
-				nLastWorkingmode=nWorkingmode;
-				if(SafeDataIO.getInput4()==true)
-				{
-					DangerMove=false;
-//					if (nToolMode==2)
-//					{
-//						//nToolMode==2指的是安放模式
-//						needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
-//						bDangerous=false;
-//						nWorkingmode=0;
-//					}
-//					else{
-//					resetmotion();
-						//其他指的是打磨模式
-						needle.getFrame("/zuo_21002_zhiPolish").move(createhandGuidingMotion());
-						bDangerous=false;
-						nWorkingmode=0;
-//					}
+		                nX=0;
+		                nY=0;
+		                nZ=0;
+		                nA=0;
+		                nB=0;
+		                nC=0;
+					}
+					nWorkingmode=0;
 					
-	                nX=0;
-	                nY=0;
-	                nZ=0;
-	                nA=0;
-	                nB=0;
-	                nC=0;
 				}
-				nWorkingmode=0;
-				
-			}
-		    else if (nWorkingmode==2 ){
-		    	nLastWorkingmode=nWorkingmode;
-		    	DangerMove=false;
-//				System.out.println("automode"+nWorkingmode);
-//				Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
-               //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-				//$cmd,RobotMove,1$
-		    	ThreadUtil.milliSleep(1000);
-		    	final CartesianImpedanceControlMode cartImp = createCartImp();	
-		    	if(nX==1)
-		    	{
-//		    		needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2));
-		    		System.out.println("zhunbei_ready");
-		    		needle.getFrame("/zuo_21002_zhiPolish").move(new PTP(jointPos).setJointVelocityRel(0.2));	
-		    		
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+			    else if (nWorkingmode==2 ){
+			    	nLastWorkingmode=nWorkingmode;
+			    	DangerMove=false;
+//					System.out.println("automode"+nWorkingmode);
+//					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
+                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+					//$cmd,RobotMove,1$
+			    	ThreadUtil.milliSleep(1000);
+			    	final CartesianImpedanceControlMode cartImp = createCartImp();	
+			    	if(nX==1)
+			    	{
+//			    		needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+			    		System.out.println("zhunbei_ready");
+			    		needle.getFrame("/tcp_2").move(new PTP(jointPos).setJointVelocityRel(0.2));	
+			    		
+						Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
-	                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-						//$cmd,RobotMove,1$
-				
-//							Ptest1.setX(-568.11);
-//							Ptest1.setY(246.89);
-//							Ptest1.setZ(481.69);
-////							System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-//							Ptest1.setAlphaRad(Math.toRadians(151.47));
-//							Ptest1.setBetaRad(Math.toRadians(-21.5));
-//							Ptest1.setGammaRad(Math.toRadians(125.05));
+		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+							//$cmd,RobotMove,1$
+					
+//								Ptest1.setX(-568.11);
+//								Ptest1.setY(246.89);
+//								Ptest1.setZ(481.69);
+////								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+//								Ptest1.setAlphaRad(Math.toRadians(151.47));
+//								Ptest1.setBetaRad(Math.toRadians(-21.5));
+//								Ptest1.setGammaRad(Math.toRadians(125.05));
 
-							
-						 //needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2));	
-		    	
-		    	}
-		    	//左侧
-		    	else if(nX==2)
-		    	{
-		    		System.out.println("zuoce_ready");
-		    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
-		    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
-		    	}
-		    	//右侧
-		    	else if(nX==3)
-		    	{
-		    		System.out.println("youce_ready");
-		    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
-		    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
-		    	}
-		    	else{
-		    		System.out.println("err");
-		    	}
-//					Ptest1.setX(nX);
-//					Ptest1.setY(nY);
-//					Ptest1.setZ(nZ);
-////					System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-//					Ptest1.setAlphaRad(Math.toRadians(nA));
-//					Ptest1.setBetaRad(Math.toRadians(nB));
-//					Ptest1.setGammaRad(Math.toRadians(nC));
+								
+							 //needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
+			    	
+			    	}
+			    	//左侧
+			    	else if(nX==2)
+			    	{
+			    		System.out.println("zuoce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	//右侧
+			    	else if(nX==3)
+			    	{
+			    		System.out.println("youce_ready");
+			    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+			    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
+			    	}
+			    	else{
+			    		System.out.println("err");
+			    	}
+//						Ptest1.setX(nX);
+//						Ptest1.setY(nY);
+//						Ptest1.setZ(nZ);
+////						System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+//						Ptest1.setAlphaRad(Math.toRadians(nA));
+//						Ptest1.setBetaRad(Math.toRadians(nB));
+//						Ptest1.setGammaRad(Math.toRadians(nC));
 
-		    	   
-//				
+			    	   
 //					
-////					ThreadUtil.milliSleep(500);
-////					System.out.println("222");
-//					  System.out.println("*2");
-//					JointPosition jReady =lbr.getCurrentJointPosition();
-//					System.out.println("*3");
-//	                jReady.set(1, -0.35);
-//	                jReady.set(2, -0.71);
-//	                jReady.set(3, 1.14);
-//	                jReady.set(4, 0.92);
-//	                jReady.set(5, -0.85);
-//	                jReady.set(6, -1.607);
-//	                jReady.set(7, 2.48);
-//	                System.out.println(jReady);
-//	                System.out.println("*4");
-////					lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-//	                lbr.move(ptp(jReady));
-//	                System.out.println("*5");
-	                
-	                System.out.println("*2");
-	                nWorkingmode=0;
-	                System.out.println("*3");
-	                nX=0;
-	                nY=0;
-	                nZ=0;
-	                nA=0;
-	                nB=0;
-	                nC=0;
-	        
-	               
-	        
-//				Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
-		    	
-		    	//随动模式
-//				 getLogger().info("Move to start position.");
-////			        lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
-////			                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
-//			        AbstractFrame initialPosition = lbr.getCurrentCartesianPosition(lbr
-//			                .getFlange());
-//			        // Create a new smart servo linear motion
-//			        SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
-//
-//			        aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-//			        
-//			        getLogger().info("Starting the SmartServoLIN in position control mode");
-//			        lbr.getFlange().moveAsync(aSmartServoLINMotion);
-//
-//			        getLogger().info("Get the runtime of the SmartServoLIN motion");
-//			        _smartServoLINRuntime = aSmartServoLINMotion.getRuntime();
-//			        
-//			        StatisticTimer timing = new StatisticTimer();
-//
-//			        // Start the smart servo lin sine movement
-//			        timing = startSineMovement(_smartServoLINRuntime, timing);
-//			  
-//			        ThreadUtil.milliSleep(1000);
-//
-//			        getLogger().info("Print statistic timing");
-//			        getLogger()
-//			                .info(getClass().getName() + _smartServoLINRuntime.toString());
-//
-//			        getLogger().info("Stop the SmartServoLIN motion");
-//			        _smartServoLINRuntime.stopMotion();
-//
-//			        // Statistic Timing of sine movement loop
-//			        if (timing.getMeanTimeMillis() > 150)
-//			        {
-//			            getLogger()
-//			                    .info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-//			            getLogger()
-//			                    .info("Under Windows, you should play with the registry, see the e.g. user manual");
-//			        }
-			
-			}
-			
-			else if(nWorkingmode==3){
-				DangerMove=false;
-				nLastWorkingmode=nWorkingmode;
-//		        // Initialize Joint impedance mode    
-//				System.out.println("JointimplentMode"+nWorkingmode);
-//				moveToInitialPosition();
-//		        final JointImpedanceControlMode jointImp = createJointImp();
-//		        runSmartServoMotion(jointImp);
-				
-//				Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
-//				needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-//				System.out.println("automode"+nWorkingmode);
-//				Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
-				
-				
-				Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-
-               //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-				//$cmd,RobotMove,1$
-				if(nX!=0 && nY!=0 && nZ!=0){
-					Ptest1.setX(nX);
-					Ptest1.setY(nY);
-					Ptest1.setZ(nZ);
-//					System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-					Ptest1.setAlphaRad(Math.toRadians(nA));
-					Ptest1.setBetaRad(Math.toRadians(nB));
-					Ptest1.setGammaRad(Math.toRadians(nC));
-
-					
-					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-						//System.out.println("pre_Place11***:"+pre_Place);
-						needle.getFrame("/zuo_21002_zhiPolish").move(ptp(pre_Place).setJointVelocityRel(0.35));	
-					}
-					else{
-						//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
-					}
-					
-					
-//					ThreadUtil.milliSleep(500);
-//					System.out.println("222");
-				}
-				else{
-					ThreadUtil.milliSleep(10);
-				}
-				//nWorkingmode=0;
-
-			}
-			else if(nWorkingmode==4){
-				nLastWorkingmode=nWorkingmode;
-		        // Initialize Cartesian impedance mode    
-//				System.out.println("CartesianimplentMode"+nWorkingmode);
-//				moveToInitialPosition();
-//				final CartesianImpedanceControlMode cartImp = createCartImp();
-//		        runSmartCartesianMotion(cartImp);
-           
-		    	//圆锥打磨模式
-		    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
-		    		
-		    	System.out.println("ConeLimit");
-		    	JointPosition jReady =lbr.getCurrentJointPosition();
-//                final JointPosition currentPos = lbr.getCurrentJointPosition();
-                
-     		   
-                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
-                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
-                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
-                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
-                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
-                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
-                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
-                	}
-                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
-                	}
-                	System.out.println("dangermove1");
-                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-			    	needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2));
-			    	DangerMove=true;
-                }
-                else{
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-			    	needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
-                }
-                
-
-                
-		        // Initialize Joint impedance mode    
-//				System.out.println("JointimplentMode"+nWorkingmode);
-//				moveToInitialPosition();
-//		        final JointImpedanceControlMode jointImp = createJointImp();
-//		        runSmartServoMotion(jointImp);
-                
-                
-
-		        nWorkingmode=0;
-
-				
+//						
+////						ThreadUtil.milliSleep(500);
+////						System.out.println("222");
+//						  System.out.println("*2");
+//						JointPosition jReady =lbr.getCurrentJointPosition();
+//						System.out.println("*3");
+//		                jReady.set(1, -0.35);
+//		                jReady.set(2, -0.71);
+//		                jReady.set(3, 1.14);
+//		                jReady.set(4, 0.92);
+//		                jReady.set(5, -0.85);
+//		                jReady.set(6, -1.607);
+//		                jReady.set(7, 2.48);
+//		                System.out.println(jReady);
+//		                System.out.println("*4");
+////						lbr.move(ptp(jReady).setMode(cartImp).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//		                lbr.move(ptp(jReady));
+//		                System.out.println("*5");
+		                
+		                System.out.println("*2");
+		                nWorkingmode=0;
+		                System.out.println("*3");
+		                nX=0;
+		                nY=0;
+		                nZ=0;
+		                nA=0;
+		                nB=0;
+		                nC=0;
 		        
-		  if(bDangerous==true){
-			  nWorkingmode=1;
-			  System.out.println("WorkingModeForceToSet1");
-		  }
+		               
+		        
+//					Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 20, 0)));
+			    	
+			    	//随动模式
+//					 getLogger().info("Move to start position.");
+////				        lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
+////				                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
+//				        AbstractFrame initialPosition = lbr.getCurrentCartesianPosition(lbr
+//				                .getFlange());
+//				        // Create a new smart servo linear motion
+//				        SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
+//
+//				        aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
+//				        
+//				        getLogger().info("Starting the SmartServoLIN in position control mode");
+//				        lbr.getFlange().moveAsync(aSmartServoLINMotion);
+//
+//				        getLogger().info("Get the runtime of the SmartServoLIN motion");
+//				        _smartServoLINRuntime = aSmartServoLINMotion.getRuntime();
+//				        
+//				        StatisticTimer timing = new StatisticTimer();
+//
+//				        // Start the smart servo lin sine movement
+//				        timing = startSineMovement(_smartServoLINRuntime, timing);
+//				  
+//				        ThreadUtil.milliSleep(1000);
+//
+//				        getLogger().info("Print statistic timing");
+//				        getLogger()
+//				                .info(getClass().getName() + _smartServoLINRuntime.toString());
+//
+//				        getLogger().info("Stop the SmartServoLIN motion");
+//				        _smartServoLINRuntime.stopMotion();
+//
+//				        // Statistic Timing of sine movement loop
+//				        if (timing.getMeanTimeMillis() > 150)
+//				        {
+//				            getLogger()
+//				                    .info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+//				            getLogger()
+//				                    .info("Under Windows, you should play with the registry, see the e.g. user manual");
+//				        }
+				
+				}
+				
+				else if(nWorkingmode==3){
+					DangerMove=false;
+					nLastWorkingmode=nWorkingmode;
+//			        // Initialize Joint impedance mode    
+//					System.out.println("JointimplentMode"+nWorkingmode);
+//					moveToInitialPosition();
+//			        final JointImpedanceControlMode jointImp = createJointImp();
+//			        runSmartServoMotion(jointImp);
+					
+//					Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
+//					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//					System.out.println("automode"+nWorkingmode);
+//					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
+					
+					
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
-		}
-			//自动矫正点位
-			//自动矫正点位
-			else if(nWorkingmode==5){
-				Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));;
-//				System.out.println("StartAuto");
-//				ThreadUtil.milliSleep(1000);
-//				Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				if (nToolMode==1){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-				}
-				else if(nToolMode==2){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				}
-				else if(nToolMode==3){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-				}
-				else if(nToolMode==4){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-				}
-				else if(nToolMode==5){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-				}
-				else if(nToolMode==6){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-				}
-				else if(nToolMode==7){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-				}
-				else if(nToolMode==8){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-				}
-				else if(nToolMode==11){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-				}
-				else if(nToolMode==10){
-					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-				}
-				
-				int num=0;
-				double nMinA=0,nMinB=0,nMinC=0;
-				double nMinSun=10000000;
-				double nObjectA=10000,nObjectB=100000,nObjectC=100000;
-				double nObjectA_BackUp=10000,nObjectB_BackUp=100000,nObjectC_BackUp=100000;
-//				Frame destObject1 = current.setX(current.getX());
-//				System.out.println("current.getX():"+current.getX());
-//				System.out.println("current.getA():"+current.getAlphaRad());
-//				System.out.println("current.getB():"+current.getBetaRad());
-//				System.out.println("nA:"+nA+"  nB:"+nB+"  nC:"+nC);
-				for (num = 0; num < 360; num = num + 1){
-					//当前点位
-					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-					
-					if (nToolMode==1){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-						
-						
-//						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-						
-					}
-					else if(nToolMode==2){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==3){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==4){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==5){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==6){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==7){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==8){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==10){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					else if(nToolMode==11){
-//						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
-//						System.out.println("current.getC():"+current);
-					}
-					
-					Frame destObject = current.setX(current.getX());
-					destObject = Object.setY(current.getY());
-					destObject = Object.setZ(current.getZ());
-					destObject = Object.setGammaRad(current.getGammaRad());		
-					destObject = Object.setBetaRad(current.getBetaRad());
-					destObject = Object.setAlphaRad(current.getAlphaRad());
-					
-					
-//					Frame destObject = current.setX(-737.37);
-//					destObject = Object.setY(216.62);
-//					destObject = Object.setZ(232.57);
-//					destObject = Object.setAlphaRad(-2.86530);
-//					destObject = Object.setBetaRad(-0.096691);
-//					destObject = Object.setGammaRad(2.3420570);		
-					
-				
-					
-					//System.out.println(Math.toDegrees(destObject.getBetaRad()));
-					
-					
-					
-//					nA=-157.22;
-//					nB=22.9288;
-//					nC=157.359;
-//					nA=164.7;
-//					nB=-31.71;
-//					nC=-164.418;
-//					System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
-					
-//					System.out.println("pre_Place"+pre_Place);
-//					System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
-					
-					
-					//目标点位
-					Frame destFrame = current.setX(nX);
-					destFrame = current.setY(nY);
-					destFrame = current.setZ(nZ);
-					destFrame=  current.setAlphaRad(Math.toRadians(nA));
-					destFrame=  current.setBetaRad(Math.toRadians(nB));
-					destFrame=  current.setGammaRad(Math.toRadians(nC));
-					
-//					System.out.println("11"+destFrame);
-//					
-//					destFrame = current.setX(-714.741);
-//					destFrame = current.setY(144.732);
-//					destFrame = current.setZ(315.285);
-//					destFrame = current.setAlphaRad(Math.toRadians(-139.612));
-//					destFrame = current.setBetaRad(Math.toRadians(39.7936));
-//					destFrame = current.setGammaRad(Math.toRadians(154.836));	
-//					System.out.println("22"+destFrame);
-					
-					
-					Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
-					
-					if(Math.toDegrees(Ptest1.getAlphaRad())>174 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
-						nObjectA_BackUp=Math.toDegrees(Ptest1.getAlphaRad());
-						nObjectB_BackUp=Math.toDegrees(Ptest1.getBetaRad());
-						nObjectC_BackUp=Math.toDegrees(Ptest1.getGammaRad());
-					}
-//					nMinA=Math.abs(Math.abs(Math.toDegrees(destObject.getAlphaRad()))-Math.abs(Math.toDegrees(Ptest1.getAlphaRad())));
-//					nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
-//					nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
-					
-					nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
-					nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(Ptest1.getBetaRad()));
-					nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
-					
-					//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
-					//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
-					
-					//System.out.println("a:"+nMinA+" b:"+nMinB+" c:"+nMinC);
-					if((nMinA+nMinB+nMinC)<nMinSun)
-					{
-						
-						nMinSun=(nMinA+nMinB+nMinC);
-						nObjectA=Math.toDegrees(Ptest1.getAlphaRad());
-						nObjectB=Math.toDegrees(Ptest1.getBetaRad());
-						nObjectC=Math.toDegrees(Ptest1.getGammaRad());
-					}
-				
-					//ThreadUtil.milliSleep(10);
-				}
-//				System.out.println((nMinSun));
-				//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
-//				System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
-//				System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
-				Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));				
-				if (nToolMode==1){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-				}
-				else if(nToolMode==2){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				}
-				else if(nToolMode==3){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-				}
-				else if(nToolMode==4){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-				}
-				else if(nToolMode==5){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-				}
-				else if(nToolMode==6){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-				}
-				else if(nToolMode==7){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-				}
-				else if(nToolMode==8){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-				}
-				else if(nToolMode==11){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-				}
-				else if(nToolMode==10){
-					Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-				}
-				
-				//判断使用最优值还是备选值
-				if(nObjectA>0){
-					Object1.setAlphaRad(Math.toRadians(nObjectA));
-					Object1.setBetaRad(Math.toRadians(nObjectB));
-					Object1.setGammaRad(Math.toRadians(nObjectC));
-				}
-				else{
-					Object1.setAlphaRad(Math.toRadians(nObjectA_BackUp));
-					Object1.setBetaRad(Math.toRadians(nObjectB_BackUp));
-					Object1.setGammaRad(Math.toRadians(nObjectC_BackUp));
-				}
-
-//				System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
-				
-				Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				
-				if (nToolMode==1){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-				}
-				else if(nToolMode==2){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				}
-				else if(nToolMode==3){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-				}
-				else if(nToolMode==4){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-				}
-				else if(nToolMode==5){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-				}
-				else if(nToolMode==6){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-				}
-				else if(nToolMode==7){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-				}
-				else if(nToolMode==8){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-				}
-				else if(nToolMode==11){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-				}
-				else if(nToolMode==10){
-					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-				}
-				
-//				System.out.println("111");
-//				lbr.geti
-
-				
-//				Object2.setX(-737.34);
-//				Object2.setY(216.63);
-//				Object2.setZ(232.6);
-//				Object2.setAlphaRad(Math.toRadians(-164.18));
-//				Object2.setBetaRad(Math.toRadians(-5.54));
-//				Object2.setGammaRad(Math.toRadians(134.19));
-//				JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
-//				System.out.println(test1);
-//				
-//				Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
-//				Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-//				Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
-//				System.out.println(Object3);
-//				
-//				Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
-//				System.out.println(Object4);
-//				
-//		//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
-//			//	System.out.println("112");
-				
-//				Object2.setX(0);
-//				Object2.setY(0);
-//				Object2.setZ(0);
-//				Object2.setAlphaRad(Math.toRadians(0));
-//				Object2.setBetaRad(Math.toRadians(0));
-//				Object2.setGammaRad(Math.toRadians(0));
-//				JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
-//				System.out.println(test1);
-//				System.out.println("Object21"+Object2);
-////				Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
-////				Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-////				Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
-////				System.out.println(Object3);
-////				System.out.println("Object22"+Object2);
-//				Frame Object4 = Object2.transform((Transformation.ofDeg(0.8,168.5,265.6, 0, 0, -59.999999931439994)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
-//				System.out.println("Object4"+Object4);
-				
-				
-//				Object2.setX(-737.34);
-//				Object2.setY(216.63);
-//				Object2.setZ(232.6);
-//				Object2.setAlphaRad(Math.toRadians(-164.18));
-//				Object2.setBetaRad(Math.toRadians(-5.54));
-//				Object2.setGammaRad(Math.toRadians(134.19));
-//				JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
-//				System.out.println(test1);
-//				System.out.println("Object21"+Object2);
-////				Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
-////				Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-////				Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
-////				System.out.println(Object3);
-////				System.out.println("Object22"+Object2);
-//				Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-////				Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
-//				System.out.println("Object4"+Object4);
-				
-
-				JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
-//				System.out.println(test1);
-//				System.out.println("Object21"+Object2);
-//				Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
-//				Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
-//				Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
-//				System.out.println(Object3);
-//				System.out.println("Object22"+Object2);
-				//Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
-				//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/zuo_21002_zhiSet"));
-				
-				Frame Object4=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-				if (nToolMode==1){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
-					Object4 = Object4.transform((Transformation.ofDeg(1.3  ,-126.4 ,-249.5, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==2){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
-					Object4 = Object4.transform((Transformation.ofDeg(1.4 ,-168.7 ,-273.8, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==3){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
-					Object4 = Object4.transform((Transformation.ofDeg(1.24 ,-157.64,-309.06, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==4){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
-					Object4 = Object4.transform((Transformation.ofDeg(0.97 ,125.51,-249.72, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==5){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
-					Object4 = Object4.transform((Transformation.ofDeg(1.1 ,167.9,-274.29, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==6){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
-					Object4 = Object4.transform((Transformation.ofDeg(-1.24 ,157.64,-309.06, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==7){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
-					Object4 = Object4.transform((Transformation.ofDeg(-0.63 ,-125.82,-250.35, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==8){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
-					Object4 = Object4.transform((Transformation.ofDeg(-0.85 ,-168.52,-275.15, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==10){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
-					Object4 = Object4.transform((Transformation.ofDeg(0.63 ,125.82,-250.35, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				else if(nToolMode==11){
-					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
-					Object4 = Object4.transform((Transformation.ofDeg(0.85 ,168.52,-275.15, 0, 0, 0)));
-//					System.out.println("Object4"+Object4);	
-				}
-				try{
-					
-					lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-//					System.out.println("222");	
-				Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-//				System.out.println("333");	
-				Object5.setX(Object4.getX());
-				Object5.setY(Object4.getY());
-				Object5.setZ(Object4.getZ());
-				Object5.setAlphaRad(Object4.getAlphaRad());
-				Object5.setBetaRad(Object4.getBetaRad());
-				Object5.setGammaRad(Object4.getGammaRad());
-//				System.out.println("Object5"+Object5);
-				JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-				
-				
-				
-				
-				
-//				if(Math.toDegrees(test.get(JointEnum.J1))<15 && Math.toDegrees(test.get(JointEnum.J1))>-15 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
-				if(true){
-				
-					if (nToolMode==1){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+					//$cmd,RobotMove,1$
+					if(nX!=0 && nY!=0 && nZ!=0){
+						Ptest1.setX(nX);
+						Ptest1.setY(nY);
+						Ptest1.setZ(nZ);
+//						System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+						Ptest1.setAlphaRad(Math.toRadians(nA));
+						Ptest1.setBetaRad(Math.toRadians(nB));
+						Ptest1.setGammaRad(Math.toRadians(nC));
 
 						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-						needle.getFrame("/zuo_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-						
-						
-					}
-					else if(nToolMode==2){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						
-//						System.out.println("Object511111"+pre_Point);
-						final CartesianImpedanceControlMode cartImp = ZoneLimit();
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-						needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-					}
-					else if(nToolMode==3){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/zuo_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-					}
-					else if(nToolMode==4){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/you_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-					}
-					else if(nToolMode==5){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						
-//						System.out.println("Object511111"+pre_Point);
-						final CartesianImpedanceControlMode cartImp = ZoneLimit();
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-						needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-//						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-//						 System.out.println("finish");
-						
-					}
-					else if(nToolMode==6){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/you_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-					}
-					else if(nToolMode==7){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/zuo_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-					}
-					else if(nToolMode==8){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						
-//						System.out.println("Object511111"+pre_Point);
-						final CartesianImpedanceControlMode cartImp = ZoneLimit();
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-						needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-//						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-//						 System.out.println("finish");
-					}
-					else if(nToolMode==10){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/you_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
-					}
-					else if(nToolMode==11){
-//						needle.getFrame("/zuo_21002_zhiPolish").move(lin(Object1).setJointVelocityRel(0.2));
-						
-						Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-						
-						
-						Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-//						System.out.println("1:"+cmdPos);
-						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-						cmdPos2.setX(0);
-						cmdPos2.setY(0);
-						cmdPos2.setZ(0);
-						cmdPos2.setAlphaRad(0);
-						cmdPos2.setBetaRad(Math.toRadians(-30));
-						cmdPos2.setGammaRad(0);
-						final CartesianImpedanceControlMode cartImp = ZoneLimit();
-						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
-						
-						
-						pre_Point.setX(cmdPos.getX());
-						pre_Point.setY(cmdPos.getY());
-						pre_Point.setZ(cmdPos.getZ());
-						pre_Point.setAlphaRad(Object1.getAlphaRad());
-						pre_Point.setBetaRad(Object1.getBetaRad());
-						pre_Point.setGammaRad(Object1.getGammaRad());
-						//用优化角度还是直接角度赋值
-//						pre_Point.setAlphaRad(Math.toRadians(nA));
-//						pre_Point.setBetaRad(Math.toRadians(nB));
-//						pre_Point.setGammaRad(Math.toRadians(nC));
-						
-						//判断
-						Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
-			       	    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
-			       	    
-			       	    
-			       	    
-			       	    DistanceToPlane.getGammaRad();
-			       	    
-			       	    System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
-//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
-//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
-			       	    
-//						System.out.println("Object511111"+pre_Point);
-						needle.getFrame("/you_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
-//						lbr.move(lin(getFrame("/p2")).setCartVelocity(800).setMode(cartImp));
-//						 lbr.move(new PTP(new JointPosition( 0.5, 0.8, 0.2, 1.0, -0.5, -0.5, -1.5)).setJointVelocityRel(800).setMode(cartImp));
-//						 System.out.println("finish");
-					}
-//					System.out.println("InRange");
-				}
-
-				else{
-//					System.out.println("OutOfRange");
-				}
-				if(Math.toDegrees(test.get(JointEnum.J1))>11 || Math.toDegrees(test.get(JointEnum.J1))<-11){
-//					System.out.println("err1："+Math.toDegrees(test.get(JointEnum.J1)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J2))>31 || Math.toDegrees(test.get(JointEnum.J2))<-15){
-//					System.out.println("err2："+Math.toDegrees(test.get(JointEnum.J2)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J3))>46 || Math.toDegrees(test.get(JointEnum.J3))<-46){
-//					System.out.println("err3："+Math.toDegrees(test.get(JointEnum.J3)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J4))>116 || Math.toDegrees(test.get(JointEnum.J4))<-1){
-//					System.out.println("err4："+Math.toDegrees(test.get(JointEnum.J4)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J5))>66 || Math.toDegrees(test.get(JointEnum.J5))<-66){
-//					System.out.println("err5："+Math.toDegrees(test.get(JointEnum.J5)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J6))>-46 || Math.toDegrees(test.get(JointEnum.J6))<-111){
-//					System.out.println("err6："+Math.toDegrees(test.get(JointEnum.J6)));
-				}
-				if(Math.toDegrees(test.get(JointEnum.J7))>166 || Math.toDegrees(test.get(JointEnum.J7))<-166){
-//					System.out.println("err7："+Math.toDegrees(test.get(JointEnum.J7)));
-				}
-//				System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
-				}
-				catch(Throwable cause)
-				{
-					System.out.println("OutOfRange2");
-				}
-				
-				
-				
-		//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
-			//	System.out.println("112");
-				
-				
-				
-				
-				nWorkingmode=0;
-				
-				
-			}
-			
-			else if(nWorkingmode==6){
-				nLastWorkingmode=nWorkingmode;
-//		        // Initialize Joint impedance mode    
-//				System.out.println("JointimplentMode"+nWorkingmode);
-//				moveToInitialPosition();
-//		        final JointImpedanceControlMode jointImp = createJointImp();
-//		        runSmartServoMotion(jointImp);
-				
-//				Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
-//				needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
-//				System.out.println("automode"+nWorkingmode);
-//				Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
-				
-				
-				Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
-
-               //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-				//$cmd,RobotMove,1$
-				if(nX!=0 && nY!=0 && nZ!=0){
-					Ptest1.setX(nX);
-					Ptest1.setY(nY);
-					Ptest1.setZ(nZ);
-//		     		System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-					Ptest1.setAlphaRad(Math.toRadians(nA));
-					Ptest1.setBetaRad(Math.toRadians(nB));
-					Ptest1.setGammaRad(Math.toRadians(nC));
-
-					
-					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
-						//System.out.println("pre_Place11***:"+pre_Place);
-						needle.getFrame("/zuo_21002_zhiSet").move(ptp(pre_Place).setJointVelocityRel(0.1));	
+						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+							//System.out.println("pre_Place11***:"+pre_Place);
+							needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+						}
+						else{
+							//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+						}
+						
+						
+//						ThreadUtil.milliSleep(500);
+//						System.out.println("222");
 					}
 					else{
-						//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+						ThreadUtil.milliSleep(10);
 					}
-					
-					
-//					ThreadUtil.milliSleep(500);
-//					System.out.println("222");
-				}
-				else{
-					ThreadUtil.milliSleep(10);
-				}
-				//nWorkingmode=0;
-				
-			}
-			else if(nWorkingmode==7){
-				nLastWorkingmode=nWorkingmode;
-		        // Initialize Cartesian impedance mode    
-//				System.out.println("CartesianimplentMode"+nWorkingmode);
-//				moveToInitialPosition();
-//				final CartesianImpedanceControlMode cartImp = createCartImp();
-//		        runSmartCartesianMotion(cartImp);
-           
-		    	//空间打磨模式
-//		    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
-		    	final CartesianImpedanceControlMode cartImp = ZoneLimit();
-		    	System.out.println("ZoneLimit");
-		    	JointPosition jReady =lbr.getCurrentJointPosition();
-		    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-		    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
-               
-                
+					//nWorkingmode=0;
 
-		        nWorkingmode=0;
-			}
-			else if(nWorkingmode==8){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneY_Positive");
-//					OnlyPlane.initialize();
-            		OnlyPlane.run();
-					System.out.println("ForPlaneY_Positive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
 				}
-				
-			}
-			else if(nWorkingmode==9){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneY_Negtive");
-//					OnlyPlane.initialize();
-					OnlyPlane1.run();
-					System.out.println("ForPlaneY_Negtive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
-				}
-				
-			}
-			else if(nWorkingmode==10){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneX_Positive");
-//					OnlyPlane.initialize();
-					OnlyPlane2.run();
-					System.out.println("ForPlaneX_Positive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
-				}
-				
-			}
-			else if(nWorkingmode==11){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneX_Negtive");
-//					OnlyPlane.initialize();
-					OnlyPlane3.run();
-					System.out.println("ForPlaneX_Negtive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
-				}
-				
-			}
-			else if(nWorkingmode==12){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneZ_Positove");
-//					OnlyPlane.initialize();
-					OnlyPlane4.run();
-					System.out.println("ForPlaneZ_Positive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
-				}
-				
-			}
-			else if(nWorkingmode==13){
-				JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-				if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-            		System.out.println("ForPlaneZ_Negtive");
-//					OnlyPlane.initialize();
-					OnlyPlane5.run();
-					System.out.println("ForPlaneZ_Negtive_End");
-			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
-			    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-            	}
-				else{
-				
-				}
-				
-			}
-			else{
-				
-//				
-				if(DangerMove==false && nLastWorkingmode==4){
-					JointPosition jReady =lbr.getCurrentJointPosition();
+				else if(nWorkingmode==4){
+					nLastWorkingmode=nWorkingmode;
+			        // Initialize Cartesian impedance mode    
+//					System.out.println("CartesianimplentMode"+nWorkingmode);
+//					moveToInitialPosition();
+//					final CartesianImpedanceControlMode cartImp = createCartImp();
+//			        runSmartCartesianMotion(cartImp);
+               
+			    	//圆锥打磨模式
+			    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+			    		
+			    	System.out.println("ConeLimit");
+			    	JointPosition jReady =lbr.getCurrentJointPosition();
 //	                final JointPosition currentPos = lbr.getCurrentJointPosition();
 	                
 	     		   
-//					 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-//	                	System.out.println("dangermove1");
-//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-//				    	needle.getFrame("/zuo_21002_zhiPolish").move(lin(Ptest1).setJointVelocityRel(0.2));
-//				    	DangerMove=true;
-//	                }
-					 
-		                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-		                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
-		                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
-		                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
-		                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
-		                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
-		                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
-		                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
-		                	}
-		                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-		                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
-		                	}
-		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-					    	needle.getFrame("/zuo_21002_zhiPolish").move(lin(Ptest1).setJointVelocityRel(0.2));
-					    	DangerMove=true;
-		                	System.out.println("dangermove1");
-		                }
-		                	
-					 
-				}
-				//ThreadUtil.milliSleep(4);
+	                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+	                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
+	                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
+	                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
+	                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
+	                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
+	                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
+	                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
+	                	}
+	                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+	                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
+	                	}
+	                	System.out.println("dangermove1");
+	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+				    	DangerMove=true;
+	                }
+	                else{
+				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+	                }
+	                
+
+                    
+			        // Initialize Joint impedance mode    
+//					System.out.println("JointimplentMode"+nWorkingmode);
+//					moveToInitialPosition();
+//			        final JointImpedanceControlMode jointImp = createJointImp();
+//			        runSmartServoMotion(jointImp);
+	                
+	                
+
+			        nWorkingmode=0;
+
+					
+			        
+			  if(bDangerous==true){
+				  nWorkingmode=1;
+				  System.out.println("WorkingModeForceToSet1");
+			  }
+
 			}
+				//自动矫正点位
+				else if(nWorkingmode==5){
+		
+					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));;
+						
+					ThreadUtil.milliSleep(1000);
+//					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					if (nToolMode==1){
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					else if(nToolMode==2){
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					
+					int num=0;
+					double nMinA=0,nMinB=0,nMinC=0;
+					double nMinSun=10000000;
+					double nObjectA=10000,nObjectB=100000,nObjectC=100000;
+					double nObjectA_BackUp=10000,nObjectB_BackUp=100000,nObjectC_BackUp=100000;
+//					Frame destObject1 = current.setX(current.getX());
+//					System.out.println("current.getX():"+current.getX());
+//					System.out.println("current.getA():"+current.getAlphaRad());
+//					System.out.println("current.getB():"+current.getBetaRad());
+					System.out.println("nA:"+nA+"  nB:"+nB+"  nC:"+nC);
+					for (num = 0; num < 360; num = num + 1){
+						//当前点位
+						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+						
+						if (nToolMode==1){
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+							
+							
+//							cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//							System.out.println("1:"+cmdPos);
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
+//							System.out.println("current.getC():"+current);
+							
+						}
+						else if(nToolMode==2){
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
+							System.out.println("current.getC():"+current);
+						}
+						
+						Frame destObject = current.setX(current.getX());
+						destObject = Object.setY(current.getY());
+						destObject = Object.setZ(current.getZ());
+						destObject = Object.setGammaRad(current.getGammaRad());		
+						destObject = Object.setBetaRad(current.getBetaRad());
+						destObject = Object.setAlphaRad(current.getAlphaRad());
+						
+						
+//						Frame destObject = current.setX(-737.37);
+//						destObject = Object.setY(216.62);
+//						destObject = Object.setZ(232.57);
+//						destObject = Object.setAlphaRad(-2.86530);
+//						destObject = Object.setBetaRad(-0.096691);
+//						destObject = Object.setGammaRad(2.3420570);		
+						
+					
+						
+						//System.out.println(Math.toDegrees(destObject.getBetaRad()));
+						
+						
+						
+//						nA=-157.22;
+//						nB=22.9288;
+//						nC=157.359;
+//						nA=164.7;
+//						nB=-31.71;
+//						nC=-164.418;
+//						System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
+						
+//						System.out.println("pre_Place"+pre_Place);
+//						System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+						
+						
+						//目标点位
+						Frame destFrame = current.setX(nX);
+						destFrame = current.setY(nY);
+						destFrame = current.setZ(nZ);
+						destFrame=  current.setAlphaRad(Math.toRadians(nA));
+						destFrame=  current.setBetaRad(Math.toRadians(nB));
+						destFrame=  current.setGammaRad(Math.toRadians(nC));
+						
+//						System.out.println("11"+destFrame);
+//						
+//						destFrame = current.setX(-714.741);
+//						destFrame = current.setY(144.732);
+//						destFrame = current.setZ(315.285);
+//						destFrame = current.setAlphaRad(Math.toRadians(-139.612));
+//						destFrame = current.setBetaRad(Math.toRadians(39.7936));
+//						destFrame = current.setGammaRad(Math.toRadians(154.836));	
+//						System.out.println("22"+destFrame);
+						
+						
+						Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
+						
+						if(Math.toDegrees(Ptest1.getAlphaRad())>174 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
+							nObjectA_BackUp=Math.toDegrees(Ptest1.getAlphaRad());
+							nObjectB_BackUp=Math.toDegrees(Ptest1.getBetaRad());
+							nObjectC_BackUp=Math.toDegrees(Ptest1.getGammaRad());
+						}
+//						nMinA=Math.abs(Math.abs(Math.toDegrees(destObject.getAlphaRad()))-Math.abs(Math.toDegrees(Ptest1.getAlphaRad())));
+//						nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
+//						nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
+						
+						nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
+						nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(Ptest1.getBetaRad()));
+						nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
+						
+						//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
+						//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
+						
+						//System.out.println("a:"+nMinA+" b:"+nMinB+" c:"+nMinC);
+						if((nMinA+nMinB+nMinC)<nMinSun)
+						{
+							
+							nMinSun=(nMinA+nMinB+nMinC);
+							nObjectA=Math.toDegrees(Ptest1.getAlphaRad());
+							nObjectB=Math.toDegrees(Ptest1.getBetaRad());
+							nObjectC=Math.toDegrees(Ptest1.getGammaRad());
+						}
+					
+						//ThreadUtil.milliSleep(10);
+					}
+					System.out.println((nMinSun));
+					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
+					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
+					System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
+					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					if (nToolMode==1){
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					else if(nToolMode==2){
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					
+					//判断使用最优值还是备选值
+					if(nObjectA>0){
+						Object1.setAlphaRad(Math.toRadians(nObjectA));
+						Object1.setBetaRad(Math.toRadians(nObjectB));
+						Object1.setGammaRad(Math.toRadians(nObjectC));
+					}
+					else{
+						Object1.setAlphaRad(Math.toRadians(nObjectA_BackUp));
+						Object1.setBetaRad(Math.toRadians(nObjectB_BackUp));
+						Object1.setGammaRad(Math.toRadians(nObjectC_BackUp));
+					}
 
-		
-		
+					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
+					
+					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					if (nToolMode==1){
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					else if(nToolMode==2){
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					}
+					System.out.println("111");
+//					lbr.geti
 
-		
+					
+//					Object2.setX(-737.34);
+//					Object2.setY(216.63);
+//					Object2.setZ(232.6);
+//					Object2.setAlphaRad(Math.toRadians(-164.18));
+//					Object2.setBetaRad(Math.toRadians(-5.54));
+//					Object2.setGammaRad(Math.toRadians(134.19));
+//					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+//					System.out.println(test1);
+//					
+//					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+//					System.out.println(Object3);
+//					
+//					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
+//					System.out.println(Object4);
+//					
+//			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
+//				//	System.out.println("112");
+					
+//					Object2.setX(0);
+//					Object2.setY(0);
+//					Object2.setZ(0);
+//					Object2.setAlphaRad(Math.toRadians(0));
+//					Object2.setBetaRad(Math.toRadians(0));
+//					Object2.setGammaRad(Math.toRadians(0));
+//					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+//					System.out.println(test1);
+//					System.out.println("Object21"+Object2);
+////					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+////					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+////					System.out.println(Object3);
+////					System.out.println("Object22"+Object2);
+//					Frame Object4 = Object2.transform((Transformation.ofDeg(0.8,168.5,265.6, 0, 0, -59.999999931439994)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);
+					
+					
+//					Object2.setX(-737.34);
+//					Object2.setY(216.63);
+//					Object2.setZ(232.6);
+//					Object2.setAlphaRad(Math.toRadians(-164.18));
+//					Object2.setBetaRad(Math.toRadians(-5.54));
+//					Object2.setGammaRad(Math.toRadians(134.19));
+//					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+//					System.out.println(test1);
+//					System.out.println("Object21"+Object2);
+////					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+////					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+////					System.out.println(Object3);
+////					System.out.println("Object22"+Object2);
+//					Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+////					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,-265.6, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);
+					
+
+					JointPosition test1=lbr.getInverseKinematicFromFrameAndRedundancy(Object2);
+					System.out.println(test1);
+					System.out.println("Object21"+Object2);
+//					Frame Object3 = Object2.transform((Transformation.ofDeg(0,0,-265.6, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(0,-168.5,0, 0, 0, 0)));
+//					Object3 = Object3.transform((Transformation.ofDeg(-0.8 ,0,0, 0, 0, 0)));
+//					System.out.println(Object3);
+//					System.out.println("Object22"+Object2);
+					//Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
+					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
+					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					//Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-59.1,-141, 0, 0, 0)));
+					System.out.println("Object4"+Object4);	
+					try{
+						
+						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+						System.out.println("222");	
+					Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					System.out.println("333");	
+					Object5.setX(Object4.getX());
+					Object5.setY(Object4.getY());
+					Object5.setZ(Object4.getZ());
+					Object5.setAlphaRad(Object4.getAlphaRad());
+					Object5.setBetaRad(Object4.getBetaRad());
+					Object5.setGammaRad(Object4.getGammaRad());
+					System.out.println("Object5"+Object5);
+					JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+//					if(Math.toDegrees(test.get(JointEnum.J1))<15 && Math.toDegrees(test.get(JointEnum.J1))>-15 && Math.toDegrees(test.get(JointEnum.J2))>-15 && Math.toDegrees(test.get(JointEnum.J2) )<31 && Math.toDegrees(test.get(JointEnum.J3))>-46 && Math.toDegrees(test.get(JointEnum.J3))<46 && Math.toDegrees(test.get(JointEnum.J4))>-1 && Math.toDegrees(test.get(JointEnum.J4))<116 && Math.toDegrees(test.get(JointEnum.J5))>-66 && Math.toDegrees(test.get(JointEnum.J5))<66 &&Math.toDegrees(test.get(JointEnum.J6))>-111 && Math.toDegrees(test.get(JointEnum.J6))<-46 && Math.toDegrees(test.get(JointEnum.J7))>-166 && Math.toDegrees(test.get(JointEnum.J7))<166){
+					if(true){
+					
+						if (nToolMode==1){
+//							needle.getFrame("/tcp_2").move(lin(Object1).setJointVelocityRel(0.2));
+							
+							Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+
+							
+							
+							Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+//							System.out.println("1:"+cmdPos);
+							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+							cmdPos2.setX(0);
+							cmdPos2.setY(0);
+							cmdPos2.setZ(0);
+							cmdPos2.setAlphaRad(0);
+							cmdPos2.setBetaRad(Math.toRadians(-30));
+							cmdPos2.setGammaRad(0);
+							cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
+							
+							
+							pre_Point.setX(cmdPos.getX());
+							pre_Point.setY(cmdPos.getY());
+							pre_Point.setZ(cmdPos.getZ());
+							pre_Point.setAlphaRad(Object1.getAlphaRad());
+							pre_Point.setBetaRad(Object1.getBetaRad());
+							pre_Point.setGammaRad(Object1.getGammaRad());
+							//用优化角度还是直接角度赋值	
+//							pre_Point.setAlphaRad(Math.toRadians(nA));
+//							pre_Point.setBetaRad(Math.toRadians(nB));
+//							pre_Point.setGammaRad(Math.toRadians(nC));
+							
+							
+							System.out.println("Object511111"+pre_Point);
+							needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Point).setJointVelocityRel(0.2));
+							
+						}
+						else if(nToolMode==2){
+							needle.getFrame("/tcp_x_1_yz1").move(lin(Object1).setJointVelocityRel(0.2));
+						}
+						
+						System.out.println("InRange");
+					}
+					else{
+						System.out.println("OutOfRange");
+					}
+					if(Math.toDegrees(test.get(JointEnum.J1))>11 || Math.toDegrees(test.get(JointEnum.J1))<-11){
+						System.out.println("err1："+Math.toDegrees(test.get(JointEnum.J1)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J2))>31 || Math.toDegrees(test.get(JointEnum.J2))<-15){
+						System.out.println("err2："+Math.toDegrees(test.get(JointEnum.J2)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J3))>46 || Math.toDegrees(test.get(JointEnum.J3))<-46){
+						System.out.println("err3："+Math.toDegrees(test.get(JointEnum.J3)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J4))>116 || Math.toDegrees(test.get(JointEnum.J4))<-1){
+						System.out.println("err4："+Math.toDegrees(test.get(JointEnum.J4)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J5))>66 || Math.toDegrees(test.get(JointEnum.J5))<-66){
+						System.out.println("err5："+Math.toDegrees(test.get(JointEnum.J5)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J6))>-46 || Math.toDegrees(test.get(JointEnum.J6))<-111){
+						System.out.println("err6："+Math.toDegrees(test.get(JointEnum.J6)));
+					}
+					if(Math.toDegrees(test.get(JointEnum.J7))>166 || Math.toDegrees(test.get(JointEnum.J7))<-166){
+						System.out.println("err7："+Math.toDegrees(test.get(JointEnum.J7)));
+					}
+					System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+					}
+					catch(Throwable cause)
+					{
+						System.out.println("OutOfRange2");
+					}
+					
+					
+					
+			//		System.out.println("j1:"+test.get(1)+" j2"+test.get(2)+" j3"+test.get(3)+" j4"+test.get(4)+" j5"+test.get(5)+" j6"+test.get(6)+" j7"+test.get(7));
+				//	System.out.println("112");
+					
+					
+					
+					
+					nWorkingmode=0;
+					
+					
+				}
+				
+				else if(nWorkingmode==6){
+					nLastWorkingmode=nWorkingmode;
+//			        // Initialize Joint impedance mode    
+
+					ThreadUtil.milliSleep(3000);
+					if(nX!=0 && nY!=0 && nZ!=0){
+
+//						if(num_ForTest!=0)
+						if(true)
+						{
+							System.out.println("num_ForTest!=0");
+							Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+
+							pre_Place1.setX(nX);
+							pre_Place1.setY(nY);
+							pre_Place1.setZ(nZ);
+							pre_Place1.setAlphaRad(Math.toRadians(nA));
+							pre_Place1.setBetaRad(Math.toRadians(nB));
+							pre_Place1.setGammaRad(Math.toRadians(nC));
+						
+							Frame pre_Place2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+	 
+							pre_Place2.setX(nX);
+							pre_Place2.setY(nY);
+							pre_Place2.setZ(nZ);
+							pre_Place2.setAlphaRad(Math.toRadians(nA));
+							pre_Place2.setBetaRad(Math.toRadians(nB));
+							pre_Place2.setGammaRad(Math.toRadians(nC));
+							
+							
+							
+							
+							System.out.println("pre_Place"+pre_Place1);
+							
+//								
+			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+						    	
+
+					    		System.out.println("zhunbei_ready");
+					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(22.5 ,209,-130, 0, 0, 0)));
+					    		System.out.println("Object4"+Object4);
+					    		
+					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
+					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+								System.out.println("222");	
+								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+								System.out.println("333");	
+								Object5.setX(Object4.getX());
+								Object5.setY(Object4.getY());
+								Object5.setZ(Object4.getZ());
+								Object5.setAlphaRad(Object4.getAlphaRad());
+								Object5.setBetaRad(Object4.getBetaRad());
+								Object5.setGammaRad(Object4.getGammaRad());
+								System.out.println("Object5"+Object5);
+								JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+								System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
+					    		
+					    		try{
+
+							
+								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
+//								num_ForTest=num_ForTest+5;
+								System.out.println("Move");
+					    		}	
+								catch(Throwable cause)
+								{
+									System.out.println("RangeLimit");
+									Err="1,";
+								}
+							}
+							else{
+								 
+							}
+						}
+					else{
+						num_ForTest=1;
+						System.out.println("num_ForTest==0");
+					}
+						
+
+						
+						
+
+					
+					nWorkingmode=0;
+					
+					
+				}
+				else if(nWorkingmode==7){
+					JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+					if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+	            		System.out.println("ForPlane");
+//						OnlyPlane.initialize();
+						OnlyPlane.run();
+		           		Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
+						nWorkingmode=0;
+	            	}
+					else{
+						Err="2,";
+					}
+					
+				}
+				else{
+					
+//					
+					if(DangerMove==false && nLastWorkingmode==4){
+						JointPosition jReady =lbr.getCurrentJointPosition();
+//		                final JointPosition currentPos = lbr.getCurrentJointPosition();
+		                
+		     		   
+//						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+//		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//					    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
+//					    	DangerMove=true;
+//		                }
+						 
+			                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+			                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
+			                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
+			                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
+			                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
+			                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
+			                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
+			                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
+			                	}
+			                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+			                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
+			                	}
+			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+						    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
+						    	DangerMove=true;
+			                	System.out.println("dangermove1");
+			                }
+			                	
+						 
+					}
+					//ThreadUtil.milliSleep(4);
+				}
+
+			
+			
+
+			
+			}
+			//return "end get";
 		}
-		//return "end get";
-	}
 
-}
+	}
 
 	
 	
@@ -3118,8 +2386,8 @@ public  class motion implements Callable<String> {
 				data12=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡x
-				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				System.out.println("1:"+cmdPos);
 				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 				cmdPos2.setX(0);
@@ -3128,7 +2396,7 @@ public  class motion implements Callable<String> {
 				cmdPos2.setAlphaRad(0);
 				cmdPos2.setBetaRad(Math.toRadians(-30));
 				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+				cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 				System.out.println("2:"+cmdPos);
 				
 				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle.getFrame("/CoverScrewing"));
@@ -3140,11 +2408,11 @@ public  class motion implements Callable<String> {
 //					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
 //				}
 //				else{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //				}
 				
 				if (nToolMode==1){
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 					System.out.println("1:"+cmdPos);
 					cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
@@ -3153,38 +2421,38 @@ public  class motion implements Callable<String> {
 					cmdPos2.setAlphaRad(0);
 					cmdPos2.setBetaRad(Math.toRadians(-30));
 					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+					cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 					System.out.println("2:"+cmdPos);
 						
 						
 				}
 				else if(nToolMode==2)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 				}	
 				else if(nToolMode==3)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 				}	
 				else if(nToolMode==4)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				}	
 				else if(nToolMode==5)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				}	
 				else if(nToolMode==6)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 				}	
 				else if(nToolMode==7)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz3"));
 				}	
 				else if(nToolMode==8)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz4"));
 				}	
 				else if(nToolMode==9)
 				{
@@ -3259,31 +2527,18 @@ public  class motion implements Callable<String> {
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-		JointPosition actPos = lbr.getCurrentJointPosition();
-		
-//		BreakTest.initialize();
-//		BreakTest.run();
 
-//		double offsetX=100;
-//		double offsetY=50;
-//		double offsetZ=20;
-//		double offsetA=1;
-//		double offsetB=0;
-//		double offsetC=0;
-//		Frame toolcurFrame=lbr.getCurrentCartesianPosition(needle.getDefaultMotionFrame());
-//		Frame target = toolcurFrame.copyWithRedundancy();
-//		target.setX(target.getX()+offsetX);
-//		target.setY(target.getY()+offsetY);
-//		target.setZ(target.getZ()+offsetZ);
-//		target.setAlphaRad(target.getAlphaRad()+offsetA);
-//		target.setBetaRad(target.getBetaRad()+offsetB);
-//		target.setGammaRad(target.getGammaRad()+offsetC);
-//		
-//		LIN linMotion = new LIN(target);
-//		needle.getDefaultMotionFrame().move(linMotion);
-//		ISafetyState currentState = lbr.getSafetyState();
-//	
-//		//jjj
+		BreakTest.initialize();
+		BreakTest.run();
+		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+		ThreadUtil.milliSleep(2000);
+		
+//		OnlyPlane.run();
+//		ThreadUtil.milliSleep(2000);
+//		OnlyPlane.initialize();
+//		OnlyPlane.run();
+		
+		
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
@@ -3304,8 +2559,6 @@ public  class motion implements Callable<String> {
 
 		
 		
-		
-
 	}
 	@Override
 	public void dispose(){
