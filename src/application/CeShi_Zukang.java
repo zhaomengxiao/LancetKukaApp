@@ -41,7 +41,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
     private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
-    private static final double MASS = 0;
+    private static final double MASS = 2.2;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
     private static final int NUM_RUNS = 600;
@@ -225,7 +225,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 
                 // Compute the sine function
                 Frame destFrame = new Frame(aFrame);
-                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+//                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
 
                 // Set new destination
                 theSmartServoLINRuntime.setDestination(destFrame);
@@ -248,8 +248,8 @@ public class CeShi_Zukang extends RoboticsAPIApplication
                     final double aRotStiffVal = Math.max(10. * (i
                             / (double) NUM_RUNS + 1), 150.);
                     cartImp.parametrize(CartDOF.TRANSL).setStiffness(
-                            aTransStiffVal);
-                    cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+                            5000);
+                    cartImp.parametrize(CartDOF.ROT).setStiffness(300);
 
                     // Send the new Stiffness settings down to the
                     // controller
