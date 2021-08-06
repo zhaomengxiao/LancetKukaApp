@@ -200,7 +200,8 @@ public class CeShi_Zukang extends RoboticsAPIApplication
     {
         Frame aFrame = theSmartServoLINRuntime
                 .getCurrentCartesianDestination(_lbr.getFlange());
-
+        Frame aFram1 = theSmartServoLINRuntime
+                .getCurrentCartesianDestination(_lbr.getFlange());
         try
         {
             getLogger().info("Start SmartServoLIN sine movement");
@@ -232,9 +233,9 @@ public class CeShi_Zukang extends RoboticsAPIApplication
                 destFrame.setAlphaRad(0);
                 destFrame.setBetaRad(0);
                 destFrame.setGammaRad(0);
-              
+ 
                 // Set new destination
-                theSmartServoLINRuntime.setDestination(destFrame);
+                theSmartServoLINRuntime.setDestination(aFram1);
                 aStep.end();
             }
 
