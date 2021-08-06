@@ -225,7 +225,7 @@ public class CeShi_ZuKang extends RoboticsAPIApplication
 //                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
                 System.out.println("2.5");
                 // Update the smart servo LIN runtime
-                theSmartServoLINRuntime.updateWithRealtimeSystem();
+//                theSmartServoLINRuntime.updateWithRealtimeSystem();
                 System.out.println("3");
                 double curTime = System.nanoTime() - startTimeStamp;
                 double sinArgument = omega * curTime;
