@@ -349,8 +349,9 @@ public class motion2 extends RoboticsAPIApplication
             double omega = FREQENCY * 2 * Math.PI * 1e-9;
             long startTimeStamp = System.nanoTime();
             int i;
-       	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
-                 .getFlange());
+          	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+                     .getFlange());
+       	 Frame destFrame2 = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
     	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
                  .getFlange());
        	 Frame initialPosition2 = _lbr.getCurrentCartesianPosition(_lbr
@@ -464,7 +465,7 @@ public class motion2 extends RoboticsAPIApplication
 //       		if (true){
        	      // Compute the sine function
 
-       			theSmartServoLINRuntime.setDestination(destFrame1);
+       			theSmartServoLINRuntime.setDestination(destFrame2);
        		
 //       		}
        		
