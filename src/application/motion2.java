@@ -44,7 +44,7 @@ public class motion2 extends RoboticsAPIApplication
     public int s=1;
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 0 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 237 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
