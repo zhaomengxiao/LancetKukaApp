@@ -201,68 +201,69 @@ public class CeShi_Zukang extends RoboticsAPIApplication
         Frame aFrame = theSmartServoLINRuntime
                 .getCurrentCartesianDestination(_lbr.getFlange());
 
-        try
-        {
-            getLogger().info("Start SmartServoLIN sine movement");
-            double omega = FREQENCY * 2 * Math.PI * 1e-9;
-            long startTimeStamp = System.nanoTime();
-            int i;
-
-            for (i = 0; i < NUM_RUNS; ++i)
-            {
-                final OneTimeStep aStep = timing.newTimeStep();
-                // ///////////////////////////////////////////////////////
-                // Insert your code here
-                // e.g Visual Servoing or the like
-                // Synchronize with the realtime system
-
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
-                // Update the smart servo LIN runtime
-                theSmartServoLINRuntime.updateWithRealtimeSystem();
-
-                double curTime = System.nanoTime() - startTimeStamp;
-                double sinArgument = omega * curTime;
-
-                // Compute the sine function
-                Frame destFrame = new Frame(aFrame);
-//                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
-
-                // Set new destination
-                theSmartServoLINRuntime.setDestination(destFrame);
-                aStep.end();
-            }
-
-            // Modify the stiffness settings every now and then
-            if (i % (NUM_RUNS / 10) == 0)
-            {
-                if (mode instanceof CartesianImpedanceControlMode)
-                {
-                    // We are in CartImp Mode,
-                    // Modify the settings:
-                    // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
-                    // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
-                    // WILL DESTABILIZE THE CONTROLLER
-                    final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                    final double aTransStiffVal = Math.max(100. * (i
-                            / (double) NUM_RUNS + 1), 1000.);
-                    final double aRotStiffVal = Math.max(10. * (i
-                            / (double) NUM_RUNS + 1), 150.);
-                    cartImp.parametrize(CartDOF.TRANSL).setStiffness(
-                            5000);
-                    cartImp.parametrize(CartDOF.ROT).setStiffness(300);
-
-                    // Send the new Stiffness settings down to the
-                    // controller
-                    theSmartServoLINRuntime.changeControlModeSettings(cartImp);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            getLogger().error(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            getLogger().info("Start SmartServoLIN sine movement");
+//            double omega = FREQENCY * 2 * Math.PI * 1e-9;
+//            long startTimeStamp = System.nanoTime();
+//            int i;
+//
+//            for (i = 0; i < NUM_RUNS; ++i)
+//            {
+//                final OneTimeStep aStep = timing.newTimeStep();
+//                // ///////////////////////////////////////////////////////
+//                // Insert your code here
+//                // e.g Visual Servoing or the like
+//                // Synchronize with the realtime system
+//
+//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+//
+//                // Update the smart servo LIN runtime
+//                theSmartServoLINRuntime.updateWithRealtimeSystem();
+//
+//                double curTime = System.nanoTime() - startTimeStamp;
+//                double sinArgument = omega * curTime;
+//
+//                // Compute the sine function
+//                Frame destFrame = new Frame(aFrame);
+////                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+//
+//                // Set new destination
+//                theSmartServoLINRuntime.setDestination(destFrame);
+//                aStep.end();
+//            }
+//
+//            // Modify the stiffness settings every now and then
+//            if (i % (NUM_RUNS / 10) == 0)
+//            {
+//                if (mode instanceof CartesianImpedanceControlMode)
+//                {
+//                    // We are in CartImp Mode,
+//                    // Modify the settings:
+//                    // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
+//                    // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
+//                    // WILL DESTABILIZE THE CONTROLLER
+//                    final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+////                    final double aTransStiffVal = Math.max(100. * (i
+////                            / (double) NUM_RUNS + 1), 1000.);
+////                    final double aRotStiffVal = Math.max(10. * (i
+////                            / (double) NUM_RUNS + 1), 150.);
+//                    cartImp.parametrize(CartDOF.TRANSL).setStiffness(
+//                            5000);
+//                    cartImp.parametrize(CartDOF.ROT).setStiffness(300);
+//
+//                    // Send the new Stiffness settings down to the
+//                    // controller
+//                    theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+//                }
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            getLogger().error(e.getLocalizedMessage());
+//            e.printStackTrace();
+//        }
+        
         return timing;
     }
 
