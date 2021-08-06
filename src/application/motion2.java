@@ -453,9 +453,9 @@ public class motion2 extends RoboticsAPIApplication
        		if (true){
        	      // Compute the sine function
                 Frame destFrame1= new Frame(aFrame);
-                destFrame1.setX(cmdPosTest.getX());
-                destFrame1.setY(cmdPosTest.getY());
-                destFrame1.setZ(cmdPosTest.getZ());
+                destFrame1.setX(-891);
+                destFrame1.setY(534);
+                destFrame1.setZ(378);
        			theSmartServoLINRuntime.setDestination(destFrame1);
        		}
        		
