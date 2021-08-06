@@ -229,7 +229,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 //                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
 
                 // Set new destination
-//                theSmartServoLINRuntime.setDestination(destFrame);
+                theSmartServoLINRuntime.setDestination(destFrame);
                 aStep.end();
             }
 
