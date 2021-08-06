@@ -341,7 +341,7 @@ public class motion2 extends RoboticsAPIApplication
             StatisticTimer timing, IMotionControlMode mode)
     {
         Frame aFrame = theSmartServoLINRuntime
-                .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+                .getCurrentCartesianDestination(_lbr.getFlange());
 
         try
         {
@@ -453,13 +453,13 @@ public class motion2 extends RoboticsAPIApplication
 //      		
 //      		
 //       		
-//       		if (i1 % 200 == 0){
-////           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
+       		if (i1 % 200 == 0){
 //           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
-////           		System.out.println("DistanceToPlaney:"+DistanceToPlane.getY());
-////           		System.out.println("J4"+Math.toDegrees(jReady.get(JointEnum.J4)));
-//           		
-//       		}
+           		System.out.println("DistanceToPlanex:");
+//           		System.out.println("DistanceToPlaney:"+DistanceToPlane.getY());
+//           		System.out.println("J4"+Math.toDegrees(jReady.get(JointEnum.J4)));
+           		
+       		}
 //       		
 //       		if (true){
        	      // Compute the sine function
