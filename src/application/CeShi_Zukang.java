@@ -226,8 +226,13 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 
                 // Compute the sine function
                 Frame destFrame = new Frame(aFrame);
-                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
-
+                destFrame.setZ(0);
+                destFrame.setX(0);
+                destFrame.setY(0);
+                destFrame.setAlphaRad(0);
+                destFrame.setBetaRad(0);
+                destFrame.setGammaRad(0);
+              
                 // Set new destination
                 theSmartServoLINRuntime.setDestination(destFrame);
                 aStep.end();
