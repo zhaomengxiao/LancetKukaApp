@@ -44,7 +44,7 @@ public class motion2 extends RoboticsAPIApplication
     public int s=1;
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 0 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 237 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
@@ -280,7 +280,7 @@ public class motion2 extends RoboticsAPIApplication
     protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
     {
         AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
-
+//        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition( _toolAttachedToLBR.getDefaultMotionFrame());
         // Create a new smart servo linear motion
         SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
 
@@ -375,7 +375,8 @@ public class motion2 extends RoboticsAPIApplication
             destFrame1.setX(0);
             destFrame1.setY(0);
             destFrame1.setZ(0);
-    	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
+//    	 while(Math.toDegrees(jReady.get(JointEnum.J4))<115 && bOnlyForPlane==false )
+            while(true)
             {
 //    		 System.out.println(i1);
     		 bOnlyForPlane=_vi.MotionType();
@@ -401,69 +402,68 @@ public class motion2 extends RoboticsAPIApplication
                 double curTime = System.nanoTime() - startTimeStamp;
                 double sinArgument = omega * curTime;
 
-                // Compute the sine function
-                Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-                
-             
-       		 initialPosition.setX(initialPosition1.getX());
-       		 initialPosition.setY(initialPosition1.getY());
-       		 initialPosition.setZ(initialPosition1.getZ());
-       		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
-       		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
-       		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
-//       		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
-//       		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
-                
-                
-                // Set new destination
-       		double Distance=Math.sqrt( (initialPosition.getX()-destFrame.getX())*(initialPosition.getX()-destFrame.getX())+(initialPosition.getY()-destFrame.getY())*(initialPosition.getY()-destFrame.getY())+(initialPosition.getZ()-destFrame.getZ())*(initialPosition.getZ()-destFrame.getZ()));
-//       		System.out.println("Distance"+Distance);
-//       		System.out.println(initialPosition);
-//       		System.out.println(destFrame);
-       		
-//       		ThreadUtil.milliSleep(100);
-//       		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.729577951308232*(Math.toDegrees(destFrame.getBetaRad())-Math.toDegrees(initialPosition.getBetaRad())), 0)));
-//       		 System.out.println("err1: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
-//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
-      
-             
-//             ThreadUtil.milliSleep(1000);
-//             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
-//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
-             // Modify the stiffness settings every now and then
-       		i1++;
-       		
-       		
-       		Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
-       	    Transformation DistanceToPlane=initialPosition.staticTransformationTo(cmdPos2);
-       	    DistanceToPlane.getX();
-       	    
-       	    //setPid
-       	    nintegral=nintegral+DistanceToPlane.getX();
-       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-       	    nPrevious_error=DistanceToPlane.getX();
-       	    
-       	    
-//      		initialPosition.setX(initialPosition1.getX()-nOutput);
-      		
-      		
-       		
-       		if (i1 % 200 == 0){
+//                // Compute the sine function
+//                Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//                
+//             
+//       		 initialPosition.setX(initialPosition1.getX());
+//       		 initialPosition.setY(initialPosition1.getY());
+//       		 initialPosition.setZ(initialPosition1.getZ());
+//       		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//       		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//       		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+////       		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+////       		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+//                
+//                
+//                // Set new destination
+//       		double Distance=Math.sqrt( (initialPosition.getX()-destFrame.getX())*(initialPosition.getX()-destFrame.getX())+(initialPosition.getY()-destFrame.getY())*(initialPosition.getY()-destFrame.getY())+(initialPosition.getZ()-destFrame.getZ())*(initialPosition.getZ()-destFrame.getZ()));
+////       		System.out.println("Distance"+Distance);
+////       		System.out.println(initialPosition);
+////       		System.out.println(destFrame);
+//       		
+////       		ThreadUtil.milliSleep(100);
+////       		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.729577951308232*(Math.toDegrees(destFrame.getBetaRad())-Math.toDegrees(initialPosition.getBetaRad())), 0)));
+////       		 System.out.println("err1: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+////             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+//      
+//             
+////             ThreadUtil.milliSleep(1000);
+////             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
+////             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+//             // Modify the stiffness settings every now and then
+//       		i1++;
+//       		
+//       		
+//       		Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//       	    Transformation DistanceToPlane=initialPosition.staticTransformationTo(cmdPos2);
+//       	    DistanceToPlane.getX();
+//       	    
+//       	    //setPid
+//       	    nintegral=nintegral+DistanceToPlane.getX();
+//       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+//       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
+//       	    nPrevious_error=DistanceToPlane.getX();
+//       	    
+//       	    
+////      		initialPosition.setX(initialPosition1.getX()-nOutput);
+//      		
+//      		
+//       		
+//       		if (i1 % 200 == 0){
+////           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
 //           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
-           		System.out.println("DistanceToPlanex:"+DistanceToPlane.getX());
-//           		System.out.println("DistanceToPlaney:"+DistanceToPlane.getY());
-//           		System.out.println("J4"+Math.toDegrees(jReady.get(JointEnum.J4)));
-           		
-       		}
-       		
-       		if (true){
+////           		System.out.println("DistanceToPlaney:"+DistanceToPlane.getY());
+////           		System.out.println("J4"+Math.toDegrees(jReady.get(JointEnum.J4)));
+//           		
+//       		}
+//       		
+//       		if (true){
        	      // Compute the sine function
 
-//       			((ISmartServoLINRuntime) destFrame1).setDestination(destFrame1);
        			theSmartServoLINRuntime.setDestination(destFrame1);
        		
-       		}
+//       		}
        		
        		
              if (true)
@@ -505,61 +505,61 @@ public class motion2 extends RoboticsAPIApplication
 //                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
 //               		 }
                 	 
-                	 double nForceZ=0;
-                	 //z平面保证机械臂来回的平面
-           			 if(DistanceToPlane.getZ()>0){
-           				 if(Math.abs(DistanceToPlane.getZ())<50){
-           					nForceZ=50;
-           				 }
-           				 else{
-           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
-           				 }
-           			 }
-           			 else{
-           				 if(Math.abs(DistanceToPlane.getZ())<50){
-           					nForceZ=50;
-           				 }
-           				 else{
-           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
-           				 }
-           			 }
-           			 if (nForceZ>5000)
-           			 {
-           				nForceZ=5000;
-           			 }
-           			 
-                	 double nForceY=0;
-                	 //y平面保证机械臂来回的平面
-           			 if(DistanceToPlane.getY()>0){
-           				 if(Math.abs(DistanceToPlane.getY())<5){
-           					nForceY=50;
-           				 }
-           				 else{
-           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-5); 
-           				 }
-           			 }
-           			 else{
-           				 if(Math.abs(DistanceToPlane.getY())<150){
-           					nForceY=50;
-           				 }
-           				 else{
-           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-150); 
-           				 }
-           			 }
-           			 if (nForceY>5000)
-           			 {
-           				nForceY=5000;
-           			 }
-           			 
-           			 
-           			 
-           			 
-                     final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
-                     
-                     
-                     
-                     
-                     nDistance=DistanceToPlane.getZ();
+//                	 double nForceZ=0;
+//                	 //z平面保证机械臂来回的平面
+//           			 if(DistanceToPlane.getZ()>0){
+//           				 if(Math.abs(DistanceToPlane.getZ())<50){
+//           					nForceZ=50;
+//           				 }
+//           				 else{
+//           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
+//           				 }
+//           			 }
+//           			 else{
+//           				 if(Math.abs(DistanceToPlane.getZ())<50){
+//           					nForceZ=50;
+//           				 }
+//           				 else{
+//           					nForceZ=50+20*(Math.abs(DistanceToPlane.getZ())-50); 
+//           				 }
+//           			 }
+//           			 if (nForceZ>5000)
+//           			 {
+//           				nForceZ=5000;
+//           			 }
+//           			 
+//                	 double nForceY=0;
+//                	 //y平面保证机械臂来回的平面
+//           			 if(DistanceToPlane.getY()>0){
+//           				 if(Math.abs(DistanceToPlane.getY())<5){
+//           					nForceY=50;
+//           				 }
+//           				 else{
+//           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-5); 
+//           				 }
+//           			 }
+//           			 else{
+//           				 if(Math.abs(DistanceToPlane.getY())<150){
+//           					nForceY=50;
+//           				 }
+//           				 else{
+//           					nForceY=50+20*(Math.abs(DistanceToPlane.getY())-150); 
+//           				 }
+//           			 }
+//           			 if (nForceY>5000)
+//           			 {
+//           				nForceY=5000;
+//           			 }
+//           			 
+//           			 
+//           			 
+//           			 
+//                     final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+//                     
+//                     
+//                     
+//                     
+//                     nDistance=DistanceToPlane.getZ();
 //                    cartImp.parametrize(CartDOF.Z).setStiffness(nForceZ);
 //                    cartImp.parametrize(CartDOF.Y).setStiffness(nForceY);
                     
