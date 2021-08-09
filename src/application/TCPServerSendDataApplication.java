@@ -2350,7 +2350,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	        	
 	        		
 	       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-//	       	        System.out.println("DistanceToPlane："+DistanceToPlane);
+        	   
 	       	        
 	        	    nintegral=nintegral+DistanceToPlane.getX();
 	         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
@@ -2372,7 +2372,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	            	
 	            	
 	        	
-	        	
+				     System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
 //			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
