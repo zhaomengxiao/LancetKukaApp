@@ -193,7 +193,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
     public double nderivative=0;
     public double nPrevious_error=0;
     public double nOutput=0;
-    public double nP=1;
+    public double nP=0.5;
     public double nI=0.02;
     public double nD=0.01;
     public double nDistance=0;
@@ -2299,15 +2299,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 //	       	        System.out.println("DistanceToPlane："+DistanceToPlane);
 	       	        
-	       	    nintegral=nintegral+DistanceToPlane.getX();
-	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
+//	       	    nintegral=nintegral+DistanceToPlane.getX();
+//	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+//	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
+//	       	    nPrevious_error=DistanceToPlane.getX();
+	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-DistanceToPlane.getX(), 0, 0))); 
 	       	        
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
-			    	System.out.println("DistanceToPlane.getX():"+DistanceToPlane.getX()+"  nOutput:"+nOutput);
+			    	System.out.println("DistanceToPlane.getX():"+DistanceToPlane.getX()+"  nOutput:"+DistanceToPlane.getX());
 //			    	nWorkingmode=0;
 				}
 				else{
