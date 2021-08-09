@@ -2303,7 +2303,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 //	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 //	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-DistanceToPlane.getX(), 0, 0))); 
+	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(10, 0, 0))); 
 	       	        
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
