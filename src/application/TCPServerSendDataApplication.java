@@ -1272,8 +1272,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
 		
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.Y).setStiffness(100.0);
-		        cartImp.parametrize(CartDOF.Z).setStiffness(100.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(2000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 
 //		        System.out.println(nStiff);
@@ -2311,7 +2311,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, -DistanceToPlane.getY(),-DistanceToPlane.getZ()))); 
+	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, DistanceToPlane.getX(), 0))); 
 	       	        
 	        	
 	        	
