@@ -2299,15 +2299,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 //	       	        System.out.println("DistanceToPlane："+DistanceToPlane);
 	       	        
-//	       	    nintegral=nintegral+DistanceToPlane.getX();
-//	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-//	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-//	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-DistanceToPlane.getX(), 0, 0))); 
+	       	    nintegral=nintegral+DistanceToPlane.getX();
+	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
+	       	    nPrevious_error=DistanceToPlane.getX();
+	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 	       	        
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
-//			    	System.out.println("  nOutput:"+DistanceToPlane.getX()+"Ptest_ForPlane:"+Ptest_ForPlane);
+			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
 //			    	nWorkingmode=0;
 				}
 				else{
