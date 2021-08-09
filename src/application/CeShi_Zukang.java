@@ -40,7 +40,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
+    private static final double[] TRANSLATION_OF_TOOL = { 0, -7, 237 };
     private static final double MASS = 2.2;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
@@ -204,7 +204,7 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 //        Frame aFram1 = theSmartServoLINRuntime
 //                .getCurrentCartesianDestination(_lbr.getFlange());
 //      Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_lbr.getFlange());
-    	 Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_lbr.getFlange());
+    	 Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
         
         try
         {
