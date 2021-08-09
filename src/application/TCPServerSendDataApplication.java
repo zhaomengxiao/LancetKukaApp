@@ -2276,14 +2276,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 				}
 				else if(nWorkingmode==8){
 			    	//圆锥打磨模式
-					System.out.println("nWorkingmode==8");
+//					System.out.println("nWorkingmode==8");
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 //                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
 			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane).setJointVelocityRel(0.2).setMode(carthard));
-			    	ThreadUtil.milliSleep(4000);
-			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+5);
-			    	System.out.println("/tcp_x_1_yz3");
+//			    	ThreadUtil.milliSleep(4000);
+			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
+//			    	System.out.println("/tcp_x_1_yz3");
 //			    	nWorkingmode=0;
 				}
 				else{
