@@ -1285,7 +1285,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
 //		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
 //		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
-		        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 		        return cartImp; 	
 		    }
 		    protected CartesianImpedanceControlMode createCartImp()
