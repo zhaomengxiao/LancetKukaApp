@@ -1259,8 +1259,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
-		        cartImp.parametrize(CartDOF.Z).setStiffness(50.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
 	
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
@@ -2278,7 +2278,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("nWorkingmode==8");
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
                 	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
+//			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
+			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
 			    	nWorkingmode=0;
 				}
 				else{
