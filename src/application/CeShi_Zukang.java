@@ -203,8 +203,8 @@ public class CeShi_Zukang extends RoboticsAPIApplication
                 .getCurrentCartesianDestination(_lbr.getFlange());
 //        Frame aFram1 = theSmartServoLINRuntime
 //                .getCurrentCartesianDestination(_lbr.getFlange());
-//      Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_lbr.getFlange());
-    	 Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+      Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_lbr.getFlange());
+//    	 Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
         
         try
         {
