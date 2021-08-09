@@ -2359,11 +2359,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
 	        	   
 				    if(Math.abs(DistanceToPlane.getY())>100){
-				    	
-				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
+				    	System.out.println("DistanceToPlane.getY())>100");
+//				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>100){
-				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
+				    	System.out.println("DgetZ()");
+//				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
 				    }
 				    else{
 				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
