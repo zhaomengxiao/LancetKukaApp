@@ -193,7 +193,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
     public double nderivative=0;
     public double nPrevious_error=0;
     public double nOutput=0;
-    public double nP=0.6;
+    public double nP=2;
     public double nI=0.02;
     public double nD=0.01;
     public double nDistance=0;
