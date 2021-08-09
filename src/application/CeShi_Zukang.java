@@ -141,7 +141,9 @@ public class CeShi_Zukang extends RoboticsAPIApplication
 
     protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
     {
-        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+                .getFlange());
+ 
 
         // Create a new smart servo linear motion
         SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
@@ -201,7 +203,8 @@ public class CeShi_Zukang extends RoboticsAPIApplication
                 .getCurrentCartesianDestination(_lbr.getFlange());
 //        Frame aFram1 = theSmartServoLINRuntime
 //                .getCurrentCartesianDestination(_lbr.getFlange());
-        Frame aFram1=_lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+      Frame aFram1 = theSmartServoLINRuntime.getCurrentCartesianPosition(_lbr.getFlange());
+        
         try
         {
             getLogger().info("Start SmartServoLIN sine movement");
