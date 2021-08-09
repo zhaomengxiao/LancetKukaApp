@@ -197,6 +197,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
     public double nI=0.02;
     public double nD=0.01;
     public double nDistance=0;
+    public double nStiff=0;
     
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX=0;
@@ -1268,10 +1269,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
 		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(50.0+nStiff);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(50.0+nStiff);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-	
+		        if((nStiff+50)<5000)
+		        {
+		        nStiff++;
+		        }
+		        System.out.println(nStiff);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
 		   
@@ -2287,6 +2292,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==8){
 			    	//圆锥打磨模式
 //					System.out.println("nWorkingmode==8");
+					
+					
+					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 //                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
@@ -2305,6 +2313,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	    nPrevious_error=DistanceToPlane.getX();
 	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
 	       	        
+	        	
+	        	
+	        	
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
 			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
