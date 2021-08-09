@@ -2298,7 +2298,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 //                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
-			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane).setJointVelocityRel(1).setMode(carthard));
+			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 			    	
 	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 	        		
@@ -2311,7 +2311,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
+	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, -DistanceToPlane.getY(),-DistanceToPlane.getZ()))); 
 	       	        
 	        	
 	        	
