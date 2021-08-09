@@ -2280,7 +2280,9 @@ public HandGuidingMotion createhandGuidingMotion(){
                 	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
 			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
-			    	nWorkingmode=0;
+			    	ThreadUtil.milliSleep(4000);
+			    	System.out.println("/tcp_x_1_yz3");
+//			    	nWorkingmode=0;
 				}
 				else{
 					
