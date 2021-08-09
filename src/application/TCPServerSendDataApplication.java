@@ -1288,6 +1288,53 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 		        return cartImp; 	
 		    }
+		    
+		    protected CartesianImpedanceControlMode HardLimit_Y()
+		    {
+
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		
+		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(4500.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+
+//		        System.out.println(nStiff);
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		   
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+		        return cartImp; 	
+		    }
+		    
+		    protected CartesianImpedanceControlMode HardLimit_Z()
+		    {
+
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		
+		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(4500.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+
+//		        System.out.println(nStiff);
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		   
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+		        return cartImp; 	
+		    }
+		    
 		    protected CartesianImpedanceControlMode createCartImp()
 		    {
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
@@ -2290,15 +2337,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 				}
 				else if(nWorkingmode==8){
-			    	//圆锥打磨模式
-//					System.out.println("nWorkingmode==8");
 					
 					
 					
+			    					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
-//                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-//			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
-			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
+			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	
 	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 	        		
@@ -2307,26 +2352,33 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 //	       	        System.out.println("DistanceToPlane："+DistanceToPlane);
 	       	        
-	       	    nintegral=nintegral+DistanceToPlane.getX();
-	       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-	       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-	       	    nPrevious_error=DistanceToPlane.getX();
-	        	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
-	       	        
-	        	
+	        	    nintegral=nintegral+DistanceToPlane.getX();
+	         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+	        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
+	        	    nPrevious_error=DistanceToPlane.getX();
+	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
+	        	   
+				    if(Math.abs(DistanceToPlane.getY())>100){
+				    	
+				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
+				    }
+				    else if(Math.abs(DistanceToPlane.getZ())>100){
+				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
+				    }
+				    else{
+				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    }
+	            	
+	            	
 	        	
 	        	
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
 //			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
 			    	
-			    if(Math.abs(DistanceToPlane.getY())>100){
-			    	System.out.println("Math.abs(DistanceToPlane.getY())>100");
-			    }
+
 			    
-			    if(Math.abs(DistanceToPlane.getZ())>100){
-			    	System.out.println("z>100");
-			    }
+
 			    
 			    
 //			    	nWorkingmode=0;
