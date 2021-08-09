@@ -1507,6 +1507,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			boolean DangerMove=false;
 			int nLastWorkingmode=0;
+			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 			while (true)
 			{ 
 //				boolean btest=SafeDataIO.getInput4();
@@ -2277,9 +2278,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	//圆锥打磨模式
 					System.out.println("nWorkingmode==8");
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
-                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //			    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
-			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest1).setJointVelocityRel(0.2).setMode(carthard));
+			    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane).setJointVelocityRel(0.2).setMode(carthard));
 			    	ThreadUtil.milliSleep(4000);
 			    	System.out.println("/tcp_x_1_yz3");
 //			    	nWorkingmode=0;
