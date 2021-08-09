@@ -2366,9 +2366,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    	System.out.println("DgetZ()");
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
 				    }
-				    else{
+//				    else{
 				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
-				    }
+//				    }
 	            	
 	            	
 	        	
