@@ -193,7 +193,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
     public double nderivative=0;
     public double nPrevious_error=0;
     public double nOutput=0;
-    public double nP=2;
+    public double nP=1;
     public double nI=0.02;
     public double nD=0.01;
     public double nDistance=0;
@@ -2307,7 +2307,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	       	        
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
-			    	System.out.println("DistanceToPlane.getX():"+DistanceToPlane.getX());
+			    	System.out.println("DistanceToPlane.getX():"+DistanceToPlane.getX()+"  nOutput:"+nOutput);
 //			    	nWorkingmode=0;
 				}
 				else{
