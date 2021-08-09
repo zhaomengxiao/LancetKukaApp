@@ -2318,7 +2318,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 	        	
 //			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
-			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
+//			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
+			    	
+			    if(Math.abs(DistanceToPlane.getY())>100){
+			    	System.out.println("Math.abs(DistanceToPlane.getY())>100");
+			    }
+			    
+			    if(Math.abs(DistanceToPlane.getZ())>100){
+			    	System.out.println("z>100");
+			    }
+			    
+			    
 //			    	nWorkingmode=0;
 				}
 				else{
