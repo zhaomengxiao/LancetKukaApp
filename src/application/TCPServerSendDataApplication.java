@@ -143,6 +143,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 Frame pre_Place;
 	 
 	 int  num_ForTest=0;
+	 int count=0;
 //	@Named("gripper")
 //	@Inject
 //	private Tool gripper;
@@ -217,6 +218,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		count=0;
 		Err="0,";
 		num_ForTest=0;
 		OnlyPlane.initialize();
@@ -2351,7 +2353,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	        		
 	       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
         	   
-	       	        
+	       	        count++;
 	        	    nintegral=nintegral+DistanceToPlane.getX();
 	         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 	        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
@@ -2359,11 +2361,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
 	        	   
 				    if(Math.abs(DistanceToPlane.getY())>100){
-				    	System.out.println("DistanceToPlane.getY())>100");
+				    	if(count%100==0){
+				    		System.out.println("DistanceToPlane.getY())>100");
+				    	}
+				    	
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>100){
-				    	System.out.println("DgetZ()");
+				    	if(count%100==0){
+				    		System.out.println("DgetZ()");
+				    	}
+			
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
 				    }
 				    else{
@@ -2371,7 +2379,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    	 
 				    }
 	            	
-	            	
+	            	if(count>100000){
+	            		count=0;
+	            	}
 	        	
 				     System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 //			    	ThreadUtil.milliSleep(300);
