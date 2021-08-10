@@ -2399,7 +2399,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //	            	}
 	        	
 				     System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
-//			    	ThreadUtil.milliSleep(300);
+			    	ThreadUtil.milliSleep(300);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
 //			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
 			    	
