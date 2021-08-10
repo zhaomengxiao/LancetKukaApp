@@ -2373,6 +2373,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 				    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				    		nWorkingmode=0;
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>100){
@@ -2387,6 +2389,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	}
 			
 				    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(1));
+						Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+						Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				    	nWorkingmode=0;
 				    }
 			    else{
