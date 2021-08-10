@@ -2372,6 +2372,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+				    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(1));
+				    		nWorkingmode=0;
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>100){
 //				    	if(count%100==0){
@@ -2384,12 +2386,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //				    	}
 			
-//				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
+				    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(1));
+				    	nWorkingmode=0;
 				    }
-//				    else{
+			    else{
 				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 				    	 
-//				    }
+				    }
 	            	
 //	            	if(count>100000){
 //	            		count=0;
