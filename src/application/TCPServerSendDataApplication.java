@@ -2366,10 +2366,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	}
 				    	
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
+				    		Ptest_ForPlane1.setX(cmdPos2.getX());
+				    		Ptest_ForPlane1.setY(cmdPos2.getY());
+				    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
+				    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
+				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
+				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>100){
 //				    	if(count%100==0){
 				    		System.out.println("DgetZ()");
+				    		Ptest_ForPlane1.setX(cmdPos2.getX());
+				    		Ptest_ForPlane1.setY(cmdPos2.getY());
+				    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
+				    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
+				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
+				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //				    	}
 			
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Z));
