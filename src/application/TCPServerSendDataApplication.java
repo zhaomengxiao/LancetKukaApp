@@ -428,8 +428,19 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //					System.out.println("2:"+cmdPos);
 				}	
 				else if(nToolMode==3)
-				{
+				{				
 					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+//					System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"), cmdPos2);
+					
 				}	
 				else if(nToolMode==4)
 				{
