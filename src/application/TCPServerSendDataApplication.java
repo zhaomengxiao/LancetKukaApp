@@ -2292,6 +2292,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 							
 								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
+								//更新平面定位初始点
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //								num_ForTest=num_ForTest+5;
 								Err="3,";
 								System.out.println("Move");
@@ -2323,22 +2326,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 					
 				}
-				else if(nWorkingmode==7){
-					JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-					if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-	            		System.out.println("ForPlane");
-//						OnlyPlane.initialize();
-						OnlyPlane.run();
-						nWorkingmode=0;
-	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-				    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
-	            	}
-					else{
-						Err="2,";
-					}
+				else if(nWorkingmode==99){
+//					JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
+//					if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
+//	            		System.out.println("ForPlane");
+////						OnlyPlane.initialize();
+//						OnlyPlane.run();
+//						nWorkingmode=0;
+//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//				    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
+//	            	}
+//					else{
+//						Err="2,";
+//					}
 					
 				}
-				else if(nWorkingmode==8){
+				else if(nWorkingmode==7){
 					
 					
 					
@@ -2360,7 +2363,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	        	    nPrevious_error=DistanceToPlane.getX();
 	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
 	        	   
-				    if(Math.abs(DistanceToPlane.getY())>100){
+				    if(Math.abs(DistanceToPlane.getY())>150){
 //				    	if(count%100==0){
 				    		System.out.println("DistanceToPlane.getY())>100");
 //				    	}
@@ -2378,7 +2381,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				    		nWorkingmode=0;
 				    }
-				    else if(Math.abs(DistanceToPlane.getZ())>100){
+				    else if(Math.abs(DistanceToPlane.getZ())>150){
 //				    	if(count%100==0){
 				    		System.out.println("DgetZ()");
 				    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2699,8 +2702,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 
-//		BreakTest.initialize();
-//		BreakTest.run();
+		BreakTest.initialize();
+		BreakTest.run();
 //		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 //		ThreadUtil.milliSleep(2000);
 		
