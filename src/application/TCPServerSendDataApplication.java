@@ -1288,7 +1288,6 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        cartImp.parametrize(CartDOF.Y).setStiffness(100.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(100.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-
 //		        System.out.println(nStiff);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
@@ -2276,18 +2275,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 							System.out.println("pre_Place"+pre_Place1);
 							
 //								
-			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 						    	
 
 					    		System.out.println("zhunbei_ready");
 					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-					    		Object4 = Object4.transform((Transformation.ofDeg(18 ,209,-117.5, 0, 0, 0)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
 					    		System.out.println("Object4"+Object4);
 					    		
 					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
 					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 								System.out.println("222");	
-								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 								System.out.println("333");	
 								Object5.setX(Object4.getX());
 								Object5.setY(Object4.getY());
@@ -2302,10 +2301,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		try{
 
 							
-								needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Place2).setJointVelocityRel(0.1));
+								needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1));
 								//更新平面定位初始点
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 //								num_ForTest=num_ForTest+5;
 								Err="3,";
 								System.out.println("Move");
@@ -2361,7 +2360,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	
-	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 	        		
 	        	
 	        		
@@ -2379,7 +2378,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		System.out.println("DistanceToPlane.getY())>100");
 //				    	}
 				    		ThreadUtil.milliSleep(1000);
-				    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+				    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 				    		Ptest_ForPlane1.setX(cmdPos2.getX());
 				    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2387,9 +2386,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-				    		needle.getFrame("/tcp_x_1_yz2").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+				    		needle.getFrame("/tcp_x_1_yz4").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				    		nWorkingmode=0;
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>150){
@@ -2403,21 +2402,21 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //				    	}
 				    	ThreadUtil.milliSleep(1000);
-				        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
-				    	needle.getFrame("/tcp_x_1_yz2").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-						Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
-						Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+				        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+				    	needle.getFrame("/tcp_x_1_yz4").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+						Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+						Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				    	nWorkingmode=0;
 				    }
 			    else{
-				    	needle.getFrame("/tcp_x_1_yz2").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	needle.getFrame("/tcp_x_1_yz4").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 				    	 
 				    }
 	            	
 	            	if(count>100000){
 	            		count=0;
 	            	}
-	            	if(count%100==0){
+	            	if(count%30==0){
 	            		 System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 	            	}
 				    
@@ -2715,8 +2714,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 //		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 //		ThreadUtil.milliSleep(2000);
 		
