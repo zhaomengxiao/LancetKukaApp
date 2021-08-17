@@ -2361,7 +2361,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	
-	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+	        		Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 	        		
 	        	
 	        		
@@ -2372,14 +2372,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 	         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 	        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 	        	    nPrevious_error=DistanceToPlane.getX();
-	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput+0.5, 0, 0))); 
+	            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 	        	   
 				    if(Math.abs(DistanceToPlane.getY())>150){
 //				    	if(count%100==0){
 				    		System.out.println("DistanceToPlane.getY())>100");
 //				    	}
 				    		ThreadUtil.milliSleep(1000);
-				    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+				    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 //				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 				    		Ptest_ForPlane1.setX(cmdPos2.getX());
 				    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2387,9 +2387,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 				    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-				    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+				    		needle.getFrame("/tcp_x_1_yz2").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 				    		nWorkingmode=0;
 				    }
 				    else if(Math.abs(DistanceToPlane.getZ())>150){
@@ -2403,23 +2403,25 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //				    	}
 				    	ThreadUtil.milliSleep(1000);
-				        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-				    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-						Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-						Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+				        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+				    	needle.getFrame("/tcp_x_1_yz2").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+						Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+						Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 				    	nWorkingmode=0;
 				    }
 			    else{
-				    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	needle.getFrame("/tcp_x_1_yz2").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 				    	 
 				    }
 	            	
-//	            	if(count>100000){
-//	            		count=0;
-//	            	}
-	        	
-				     System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
-			    	ThreadUtil.milliSleep(200);
+	            	if(count>100000){
+	            		count=0;
+	            	}
+	            	if(count%100==0){
+	            		 System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
+	            	}
+				    
+//			    	ThreadUtil.milliSleep(200);
 //			    	Ptest_ForPlane.setX(Ptest_ForPlane.getX()+1);
 //			    	System.out.println("  nOutput:"+DistanceToPlane.getX());
 			    	
