@@ -754,8 +754,8 @@ public  class sendRTdata implements Callable<String> {
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(1.2)
 		.setCartVelocityLimit(1000.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
+		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
 		.setJointLimitsEnabled(true,true,true,true,false,false,false)
 
 
