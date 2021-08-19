@@ -2323,12 +2323,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 								//更新平面定位初始点
 								
 								if(nToolMode==3){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
 								else if(nToolMode==2){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
 //								num_ForTest=num_ForTest+5;
 								Err="3,";
