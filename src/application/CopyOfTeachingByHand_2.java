@@ -30,25 +30,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
 //import com.kuka.statuscontroller.api.IStatusController;
 
 /**
- * This example activates a SmartServo motion in Cartesian impedance control mode, sends a sequence of C55555555555555522222222222222222222222222222222222222222222222500000000000050000050500000000000000000000000000050000505050505050505050505050500000000000000000050
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * artesian set
+ * This example activates a SmartServo motion in Cartesian impedance control mode, sends a sequence of Cartesian set
  * points and modifies compliance parameters during the motion.
  * 
  */
