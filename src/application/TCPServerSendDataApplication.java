@@ -2496,6 +2496,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    }
 				    else{
 					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
 		            	
