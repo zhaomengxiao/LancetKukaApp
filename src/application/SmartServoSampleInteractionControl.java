@@ -2,29 +2,19 @@ package application;
 
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
 
-import javax.inject.Inject;
-
-import com.kuka.generated.ioAccess.SafeDataIOGroup;
 import com.kuka.common.StatisticTimer;
 import com.kuka.common.StatisticTimer.OneTimeStep;
 import com.kuka.common.ThreadUtil;
 import com.kuka.connectivity.motionModel.smartServo.ISmartServoRuntime;
 import com.kuka.connectivity.motionModel.smartServo.ServoMotion;
 import com.kuka.connectivity.motionModel.smartServo.SmartServo;
-import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
-import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
-import com.kuka.connectivity.smartServo.examples.SmartServoSampleInteractionControl;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
-import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
-import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
-import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.geometricModel.LoadData;
 import com.kuka.roboticsAPI.geometricModel.ObjectFrame;
 import com.kuka.roboticsAPI.geometricModel.Tool;
-import com.kuka.roboticsAPI.geometricModel.math.Transformation;
 import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
@@ -35,7 +25,7 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
  * points and modifies compliance parameters during the motion.
  * 
  */
-public class motion2 extends RoboticsAPIApplication
+public class SmartServoSampleInteractionControl extends RoboticsAPIApplication
 {
     private LBR _lbr;
     private Tool _toolAttachedToLBR;
@@ -65,7 +55,7 @@ public class motion2 extends RoboticsAPIApplication
         _loadData.setCenterOfMass(
                 CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool_ForPlane", _loadData);
+        _toolAttachedToLBR = new Tool("Tool", _loadData);
 
         XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
@@ -82,27 +72,17 @@ public class motion2 extends RoboticsAPIApplication
      */
     public void moveToInitialPosition()
     {
-        System.out.println("getCurrentJointPosition");
+        _lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
+                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
         /* Note: The Validation itself justifies, that in this very time instance, the load parameter setting was
          * sufficient. This does not mean by far, that the parameter setting is valid in the sequel or lifetime of this
          * program */
-        boolean bReady=false;
-        while (bReady==false){
-        	 try{
-                 if (!ServoMotion.validateForImpedanceMode(_lbr))
-                 {
-                     getLogger()
-                             .info("Validation of torque model failed - correct your mass property settings");
-                     getLogger()
-                             .info("Servo motion will be available for position controlled mode only, until validation is performed");
-                 }
-                 bReady=true;
-             }
-             catch (Exception e)
-             {
-             	ThreadUtil.milliSleep(500);
-   
-             }
+        if (!ServoMotion.validateForImpedanceMode(_lbr))
+        {
+            getLogger()
+                    .info("Validation of torque model failed - correct your mass property settings");
+            getLogger()
+                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
         }
     }
 
@@ -378,7 +358,7 @@ public class motion2 extends RoboticsAPIApplication
      */
     public static void main(final String[] args)
     {
-        final motion2 app = new motion2();
+        final SmartServoSampleInteractionControl app = new SmartServoSampleInteractionControl();
         app.runApplication();
     }
 }
