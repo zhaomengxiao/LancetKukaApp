@@ -8,12 +8,9 @@ import com.kuka.generated.ioAccess.SafeDataIOGroup;
 import com.kuka.common.StatisticTimer;
 import com.kuka.common.StatisticTimer.OneTimeStep;
 import com.kuka.common.ThreadUtil;
-import com.kuka.connectivity.motionModel.smartServo.ISmartServoRuntime;
 import com.kuka.connectivity.motionModel.smartServo.ServoMotion;
-import com.kuka.connectivity.motionModel.smartServo.SmartServo;
 import com.kuka.connectivity.motionModel.smartServoLIN.ISmartServoLINRuntime;
 import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
-import com.kuka.connectivity.smartServo.examples.SmartServoSampleInteractionControl;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
@@ -31,33 +28,44 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
 
 /**
- * This example activates a SmartServo motion in Cartesian impedance control mode, sends a sequence of Cartesian set
- * points and modifies compliance parameters during the motion.
+ * This example activates a SmartServoLIN motion in Cartesian impedance control mode, sends a sequence of Cartesian set
+ * points, describing a sine function in z-direction and modifies compliance parameters during the motion.
  * 
  */
 public class motion2 extends RoboticsAPIApplication
 {
+	@Inject
+	private TCPServerSendDataApplication _vi;
     private LBR _lbr;
     private Tool _toolAttachedToLBR;
     private LoadData _loadData;
-
+    private ISmartServoLINRuntime _theSmartServoLINRuntime = null;
+    public int s=1;
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
     private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
     private static final double MASS = 0;
-    private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
+    private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { -44.99, 2.67, 120.35 };
 
-    private static final int NUM_RUNS = 600;
-    private static final double AMPLITUDE = 0.2;
-    private static final double FREQENCY = 0.1;
-
+    private static final int NUM_RUNS = 60000;
+    private static final double AMPLITUDE = 70;
+    private static final double FREQENCY = 0.6;
+    private static final double[] MAX_TRANSLATION_VELOCITY = { 150, 150, 150 };
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-
+    public double nintegral=0;
+    public double nderivative=0;
+    public double nPrevious_error=0;
+    public double nOutput=0;
+    public double nP=0.5;
+    public double nI=0.02;
+    public double nD=0;
+    
+    
+    
     @Override
     public void initialize()
     {
         _lbr = getContext().getDeviceFromType(LBR.class);
-
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
         _loadData = new LoadData();
@@ -82,6 +90,9 @@ public class motion2 extends RoboticsAPIApplication
      */
     public void moveToInitialPosition()
     {
+    	JointPosition jReady =_lbr.getCurrentJointPosition();
+        _lbr.move(ptp(jReady.get(JointEnum.J1), jReady.get(JointEnum.J2), jReady.get(JointEnum.J3), jReady.get(JointEnum.J4), jReady.get(JointEnum.J5),
+        		jReady.get(JointEnum.J6), jReady.get(JointEnum.J7)).setJointVelocityRel(0.1));
         System.out.println("getCurrentJointPosition");
         /* Note: The Validation itself justifies, that in this very time instance, the load parameter setting was
          * sufficient. This does not mean by far, that the parameter setting is valid in the sequel or lifetime of this
@@ -106,268 +117,402 @@ public class motion2 extends RoboticsAPIApplication
         }
     }
 
+    @Override
+    public void run()
+    {
+    	
+//    	//ForTest
+//    	////////////////////////////////////////////
+//    	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+//                 .getFlange());
+//    	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
+//                 .getFlange());
+//    	 System.out.println("initialPosition"+initialPosition);
+//    	 
+////    	 
+//// 		Frame Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());		
+//// 		Frame Ptest2 = Ptest1.transform((Transformation.ofTranslation(0, 200, 0)));
+//// 		System.out.println("Ptest21"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//// 		System.out.println("Ptest22"+" X:"+Ptest2.getX()+" b:"+Ptest2.getY()+" c:"+Ptest2.getZ()); 
+//// 		
+////// 		Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());	
+////// 		 Ptest2 = Ptest1.transform((Transformation.ofDeg(0, 0, 0, 0, 10, 0)));
+////// 		System.out.println("Ptest23"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//// 	
+//// 		Ptest1= _lbr.getCurrentCartesianPosition(_lbr.getFlange());	
+////		 Ptest2 = Ptest1.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+////		System.out.println("Ptest24"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad())); 
+//
+//		
+//
+////    	 while(true)
+////    	 {
+//    		 Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 
+//////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, -(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))*5.72957795130, 0)));
+//////    		 System.out.println("err1: "+(-(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad())))+"Ptest2"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, (Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))*5.72957795130, 0)));
+//////    		 System.out.println("err2: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+//////    		 System.out.println("err3: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//////    		 
+//////    		 initialPosition.setX(initialPosition1.getX());
+//////    		 initialPosition.setY(initialPosition1.getY());
+//////    		 initialPosition.setZ(initialPosition1.getZ());
+//////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, -5.72957795130, 0)));
+//////    		 System.out.println("err4: "+(Math.toDegrees(destFrame.getBetaRad()-initialPosition.getBetaRad()))+"Ptest22"+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+////    		 
+////    		 initialPosition.setX(initialPosition1.getX());
+////    		 initialPosition.setY(initialPosition1.getY());
+////    		 initialPosition.setZ(initialPosition1.getZ());
+////    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+////    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+////    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//////    		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+//////    		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+////    		 System.out.println("1"+initialPosition.getX());
+////    		 System.out.println("2"+destFrame.getX());
+////    		 
+//////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(destFrame.getX()-initialPosition.getX(), 0, destFrame.getY()-initialPosition.getY(), 0, 0, 0)));
+////    		 Frame cmdPos = initialPosition.transform(Transformation.ofTranslation(-20,31.63,-13.09));
+////    		 System.out.println("err1: "+" x:"+Ptest2.getX()+" y:"+Ptest2.getY()+" z:"+Ptest2.getZ());
+////    		 
+////    		 
+//    		 initialPosition.setX(initialPosition1.getX());
+//    		 initialPosition.setY(initialPosition1.getY());
+//    		 initialPosition.setZ(initialPosition1.getZ());
+//    		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+//    		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+//    		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+////    		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+////    		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+////    		 System.out.println("1"+initialPosition.getX());
+////    		 System.out.println("2"+destFrame.getX());
+//    		 
+////    		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(destFrame.getX()-initialPosition.getX(), 0, destFrame.getY()-initialPosition.getY(), 0, 0, 0)));
+//    	     Frame Ptest2 = initialPosition.transform(Transformation.ofTranslation(-40,0,0));
+//    	     
+//    		 System.out.println("err2: "+" x:"+Ptest2.getX()+" y:"+Ptest2.getY()+" z:"+Ptest2.getZ());
+//    		 
+//    		 
+////    		 System.out.println(Math.toDegrees(Math.toRadians(1)));
+////    		 Frame Ptest3 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.72957795130, 0)));
+////    		 System.out.println("err2: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//    		 ThreadUtil.milliSleep(1000);
+//    		 
+//				Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+//				cmdPos2.setX(-659.13);
+//				cmdPos2.setY(48.82);
+//				cmdPos2.setZ(631.26);
+//				cmdPos2.setAlphaRad(0);
+//				cmdPos2.setBetaRad(Math.toRadians(0));
+//				cmdPos2.setGammaRad(0);
+//			    Frame cmdPos=_lbr.getCurrentCartesianPosition(_lbr.getFlange(), cmdPos2);
+//				 System.out.println("err2: "+" x:"+cmdPos.getX()+" y:"+cmdPos.getY()+" z:"+cmdPos.getZ());
+				
+//    	 }
+    	///////////////////////////////////////////
+    	
+//    	while (true)
+//    	{
+    		
+    	
+    	
+        getLogger().info("Move to start position.");
+        moveToInitialPosition();
+
+        // Initialize Cartesian impedance control mode
+        final CartesianImpedanceControlMode cartImp = createCartImp();
+
+        getLogger()
+                .info("Sample Application - SmartServoLIN motion in cartesian impedance control mode");
+        runSmartServoLINMotion(cartImp);
+//        ThreadUtil.milliSleep(2000);
+        
+//    	}
+        
+        
+//        // Return to initial position
+//        moveToInitialPosition();
+//
+//        // Initialize position control mode
+//        final PositionControlMode positionCtrlMode = new PositionControlMode();
+//
+//        getLogger()
+//                .info("Sample Application -  SmartServoLIN motion in position control mode");
+//        runSmartServoLINMotion(positionCtrlMode);
+    }
+
     /**
-     * Creates a smartServo motion with the given control mode and moves around.
+     * Creates a smartServoLIN Motion with the given control mode and moves around.
      * 
      * @param controlMode
      *            the control mode which shall be used
      * @see {@link CartesianImpedanceControlMode}
      */
 
-    protected void runSmartServoMotion(final IMotionControlMode controlMode)
+    protected void runSmartServoLINMotion(final IMotionControlMode controlMode)
     {
-        final boolean doDebugPrints = false;
+        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+                .getFlange());
 
-        final JointPosition initialPosition = new JointPosition(
-                _lbr.getCurrentJointPosition());
+        // Create a new smart servo linear motion
+        SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
 
-        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
+        aSmartServoLINMotion.setMaxTranslationVelocity(MAX_TRANSLATION_VELOCITY);
+        aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
-        // Set the motion properties to 10% of the systems abilities
-        aSmartServoMotion.setJointAccelerationRel(0.1);
-        aSmartServoMotion.setJointVelocityRel(0.1);
+        getLogger().info("Starting the SmartServoLIN in " + controlMode);
+        _lbr.moveAsync(aSmartServoLINMotion.setMode(controlMode));
 
-        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
+        getLogger().info("Get the runtime of the SmartServoLIN motion");
+        _theSmartServoLINRuntime = aSmartServoLINMotion.getRuntime();
 
-        getLogger().info("Starting the SmartServo in " + controlMode);
-        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-                aSmartServoMotion.setMode(controlMode));
+        StatisticTimer timing = new StatisticTimer();
 
-        // Fetch the Runtime of the Motion part
-        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
-                .getRuntime();
+        getLogger().info("Do sine movement");
+        timing = startSineMovement(_theSmartServoLINRuntime, timing, controlMode);
 
-        // create an JointPosition Instance, to play with
-        final JointPosition destination = new JointPosition(
-                _lbr.getJointCount());
+        ThreadUtil.milliSleep(500);
 
-        // For Roundtrip time measurement...
-        final StatisticTimer timing = new StatisticTimer();
-        try
-        {
-            // do a cyclic loop
-            // Refer to some timing...
-            // in nanosec
-            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
-            final long startTimeStamp = System.nanoTime();
+        // Print statistic timing
+        getLogger().info(
+                getClass().getName() + _theSmartServoLINRuntime.toString());
 
-            for (int i = 0; i < NUM_RUNS; ++i)
-            {
-                // Timing - draw one step
-                final OneTimeStep aStep = timing.newTimeStep();
-                // ///////////////////////////////////////////////////////
-                // Insert your code here
-                // e.g Visual Servoing or the like
-                // emulate some computational effort - or waiting for external
-                // stuff
-                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+        getLogger().info("Stop the SmartServoLIN motion");
+        _theSmartServoLINRuntime.stopMotion();
 
-                theSmartServoRuntime.updateWithRealtimeSystem();
-
-                // Get the measured position in cartesian...
-                final JointPosition curMsrJntPose = theSmartServoRuntime
-                        .getAxisQMsrOnController();
-
-                final double curTime = System.nanoTime() - startTimeStamp;
-                final double sinArgument = omega * curTime;
-
-                for (int k = 0; k < destination.getAxisCount(); ++k)
-                {
-                    destination.set(k, Math.sin(sinArgument)
-                            * AMPLITUDE + initialPosition.get(k));
-                }
-                theSmartServoRuntime
-                        .setDestination(destination);
-
-                //
-                // Modify the stiffness settings every now and then
-                //
-                if (i % (NUM_RUNS / 10) == 0)
-                {
-
-                    // update realtime system
-                    if (controlMode instanceof CartesianImpedanceControlMode)
-                    {
-                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
-                        final double aTransStiffVal = Math.max(100. * (i
-                                / (double) NUM_RUNS + 1), 1000.);
-                        final double aRotStiffVal = Math.max(10. * (i
-                                / (double) NUM_RUNS + 1), 150.);
-                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
-                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
-                        // Send the new Stiffness settings down to the
-                        // controller
-                        theSmartServoRuntime
-                                .changeControlModeSettings(cartImp);
-                    }
-                }
-
-                if (doDebugPrints)
-                {
-
-                    getLogger().info("Step " + i + " New Goal "
-                            + destination);
-                    getLogger().info("LBR Position "
-                            + _lbr.getCurrentJointPosition());
-                    getLogger().info("Measured LBR position "
-                            + curMsrJntPose);
-                    if (i % 100 == 0)
-                    {
-                        getLogger().info("Simple Joint Test - step " + i + "\n" + theSmartServoRuntime.toString());
-                    }
-                }
-                aStep.end();
-            }
-        }
-        catch (final Exception e)
-        {
-            getLogger().info(e.getLocalizedMessage());
-            e.printStackTrace();
-        }
-
-        //Print statistics and parameters of the motion
-        getLogger().info("Displaying final states after loop "
-                + controlMode.getClass().getName());
-        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
-        // Stop the motion
-        theSmartServoRuntime.stopMotion();
-        getLogger().info("Statistic Timing of Overall Loop " + timing);
+        // Statistic Timing of sine movement loop
         if (timing.getMeanTimeMillis() > 150)
         {
-            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
+            getLogger()
+                    .info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+            getLogger()
+                    .info("Under Windows, you should play with the registry, see the e.g. user manual");
         }
-
     }
 
     /**
-     * Create the CartesianImpedanceControlMode class for motion parameterisation.
+     * Create the CartesianImpedanceControlMode class for motion parameterization.
      * 
      * @see {@link CartesianImpedanceControlMode}
      * @return the created control mode
      */
-    protected CartesianImpedanceControlMode createCartImp()
+    private CartesianImpedanceControlMode createCartImp()
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
-        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
-        cartImp.setNullSpaceStiffness(100.);
-        // For your own safety, shrink the motion abilities to useful limits
-        cartImp.setMaxPathDeviation(50., 50., 50., 50., 50., 50.);
+        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.C).setStiffness(50.0);
+        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
+        cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
+        cartImp.parametrize(CartDOF.Y).setStiffness(50.0);
         return cartImp;
     }
 
-    /** Sample to switch the motion control mode. */
-    protected void switchMotionControlMode()
+    private StatisticTimer startSineMovement(
+            ISmartServoLINRuntime theSmartServoLINRuntime,
+            StatisticTimer timing, IMotionControlMode mode)
     {
-        getLogger().info("Switch Motion Control Mode Sample");
-        final boolean debugPrintoutFlag = false;
-        /* Prepare two control modes for the sample */
-        final CartesianImpedanceControlMode cartImp = createCartImp();
+        Frame aFrame = theSmartServoLINRuntime
+                .getCurrentCartesianDestination(_lbr.getFlange());
 
-        final JointPosition initialPosition = new JointPosition(
-                _lbr.getCurrentJointPosition());
-
-        final SmartServo firstSmartServoMotion = new SmartServo(initialPosition);
-
-        // Set the motion properties to 10% of the systems abilities
-        firstSmartServoMotion.setJointAccelerationRel(0.1);
-        firstSmartServoMotion.setJointVelocityRel(0.1);
-        firstSmartServoMotion.setMode(cartImp);
-
-        getLogger().info("Starting the SmartServo in " + cartImp);
-        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(firstSmartServoMotion);
-
-        // Fetch the Runtime of the Motion part
-        // NOTE: the Runtime will exist AFTER motion command was issued
-        final ISmartServoRuntime theFirstRuntime = firstSmartServoMotion
-                .getRuntime();
-
-        /* Do Interaction with that mode Run set points etc... */
-        initialPosition.set(2, -1);
-        theFirstRuntime.setDestination(initialPosition);
-
-        /* Here: Just wait, until fine interpolation has finished */
-        while (!theFirstRuntime.isDestinationReached())
+        try
         {
-            ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-            theFirstRuntime.updateWithRealtimeSystem();
-            if (debugPrintoutFlag)
+            getLogger().info("Start SmartServoLIN sine movement");
+            double omega = FREQENCY * 2 * Math.PI * 1e-9;
+            long startTimeStamp = System.nanoTime();
+            int i;
+       	 Frame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
+                 .getFlange());
+    	 Frame initialPosition1 = _lbr.getCurrentCartesianPosition(_lbr
+                 .getFlange());
+       	 Frame initialPosition2 = _lbr.getCurrentCartesianPosition(_lbr
+                 .getFlange());
+//    	 System.out.println("initialPosition"+initialPosition);
+            
+            double i1=0;
+            double nAix4=0;
+            double nAix7=0;
+            //for (i = 0; i < NUM_RUNS; ++i)
+            boolean bOnlyForPlane=false;
+    	 while(Math.abs(nAix4)<115 && bOnlyForPlane==false && Math.abs(nAix7)<165)
             {
-                getLogger().info("Waiting for reaching goal "
-                        + theFirstRuntime);
+//    		 System.out.println(i1);
+    		 bOnlyForPlane=_vi.MotionType();
+//    		 
+    		 if(bOnlyForPlane==true){
+    			 System.out.println("11");
+    		 }
+    		 
+    		 
+    		 JointPosition jReady =_lbr.getCurrentJointPosition();
+    		 nAix4=Math.toDegrees(jReady.get(JointEnum.J4));
+    		 nAix7=Math.toDegrees(jReady.get(JointEnum.J7));	
+                final OneTimeStep aStep = timing.newTimeStep();
+                // ///////////////////////////////////////////////////////
+                // Insert your code here
+                // e.g Visual Servoing or the like
+                // Synchronize with the realtime system
+
+                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+                // Update the smart servo LIN runtime
+                theSmartServoLINRuntime.updateWithRealtimeSystem();
+
+                double curTime = System.nanoTime() - startTimeStamp;
+                double sinArgument = omega * curTime;
+
+                // Compute the sine function
+                Frame destFrame = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+                
+             
+       		 initialPosition.setX(initialPosition1.getX());
+       		 initialPosition.setY(initialPosition1.getY());
+       		 initialPosition.setZ(initialPosition1.getZ());
+       		 initialPosition.setAlphaRad(initialPosition1.getAlphaRad());
+       		 initialPosition.setBetaRad(initialPosition1.getBetaRad());
+       		 initialPosition.setGammaRad(initialPosition1.getGammaRad());
+//       		 System.out.println("1"+Math.toDegrees(initialPosition.getBetaRad()));
+//       		 System.out.println("2"+Math.toDegrees(destFrame.getBetaRad()));
+                
+                
+                // Set new destination
+       		double Distance=Math.sqrt( (initialPosition.getX()-destFrame.getX())*(initialPosition.getX()-destFrame.getX())+(initialPosition.getY()-destFrame.getY())*(initialPosition.getY()-destFrame.getY())+(initialPosition.getZ()-destFrame.getZ())*(initialPosition.getZ()-destFrame.getZ()));
+//       		System.out.println("Distance"+Distance);
+//       		System.out.println(initialPosition);
+//       		System.out.println(destFrame);
+       		
+//       		ThreadUtil.milliSleep(100);
+//       		 Frame Ptest2 = initialPosition.transform((Transformation.ofDeg(0, 0, 0, 0, 5.729577951308232*(Math.toDegrees(destFrame.getBetaRad())-Math.toDegrees(initialPosition.getBetaRad())), 0)));
+//       		 System.out.println("err1: "+" a:"+Math.toDegrees(Ptest2.getAlphaRad())+" b:"+Math.toDegrees(Ptest2.getBetaRad())+" c:"+Math.toDegrees(Ptest2.getGammaRad()));
+//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+      
+             
+//             ThreadUtil.milliSleep(1000);
+//             System.out.println("x: "+Ptest2.getX()+"y: "+Ptest2.getY()+"c "+"z: "+Ptest2.getZ());
+//             System.out.println("a: "+Math.toDegrees(Ptest2.getAlphaRad())+"b: "+Math.toDegrees(Ptest2.getBetaRad())+"c "+Math.toDegrees(Ptest2.getGammaRad()));
+             // Modify the stiffness settings every now and then
+       		i1++;
+       		
+       		
+       		Frame cmdPos2 = _lbr.getCurrentCartesianPosition(_lbr.getFlange());
+       	    Transformation DistanceToPlane=initialPosition.staticTransformationTo(cmdPos2);
+       	    DistanceToPlane.getX();
+       	    
+       	    //setPid
+       	    nintegral=nintegral+DistanceToPlane.getX();
+       	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+       	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
+       	    nPrevious_error=DistanceToPlane.getX();
+       	    
+       	    
+      		initialPosition.setX(initialPosition1.getX()-nOutput);
+      		
+      		
+       		
+       		if (i1 % 200 == 0){
+           		System.out.println("DistanceToPlane:"+DistanceToPlane.getX());
+           		System.out.println("initialPosition1:"+initialPosition);
+           		System.out.println(Math.abs(nAix4));
+
+           		
+       		}
+       		
+       		if (i1 % 5 == 0){
+       			theSmartServoLINRuntime.setDestination(initialPosition);
+       		}
+       		
+       		
+             if (i1 % 2 == 0)
+             {
+//            	 System.out.println("ss");
+                 if (mode instanceof CartesianImpedanceControlMode)
+                 {
+               		 if (Distance>100)
+               		 {
+               			 double nForceY=50+5*(Distance-100);
+               			 double nForceZ=300+5*(Distance-100);
+               			 if (nForceY>5000)
+               			 {
+               				nForceY=5000;
+               			 }
+               			 if (nForceZ>5000)
+               			 {
+               				nForceZ=5000;
+               			 }
+                         final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) mode;
+//                       final double aTransStiffVal = Math.max(100. * (i
+//                               / (double) NUM_RUNS + 1), 1000.);
+//                       final double aRotStiffVal = Math.max(10. * (i
+//                               / (double) NUM_RUNS + 1), 150.);
+                       cartImp.parametrize(CartDOF.Y).setStiffness(
+                      		 nForceY);
+                       cartImp.parametrize(CartDOF.Z).setStiffness(
+                        		 nForceZ);
+//               			 System.out.println(nForceY);
+               			theSmartServoLINRuntime.changeControlModeSettings(cartImp);
+               		 }
+               		 else
+               		 {
+               			 final CartesianImpedanceControlMode cartImp1 = (CartesianImpedanceControlMode) mode;
+                         cartImp1.parametrize(CartDOF.Y).setStiffness(
+                          		 50);
+                           cartImp1.parametrize(CartDOF.Z).setStiffness(
+                            		 300);
+                           theSmartServoLINRuntime.changeControlModeSettings(cartImp1);
+               		 }
+                     // We are in CartImp Mode,
+                     // Modify the settings:
+                     // NOTE: YOU HAVE TO REMAIN POSITIVE SEMI-DEFINITE !!
+                     // NOTE: DONT CHANGE TOO FAST THE SETTINGS, ELSE YOU
+                     // WILL DESTABILIZE THE CONTROLLER
+
+//                     cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+
+                     // Send the new Stiffness settings down to the
+                     // controller
+                     
+                 }
+             }
+             
+             if(i1==10000){
+            	 i1=0;
+             }
+             aStep.end();
             }
-        }
 
-        // Open second Motion
-        for (int i = 0; i < initialPosition.getAxisCount(); i++)
+ 
+        }
+        catch (Exception e)
         {
-            initialPosition.set(i, initialPosition.get(i) + 0.1);
+            getLogger().error(e.getLocalizedMessage());
+            e.printStackTrace();
         }
-
-        final SmartServo secondSmartServoMotion = new SmartServo(initialPosition);
-
-        secondSmartServoMotion.setJointAccelerationRel(0.2);
-        secondSmartServoMotion.setJointVelocityRel(0.1);
-
-        // / Activate the Motion -- it will become truely active, as the first
-        // one vanishes
-        // Set the control mode as member of the realtime motion
-        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(secondSmartServoMotion);
-
-        getLogger().info("Now blending over to -> Sending Stop Request "
-                );
-
-        // ///////////////////////////////////
-        // Now blend over - stop the first,
-        // the second will immediately take over
-        theFirstRuntime.stopMotion();
-
-        final ISmartServoRuntime theSecondRuntime = secondSmartServoMotion
-                .getRuntime();
-        theSecondRuntime.setDestination(initialPosition);
-        /* do further computations... */
-
-        /* Here: Just wait, until fine interpolation has finished */
-        while (!theSecondRuntime.isDestinationReached())
-        {
-            ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-            theSecondRuntime.updateWithRealtimeSystem();
-            if (debugPrintoutFlag)
-            {
-                getLogger().info("Waiting for reaching goal Runtime 2 "
-                        + theSecondRuntime);
-            }
-        }
-
-        theSecondRuntime.stopMotion();
-
-        getLogger().info("Result of Motion 1 " + theFirstRuntime);
-        getLogger().info("Result of Motion 2 " + theSecondRuntime);
-    }
-
-    @Override
-    public void run()
-    {
-
-        moveToInitialPosition();
-
-        // Initialize Cartesian impedance mode       
-        final CartesianImpedanceControlMode cartImp = createCartImp();
-
-        runSmartServoMotion(cartImp);
-
-        // Return to initial position
-        moveToInitialPosition();
-
-        final PositionControlMode positionCtrlMode = new PositionControlMode();
-
-        runSmartServoMotion(positionCtrlMode);
-
-        moveToInitialPosition();
-
-        switchMotionControlMode();
-
+        return timing;
     }
 
     /**
@@ -376,8 +521,9 @@ public class motion2 extends RoboticsAPIApplication
      * @param args
      *            arguments
      */
-    public static void main(final String[] args)
+    public static void main()
     {
+    	
         final motion2 app = new motion2();
         app.runApplication();
     }
