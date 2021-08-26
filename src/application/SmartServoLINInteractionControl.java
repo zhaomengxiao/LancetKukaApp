@@ -1,7 +1,5 @@
 package application;
 
-//此程序为阻抗模式测试程序
-
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
 
 import com.kuka.common.StatisticTimer;
