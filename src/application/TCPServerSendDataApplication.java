@@ -2237,124 +2237,125 @@ public HandGuidingMotion createhandGuidingMotion(){
 				
 				else if(nWorkingmode==6){
 					nLastWorkingmode=nWorkingmode;
-//			        // Initialize Joint impedance mode    
-//					double nX1=-552;
-//					double nY1=-56;
-//					double nZ1=955;
-//					double nA1=-71;
-//					double nB1=44;
-//					double nC1=54;
-					ThreadUtil.milliSleep(3000);
-//					if(nX!=0 && nY!=0 && nZ!=0){
-                    if(true){   
-//						if(num_ForTest!=0)
-						if(true)
-						{
-							System.out.println("num_ForTest!=0");
-							Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+////			        // Initialize Joint impedance mode    
+////					double nX1=-552;
+////					double nY1=-56;
+////					double nZ1=955;
+////					double nA1=-71;
+////					double nB1=44;
+////					double nC1=54;
+//					ThreadUtil.milliSleep(3000);
+////					if(nX!=0 && nY!=0 && nZ!=0){
+//                    if(true){   
+////						if(num_ForTest!=0)
+//						if(true)
+//						{
+//							System.out.println("num_ForTest!=0");
+//							Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+//
+//							pre_Place1.setX(nX);
+//							pre_Place1.setY(nY);
+//							pre_Place1.setZ(nZ);
+//							pre_Place1.setAlphaRad(Math.toRadians(nA));
+//							pre_Place1.setBetaRad(Math.toRadians(nB));
+//							pre_Place1.setGammaRad(Math.toRadians(nC));
+//						
+//							Frame pre_Place2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+//	 
+//							pre_Place2.setX(nX);
+//							pre_Place2.setY(nY);
+//							pre_Place2.setZ(nZ);
+//							pre_Place2.setAlphaRad(Math.toRadians(nA));
+//							pre_Place2.setBetaRad(Math.toRadians(nB));
+//							pre_Place2.setGammaRad(Math.toRadians(nC));
+//							
+//							
+//							
+//							
+//							System.out.println("pre_Place"+pre_Place1);
+//							Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+//								if(nToolMode==3){
+//									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+//								}
+//								else if(nToolMode==2){
+//									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
+//								}
+//			                	
+//						    	
+//
+//					    		System.out.println("zhunbei_ready");
+//					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+//					    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
+//					    		System.out.println("Object4"+Object4);
+//					    		
+//					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
+//					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+//								System.out.println("222");	
+//								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+//								
+//								if(nToolMode==3){
+//									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+//								}
+//								else if(nToolMode==2){
+//									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
+//								}
+//								
+//								System.out.println("333");	
+//								Object5.setX(Object4.getX());
+//								Object5.setY(Object4.getY());
+//								Object5.setZ(Object4.getZ());
+//								Object5.setAlphaRad(Object4.getAlphaRad());
+//								Object5.setBetaRad(Object4.getBetaRad());
+//								Object5.setGammaRad(Object4.getGammaRad());
+//								System.out.println("Object5"+Object5);
+//								JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+//								System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
+//					    		
+//					    		try{
+//
+//									if(nToolMode==3){
+//										needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1));
+//									}
+//									else if(nToolMode==2){
+//										needle.getFrame("/tcp_x_2_yz2").move(lin(pre_Place2).setJointVelocityRel(0.1));
+//									}
+//								
+//								//更新平面定位初始点
+//								
+//								if(nToolMode==3){
+//									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//								}
+//								else if(nToolMode==2){
+//									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//								}
+////								num_ForTest=num_ForTest+5;
+//								Err="3,";
+//								System.out.println("Move");
+//								Err="3,";
+//								ThreadUtil.milliSleep(1000);
+//								Err="0,";
+//					    		}	
+//								catch(Throwable cause)
+//								{
+//									System.out.println("RangeLimit");
+//									Err="1,";
+//								}
+//							}
+//							else{
+//								 
+//							}
+//						}
+//					else{
+//						num_ForTest=1;
+//						System.out.println("num_ForTest==0");
+//					}
+//						
 
-							pre_Place1.setX(nX);
-							pre_Place1.setY(nY);
-							pre_Place1.setZ(nZ);
-							pre_Place1.setAlphaRad(Math.toRadians(nA));
-							pre_Place1.setBetaRad(Math.toRadians(nB));
-							pre_Place1.setGammaRad(Math.toRadians(nC));
 						
-							Frame pre_Place2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-	 
-							pre_Place2.setX(nX);
-							pre_Place2.setY(nY);
-							pre_Place2.setZ(nZ);
-							pre_Place2.setAlphaRad(Math.toRadians(nA));
-							pre_Place2.setBetaRad(Math.toRadians(nB));
-							pre_Place2.setGammaRad(Math.toRadians(nC));
-							
-							
-							
-							
-							System.out.println("pre_Place"+pre_Place1);
-							Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
-								if(nToolMode==3){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
-								}
-								else if(nToolMode==2){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
-								}
-			                	
-						    	
-
-					    		System.out.println("zhunbei_ready");
-					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-					    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
-					    		System.out.println("Object4"+Object4);
-					    		
-					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
-					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-								System.out.println("222");	
-								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
-								
-								if(nToolMode==3){
-									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
-								}
-								else if(nToolMode==2){
-									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
-								}
-								
-								System.out.println("333");	
-								Object5.setX(Object4.getX());
-								Object5.setY(Object4.getY());
-								Object5.setZ(Object4.getZ());
-								Object5.setAlphaRad(Object4.getAlphaRad());
-								Object5.setBetaRad(Object4.getBetaRad());
-								Object5.setGammaRad(Object4.getGammaRad());
-								System.out.println("Object5"+Object5);
-								JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-								System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
-					    		
-					    		try{
-
-									if(nToolMode==3){
-										needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1));
-									}
-									else if(nToolMode==2){
-										needle.getFrame("/tcp_x_2_yz2").move(lin(pre_Place2).setJointVelocityRel(0.1));
-									}
-								
-								//更新平面定位初始点
-								
-								if(nToolMode==3){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-								}
-								else if(nToolMode==2){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-								}
-//								num_ForTest=num_ForTest+5;
-								Err="3,";
-								System.out.println("Move");
-								Err="3,";
-								ThreadUtil.milliSleep(1000);
-								Err="0,";
-					    		}	
-								catch(Throwable cause)
-								{
-									System.out.println("RangeLimit");
-									Err="1,";
-								}
-							}
-							else{
-								 
-							}
-						}
-					else{
-						num_ForTest=1;
-						System.out.println("num_ForTest==0");
-					}
-						
-
-						
-						
+					Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+					Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));	
 
 					
 					nWorkingmode=0;
@@ -2379,8 +2380,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 				else if(nWorkingmode==7){
 					
 					nToolMode=3;
-					Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-					Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//					Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+//					Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 			    					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
