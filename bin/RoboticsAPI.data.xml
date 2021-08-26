@@ -207,7 +207,8 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="170.2" y="-2.3" z="237.4"/>
                 </frame>
                 <frame id="_a0f48089-ebdd-4f7c-b1ba-fe91241f42ee" name="tcp_x_3_yz4">
-                    <transformation a="0.0" b="1.0472" c="0.0" x="172.2" y="-6.3" z="235.4"/>
+                    <transformation a="0.0" b="1.0472" c="0.0" x="7.877175462659424" y="239.12141188057845" z="125.31814334211963"/>
+                    <measurementTranslation calculationError="3.0884384022651523" method="XYZ4Point" timestamp="1629963496556"/>
                 </frame>
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
