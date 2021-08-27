@@ -2237,13 +2237,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 				
 				else if(nWorkingmode==6){
 					nLastWorkingmode=nWorkingmode;
-////			        // Initialize Joint impedance mode    
-////					double nX1=-552;
-////					double nY1=-56;
-////					double nZ1=955;
-////					double nA1=-71;
-////					double nB1=44;
-////					double nC1=54;
+//			        // Initialize Joint impedance mode    
+//					double nX1=-552;
+//					double nY1=-56;
+//					double nZ1=955;
+//					double nA1=-71;
+//					double nB1=44;
+//					double nC1=54;
 					ThreadUtil.milliSleep(3000);
 //					if(nX!=0 && nY!=0 && nZ!=0){
                     if(true){   
@@ -2351,11 +2351,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 						num_ForTest=1;
 						System.out.println("num_ForTest==0");
 					}
-//						
+						
 
 						
-//					Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-//					Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));	
+						
 
 					
 					nWorkingmode=0;
@@ -2379,9 +2378,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 				}
 				else if(nWorkingmode==7){
 					
-					nToolMode=3;
-//					Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-//					Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+					
+					
 			    					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
@@ -2404,7 +2402,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
-//					    		ThreadUtil.milliSleep(1000);
+					    		ThreadUtil.milliSleep(1000);
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2428,7 +2426,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
-//					    	ThreadUtil.milliSleep(1000);
+					    	ThreadUtil.milliSleep(1000);
 					        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2436,7 +2434,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	nWorkingmode=0;
 					    }
 				    else{
-					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 					    	 
 					    }
 		            	

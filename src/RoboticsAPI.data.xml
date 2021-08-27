@@ -171,10 +171,10 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="tcp_2">
-                    <transformation a="0.0" b="0.0" c="0.0" x="7.88" y="239.12" z="125.32"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-37.9" y="-161.10695" z="122.90709"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
-                    <transformation a="0.0" b="0.0" c="0.0" x="7.88" y="239.12" z="125.32"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-19.0" y="-210.5" z="124.5"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
@@ -186,10 +186,10 @@
                     <transformation a="0.0" b="0.0" c="0.0" x="-21.0" y="-210.5" z="124.5"/>
                 </frame>
                 <frame id="_ec2a9c18-1cfb-4871-91f3-df8c6dd09fc8" name="tcp_3">
-                    <transformation a="0.0" b="0.0" c="0.0" x="7.88" y="239.12" z="125.32"/>
+                    <transformation a="0.0" b="1.57" c="0.0" x="0.0" y="0.0" z="120.0"/>
                 </frame>
                 <frame id="_371fb737-1163-4b67-b9c0-5389e8a46a43" name="tcp_x_1_yz2">
-                    <transformation a="0.0" b="0.0" c="0.0" x="7.88" y="239.125" z="125.32"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-17.8" y="-210.5" z="124.5"/>
                 </frame>
                 <frame id="_d14a1b0b-17b7-4c53-bd90-501a8643724d" name="tcp_x_1_yz3">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="-7.0" z="237.4"/>
@@ -210,7 +210,7 @@
                     <transformation a="0.0" b="1.0472" c="0.0" x="172.2" y="-6.3" z="235.4"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.8"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
