@@ -183,7 +183,7 @@
                     <transformation a="0.0" b="1.047" c="0.0" x="175.2" y="-10.3" z="237.4"/>
                 </frame>
                 <frame id="_8c08fe24-0ae1-454d-8cf3-4ff8cf0c6b50" name="tcp_x_2_yz2">
-                    <transformation a="0.0" b="0.0" c="0.0" x="-21.0" y="-210.5" z="124.5"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-21.6" y="-190.0" z="124.5"/>
                 </frame>
                 <frame id="_ec2a9c18-1cfb-4871-91f3-df8c6dd09fc8" name="tcp_3">
                     <transformation a="0.0" b="1.57" c="0.0" x="0.0" y="0.0" z="120.0"/>
@@ -195,7 +195,7 @@
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="-7.0" z="237.4"/>
                 </frame>
                 <frame id="_0a55bb58-c765-4217-b568-3c7e886f36d2" name="tcp_x_1_yz4">
-                    <transformation a="0.0" b="0.0" c="0.0" x="-15.8" y="-209.0" z="124.5"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-15.8" y="-190.0" z="124.5"/>
                 </frame>
                 <frame id="_39b2005e-a133-4990-915d-359f93185de8" name="tcp_x_2_yz3">
                     <transformation a="0.0" b="1.0472" c="0.0" x="170.2" y="-3.3" z="237.4"/>
