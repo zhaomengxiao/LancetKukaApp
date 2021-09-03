@@ -2398,11 +2398,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nPrevious_error=DistanceToPlane.getX();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())>150){
+					    if(Math.abs(DistanceToPlane.getY())>130){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
-					    		
+					    		ThreadUtil.milliSleep(1000);
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2416,7 +2416,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    		nWorkingmode=0;
 					    }
-					    else if(Math.abs(DistanceToPlane.getZ())>150){
+					    else if(Math.abs(DistanceToPlane.getZ())>130){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2426,7 +2426,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
-					    	
+					    	ThreadUtil.milliSleep(1000);
 					        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2434,7 +2434,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	nWorkingmode=0;
 					    }
 				    else{
-					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 					    	 
 					    }
 		            	
