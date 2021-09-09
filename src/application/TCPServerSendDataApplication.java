@@ -2387,7 +2387,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	if(nToolMode==3){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-				    	JointPosition jReady =lbr.getCurrentJointPosition();
+				    	JointPosition test =lbr.getCurrentJointPosition();
 			        	
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
@@ -2399,7 +2399,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nPrevious_error=DistanceToPlane.getX();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())>100){
+					    if(Math.abs(DistanceToPlane.getY())>150){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
@@ -2417,7 +2417,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    		nWorkingmode=0;
 					    }
-					    else if(Math.abs(DistanceToPlane.getZ())>80){
+					    else if(Math.abs(DistanceToPlane.getZ())>150){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2434,7 +2434,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    	nWorkingmode=0;
 					    }
-					    else if(Math.toDegrees(jReady.get(JointEnum.J1)) > 115){
+					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 115){
 //					    	if(count%100==0){
 					    		System.out.println("J4>115");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
