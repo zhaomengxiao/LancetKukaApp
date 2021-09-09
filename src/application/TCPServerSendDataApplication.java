@@ -1288,6 +1288,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        cartImp.parametrize(CartDOF.Y).setStiffness(100.0);
 		        cartImp.parametrize(CartDOF.Z).setStiffness(100.0);
 		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+		        cartImp.parametrize(CartDOF.C).setStiffness(150.0);
 //		        System.out.println(nStiff);
 //		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 		        cartImp.setNullSpaceStiffness(100.);
@@ -2442,7 +2443,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		 System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
+		            		 System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad()));
 		            	}
 			    	}
 			    	else if(nToolMode==2){
@@ -2504,7 +2505,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		 System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
+		            		System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
+		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 		            	}
 			    	}
 			    	else{
