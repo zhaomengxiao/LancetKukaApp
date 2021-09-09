@@ -2436,7 +2436,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    }
 					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 110){
 //					    	if(count%100==0){
-					    		System.out.println("J4>115");
+					    		System.out.println("J4>110");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
 					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
