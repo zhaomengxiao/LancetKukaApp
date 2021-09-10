@@ -2434,9 +2434,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 					    	nWorkingmode=0;
 					    }
-					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 105){
+					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 110){
 //					    	if(count%100==0){
-					    		System.out.println("J4>105");
+					    		System.out.println("J4>110");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
 					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
