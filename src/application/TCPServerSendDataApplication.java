@@ -732,17 +732,17 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						else if(units[1].equals("mj")){
 
 							String para1 = units[7].substring(0, units[7].length() - 1);
-//							System.out.println("j1: " + units[2]);
+							System.out.println("j1: " + units[2]);
 							
 							//确保handguing模式下是关掉的状态
 							if(SafeDataIO.getInput4()==false){
 	                            if(units[2].equals("1")){
 	                            	io.setOutput2(false);
-//	                            	System.out.println("io.setOutput2(true)");
+	                            	System.out.println("io.setOutput2(true)");
 	                            }
 	                            else if(units[2].equals("2")){
 	                            	io.setOutput2(true);
-//	                            	System.out.println("io.setOutput2(false)");
+	                            	System.out.println("io.setOutput2(false)");
 	                            }
 	                            if(units[3].equals("6")){
 	                            	nWorkingmode=6;
