@@ -779,17 +779,29 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							String para2 = units[3].substring(0, units[3].length() - 1);
 							System.out.println("units[2]:" + Double.parseDouble(units[2]));
 							System.out.println("para2:" + Double.parseDouble(para2));
+							
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
 							io.setOutput5(true);	
-//							System.out.println("io.setOutput5(true)");
 							}
 							else{
 							io.setOutput5(false);
-//							System.out.println("io.setOutput5(false)");
-//							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
 							}
-//							System.out.println("sIO: " + para2);
+							
+                            if(units[2].equals("2")){
+                            	io.setOutput2(false);
+                            	System.out.println("io.setOutput2(false)");
+                            }
+                            else if(units[2].equals("3")){
+                            	io.setOutput2(true);
+                            	System.out.println("io.setOutput2(true)");
+                            }
+                            
+                            if(para2.equals("6")){
+                            	nWorkingmode=6;
+                            	System.out.println("nWorkingmode=6");
+                            }
+							
 							writer_recive.write("$res,sIO,0$");
 							writer_recive.flush();
 							
