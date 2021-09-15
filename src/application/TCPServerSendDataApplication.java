@@ -699,11 +699,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("mp")){
-							System.out.println("para: " + units[2]);
-							System.out.println("para: " + units[3]);
-							System.out.println("para: " + units[4]);
-							System.out.println("para: " + units[5]);
-							System.out.println("para: " + units[6]);
+//							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[3]);
+//							System.out.println("para: " + units[4]);
+//							System.out.println("para: " + units[5]);
+//							System.out.println("para: " + units[6]);
 							String para1 = units[7].substring(0, units[7].length() - 1);
 							System.out.println("para" + para1);
 
@@ -724,8 +724,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							pre_Place.setAlphaRad(Math.toRadians(nA));
 							pre_Place.setBetaRad(Math.toRadians(nB));
 							pre_Place.setGammaRad(Math.toRadians(nC));
-							System.out.println("pre_Place"+pre_Place);
-							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+//							System.out.println("pre_Place"+pre_Place);
+//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 							writer_recive.write("$para,mp,0$");
 							writer_recive.flush();
 						}
@@ -774,11 +774,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							writer_recive.flush();
 						}
 						else if(units[1].equals("sIO")){
-							System.out.println("chenpeng:tttt" );
+//							System.out.println("chenpeng:tttt" );
 
 							String para2 = units[3].substring(0, units[3].length() - 1);
-							System.out.println("units[2]:" + Double.parseDouble(units[2]));
-							System.out.println("para2:" + Double.parseDouble(para2));
+//							System.out.println("units[2]:" + Double.parseDouble(units[2]));
+//							System.out.println("para2:" + Double.parseDouble(para2));
 							
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
@@ -790,16 +790,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							if(SafeDataIO.getInput4()==false){
 								   if(units[2].equals("2")){
 		                            	io.setOutput2(false);
-		                            	System.out.println("io.setOutput2(false)");
+//		                            	System.out.println("io.setOutput2(false)");
 		                            }
 		                            else if(units[2].equals("3")){
 		                            	io.setOutput2(true);
-		                            	System.out.println("io.setOutput2(true)");
+//		                            	System.out.println("io.setOutput2(true)");
 		                            }
 		                            
 		                            if(para2.equals("6")){
 		                            	nWorkingmode=6;
-		                            	System.out.println("nWorkingmode=6");
+//		                            	System.out.println("nWorkingmode=6");
 		                            }
 							}
                          
