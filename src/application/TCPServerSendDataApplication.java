@@ -787,20 +787,22 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							else{
 							io.setOutput5(false);
 							}
-							
-                            if(units[2].equals("2")){
-                            	io.setOutput2(false);
-                            	System.out.println("io.setOutput2(false)");
-                            }
-                            else if(units[2].equals("3")){
-                            	io.setOutput2(true);
-                            	System.out.println("io.setOutput2(true)");
-                            }
-                            
-                            if(para2.equals("6")){
-                            	nWorkingmode=6;
-                            	System.out.println("nWorkingmode=6");
-                            }
+							if(SafeDataIO.getInput4()==false){
+								   if(units[2].equals("2")){
+		                            	io.setOutput2(false);
+		                            	System.out.println("io.setOutput2(false)");
+		                            }
+		                            else if(units[2].equals("3")){
+		                            	io.setOutput2(true);
+		                            	System.out.println("io.setOutput2(true)");
+		                            }
+		                            
+		                            if(para2.equals("6")){
+		                            	nWorkingmode=6;
+		                            	System.out.println("nWorkingmode=6");
+		                            }
+							}
+                         
 							
 							writer_recive.write("$res,sIO,0$");
 							writer_recive.flush();
@@ -2889,7 +2891,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-	    io.setOutput3(true);
+//	    io.setOutput3(true);
 //		BreakTest.initialize();
 //		BreakTest.run();
 ////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
