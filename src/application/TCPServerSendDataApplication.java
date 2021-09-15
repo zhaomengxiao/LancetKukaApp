@@ -2396,12 +2396,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
+								
+								if(io.getInput4()==false){
+									Err="3,";
+									System.out.println("Move");
+									Err="3,";
+									ThreadUtil.milliSleep(70);
+									Err="0,";
+								}
 //								num_ForTest=num_ForTest+5;
-								Err="3,";
-								System.out.println("Move");
-								Err="3,";
-								ThreadUtil.milliSleep(1000);
-								Err="0,";
+
 					    		}	
 								catch(Throwable cause)
 								{
