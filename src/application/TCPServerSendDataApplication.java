@@ -730,7 +730,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							writer_recive.flush();
 						}
 						else if(units[1].equals("mj")){
-
+							System.out.println("chenpeng:11111111111 " );
 							String para1 = units[7].substring(0, units[7].length() - 1);
 							System.out.println("j1: " + units[2]);
 							
@@ -2870,7 +2870,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-//	    io.setOutput2(true);
+	    io.setOutput3(true);
 //		BreakTest.initialize();
 //		BreakTest.run();
 ////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
