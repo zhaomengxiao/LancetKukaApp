@@ -2472,6 +2472,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								//限位反馈报警
+								System.out.println("Err==5");
+								Err="5,";
 					    		nWorkingmode=0;
 					    }
 					    else if(Math.abs(DistanceToPlane.getZ())>130){
@@ -2489,6 +2492,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							System.out.println("Err==5");
+							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 110){
@@ -2506,7 +2511,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-					    	nWorkingmode=0;
+							System.out.println("Err==5");
+							Err="5,";
+							nWorkingmode=0;
+							
 					    }
 				    else{
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
@@ -2550,6 +2558,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								System.out.println("Err==5");
+								Err="5,";
 					    		nWorkingmode=0;
 					    }
 					   
@@ -2568,6 +2578,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							System.out.println("Err==5");
+							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
