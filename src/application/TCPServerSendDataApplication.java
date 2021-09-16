@@ -218,6 +218,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
+		VaccumDetect = new BooleanIOCondition(io.getInput("Input4"), true);
 		count=0;
 		Err="0,";
 		num_ForTest=0;
@@ -318,7 +319,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
          
 		 public void GetData()
 		    {
-//		        ThreadUtil.milliSleep(1000);
+//			 System.out.println("start_test");
+//		        ThreadUtil.milliSleep(5000);
+//		        System.out.println("end_test");
+//		        io.setOutput2(true);
 				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
 				data0 = "$0,";
 				
@@ -695,11 +699,11 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							
 						}
 						else if(units[1].equals("mp")){
-							System.out.println("para: " + units[2]);
-							System.out.println("para: " + units[3]);
-							System.out.println("para: " + units[4]);
-							System.out.println("para: " + units[5]);
-							System.out.println("para: " + units[6]);
+//							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[3]);
+//							System.out.println("para: " + units[4]);
+//							System.out.println("para: " + units[5]);
+//							System.out.println("para: " + units[6]);
 							String para1 = units[7].substring(0, units[7].length() - 1);
 							System.out.println("para" + para1);
 
@@ -720,25 +724,86 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							pre_Place.setAlphaRad(Math.toRadians(nA));
 							pre_Place.setBetaRad(Math.toRadians(nB));
 							pre_Place.setGammaRad(Math.toRadians(nC));
-							System.out.println("pre_Place"+pre_Place);
-							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+//							System.out.println("pre_Place"+pre_Place);
+//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+							writer_recive.write("$para,mp,0$");
+							writer_recive.flush();
+						}
+						else if(units[1].equals("mj")){
+							System.out.println("chenpeng:11111111111 " );
+							String para1 = units[7].substring(0, units[7].length() - 1);
+							System.out.println("j1: " + units[2]);
+							
+							//确保handguing模式下是关掉的状态
+							if(SafeDataIO.getInput4()==false){
+	                            if(units[2].equals("1")){
+	                            	io.setOutput2(false);
+	                            	System.out.println("io.setOutput2(true)");
+	                            }
+	                            else if(units[2].equals("2")){
+	                            	io.setOutput2(true);
+	                            	System.out.println("io.setOutput2(false)");
+	                            }
+	                            if(units[3].equals("6")){
+	                            	nWorkingmode=6;
+	                            	System.out.println("nWorkingmode=6");
+	                            }
+							}
+
+                            
+//							nX=Double.parseDouble(units[2]);
+//							nY=Double.parseDouble(units[3]);
+//							nZ=Double.parseDouble(units[4]);
+//							nA=Double.parseDouble(units[5]);
+//							nB=Double.parseDouble(units[6]);
+//							nC=Double.parseDouble(para1);
+//							
+//							//ss
+//
+//							
+//							pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+//							pre_Place.setX(nX);
+//							pre_Place.setY(nY);
+//							pre_Place.setZ(nZ);
+//							pre_Place.setAlphaRad(Math.toRadians(nA));
+//							pre_Place.setBetaRad(Math.toRadians(nB));
+//							pre_Place.setGammaRad(Math.toRadians(nC));
+//							System.out.println("pre_Place"+pre_Place);
+//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
 							writer_recive.write("$para,mp,0$");
 							writer_recive.flush();
 						}
 						else if(units[1].equals("sIO")){
-//							System.out.println("para: " + units[2]);
+							System.out.println("chenpeng:tttt" );
+
 							String para2 = units[3].substring(0, units[3].length() - 1);
+							System.out.println("units[2]:" + Double.parseDouble(units[2]));
+							System.out.println("para2:" + Double.parseDouble(para2));
+							
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
 							io.setOutput5(true);	
-//							System.out.println("io.setOutput5(true)");
 							}
 							else{
 							io.setOutput5(false);
-//							System.out.println("io.setOutput5(false)");
-//							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
 							}
-//							System.out.println("sIO: " + para2);
+							if(SafeDataIO.getInput4()==false){
+								   if(units[2].equals("2")){
+		                            	io.setOutput2(false);
+		                            	System.out.println("io.setOutput2(false)");
+		                            }
+		                            else if(units[2].equals("3")){
+		                            	io.setOutput2(true);
+		                            	System.out.println("io.setOutput2(true)");
+		                            }
+		                            
+		                            if(para2.equals("6")){
+		                            	nWorkingmode=6;
+		                            	System.out.println("nWorkingmode=6");
+		                            }
+							}
+                         
+							
 							writer_recive.write("$res,sIO,0$");
 							writer_recive.flush();
 							
@@ -1585,13 +1650,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 			while (true)
 			{ 
-//				boolean btest=SafeDataIO.getInput4();
-//				if (btest==true)
-//				{
-//					nWorkingmode=1;
-//					System.out.println("SafeDataIO.getInput4"+btest);
-//				}
-//				System.out.println(btest);
+
+				
+				
 				boolean btest=SafeDataIO.getInput4();
 				if (btest==true)
 				{
@@ -2245,7 +2306,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					double nA1=-71;
 //					double nB1=44;
 //					double nC1=54;
-					ThreadUtil.milliSleep(3000);
+					
+//					ThreadUtil.milliSleep(3000);
+					
 //					if(nX!=0 && nY!=0 && nZ!=0){
                     if(true){   
 //						if(num_ForTest!=0)
@@ -2315,10 +2378,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		try{
 
 									if(nToolMode==3){
-										needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1));
+										System.out.println("Start nWorkingmode==6");
+										needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										System.out.println("End nWorkingmode==6");
 									}
 									else if(nToolMode==2){
-										needle.getFrame("/tcp_x_2_yz2").move(lin(pre_Place2).setJointVelocityRel(0.1));
+										System.out.println("Start nWorkingmode==6");
+										needle.getFrame("/tcp_x_2_yz2").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										System.out.println("End nWorkingmode==6");
 									}
 								
 								//更新平面定位初始点
@@ -2331,12 +2398,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
+								
+								if(io.getInput4()==false){
+									Err="3,";
+									System.out.println("Move");
+									Err="3,";
+									ThreadUtil.milliSleep(70);
+									Err="0,";
+								}
 //								num_ForTest=num_ForTest+5;
-								Err="3,";
-								System.out.println("Move");
-								Err="3,";
-								ThreadUtil.milliSleep(1000);
-								Err="0,";
+
 					    		}	
 								catch(Throwable cause)
 								{
@@ -2362,21 +2433,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 					
 				}
-				else if(nWorkingmode==99){
-//					JointPosition currentPos_CheckSafety=lbr.getCurrentJointPosition();
-//					if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 160){
-//	            		System.out.println("ForPlane");
-////						OnlyPlane.initialize();
-//						OnlyPlane.run();
-//						nWorkingmode=0;
-//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
-//				    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
-//	            	}
-//					else{
-//						Err="2,";
-//					}
-					
-				}
+
 				else if(nWorkingmode==7){
 					
 					
@@ -2415,6 +2472,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								//限位反馈报警
+								System.out.println("Err==5");
+								Err="5,";
 					    		nWorkingmode=0;
 					    }
 					    else if(Math.abs(DistanceToPlane.getZ())>130){
@@ -2432,11 +2492,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							System.out.println("Err==5");
+							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 110){
 //					    	if(count%100==0){
-					    		System.out.println("J4>110");
+					    		System.out.println("J4>115");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
 					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
@@ -2449,7 +2511,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
-					    	nWorkingmode=0;
+							System.out.println("Err==5");
+							Err="5,";
+							nWorkingmode=0;
+							
 					    }
 				    else{
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
@@ -2493,6 +2558,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								System.out.println("Err==5");
+								Err="5,";
 					    		nWorkingmode=0;
 					    }
 					   
@@ -2511,6 +2578,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							System.out.println("Err==5");
+							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
@@ -2543,6 +2612,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    
 			    
 //			    	nWorkingmode=0;
+				}
+				
+				else if(nWorkingmode==8){
+					ThreadUtil.milliSleep(20);
+					System.out.println("Start nWorkingmode==8");
+					lbr.move(new PTP(jointPos).setJointVelocityRel(0.2).breakWhen(VaccumDetect));
+					System.out.println("End nWorkingmode==8");
+					nWorkingmode=0;
 				}
 				else{
 					
@@ -2826,11 +2903,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-
+//	    io.setOutput3(true);
 		BreakTest.initialize();
 		BreakTest.run();
-//		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
-//		ThreadUtil.milliSleep(2000);
+////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+//		ThreadUtil.milliSleep(2000000);
 		
 //		OnlyPlane.run();
 //		ThreadUtil.milliSleep(2000);
