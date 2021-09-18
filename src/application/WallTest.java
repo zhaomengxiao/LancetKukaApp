@@ -118,6 +118,7 @@ public class WallTest extends RoboticsAPIApplication {
     private SafeDataIOGroup SafeDataIO;
 	
 	private CartesianImpedanceControlMode cic;
+	public CartesianImpedanceControlMode cic1;
 	boolean bstop = false;
 
 	@Override
@@ -151,8 +152,8 @@ public class WallTest extends RoboticsAPIApplication {
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(0.8)
 		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(75), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-45), Math.toRadians(-120), -0.087,-1.571, -0.087)
+		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-75), Math.toRadians(-25), Math.toRadians(0), -0.087,-1.571, -0.087)
 		.setJointLimitsEnabled(true,true,true,true,false,false,false)
 
 
@@ -162,252 +163,9 @@ public class WallTest extends RoboticsAPIApplication {
 	
 	
 	@Override
-	public void run() {
-/*
-		
-		   if (!ServoMotion.validateForImpedanceMode(lbr))
-	        {
-	            getLogger()
-	                    .info("Validation of torque model failed - correct your mass property settings");
-	            getLogger()
-	                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
-	        }
-
-//		lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.5));
-
-		Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
-		SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-		aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-		log.info("Start Smart Servo Lin motion");
-
-		 _toolAttachedToLBR.moveAsync(aSmartServoLINMotion);
-
-		getLogger().info("Get the runtime of the SmartServoLIN motion");
-		ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-				.getRuntime();
-
-		px = py = pz = 0.05;
-		pa = pb = pc = 0.0005;
-
-		Frame destFrame = current.copyWithRedundancy();
-		Frame destFrame_Dangerous = current.copyWithRedundancy();
-		
-		double zFx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getX();
-		double zFy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getY();
-		double zFz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-				.getZ();
-		double zFa = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getZ();
-		double zFb = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getY();
-		double zFc = lbr.getExternalForceTorque(lbr.getFlange()).getForce().getX();
-
-		ccx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-		ccy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-		ccz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-		cca = lbr.getCurrentCartesianPosition(lbr.getFlange()).getAlphaRad();
-		ccb = lbr.getCurrentCartesianPosition(lbr.getFlange()).getBetaRad();
-		ccc = lbr.getCurrentCartesianPosition(lbr.getFlange()).getGammaRad();
-
-		log.info("get Force in x " + zFx);
-		log.info("get Force in y " + zFy);
-		log.info("get Force in z " + zFz);
-		log.info("get Torque in a " + cca);
-		log.info("get Torque in b " + ccb);
-		log.info("get Torque in c " + ccc);
-
-		try {
-			
-			while (!bstop) {
-
-				fx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getX();
-				fy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getY();
-				fz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-						.getZ();
-				fa = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getZ();
-				fb = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getY();
-				fc = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getX();
-				
-				dfx = 1 * px * (fx - zFx);
-				dfy = 1 * py * (fy - zFy);
-				dfz = 1 * pz * (fz - zFz);
-				dfa = 1 * pa * (fa - zFa);
-				dfb = 1 * pb * (fb - zFb);
-				dfc = 1 * pc * (fc - zFc);
-
-				cx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-				cy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-				cz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-				ca = lbr.getCurrentCartesianPosition(lbr.getFlange()).getAlphaRad();
-				cb = lbr.getCurrentCartesianPosition(lbr.getFlange()).getBetaRad();
-				cc = lbr.getCurrentCartesianPosition(lbr.getFlange()).getGammaRad();
-
-//				if(Math.abs(ccx-cx)>50 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.5){
-//					dfx = 0;
-//				}
-//				if(Math.abs(ccy-cy)>50 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.5){
-//					dfy = 0;
-//				}
-//				if(Math.abs(ccz-cz)>50 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.5){
-//					dfz = 0;
-//				}
-				
-				if (Math.abs(dfx) < 0.1) {
-					dfx = 0;
-				}
-				
-				if (ccx - cx > 50) {
-					if (fx > 0) {
-//						dfx = 0;
-
-					}
-				}
-
-				if (ccx - cx < -50) {
-					if (fx < 0) {
-//						dfx = 0;
-
-					}
-				}
-
-				if (Math.abs(dfy) < 0.1) {
-					dfy = 0;
-				}
-				if (ccy - cy >= 50) {
-					if (fy < 0) {
-//						dfy = 0;
-
-					}
-				}
-				if (ccy - cy <= -50) {
-					if (fy > 0) {
-//						dfy = 0;
-
-					}
-				}
-
-				
-				
-				
-				if (Math.abs(dfz) < 0.1) {
-					dfz = 0;
-				}
-				if (ccz - cz > 5) {
-					if (fz > 0) {
-//						dfz = 0;
-
-					}
-				}
-
-				if (ccz - cz < -5) {
-					if (fz < 0) {
-//						dfz = 0;
-
-					}
-
-				}
-
-//				dfz = 0;
-				// log.info("get Force in delta x" + dfx + ",y " + dfy + ",z " +
-				// dfz);
-				
-				if(dfx>0.6){
-					dfx=0.6;
-				}
-				if(dfx<-0.6){
-					dfx=-0.6;
-				}
-				
-				if(dfy>0.6){
-					dfy=0.6;
-				}
-				if(dfy<-0.6){
-					dfy=-0.6;
-				}
-				
-				if(dfz>0.6){
-					dfz=0.6;
-				}
-				if(dfz<-0.6){
-					dfz=-0.6;
-				}
-				
-//				Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
-//				Frame Ptest2 = destFrame.transform((Transformation.ofTranslation(dfx, dfy, 0)));
-				Frame Ptest3 = destFrame_Dangerous.transform((Transformation.ofTranslation(dfx*0.1, dfy*0.1, 0)));
-
-//				Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, dfy, dfz, dfa, dfb, dfc)));
-				Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, 0, dfz, 0, 0, 0)));
-//				Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, 0, 0, 0, 0, 0)));
-//				destFrame.setX(destFrame.getX() + dfx);
-//				destFrame.setY(destFrame.getY() + dfy);
-//				destFrame.setZ(destFrame.getZ() + dfz);
-				
-				
-				destFrame.setX(Ptest2.getX());
-				destFrame.setY(Ptest2.getY());
-				destFrame.setZ(Ptest2.getZ());
-				destFrame.setAlphaRad(Ptest2.getAlphaRad());
-				destFrame.setBetaRad(Ptest2.getBetaRad());
-				destFrame.setGammaRad(Ptest2.getGammaRad());
-				
-				destFrame_Dangerous.setX(Ptest3.getX());
-				destFrame_Dangerous.setY(Ptest3.getY());
-				destFrame_Dangerous.setZ(Ptest3.getZ());
-				
-				
-//				Frame Ptest1= current.copyWithRedundancy();
-//				Frame Ptest2 = Ptest1.transform((Transformation.ofTranslation(dfx, dfy, dfz)));
-				smartServoLINRuntime.updateWithRealtimeSystem();
-				
-				jointPos=lbr.getInverseKinematicFromFrameAndRedundancy(destFrame);
-////				System.out.println("J1:"+Math.toDegrees(jointPos.get(JointEnum.J1))+" J2:"+Math.toDegrees(jointPos.get(JointEnum.J2))+" J3:"+Math.toDegrees(jointPos.get(JointEnum.J3))+" J4:"+Math.toDegrees(jointPos.get(JointEnum.J4))+" J5:"+Math.toDegrees(jointPos.get(JointEnum.J5))+" J6:"+Math.toDegrees(jointPos.get(JointEnum.J6))+" J7:"+Math.toDegrees(jointPos.get(JointEnum.J7)));
-				jointLimit_1=Math.toDegrees(jointPos.get(JointEnum.J1));
-				jointLimit_2=Math.toDegrees(jointPos.get(JointEnum.J2));
-				jointLimit_3=Math.toDegrees(jointPos.get(JointEnum.J3));
-				jointLimit_4=Math.toDegrees(jointPos.get(JointEnum.J4));
-				jointLimit_5=Math.toDegrees(jointPos.get(JointEnum.J5));
-				jointLimit_6=Math.toDegrees(jointPos.get(JointEnum.J6));
-				jointLimit_7=Math.toDegrees(jointPos.get(JointEnum.J7));
-				
-				//判断是否能到达限位
-				if(Math.abs(jointLimit_1)<160 && Math.abs(jointLimit_2)<110 && Math.abs(jointLimit_3)<160 && Math.abs(jointLimit_4)<110 && Math.abs(jointLimit_5)<160 && Math.abs(jointLimit_6)<110 && Math.abs(jointLimit_7)<165){
-					px = py = pz = 0.05;
-				}
-				else{
-					double nMin=Math.min(Math.abs(170-Math.abs(jointLimit_1)), 120-Math.abs(Math.abs(jointLimit_2)));
-					nMin=Math.min(nMin, Math.abs(170-Math.abs(jointLimit_3)));
-					nMin=Math.min(nMin, Math.abs(120-Math.abs(jointLimit_4)));
-					nMin=Math.min(nMin, Math.abs(170-Math.abs(jointLimit_5)));
-					nMin=Math.min(nMin, Math.abs(120-Math.abs(jointLimit_6)));
-					nMin=Math.min(nMin, Math.abs(175-Math.abs(jointLimit_7)));
-					px = py = pz = 0.05*(Math.pow(nMin, 3)/2000);
-				}
-				smartServoLINRuntime.setDestination(destFrame);
-				
-				
-//				smartServoLINRuntime.setDestination(Ptest2);
-
-//				smartServoLINRuntime.changeControlModeSettings(cic);
-				
-				if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-//					bstop = true;
-				}
-
-				ThreadUtil.milliSleep(10);
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			log.info(e.toString());
-		}
-
-		smartServoLINRuntime.stopMotion();
-		
-*/		
+	public void run() {	
+	
+		cic.parametrize(CartDOF.X).setStiffness(5000);
 		while (true)
 		{
 			
@@ -433,7 +191,7 @@ public class WallTest extends RoboticsAPIApplication {
 
 //				lbr.move(ptp(getFrame("/P2")).setJointVelocityRel(0.5));
 
-				Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_3"));
 				SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
 				aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
@@ -480,7 +238,12 @@ public class WallTest extends RoboticsAPIApplication {
 				try {
 					
 					while (SafeDataIO.getInput4()==false) {
-
+				        cic1 = new CartesianImpedanceControlMode();
+				        cic1.parametrize(CartDOF.ROT).setStiffness(300);
+				        cic1.parametrize(CartDOF.X).setStiffness(5000);
+				        cic1.parametrize(CartDOF.Y).setStiffness(5000);
+				        cic1.parametrize(CartDOF.Z).setStiffness(50);
+				        
 						fx = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
 								.getX();
 						fy = lbr.getExternalForceTorque(needle.getFrame("/tcp_2")).getForce()
@@ -571,11 +334,6 @@ public class WallTest extends RoboticsAPIApplication {
 							dfx=-0.6;
 						}
 						
-//						if(Math.abs(dfx)<0.2)
-//						{
-//							dfx=0;
-//						}
-						
 						if(dfy>0.6){
 							dfy=0.6;
 						}
@@ -583,40 +341,25 @@ public class WallTest extends RoboticsAPIApplication {
 							dfy=-0.6;
 						}
 						
-//						if(Math.abs(dfy)<0.2)
-//						{
-//							dfy=0;
-//						}
-						
 						if(dfz>0.6){
 							dfz=0.6;
 						}
 						if(dfz<-0.6){
 							dfz=-0.6;
 						}
+						if(dfa>0.1){
+							dfa=0.1;
+						}
+						if(dfa<-0.1){
+							dfa=-0.1;
+						}
 						
-//						if(Math.abs(dfy)<0.2)
-//						{
-//							dfy=0;
-//						}
-						if(dfa>0.3){
-							dfa=0.3;
-						}
-						if(dfa<-0.3){
-							dfa=-0.3;
-						}
-						if(dfb>0.3){
-							dfb=0.3;
-						}
-						if(dfb<-0.3){
-							dfb=-0.3;
-						}
 //						Frame Ptest2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy().transform((Transformation.ofTranslation(0, 200, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofTranslation(dfx, dfy, 0)));
 						Frame Ptest3 = destFrame_Dangerous.transform((Transformation.ofTranslation(dfx*0.1, dfy*0.1, 0)));
 
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, dfy, dfz, dfa, dfb, dfc)));
-						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx, 0, dfz, 0, dfb, 0)));
+						Frame Ptest2 = destFrame.transform((Transformation.ofRad(dfx*2, 0, 0, 0, 0, 0)));
 //						Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, 0, 0, 0, 0, 0)));
 //						destFrame.setX(destFrame.getX() + dfx);
 //						destFrame.setY(destFrame.getY() + dfy);
@@ -675,7 +418,7 @@ public class WallTest extends RoboticsAPIApplication {
 //							bstop = true;
 						}
 
-						ThreadUtil.milliSleep(10);
+						//ThreadUtil.milliSleep(10);
 					}
 
 				} catch (Exception e) {
