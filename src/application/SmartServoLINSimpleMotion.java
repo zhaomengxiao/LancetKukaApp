@@ -2,6 +2,9 @@ package application;
 
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import com.kuka.common.StatisticTimer;
 import com.kuka.common.StatisticTimer.OneTimeStep;
 import com.kuka.common.ThreadUtil;
@@ -10,11 +13,13 @@ import com.kuka.connectivity.motionModel.smartServoLIN.SmartServoLIN;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.deviceModel.LBR;
 import com.kuka.roboticsAPI.geometricModel.AbstractFrame;
+import com.kuka.roboticsAPI.geometricModel.CartDOF;
 import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.geometricModel.LoadData;
 import com.kuka.roboticsAPI.geometricModel.ObjectFrame;
 import com.kuka.roboticsAPI.geometricModel.Tool;
 import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
+import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 
 /**
  * This sample activates a SmartServoLIN motion in position control mode, sends a sequence of Cartesian set points,
@@ -26,10 +31,14 @@ public class SmartServoLINSimpleMotion extends RoboticsAPIApplication
     private Tool _toolAttachedToLBR;
     private LoadData _loadData;
     private ISmartServoLINRuntime _smartServoLINRuntime = null;
-
+	@Named("Tool_2")
+	
+	@Inject
+	private Tool needle;
+	
     // Tool Data
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
+    private static final double[] TRANSLATION_OF_TOOL = { -0.4 , 125.6, 240.5,-0.00418,-0.007,-1.0477 };
     private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
@@ -38,7 +47,7 @@ public class SmartServoLINSimpleMotion extends RoboticsAPIApplication
     private static final double FREQENCY = 0.6;
 
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-
+    private CartesianImpedanceControlMode cic;
     @Override
     public void initialize()
     {
@@ -53,25 +62,25 @@ public class SmartServoLINSimpleMotion extends RoboticsAPIApplication
                 CENTER_OF_MASS_IN_MILLIMETER[2]);
         _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(
                 TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-                TRANSLATION_OF_TOOL[2]);
+                TRANSLATION_OF_TOOL[2],TRANSLATION_OF_TOOL[3], TRANSLATION_OF_TOOL[4],TRANSLATION_OF_TOOL[5]);
         ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
                 + "(TCP)", trans);
         _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(_lbr.getFlange());
+        needle.attachTo(_lbr.getFlange());
     }
 
     @Override
     public void run()
     {
         getLogger().info("Move to start position.");
-        _lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
-                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
+//        _lbr.move(ptp(0., Math.PI / 180 * 30., 0., -Math.PI / 180 * 60., 0.,
+//                Math.PI / 180 * 90., 0.).setJointVelocityRel(0.1));
 
-        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(_lbr
-                .getFlange());
+        AbstractFrame initialPosition = _lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
         // Create a new smart servo linear motion
         SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(initialPosition);
@@ -111,37 +120,49 @@ public class SmartServoLINSimpleMotion extends RoboticsAPIApplication
     private StatisticTimer startSineMovement(
             ISmartServoLINRuntime smartServoLINRuntime, StatisticTimer timing)
     {
-        Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(_lbr
-                .getFlange());
+        Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(needle.getFrame("/tcp_2"));
 
         getLogger().info("Do sine movement");
         try
         {
-            double omega = FREQENCY * 2 * Math.PI * 1e-9;
-            long startTimeStamp = System.nanoTime();
+        	 cic = new CartesianImpedanceControlMode();
+        	 cic.parametrize(CartDOF.ROT).setStiffness(300);
+        	 cic.parametrize(CartDOF.X).setStiffness(5000);
+        	 cic.parametrize(CartDOF.Y).setStiffness(5000);
+        	 cic.parametrize(CartDOF.Z).setStiffness(5000);
+        	
+//            double omega = FREQENCY * 2 * Math.PI * 1e-9;
+//            long startTimeStamp = System.nanoTime();
 
             for (int i = 0; i < NUM_RUNS; ++i)
             {
                 final OneTimeStep aStep = timing.newTimeStep();
+                Frame aFrame_Current = smartServoLINRuntime.getCurrentCartesianDestination(needle.getFrame("/tcp_2"));
                 // ///////////////////////////////////////////////////////
                 // Insert your code here
                 // e.g Visual Servoing or the like
                 // Synchronize with the realtime system
-
+               
+                
                 ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
 
                 // Update the smart servo LIN runtime
                 smartServoLINRuntime.updateWithRealtimeSystem();
 
-                double curTime = System.nanoTime() - startTimeStamp;
-                double sinArgument = omega * curTime;
+//                double curTime = System.nanoTime() - startTimeStamp;
+//                double sinArgument = omega * curTime;
 
                 // Compute the sine function
                 Frame destFrame = new Frame(aFrame);
-                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
-
+                //限制z保持不变
+                destFrame.setX(aFrame_Current.getX());
+                destFrame.setY(aFrame_Current.getY());
+//                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+          
                 // Set new destination
                 smartServoLINRuntime.setDestination(destFrame);
+                //final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
+                smartServoLINRuntime.changeControlModeSettings(cic);
                 aStep.end();
             }
 
