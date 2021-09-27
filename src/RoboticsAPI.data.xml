@@ -174,7 +174,7 @@
                     <transformation a="-0.0070" b="0.0068" c="-0.01" x="94.59" y="-79.1" z="147.2"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="tcp_x_1_yz1">
-                    <transformation a="-0.0070" b="0.01" c="-1.6" x="-190.0" y="18.0" z="124.5"/>
+                    <transformation a="1.6" b="0.01" c="-0.01" x="-190.0" y="18.0" z="124.5"/>
                 </frame>
                 <frame id="_dc827966-f326-44f0-965b-61ef3aeb5337" name="test">
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
