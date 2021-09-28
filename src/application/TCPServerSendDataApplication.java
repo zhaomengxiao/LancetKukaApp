@@ -2349,10 +2349,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 					    		System.out.println("zhunbei_ready");
 					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-					    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
 					    		System.out.println("Object4"+Object4);
 					    		
-					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
+//					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
 					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 								System.out.println("222");	
 								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
