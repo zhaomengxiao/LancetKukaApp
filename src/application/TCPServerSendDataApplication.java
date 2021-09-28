@@ -2349,7 +2349,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 					    		System.out.println("zhunbei_ready");
 					    		Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-					    		Object4 = Object4.transform((Transformation.ofDeg(0,0,0, 0, 0, -180)));
+					    		Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
 					    		Object4 = Object4.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
 					    		System.out.println("Object4"+Object4);
 					    		
