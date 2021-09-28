@@ -2456,7 +2456,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nPrevious_error=DistanceToPlane.getX();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())>130){
+					    if(Math.abs(DistanceToPlane.getY())>-130){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
@@ -2542,7 +2542,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nPrevious_error=DistanceToPlane.getX();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())>120){
+					    if(Math.abs(DistanceToPlane.getY())>-120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
