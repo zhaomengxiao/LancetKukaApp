@@ -2788,10 +2788,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
 		       	        count++;
-		        	    nintegral=nintegral+DistanceToPlane.getX();
-		         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-		        	    nPrevious_error=DistanceToPlane.getX();
+		        	    nintegral=nintegral+DistanceToPlane.getY();
+		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
+		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
+		        	    nPrevious_error=DistanceToPlane.getY();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
 					    if(Math.abs(DistanceToPlane.getX())> 120){
@@ -2845,7 +2845,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		System.out.println("DistanceToPlane_X："+DistanceToPlane.getX()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
+		            		System.out.println("DistanceToPlane_Y："+DistanceToPlane.getX()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
 		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 		            	}
 			    	}
