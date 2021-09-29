@@ -425,7 +425,7 @@
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="XMLSUA" installItem="true" installedVersion="1.1" itemPath="com.kuka/XMLSUA" selectedVersion="1.1" usage="Library">
                 <Interface id="com.kuka/XMLSUA/XMLSUA" version="0.1.1"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.appframework.kxrreader" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.appframework.kxrreader" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.appframework.kxrreader" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.appframework.kxrreader" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/Bundle/com.kuka.appframework.kxrreader" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.appframework.kxrreader" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.appframework.kxrreader.exceptions" version="1.0.0"/>
@@ -636,34 +636,34 @@
                 <Interface id="com.kuka/OSGi/com.kuka.mastering.provider.api.motions" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.mastering.provider.api.features" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.brakesOnlyIfError" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.brakesOnlyIfError" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.brakesOnlyIfError" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.brakesOnlyIfError" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/Bundle/com.kuka.med.brakesOnlyIfError" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.med.brakesOnlyIfError" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.brakesOnlyIfError.osgi" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.brakesOnlyIfError.osgi" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.brakesOnlyIfError.osgi" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.brakesOnlyIfError.osgi" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/Bundle/com.kuka.med.brakesOnlyIfError.osgi" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.jogging" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.jogging" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.jogging" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.jogging" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/OSGi/com.kuka.med.jogging" version="1.0.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.jogging" version="1.0.0"/>
                 <Interface id="com.kuka/com.kuka.med.jogging/SunriseMedJogging" version="0.1.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.lbrMedExamples" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.lbrMedExamples" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.lbrMedExamples" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.lbrMedExamples" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/Bundle/com.kuka.med.lbrMedExamples" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.mastering" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.mastering" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.mastering" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.mastering" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/OSGi/com.kuka.med.mastering" version="1.0.0"/>
                 <Interface id="com.kuka/com.kuka.med.mastering/SunriseMedMastering" version="0.1.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.mastering" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.medController" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.medController" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.medController" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.medController" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/Bundle/com.kuka.med.medController" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.med.deviceModel" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.med.controllerModel" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.med.cyclicBrakeTest" version="1.0.0"/>
                 <Interface id="com.kuka/OSGi/com.kuka.med.robotStateEvent" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.robotState" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.robotState" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.robotState" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.robotState" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/OSGi/com.kuka.med.robotState" version="1.0.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.robotState" version="1.0.0"/>
             </SoftwareItem>
@@ -674,11 +674,11 @@
                 <Interface id="com.kuka/OSGi/com.kuka.roboticsAPI.controllerModel.sunrise.mapping" version="1.15.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.trocarHandguiding" version="1.15.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.unmasteredApp.api" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.unmasteredApp.api" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.unmasteredApp.api" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.unmasteredApp.api" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/OSGi/com.kuka.med.unmasteredApp" version="1.0.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.unmasteredApp.api" version="1.0.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.unmasteredApp.runtime" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.unmasteredApp.runtime" selectedVersion="1.0.0.SMedV121-0-0_4" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.med.unmasteredApp.runtime" installItem="true" installedVersion="1.0.0.SMedV121-0-0_17" itemPath="com.kuka/com.kuka.med.unmasteredApp.runtime" selectedVersion="1.0.0.SMedV121-0-0_17" usage="Library">
                 <Interface id="com.kuka/OSGi/com.kuka.med.unmasteredApp.runtime" version="1.0.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.med.unmasteredApp.runtime" version="1.0.0"/>
             </SoftwareItem>
