@@ -2793,7 +2793,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
-		        	   
+		            	System.out.println("LHY");
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getX())>120");
@@ -2836,12 +2836,14 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    }
 					    
 				    else{
+				    	  System.out.println("123");
 					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
 		            	
 		            	if(count>100000){
+		            		System.out.println("count=0;");
 		            		count=0;
 		            	}
 		            	if(count%30==0){
