@@ -194,23 +194,28 @@
                 <frame id="_0a55bb58-c765-4217-b568-3c7e886f36d2" name="you_21004">
                     <transformation a="-0.0070" b="0.0068" c="-0.0063" x="-17.5" y="-190.85" z="125.21"/>
                 </frame>
-                <frame id="_bf21443a-a703-4253-8c7f-cc7a7837fc07" name="zuo_21002">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="18.0" z="124.5"/>
-                </frame>
-                <frame id="_bcb5eab3-3ce1-46d2-a609-e5aee137614d" name="zuo_21003">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="19.8" z="124.5"/>
-                </frame>
-                <frame id="_d17688f2-75c1-4303-8f8e-51e69b87675e" name="zuo_21004">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="21.8" z="124.5"/>
-                </frame>
-                <frame id="_c67472ed-ffb1-4ffc-bcc2-996136f4bfee" name="zuo_21005">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="16.0" z="124.5"/>
-                </frame>
-                <frame id="_be97c177-92dc-4783-82cb-ba62ce68e3fc" name="zuo_21001">
-                    <transformation a="1.6" b="0.0" c="0.0" x="-210.6" y="37.9" z="124.5"/>
-                </frame>
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
+        </toolTemplate>
+        <toolTemplate class="" name="Tool3">
+            <frames>
+                <frame id="_5d10614f-5995-4936-a34e-71b7529deb8b" name="zuo_21001">
+                    <transformation a="1.6" b="0.0" c="0.0" x="-210.6" y="37.9" z="124.5"/>
+                </frame>
+                <frame id="_a41427b2-40bf-47d5-bad7-4f6ef139cf21" name="zuo_21002">
+                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="18.0" z="124.5"/>
+                </frame>
+                <frame id="_66d95bb5-2b62-4fa7-bb2d-3c97c7a9f8ca" name="zuo_21005">
+                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="16.0" z="124.5"/>
+                </frame>
+                <frame id="_70d5ee96-bbb8-4385-84ed-70a93e443032" name="zuo_21004">
+                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="21.8" z="124.5"/>
+                </frame>
+                <frame id="_82e26c91-56bf-4643-ab14-c1463035f13e" name="zuo_21003">
+                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="19.8" z="124.5"/>
+                </frame>
+            </frames>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="0.0" cogZ="0.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.0"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
