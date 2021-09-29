@@ -2551,6 +2551,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	if(nToolMode==3){
+			    		System.out.println("3");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 			        	
@@ -2637,6 +2638,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	}
 			    	}
 			    	else if(nToolMode==2){
+			    		System.out.println("2");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 		        		
 			        	
