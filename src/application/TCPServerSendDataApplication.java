@@ -2566,7 +2566,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	   
 					    if(Math.abs(DistanceToPlane.getY())>130){
 //					    	if(count%100==0){
-					    		System.out.println("DistanceToPlane.getY())>100");
+					    		System.out.println("DistanceToPlane.getY())>130");
 //					    	}
 					    	
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2652,7 +2652,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	   
 					    if(Math.abs(DistanceToPlane.getY())>120){
 //					    	if(count%100==0){
-					    		System.out.println("DistanceToPlane.getY())>100");
+					    		System.out.println("DistanceToPlane.getY())>120");
 //					    	}
 //					    	
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2722,7 +2722,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	   
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
-					    		System.out.println("DistanceToPlane.getY())>100");
+					    		System.out.println("DistanceToPlane.getX())>120");
 //					    	}
 //					    	
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2741,7 +2741,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		nWorkingmode=0;
 					    }
 					   
-					    else if(Math.abs(DistanceToPlane.getZ())>200){
+					    else if(Math.abs(DistanceToPlane.getZ())>130){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
@@ -2792,7 +2792,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	   
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
-					    		System.out.println("DistanceToPlane.getY())>100");
+					    		System.out.println("DistanceToPlane.getX())>120");
 //					    	}
 //					    	
 					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
@@ -2811,7 +2811,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		nWorkingmode=0;
 					    }
 					   
-					    else if(Math.abs(DistanceToPlane.getZ())>200){
+					    else if(Math.abs(DistanceToPlane.getZ())>130){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
