@@ -882,7 +882,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 								nToolMode=10;
 							}
 							else if(Double.parseDouble(para2)==11 ) {
-								System.out.println("RobotMove10");
+								System.out.println("RobotMove11");
 								nToolMode=11;
 							}
 							writer_recive.write("$res,RobotMove,0$");
@@ -2545,7 +2545,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 					
 					
-			    					
+					System.out.println("nworkingmode=7");				
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
 			    	final CartesianImpedanceControlMode carthard_X = HardLimit_X();
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
@@ -2707,6 +2707,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	}
 			    	//
 			    	else if(nToolMode==9){
+			    		System.out.println("nToolMode=9");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 		        		
 			        	
@@ -2777,6 +2778,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	}
 			    	//
 			    	else if(nToolMode==8){
+			    		System.out.println("nToolMode=8");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 		        		
 			        	
