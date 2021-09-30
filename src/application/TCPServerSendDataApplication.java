@@ -2556,11 +2556,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 			    					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
-			    	final CartesianImpedanceControlMode carthard_X = HardLimit_X();
-			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
-			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
+//			    	final CartesianImpedanceControlMode carthard_X = HardLimit_X();
+//			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
+//			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	if(nToolMode==3){
-			    		
+			    		System.out.println("3");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 			        	
@@ -2648,7 +2648,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	}
 			    	else if(nToolMode==2){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-		        		
+				    	System.out.println("2");
 			        	
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
@@ -2719,7 +2719,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	 if(nToolMode==9){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
 		        		
-			        	
+				    	System.out.println("9");
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
@@ -2789,7 +2789,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	else if(nToolMode==8){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 		        		
-			        	
+				    	System.out.println("8");
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
