@@ -215,10 +215,10 @@
                     <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="19.8" z="124.5"/>
                 </frame>
                 <frame id="_04a70e49-14f9-4929-b705-3d8ed79d06b3" name="tcp_xyz">
-                    <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="-7.0" z="237.4"/>
+                    <transformation a="0.0" b="0.0" c="0.0" x="-7.0" y="0.0" z="208.55"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.6"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-15.59" cogY="-3.48" cogZ="104.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
