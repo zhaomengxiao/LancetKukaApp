@@ -2734,7 +2734,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 //					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					    	//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2742,16 +2742,16 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					    		//needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+								//Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+								//Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 								System.out.println("Err==5");
 								Err="5,";
 					    		nWorkingmode=0;
 					    }
 					   
 					    else if(Math.abs(DistanceToPlane.getZ())>120){
-//					    	if(count%100==0){
+//					    	
 					    		System.out.println("DgetZ()");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2759,19 +2759,19 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-//					    	}
+//					    	
 //					 
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-					        needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					       // cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					        //needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							//Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+							//Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
 				    else{
-				    	needle_Tool_3.getFrame("/zuo_21005").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	//needle_Tool_3.getFrame("/zuo_21005").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
@@ -2804,7 +2804,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 //					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					    		//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2812,9 +2812,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					    		//needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+								//Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+								//Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 								System.out.println("Err==5");
 								Err="5,";
 					    		nWorkingmode=0;
@@ -2831,17 +2831,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
 //					 
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-					        needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					        //cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					       // needle_Tool_3.getFrame("/zuo_21005").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							//Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+							//Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
 				    else{
-				    	needle_Tool_3.getFrame("/zuo_21005").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	//needle_Tool_3.getFrame("/zuo_21005").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
