@@ -2560,7 +2560,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	if(nToolMode==3){
-			    		System.out.println("3");
+			    		//System.out.println("1");
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 			        	
@@ -2587,7 +2587,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+					    		System.out.println("1");
 					    		needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+					    		System.out.println("2");
 								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 								//限位反馈报警
@@ -2607,7 +2609,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					    	}
 					
 					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        System.out.println("3");
 					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+					        System.out.println("4");
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 							System.out.println("Err==5");
@@ -2626,7 +2630,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					    	}
 					
 					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        System.out.println("5");
 					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+					        System.out.println("6");
 							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 							System.out.println("Err==5");
@@ -2635,8 +2641,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 					    }
 				    else{
+				    	System.out.println("7");
 				    	needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
-					    	 
+				    	System.out.println("8"); 
 					    }
 		            	
 		            	if(count>100000){
