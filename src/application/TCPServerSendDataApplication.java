@@ -155,21 +155,18 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Named("Tool_2")
 	
 	@Inject
-	private Tool needle_Tool_2;
-	
-	@Named("Tool_3")
-	@Inject
-	private Tool needle_Tool_3;
+	private Tool needle;
 	
 	@Named("gripper")
 	@Inject
 	private Tool needle_gripper;
 	
-	//
-	private ObjectFrame zuo_21001;
-	//
+	@Named("Tool_zuo")
+	@Inject
+	private Tool needle_zuo;
+	
 	private ObjectFrame tcp;
-	private ObjectFrame you_21001;
+	private ObjectFrame tcp_2;
 	private ObjectFrame handle;
 	private BooleanIOCondition VaccumDetect;
 	private Frame startpos;
@@ -318,10 +315,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
         // Attach tool to the robot
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
-		needle_Tool_2.attachTo(lbr.getFlange());
-		//lhy
-		needle_Tool_3.attachTo(lbr.getFlange());
+		needle.attachTo(lbr.getFlange());
 		needle_gripper.attachTo(lbr.getFlange());
+		needle_zuo.attachTo(lbr.getFlange());
 	}
 
 	public  class sendRTdata implements Callable<String> {
@@ -399,20 +395,20 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				data12=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡x
-				Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				Frame cmdPos3 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_1"));
 				
 				
 //				if (nToolMode==2){
 //					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
 //				}
 //				else{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //				}
 				
 				if (nToolMode==1){
-					 cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-						cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //						System.out.println("1:"+cmdPos);
 						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 						cmdPos2.setX(0);
@@ -421,27 +417,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 						cmdPos2.setAlphaRad(0);
 						cmdPos2.setBetaRad(Math.toRadians(-30));
 						cmdPos2.setGammaRad(0);
-						cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
+						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 						//System.out.println("22:"+cmdPos);
 						
 				}
 				else if(nToolMode==2)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"), cmdPos2);
-				}	
-				else if(nToolMode==3)
-				{				
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21003"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21003"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 //					System.out.println("1:"+cmdPos);
 					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
@@ -450,71 +433,82 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					cmdPos2.setAlphaRad(0);
 					cmdPos2.setBetaRad(Math.toRadians(-30));
 					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21003"), cmdPos2);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
+//					System.out.println("2:"+cmdPos);
+				}	
+				else if(nToolMode==3)
+				{				
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
+//					System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"), cmdPos2);
 					
 				}	
 				else if(nToolMode==4)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				}	
 				else if(nToolMode==5)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				}	
 				else if(nToolMode==6)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 				}	
 				else if(nToolMode==7)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"), cmdPos2);
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_1"));
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_1"));
+					Frame cmdPos4 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos4.setX(0);
+					cmdPos4.setY(0);
+					cmdPos4.setZ(0);
+					cmdPos4.setAlphaRad(0);
+					cmdPos4.setBetaRad(Math.toRadians(-30));
+					cmdPos4.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_1"), cmdPos4);
 				}	
 				else if(nToolMode==8)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21002"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21002"));
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21002"), cmdPos2);
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_2"));
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_2"));
+					Frame cmdPos4 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos4.setX(0);
+					cmdPos4.setY(0);
+					cmdPos4.setZ(0);
+					cmdPos4.setAlphaRad(0);
+					cmdPos4.setBetaRad(Math.toRadians(-30));
+					cmdPos4.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_2"), cmdPos4);
 				}	
 				else if(nToolMode==9)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21003"));
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21003"));
-					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos2.setX(0);
-					cmdPos2.setY(0);
-					cmdPos2.setZ(0);
-					cmdPos2.setAlphaRad(0);
-					cmdPos2.setBetaRad(Math.toRadians(-30));
-					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21003"), cmdPos2);
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_3"));
+					cmdPos3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_3"));
+					Frame cmdPos4 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos4.setX(0);
+					cmdPos4.setY(0);
+					cmdPos4.setZ(0);
+					cmdPos4.setAlphaRad(0);
+					cmdPos4.setBetaRad(Math.toRadians(-30));
+					cmdPos4.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_3"), cmdPos4);
 				}	
 				else if(nToolMode==10)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
-				}	
-				else if(nToolMode==11)
-				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz4"));
 				}	
 				else
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 				}
 				
 				a1=cmdPos.getX();
@@ -889,10 +883,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							else if(Double.parseDouble(para2)==10 ) {
 								System.out.println("RobotMove10");
 								nToolMode=10;
-							}
-							else if(Double.parseDouble(para2)==11 ) {
-								System.out.println("RobotMove10");
-								nToolMode=11;
 							}
 							writer_recive.write("$res,RobotMove,0$");
 							writer_recive.flush();
@@ -1388,18 +1378,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 		    protected CartesianImpedanceControlMode HardLimit()
 		    {
-            
+
 		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		        //LHY
 		        if(nToolMode==3){
-		           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-		           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
-		           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
-		           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-		           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
-		           cartImp.setNullSpaceStiffness(100.);
-		           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-		        }
-		        if(nToolMode==2){
 			           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
@@ -1408,36 +1390,39 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
-		        if(nToolMode==8){
-			           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-			           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
-			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
-			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
-			           cartImp.setNullSpaceStiffness(100.);
-			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			        }
-		        if(nToolMode==9){
-			           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-			           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
-			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
-			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
-			           cartImp.setNullSpaceStiffness(100.);
-			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			        }
-		        return cartImp; 	
-		    }
-//		    protected CartesianImpedanceControlMode HardLimit_X()
-//		    {
-//
-//		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-//		
-//		        cartImp.parametrize(CartDOF.X).setStiffness(4500.0);
-//		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-//		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+			        else if(nToolMode==2){
+				           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+				           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+				           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
+				           cartImp.setNullSpaceStiffness(100.);
+				           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+				        }
+			        else if(nToolMode==8){
+				           cartImp.parametrize(CartDOF.X).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+				           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+				           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
+				           cartImp.setNullSpaceStiffness(100.);
+				           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+				        }
+			        else if(nToolMode==9){
+				           cartImp.parametrize(CartDOF.X).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+				           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
+				           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+				           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
+				           cartImp.setNullSpaceStiffness(100.);
+				           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+				        }
+		        //LHY
+//		        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+//		        cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
+//		        cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 //		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-//
+//		        cartImp.parametrize(CartDOF.C).setStiffness(20.0);
 ////		        System.out.println(nStiff);
 ////		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 //		        cartImp.setNullSpaceStiffness(100.);
@@ -1448,8 +1433,32 @@ public HandGuidingMotion createhandGuidingMotion(){
 ////		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
 ////		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
 //		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-//		        return cartImp; 	
-//		    }
+		        return cartImp; 	
+		    }
+		    //LHY
+		    protected CartesianImpedanceControlMode HardLimit_X()
+		    {
+
+		        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+		
+		        cartImp.parametrize(CartDOF.X).setStiffness(4500.0);
+		        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
+		        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+
+//		        System.out.println(nStiff);
+//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+		        cartImp.setNullSpaceStiffness(100.);
+		   
+//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+		        // For your own safety, shrink the motion abilities to useful limits
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
+		        cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
+		        return cartImp; 	
+		    }
+		    //LHY
 		    protected CartesianImpedanceControlMode HardLimit_Y()
 		    {
 
@@ -1669,7 +1678,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        {
 		            double omega = FREQENCY * 2 * Math.PI * 1e-9;
 		            long startTimeStamp = System.nanoTime();
-		        	Frame Ptest2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+		        	Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 		         	
 		           while(nWorkingmode==2)
 		            {
@@ -1729,8 +1738,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			boolean DangerMove=false;
 			int nLastWorkingmode=0;
-			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 			while (true)
 			{ 
 
@@ -1760,7 +1769,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						}
 						else{
 							//其他指的是打磨模式
-							needle_Tool_2.getFrame("/you_21001").move(createhandGuidingMotion());
+							needle.getFrame("/tcp_2").move(createhandGuidingMotion());
 							bDangerous=false;
 							nWorkingmode=0;
 						}
@@ -1786,11 +1795,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	final CartesianImpedanceControlMode cartImp = createCartImp();	
 			    	if(nX==1)
 			    	{
-//			    		needle.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2));
+//			    		needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
 			    		System.out.println("zhunbei_ready");
-			    		needle_Tool_2.getFrame("/you_21001").move(new PTP(jointPos).setJointVelocityRel(0.2));	
+			    		needle.getFrame("/tcp_2").move(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    		
-						Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+						Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
 		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 							//$cmd,RobotMove,1$
@@ -1804,7 +1813,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //								Ptest1.setGammaRad(Math.toRadians(125.05));
 
 								
-							 //needle.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2));	
+							 //needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));	
 			    	
 			    	}
 			    	//左侧
@@ -1919,12 +1928,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			        runSmartServoMotion(jointImp);
 					
 //					Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
-//					needle.getFrame("/you_21001").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//					needle.getFrame("/tcp_2").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
 //					System.out.println("automode"+nWorkingmode);
 //					Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
 					
 					
-					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 
                    //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 					//$cmd,RobotMove,1$
@@ -1940,7 +1949,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
 							//System.out.println("pre_Place11***:"+pre_Place);
-							needle_Tool_2.getFrame("/you_21001").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+							needle.getFrame("/tcp_2").move(ptp(pre_Place).setJointVelocityRel(0.35));	
 						}
 						else{
 							//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
@@ -1995,13 +2004,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 	                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
 	                	}
 	                	System.out.println("dangermove1");
-	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-	                	needle_Tool_2.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2));
+	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2));
 				    	DangerMove=true;
 	                }
 	                else{
-				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				    	needle_Tool_2.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+				    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				    	needle.getFrame("/tcp_2").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
 	                }
 	                
 
@@ -2027,15 +2036,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 				//自动矫正点位
 				else if(nWorkingmode==5){
 		
-					Frame Object=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));;
+					Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));;
 						
 					ThreadUtil.milliSleep(1000);
-//					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002"));
+//					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					if (nToolMode==1){
-						Object=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					else if(nToolMode==2){
-						Object=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					
 					int num=0;
@@ -2050,13 +2059,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 					System.out.println("nA:"+nA+"  nB:"+nB+"  nC:"+nC);
 					for (num = 0; num < 360; num = num + 1){
 						//当前点位
-						Frame current = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 						
 						if (nToolMode==1){
-//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 							
 							
-//							cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
+//							cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //							System.out.println("1:"+cmdPos);
 							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 							cmdPos2.setX(0);
@@ -2065,12 +2074,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 							cmdPos2.setAlphaRad(0);
 							cmdPos2.setBetaRad(Math.toRadians(-30));
 							cmdPos2.setGammaRad(0);
-							current=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"), cmdPos2);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
 //							System.out.println("current.getC():"+current);
 							
 						}
 						else if(nToolMode==2){
-//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002"));
+//							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 							cmdPos2.setX(0);
 							cmdPos2.setY(0);
@@ -2078,7 +2087,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							cmdPos2.setAlphaRad(0);
 							cmdPos2.setBetaRad(Math.toRadians(-30));
 							cmdPos2.setGammaRad(0);
-							current=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"), cmdPos2);
+							current=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
 							System.out.println("current.getC():"+current);
 						}
 						
@@ -2169,12 +2178,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 					//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
 					System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
 					System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
-					Frame Object1=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+					Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					if (nToolMode==1){
-						Object1=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					else if(nToolMode==2){
-						Object1=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					
 					//判断使用最优值还是备选值
@@ -2191,12 +2200,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 
 					System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
 					
-					Frame Object2=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+					Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					if (nToolMode==1){
-						Object2=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					else if(nToolMode==2){
-						Object2=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+						Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					}
 					System.out.println("111");
 //					lbr.geti
@@ -2273,7 +2282,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					System.out.println(Object3);
 //					System.out.println("Object22"+Object2);
 					//Frame Object4 = Object2.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 59.999999931439994)));
-					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/you_21002"));
+					//Frame Object4=lbr.getCurrentCartesianPosition(lbr.getFrame("/tcp_x_1_yz1"));
 					Frame Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 					//Object4 = Object4.transform((Transformation.ofDeg(-0.8,-168.5,-265.6, 0, 0, 0)));
 					Object4 = Object4.transform((Transformation.ofDeg(0 ,-59.1,-141, 0, 0, 0)));
@@ -2282,7 +2291,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 						
 						lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 						System.out.println("222");	
-					Frame Object5 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+					Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 					System.out.println("333");	
 					Object5.setX(Object4.getX());
 					Object5.setY(Object4.getY());
@@ -2296,13 +2305,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 					if(true){
 					
 						if (nToolMode==1){
-//							needle.getFrame("/you_21001").move(lin(Object1).setJointVelocityRel(0.2));
+//							needle.getFrame("/tcp_2").move(lin(Object1).setJointVelocityRel(0.2));
 							
 							Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
 
 							
 							
-							Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+							Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 //							System.out.println("1:"+cmdPos);
 							Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 							cmdPos2.setX(0);
@@ -2311,7 +2320,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							cmdPos2.setAlphaRad(0);
 							cmdPos2.setBetaRad(Math.toRadians(-30));
 							cmdPos2.setGammaRad(0);
-							cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"), cmdPos2);
+							cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"), cmdPos2);
 							
 							
 							pre_Point.setX(cmdPos.getX());
@@ -2327,11 +2336,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 							
 							
 							System.out.println("Object511111"+pre_Point);
-							needle_Tool_2.getFrame("/you_21002").move(lin(pre_Point).setJointVelocityRel(0.2));
+							needle.getFrame("/tcp_x_1_yz1").move(lin(pre_Point).setJointVelocityRel(0.2));
 							
 						}
 						else if(nToolMode==2){
-							needle_Tool_2.getFrame("/you_21002").move(lin(Object1).setJointVelocityRel(0.2));
+							needle.getFrame("/tcp_x_1_yz1").move(lin(Object1).setJointVelocityRel(0.2));
 						}
 						
 						System.out.println("InRange");
@@ -2416,54 +2425,59 @@ public HandGuidingMotion createhandGuidingMotion(){
 							pre_Place2.setBetaRad(Math.toRadians(nB));
 							pre_Place2.setGammaRad(Math.toRadians(nC));
 							
-						
-							System.out.println("pre_Place"+pre_Place1);
 							
-							Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
-							Frame Object4 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+							
+							
+							System.out.println("pre_Place"+pre_Place1);
+							Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+							Frame Ptest3 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
+							Frame Object4 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+							Frame Object6 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 								if(nToolMode==3){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 						    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
 								}
 								else if(nToolMode==2){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+									Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 						    		Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
 								}
 								else if(nToolMode==9){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
-						    		Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-						    		Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
-						    		Object4 = Object4.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
+									Ptest3 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_4"));
+									Object6 = Ptest3.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+						    		Object6 = Object6.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
+						    		Object6 = Object6.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
 								}
 								else if(nToolMode==8){
-									Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-						    		Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-						    		Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
-						    		Object4 = Object4.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
+									Ptest3 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_5"));
+									Object6 = Ptest3.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+						    		Object6 = Object6.transform((Transformation.ofDeg(0,0,0, -90, 0, -180)));
+						    		Object6 = Object6.transform((Transformation.ofDeg(190 ,-20,-125, 0, 0, 0)));
 								}
 
 					    		System.out.println("zhunbei_ready");
+					    		//Frame Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					    		//Object4 = Object4.transform((Transformation.ofDeg(15 ,209,-124.5, 0, 0, 0)));
+					    		//System.out.println("Object4"+Object4);
 					    		
-
+					    		System.out.println(lbr.getInverseKinematicFromFrameAndRedundancy(Object4));
 					    		lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
 								System.out.println("222");	
-								Frame Object5 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
-								
+								Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
+								Frame Object7 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_4"));
 								if(nToolMode==3){
-									Object5 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 								}
 								else if(nToolMode==2){
-									Object5 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+									Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 								}
 								else if(nToolMode==9){
-									Object5 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
+									Object7 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 								}
 								else if(nToolMode==8){
-									Object5 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+									Object7 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 								}
-							
 								System.out.println("333");	
 								Object5.setX(Object4.getX());
 								Object5.setY(Object4.getY());
@@ -2475,49 +2489,52 @@ public HandGuidingMotion createhandGuidingMotion(){
 								JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
 								System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
 					    		
+								Object7.setX(Object6.getX());
+								Object7.setY(Object6.getY());
+								Object7.setZ(Object6.getZ());
+								Object7.setAlphaRad(Object6.getAlphaRad());
+								Object7.setBetaRad(Object6.getBetaRad());
+								Object7.setGammaRad(Object6.getGammaRad());
+								JointPosition test2=lbr.getInverseKinematicFromFrameAndRedundancy(Object7);
 					    		try{
 
 									if(nToolMode==3){
 										System.out.println("Start nWorkingmode==6");
-										needle_Tool_2.getFrame("/you_21004").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										needle.getFrame("/tcp_x_1_yz4").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
 										System.out.println("End nWorkingmode==6");
 									}
 									else if(nToolMode==2){
 										System.out.println("Start nWorkingmode==6");
-										needle_Tool_2.getFrame("/you_21005").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										needle.getFrame("/tcp_x_2_yz2").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
 										System.out.println("End nWorkingmode==6");
 									}
 									else if(nToolMode==9){
 										System.out.println("Start nWorkingmode==6");
-										needle_Tool_3.getFrame("/zuo_21004").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										needle_zuo.getFrame("/zuo_4").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
 										System.out.println("End nWorkingmode==6");
 									}
 									else if(nToolMode==8){
 										System.out.println("Start nWorkingmode==6");
-										needle_Tool_3.getFrame("/zuo_21005").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+										needle_zuo.getFrame("/zuo_5").move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
 										System.out.println("End nWorkingmode==6");
 									}
 								//更新平面定位初始点
 								
 								if(nToolMode==3){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									System.out.println("lhy1");
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
 								else if(nToolMode==2){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									System.out.println("lhy2");
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								}
 								else if(nToolMode==9){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									System.out.println("lhy3");
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 								}
 								else if(nToolMode==8){
-									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									System.out.println("lhy4");
+									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
+									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 								}
 								if(io.getInput4()==false){
 									Err="3,";
@@ -2560,12 +2577,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 					
 			    					
 			    	final CartesianImpedanceControlMode carthard = HardLimit();
-			    	//final CartesianImpedanceControlMode carthard_X = HardLimit_X();
+			    	final CartesianImpedanceControlMode carthard_X = HardLimit_X();
 			    	final CartesianImpedanceControlMode carthard_Y = HardLimit_Y();
 			    	final CartesianImpedanceControlMode carthard_Z = HardLimit_Z();
 			    	if(nToolMode==3){
-			    		
-				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 			        	
 		        		
@@ -2583,7 +2599,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2591,10 +2607,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-					    		System.out.println("2");
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								//限位反馈报警
 								System.out.println("Err==5");
 								Err="5,";
@@ -2611,11 +2626,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
 					
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-					        System.out.println("3");
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
@@ -2631,19 +2645,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
 					
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-					        System.out.println("4");
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							System.out.println("Err==5");
 							Err="5,";
 							nWorkingmode=0;
 							
 					    }
 				    else{
-				    	needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
-				    	System.out.println("5"); 
+					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+					    	 
 					    }
 		            	
 		            	if(count>100000){
@@ -2654,7 +2667,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	}
 			    	}
 			    	else if(nToolMode==2){
-				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 			        	
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
@@ -2671,7 +2684,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 //					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
 					    		Ptest_ForPlane1.setY(cmdPos2.getY());
@@ -2679,9 +2692,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					    		needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 								System.out.println("Err==5");
 								Err="5,";
 					    		nWorkingmode=0;
@@ -2698,17 +2711,17 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 //					    	}
 //					 
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        cmdPos2 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
 				    else{
-				    	needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+					    	needle.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
@@ -2723,35 +2736,34 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	}
 			    	//
 			    	else if(nToolMode==9){
-				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+				    	Frame cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_21004"));
+			        	
 		        		
-				    	System.out.println("9");
-		        		
-		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
+		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos4);
 	        	   
 		       	        count++;
-		        	    nintegral=nintegral+DistanceToPlane.getX();
-		         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
-		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
-		        	    nPrevious_error=DistanceToPlane.getX();
+		        	    nintegral=nintegral+DistanceToPlane.getY();
+		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
+		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
+		        	    nPrevious_error=DistanceToPlane.getY();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())> 120){
+					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 //					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+					    		cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
-					    		Ptest_ForPlane1.setX(cmdPos2.getX());
-					    		Ptest_ForPlane1.setY(cmdPos2.getY());
-					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
-					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+					    		Ptest_ForPlane1.setX(cmdPos4.getX());
+					    		Ptest_ForPlane1.setY(cmdPos4.getY());
+					    		Ptest_ForPlane1.setZ(cmdPos4.getZ());
+					    		Ptest_ForPlane1.setGammaRad(cmdPos4.getGammaRad());
+					    		Ptest_ForPlane1.setBetaRad(cmdPos4.getBetaRad());
+					    		Ptest_ForPlane1.setAlphaRad(cmdPos4.getAlphaRad());
+					    		needle_zuo.getFrame("/zuo_4").move(ptp(cmdPos4).setJointVelocityRel(0.1));
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 								System.out.println("Err==5");
 								Err="5,";
 					    		nWorkingmode=0;
@@ -2760,25 +2772,25 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    else if(Math.abs(DistanceToPlane.getZ())>120){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
-					    		Ptest_ForPlane1.setX(cmdPos2.getX());
-					    		Ptest_ForPlane1.setY(cmdPos2.getY());
-					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
-					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+					    		Ptest_ForPlane1.setX(cmdPos4.getX());
+					    		Ptest_ForPlane1.setY(cmdPos4.getY());
+					    		Ptest_ForPlane1.setZ(cmdPos4.getZ());
+					    		Ptest_ForPlane1.setGammaRad(cmdPos4.getGammaRad());
+					    		Ptest_ForPlane1.setBetaRad(cmdPos4.getBetaRad());
+					    		Ptest_ForPlane1.setAlphaRad(cmdPos4.getAlphaRad());
 //					    	}
 //					 
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-					        needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+					        cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
+					        needle_zuo.getFrame("/zuo_4").move(ptp(cmdPos4).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_4"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
 				    else{
-				    	needle_Tool_3.getFrame("/tcp_xyz").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	needle_zuo.getFrame("/zuo_4").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
@@ -2787,41 +2799,41 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		System.out.println("DistanceToPlane_X："+DistanceToPlane.getY()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
+		            		System.out.println("DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
 		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 		            	}
 			    	}
 			    	//
 			    	else if(nToolMode==8){
-				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+				    	Frame cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 		        		
-				    	System.out.println("8");
+			        	
 		        		
-		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
+		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos4);
 	        	   
 		       	        count++;
-		        	    nintegral=nintegral+DistanceToPlane.getX();
-		         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
+		        	    nintegral=nintegral+DistanceToPlane.getY();
+		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
-					    if(Math.abs(DistanceToPlane.getY())> 120){
+					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
 //					    	}
 //					    	
-					    		cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					    		cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 //					    	needle.getFrame("/tcp_x_1_yz3").moveAsync(ptp(cmdPos2).setJointVelocityRel(1).setMode(carthard_Y));
-					    		Ptest_ForPlane1.setX(cmdPos2.getX());
-					    		Ptest_ForPlane1.setY(cmdPos2.getY());
-					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
-					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-					    		needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+					    		Ptest_ForPlane1.setX(cmdPos4.getX());
+					    		Ptest_ForPlane1.setY(cmdPos4.getY());
+					    		Ptest_ForPlane1.setZ(cmdPos4.getZ());
+					    		Ptest_ForPlane1.setGammaRad(cmdPos4.getGammaRad());
+					    		Ptest_ForPlane1.setBetaRad(cmdPos4.getBetaRad());
+					    		Ptest_ForPlane1.setAlphaRad(cmdPos4.getAlphaRad());
+					    		needle_zuo.getFrame("/zuo_5").move(ptp(cmdPos4).setJointVelocityRel(0.1));
+								Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
+								Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 								System.out.println("Err==5");
 								Err="5,";
 					    		nWorkingmode=0;
@@ -2830,25 +2842,25 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    else if(Math.abs(DistanceToPlane.getZ())>120){
 //					    	if(count%100==0){
 					    		System.out.println("DgetZ()");
-					    		Ptest_ForPlane1.setX(cmdPos2.getX());
-					    		Ptest_ForPlane1.setY(cmdPos2.getY());
-					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
-					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+					    		Ptest_ForPlane1.setX(cmdPos4.getX());
+					    		Ptest_ForPlane1.setY(cmdPos4.getY());
+					    		Ptest_ForPlane1.setZ(cmdPos4.getZ());
+					    		Ptest_ForPlane1.setGammaRad(cmdPos4.getGammaRad());
+					    		Ptest_ForPlane1.setBetaRad(cmdPos4.getBetaRad());
+					    		Ptest_ForPlane1.setAlphaRad(cmdPos4.getAlphaRad());
 //					    	}
 //					 
-					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-					        needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1));
-							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+					        cmdPos4 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
+					        needle_zuo.getFrame("/zuo_5").move(ptp(cmdPos4).setJointVelocityRel(0.1));
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_zuo.getFrame("/zuo_5"));
 							System.out.println("Err==5");
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
 					    
 				    else{
-				    	needle_Tool_3.getFrame("/tcp_xyz").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
+				    	needle_zuo.getFrame("/zuo_5").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
 					    	 
 					    }
@@ -2857,7 +2869,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		System.out.println("DistanceToPlane_X："+DistanceToPlane.getY()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
+		            		System.out.println("DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
 		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 		            	}
 			    	}
@@ -2895,8 +2907,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		                
 		     		   
 //						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-//		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
-//					    	needle.getFrame("/you_21001").move(lin(Ptest1).setJointVelocityRel(0.2));
+//		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+//					    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
 //					    	DangerMove=true;
 //		                }
 						 
@@ -2922,8 +2934,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 			                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
 			                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
 			                	}
-			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-			                	needle_Tool_2.getFrame("/you_21001").move(lin(Ptest1).setJointVelocityRel(0.2));
+			                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+						    	needle.getFrame("/tcp_2").move(lin(Ptest1).setJointVelocityRel(0.2));
 						    	DangerMove=true;
 			                	System.out.println("dangermove1");
 			                }
@@ -3027,8 +3039,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 				data12=String.valueOf(a1)+",";
 				
 				//è½´å��æ ‡x
-				Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 				System.out.println("1:"+cmdPos);
 				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 				cmdPos2.setX(0);
@@ -3037,10 +3049,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 				cmdPos2.setAlphaRad(0);
 				cmdPos2.setBetaRad(Math.toRadians(-30));
 				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
+				cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 				System.out.println("2:"+cmdPos);
 				
-				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/CoverScrewing"));
+				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle.getFrame("/CoverScrewing"));
 				System.out.println("getFlange()"+cmdPos1);
 				
 				
@@ -3049,11 +3061,11 @@ public HandGuidingMotion createhandGuidingMotion(){
 //					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
 //				}
 //				else{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 //				}
 				
 				if (nToolMode==1){
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_2"));
 					System.out.println("1:"+cmdPos);
 					cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
@@ -3062,54 +3074,50 @@ public HandGuidingMotion createhandGuidingMotion(){
 					cmdPos2.setAlphaRad(0);
 					cmdPos2.setBetaRad(Math.toRadians(-30));
 					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCommandedCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
+					cmdPos=lbr.getCommandedCartesianPosition(needle.getFrame("/tcp_2"), cmdPos2);
 					System.out.println("2:"+cmdPos);
 						
 						
 				}
 				else if(nToolMode==2)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz1"));
 				}	
 				else if(nToolMode==3)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21003"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz2"));
 				}	
 				else if(nToolMode==4)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz3"));
 				}	
 				else if(nToolMode==5)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_1_yz4"));
 				}	
 				else if(nToolMode==6)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz2"));
 				}	
 				else if(nToolMode==7)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz3"));
 				}	
 				else if(nToolMode==8)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21002"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_2_yz4"));
 				}	
 				else if(nToolMode==9)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21003"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz3"));
 				}	
 				else if(nToolMode==10)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
-				}	
-				else if(nToolMode==11)
-				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_x_3_yz4"));
 				}	
 				else
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
 				}
 				
 				a1=cmdPos.getX();
