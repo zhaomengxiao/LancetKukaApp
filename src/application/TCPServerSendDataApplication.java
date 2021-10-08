@@ -2722,7 +2722,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	}
 			    	}
 			    	//
-			    	 if(nToolMode==9){
+			    	else if(nToolMode==9){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 		        		
 				    	System.out.println("9");
