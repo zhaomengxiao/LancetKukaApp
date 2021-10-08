@@ -212,25 +212,5 @@
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
         </toolTemplate>
-        <toolTemplate class="" name="Tool_zuo">
-            <frames>
-                <frame id="_9d3110bd-929a-4fc7-a4c5-c86e6484cf3b" name="zuo_1">
-                    <transformation a="1.6" b="0.01" c="-0.01" x="-210.6" y="37.9" z="124.5"/>
-                </frame>
-                <frame id="_6064156f-4d4e-4cf8-88a1-d7152e31c432" name="zuo_2">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="18.0" z="124.5"/>
-                </frame>
-                <frame id="_631f9321-a397-441d-bb6f-3a6a535d3517" name="zuo_3">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="19.8" z="124.5"/>
-                </frame>
-                <frame id="_fe178e1a-2892-45db-afb2-3df1f2faa3c0" name="zuo_4">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="21.8" z="124.5"/>
-                </frame>
-                <frame id="_03b608e4-7e8d-4230-97ba-c6659bd1bde3" name="zuo_5">
-                    <transformation a="1.6" b="0.0" c="3.2" x="-190.0" y="16.0" z="124.5"/>
-                </frame>
-            </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="0.0" cogY="0.0" cogZ="0.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="2.1"/>
-        </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
