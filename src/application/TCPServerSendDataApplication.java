@@ -155,15 +155,15 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Named("Tool_2")
 	
 	@Inject
-	private Tool needle_Tool_2;
+	com.kuka.roboticsAPI.geometricModel.Tool needle_Tool_2;
 	
 	@Named("Tool_3")
 	@Inject
-	private Tool needle_Tool_3;
+	com.kuka.roboticsAPI.geometricModel.Tool needle_Tool_3;
 	
 	@Named("gripper")
 	@Inject
-	private Tool needle_gripper;
+	com.kuka.roboticsAPI.geometricModel.Tool needle_gripper;
 	
 	//
 	private ObjectFrame zuo_21001;
@@ -2577,7 +2577,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getX();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
-		        	   
+		        	    
+		            	//更新姿态
+//		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+//			    		Ptest_ForPlane1.setGammaRad(cmdPos_Rote.getGammaRad());
+//			    		Ptest_ForPlane1.setBetaRad(cmdPos_Rote.getBetaRad());
+//			    		Ptest_ForPlane1.setAlphaRad(cmdPos_Rote.getAlphaRad());
+		            	//
+		            	
+		            	
 					    if(Math.abs(DistanceToPlane.getY())>130){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
