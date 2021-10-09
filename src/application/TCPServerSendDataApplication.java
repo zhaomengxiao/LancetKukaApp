@@ -153,7 +153,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //	private Tool Tool_2;
 	
 	@Named("Tool_2")
-	
 	@Inject
 	private Tool needle;
 	
@@ -167,7 +166,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	
 	private ObjectFrame tcp;
 	private ObjectFrame tcp_2;
-	//private ObjectFrame zuo_1;
+	private ObjectFrame zuo_1;
 	private ObjectFrame handle;
 	private BooleanIOCondition VaccumDetect;
 	private Frame startpos;
