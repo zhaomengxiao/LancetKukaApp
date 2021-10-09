@@ -2643,7 +2643,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 					    }
 				    else{
 				    	needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
-				    	System.out.println("5"); 
+				    	//System.out.println("5"); 
 					    }
 		            	
 		            	if(count>100000){
