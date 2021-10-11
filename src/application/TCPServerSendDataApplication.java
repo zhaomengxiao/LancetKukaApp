@@ -1399,7 +1399,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		           cartImp.setNullSpaceStiffness(100.);
 		           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 		        }
-		        if(nToolMode==2){
+		        else if(nToolMode==2){
 			           cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
@@ -1408,7 +1408,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
-		        if(nToolMode==8){
+		        else if(nToolMode==8){
 			           cartImp.parametrize(CartDOF.X).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
@@ -1417,7 +1417,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
-		        if(nToolMode==9){
+		        else if(nToolMode==9){
 			           cartImp.parametrize(CartDOF.X).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
@@ -2502,22 +2502,22 @@ public HandGuidingMotion createhandGuidingMotion(){
 								if(nToolMode==3){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									System.out.println("lhy1");
+									//System.out.println("lhy1");
 								}
 								else if(nToolMode==2){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-									System.out.println("lhy2");
+									//System.out.println("lhy2");
 								}
 								else if(nToolMode==9){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									System.out.println("lhy3");
+									//System.out.println("lhy3");
 								}
 								else if(nToolMode==8){
 									Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 									Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-									System.out.println("lhy4");
+									//System.out.println("lhy4");
 								}
 								if(io.getInput4()==false){
 									Err="3,";
@@ -2672,6 +2672,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getX();
+		        	    
+		        	    //
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	   
 					    if(Math.abs(DistanceToPlane.getY())>120){
@@ -2733,7 +2735,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	else if(nToolMode==9){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 		        		
-				    	System.out.println("9");
+//				    	System.out.println("9");
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
@@ -2742,8 +2744,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
-		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, nOutput, 0))); 
 		        	   
+		            	//更新姿态
+		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+			    		Ptest_ForPlane1.setGammaRad(cmdPos_Rote.getGammaRad());
+			    		Ptest_ForPlane1.setBetaRad(cmdPos_Rote.getBetaRad());
+			    		Ptest_ForPlane1.setAlphaRad(cmdPos_Rote.getAlphaRad());
+		            	//
+		            	
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
@@ -2803,7 +2812,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	else if(nToolMode==8){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 		        		
-				    	System.out.println("8");
+//				    	System.out.println("8");
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
@@ -2812,8 +2821,15 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
-		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
 		        	   
+		            	//更新姿态
+		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+			    		Ptest_ForPlane1.setGammaRad(cmdPos_Rote.getGammaRad());
+			    		Ptest_ForPlane1.setBetaRad(cmdPos_Rote.getBetaRad());
+			    		Ptest_ForPlane1.setAlphaRad(cmdPos_Rote.getAlphaRad());
+		            	//
+			    		
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
 					    		System.out.println("DistanceToPlane.getY())>100");
