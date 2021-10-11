@@ -1413,7 +1413,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.A).setStiffness(20.0);
+			           cartImp.parametrize(CartDOF.B).setStiffness(20.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
@@ -2747,10 +2747,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
 		        	   
 		            	//更新姿态
-//		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-//			    		Ptest_ForPlane1.setGammaRad(cmdPos_Rote.getGammaRad());
-//			    		Ptest_ForPlane1.setBetaRad(cmdPos_Rote.getBetaRad());
-//			    		Ptest_ForPlane1.setAlphaRad(cmdPos_Rote.getAlphaRad());
+		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+			    		Ptest_ForPlane1.setGammaRad(cmdPos_Rote.getGammaRad());
+			    		Ptest_ForPlane1.setBetaRad(cmdPos_Rote.getBetaRad());
+			    		Ptest_ForPlane1.setAlphaRad(cmdPos_Rote.getAlphaRad());
 		            	//
 		            	
 					    if(Math.abs(DistanceToPlane.getX())> 120){
