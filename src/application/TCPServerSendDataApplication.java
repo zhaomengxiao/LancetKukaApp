@@ -2756,7 +2756,7 @@ public HandGuidingMotion createhandGuidingMotion(){
                       }
 		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>6 && Math.toDegrees(DistanceToPlane.getBetaRad())<20){
 		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
 		       	      }
 		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>-18 && Math.toDegrees(DistanceToPlane.getBetaRad())<3){
 		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
@@ -2803,7 +2803,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
-					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 110){
+					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 115){
 //					    	if(count%100==0){
 					    		System.out.println("J4>115");
 					    		Ptest_ForPlane1.setX(cmdPos2.getX());
