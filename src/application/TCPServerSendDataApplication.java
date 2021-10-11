@@ -2745,12 +2745,12 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
 		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
-		        	   
+		        	  
 		            	//更新姿态
 		            	//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-			    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
+//			    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
 			    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-			    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+//			    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 		            	//
 		            	
 					    if(Math.abs(DistanceToPlane.getX())> 120){
@@ -2804,7 +2804,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            		count=0;
 		            	}
 		            	if(count%30==0){
-		            		System.out.println("DistanceToPlane_X："+DistanceToPlane.getY()+"DistanceToPlane_c："+Math.toDegrees(DistanceToPlane.getGammaRad())); 
+		            		System.out.println("99999"); 
 		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
 		            	}
 			    	}
