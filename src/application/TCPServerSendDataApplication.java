@@ -2803,9 +2803,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	if(count>100000){
 		            		count=0;
 		            	}
-		            	if(count%30==0){
-		            		System.out.println("99999"); 
-		                  //System.out.println("DistanceToPlane_x："+DistanceToPlane.getX()+"DistanceToPlane_Y："+DistanceToPlane.getY()+"DistanceToPlane_Z："+DistanceToPlane.getZ());
+		            	if(count%10==0){
+//		            		System.out.println("99999"); 
+		                  System.out.println("getAlphaRad()："+Math.toDegrees(DistanceToPlane.getAlphaRad())+"DistanceToPlane_RY："+Math.toDegrees(DistanceToPlane.getBetaRad())+"getGammaRad："+Math.toDegrees(DistanceToPlane.getGammaRad()));
 		            	}
 			    	}
 			    	//
