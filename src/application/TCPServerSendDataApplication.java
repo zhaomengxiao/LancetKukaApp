@@ -2739,19 +2739,19 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        		
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
-		       	        count++;
-		        	    nintegral=nintegral+DistanceToPlane.getY();
-		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
-		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
-		        	    nPrevious_error=DistanceToPlane.getY();
-		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
-		        	  
-		            	//更新姿态
-		            	//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-//			    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-			    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
-//			    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
-		            	//
+//		       	        count++;
+//		        	    nintegral=nintegral+DistanceToPlane.getY();
+//		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
+//		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
+//		        	    nPrevious_error=DistanceToPlane.getY();
+//		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
+//		        	  
+//		            	//更新姿态
+//		            	//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+////			    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
+//			    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
+////			    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+//		            	//
 		            	
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
