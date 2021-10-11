@@ -2744,7 +2744,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
-		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, -nOutput, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
 		        	   
 		            	//更新姿态
 //		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
@@ -2821,7 +2821,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
-		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, -nOutput, 0))); 
 		        	   
 //		            	//更新姿态
 //		            	Frame cmdPos_Rote = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
