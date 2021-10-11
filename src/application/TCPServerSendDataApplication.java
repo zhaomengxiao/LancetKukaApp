@@ -2749,7 +2749,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 		            	//更新姿态
 		            	//cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 //			    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
-			    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
+		       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(0, 0, 0, 0, DistanceToPlane.getBetaRad(), 0)); 
+		       	        
+		       	        
+//			    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
 //			    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
 		            	//
 		            	
