@@ -215,12 +215,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //	@Inject
 //	private Tool Tool_2;
 	
-	@Named("Tool_2")
+	@Named("Tool_you")
 	
 	@Inject
 	private Tool needle_Tool_2;
 	
-	@Named("Tool_3")
+	@Named("Tool_zuo")
 	@Inject
 	private Tool needle_Tool_3;
 	
