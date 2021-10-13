@@ -409,19 +409,19 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
         
         
         
-//       //Tool 2 parameters
-//       _loadData2 = new LoadData();
-//       _loadData2.setMass(MASS_You_2);
-//       _loadData2.setCenterOfMass(
-//    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[0], CENTER_OF_MASS_You_2_IN_MILLIMETER[1],
-//    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[2]);
-//       
-//       _toolAttachedToLBR2 = new Tool("Tool_You_2", _loadData2);
-//       XyzAbcTransformation trans2 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_2[0], TRANSLATION_OF_TOOL_You_2[1], TRANSLATION_OF_TOOL_You_2[2], TRANSLATION_OF_TOOL_You_2[3], TRANSLATION_OF_TOOL_You_2[4], TRANSLATION_OF_TOOL_You_2[5]);
-//       ObjectFrame aTransformation2 = _toolAttachedToLBR2.addChildFrame(TOOL_You_2_FRAME+ "(TCP)", trans2);
-//       _toolAttachedToLBR2.setDefaultMotionFrame(aTransformation2);
-//       // Attach tool to the robot
-//       _toolAttachedToLBR2.attachTo(lbr.getFlange());
+       //Tool 2 parameters
+       _loadData2 = new LoadData();
+       _loadData2.setMass(MASS_You_2);
+       _loadData2.setCenterOfMass(
+    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[0], CENTER_OF_MASS_You_2_IN_MILLIMETER[1],
+    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[2]);
+       
+       _toolAttachedToLBR2 = new Tool("Tool_You_2", _loadData2);
+       XyzAbcTransformation trans2 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_2[0], TRANSLATION_OF_TOOL_You_2[1], TRANSLATION_OF_TOOL_You_2[2], TRANSLATION_OF_TOOL_You_2[3], TRANSLATION_OF_TOOL_You_2[4], TRANSLATION_OF_TOOL_You_2[5]);
+       ObjectFrame aTransformation2 = _toolAttachedToLBR2.addChildFrame(TOOL_You_2_FRAME+ "(TCP)", trans2);
+       _toolAttachedToLBR2.setDefaultMotionFrame(aTransformation2);
+       // Attach tool to the robot
+       _toolAttachedToLBR2.attachTo(lbr.getFlange());
 ////       
 ////       
 ////       
