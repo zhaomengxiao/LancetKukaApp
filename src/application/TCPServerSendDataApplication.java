@@ -1834,18 +1834,18 @@ public HandGuidingMotion createhandGuidingMotion(){
 			        MASS1=MASS1+0.5;
 				 
 				 
-			       _loadData1 = new LoadData();
+//			       _loadData1 = new LoadData();
 			       _loadData1.setMass(MASS1);
 			       _loadData1.setCenterOfMass(
 			               CENTER_OF_MASS_IN_MILLIMETER1[0], CENTER_OF_MASS_IN_MILLIMETER1[1],
 			                CENTER_OF_MASS_IN_MILLIMETER1[2]);
 			       
-			       _toolAttachedToLBR1 = new Tool("Tool1", _loadData1);
+//			       _toolAttachedToLBR1 = new Tool("Tool1", _loadData1);
 			       XyzAbcTransformation trans1 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL1[0], TRANSLATION_OF_TOOL1[1], TRANSLATION_OF_TOOL1[2], TRANSLATION_OF_TOOL1[3], TRANSLATION_OF_TOOL1[4], TRANSLATION_OF_TOOL1[5]);
-			       ObjectFrame aTransformation1 = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME1+ "(TCP)", trans1);
-			       _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation1);
-			       // Attach tool to the robot
-			       _toolAttachedToLBR1.attachTo(lbr.getFlange());
+//			       ObjectFrame aTransformation1 = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME1+ "(TCP)", trans1);
+//			       _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation1);
+//			       // Attach tool to the robot
+//			       _toolAttachedToLBR1.attachTo(lbr.getFlange());
 			       
 			       
 			       
@@ -2089,9 +2089,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 	@Override
 	public void run()  {
 //	    io.setOutput3(true);
-		BreakTest.initialize();
-		BreakTest.run();
-		
+//		BreakTest.initialize();
+//		BreakTest.run();
+//		
 		
 		ExecutorService executor = Executors.newCachedThreadPool();
 //		Future<String> add = executor.submit(new sendRTdata());
