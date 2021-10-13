@@ -2184,7 +2184,7 @@ while(true){
 //	       ObjectFrame aTransformation1 = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME1+ "(TCP)", trans1);
 //	       _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation1);
 //	       // Attach tool to the robot
-//	       _toolAttachedToLBR1.attachTo(lbr.getFlange());
+	       _toolAttachedToLBR1.attachTo(lbr.getFlange());
 	       System.out.println("MASS1:"+MASS1);
 	}
 }
