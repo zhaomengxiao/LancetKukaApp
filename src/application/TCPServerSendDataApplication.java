@@ -2005,8 +2005,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			boolean DangerMove=false;
 			int nLastWorkingmode=0;
-			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(_toolAttachedToLBR6.getDefaultMotionFrame());
+			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR6.getDefaultMotionFrame());
 			while (true)
 			{ 
 
@@ -2030,13 +2030,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 						if (nToolMode==2)
 						{
 							//nToolMode==2指的是安放模式
-							_toolAttachedToLBR.getFrame("/Tool").move(createhandGuidingMotion());
+							_toolAttachedToLBR2.getDefaultMotionFrame().move(createhandGuidingMotion());
 							bDangerous=false;
 							nWorkingmode=0;
 						}
 						else{
 							//其他指的是打磨模式
-							_toolAttachedToLBR.getFrame("/Tool").move(createhandGuidingMotion());
+							_toolAttachedToLBR.getDefaultMotionFrame().move(createhandGuidingMotion());
 							bDangerous=false;
 							nWorkingmode=0;
 						}
@@ -2064,10 +2064,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	{
 //			    		needle.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2));
 			    		System.out.println("zhunbei_ready");
-			    		needle_Tool_2.getFrame("/you_21001").move(new PTP(jointPos).setJointVelocityRel(0.2));	
+			    		_toolAttachedToLBR2.getDefaultMotionFrame().move(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    		
-						Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-
+						//Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+			    		Frame Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
 		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 							//$cmd,RobotMove,1$
 					
