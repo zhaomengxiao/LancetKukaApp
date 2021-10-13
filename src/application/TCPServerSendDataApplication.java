@@ -2181,10 +2181,10 @@ while(true){
 	       
 //	       _toolAttachedToLBR1 = new Tool("Tool1", _loadData1);
 	       XyzAbcTransformation trans1 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL1[0], TRANSLATION_OF_TOOL1[1], TRANSLATION_OF_TOOL1[2], TRANSLATION_OF_TOOL1[3], TRANSLATION_OF_TOOL1[4], TRANSLATION_OF_TOOL1[5]);
-	       ObjectFrame aTransformation1 = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME1+ "(TCP)", trans1);
-	       _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation1);
-	       // Attach tool to the robot
-	       _toolAttachedToLBR1.attachTo(lbr.getFlange());
+//	       ObjectFrame aTransformation1 = _toolAttachedToLBR1.addChildFrame(TOOL_FRAME1+ "(TCP)", trans1);
+//	       _toolAttachedToLBR1.setDefaultMotionFrame(aTransformation1);
+//	       // Attach tool to the robot
+//	       _toolAttachedToLBR1.attachTo(lbr.getFlange());
 	       System.out.println("MASS1:"+MASS1);
 	}
 }
