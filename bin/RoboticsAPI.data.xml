@@ -168,7 +168,7 @@
             </frames>
             <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-12.9" cogY="-2.1" cogZ="72.0" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.0"/>
         </toolTemplate>
-        <toolTemplate class="" name="Tool_2">
+        <toolTemplate class="" name="Tool_you">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="you_21001">
                     <transformation a="-0.0070" b="0.0068" c="-0.0063" x="94.59" y="-79.1" z="147.2"/>
@@ -195,9 +195,9 @@
                     <transformation a="-0.0070" b="0.0068" c="-0.0063" x="-17.5" y="-190.85" z="125.21"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.2"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-45.0" cogY="2.7" cogZ="120.4" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.0"/>
         </toolTemplate>
-        <toolTemplate class="" name="Tool_3">
+        <toolTemplate class="" name="Tool_zuo">
             <frames>
                 <frame id="_5d10614f-5995-4936-a34e-71b7529deb8b" name="zuo_21001">
                     <transformation a="1.6" b="0.0" c="0.0" x="-210.6" y="37.9" z="124.5"/>
@@ -218,7 +218,7 @@
                     <transformation a="0.0" b="0.0" c="0.0" x="-7.0" y="0.0" z="208.55"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-15.59" cogY="-3.48" cogZ="104.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.4"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-15.6" cogY="-3.48" cogZ="104.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="0.0"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
