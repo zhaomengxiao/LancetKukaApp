@@ -141,7 +141,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double[] TRANSLATION_OF_TOOL9 = { -1.43, 168.7, 273.8,0.0073,-0.0129,-1.0498 };
 	 
 	 private static final double MASS =  5;
-	 private static final double MASS1 = 3;
+	 private static final double MASS1 = 0;
 	 private static final double MASS2 = 1.2;
 	 private static final double MASS3 = 1.2;
 	 private static final double MASS4 = 1.2;
