@@ -139,7 +139,18 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	 private static final double FREQENCY = 0.1;
 	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
 	 private LoadData _loadData;
-	 private LoadData _loadData1;
+	 private LoadData _loadData2;
+	 private LoadData _loadData3;
+	 private LoadData _loadData4;
+	 private LoadData _loadData5;
+	 private LoadData _loadData6;
+	 private LoadData _loadData7;
+	 private LoadData _loadData8;
+	 private LoadData _loadData9;
+	 private LoadData _loadData10;
+	 private LoadData _loadData11;
+	 private LoadData _loadData12;
+	 
 	 private static final double[] TRANSLATION_OF_TOOL_You_1 = { 94.6, -79.1, 147.2,0,0,0 }; 
 	 private static final double[] TRANSLATION_OF_TOOL_You_2 = { -21.3, -190.8, 125.2,0,0,0 };
 	 private static final double[] TRANSLATION_OF_TOOL_You_3 = { -19.5, -190.9, 125.2,0,0,0 };
@@ -381,196 +392,196 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //        // Attach tool to the robot
 //        _toolAttachedToLBR.attachTo(lbr.getFlange());
 		
-		//Tool 1 parameters
-       _loadData = new LoadData();
-       _loadData.setMass(MASS_You_1);
-       _loadData.setCenterOfMass(
-               CENTER_OF_MASS_You_1_IN_MILLIMETER[0], CENTER_OF_MASS_You_1_IN_MILLIMETER[1],
-               CENTER_OF_MASS_You_1_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR = new Tool("TOOL_You_1", _loadData);
-
-       XyzAbcTransformation trans1 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_1[0], TRANSLATION_OF_TOOL_You_1[1], TRANSLATION_OF_TOOL_You_1[2], TRANSLATION_OF_TOOL_You_1[3], TRANSLATION_OF_TOOL_You_1[4], TRANSLATION_OF_TOOL_You_1[5]);
-       ObjectFrame aTransformation1 = _toolAttachedToLBR.addChildFrame(TOOL_You_1_FRAME+ "(TCP)", trans1);
-       _toolAttachedToLBR.setDefaultMotionFrame(aTransformation1);
-       // Attach tool to the robot
-       _toolAttachedToLBR.attachTo(lbr.getFlange());
-        
-        
-        
-       //Tool 2 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_You_2);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[0], CENTER_OF_MASS_You_2_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR2 = new Tool("Tool_You_2", _loadData1);
-       XyzAbcTransformation trans2 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_2[0], TRANSLATION_OF_TOOL_You_2[1], TRANSLATION_OF_TOOL_You_2[2], TRANSLATION_OF_TOOL_You_2[3], TRANSLATION_OF_TOOL_You_2[4], TRANSLATION_OF_TOOL_You_2[5]);
-       ObjectFrame aTransformation2 = _toolAttachedToLBR2.addChildFrame(TOOL_You_2_FRAME+ "(TCP)", trans2);
-       _toolAttachedToLBR2.setDefaultMotionFrame(aTransformation2);
-       // Attach tool to the robot
-       _toolAttachedToLBR2.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 3 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_You_3);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_You_3_IN_MILLIMETER[0], CENTER_OF_MASS_You_3_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_You_3_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR3 = new Tool("Tool_You_3", _loadData1);
-       XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_3[0], TRANSLATION_OF_TOOL_You_3[1], TRANSLATION_OF_TOOL_You_3[2], TRANSLATION_OF_TOOL_You_3[3], TRANSLATION_OF_TOOL_You_3[4], TRANSLATION_OF_TOOL_You_3[5]);
-       ObjectFrame aTransformation3 = _toolAttachedToLBR3.addChildFrame(TOOL_You_3_FRAME+ "(TCP)", trans3);
-       _toolAttachedToLBR3.setDefaultMotionFrame(aTransformation3);
-       // Attach tool to the robot
-       _toolAttachedToLBR3.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 4 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_You_4);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_You_4_IN_MILLIMETER[0], CENTER_OF_MASS_You_4_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_You_4_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR4 = new Tool("Tool_You_4", _loadData1);
-       XyzAbcTransformation trans4 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_4[0], TRANSLATION_OF_TOOL_You_4[1], TRANSLATION_OF_TOOL_You_4[2], TRANSLATION_OF_TOOL_You_4[3], TRANSLATION_OF_TOOL_You_4[4], TRANSLATION_OF_TOOL_You_4[5]);
-       ObjectFrame aTransformation4 = _toolAttachedToLBR4.addChildFrame(TOOL_You_4_FRAME+ "(TCP)", trans4);
-       _toolAttachedToLBR4.setDefaultMotionFrame(aTransformation4);
-       // Attach tool to the robot
-       _toolAttachedToLBR4.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 5 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_You_5);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_You_5_IN_MILLIMETER[0], CENTER_OF_MASS_You_5_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_You_5_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR5 = new Tool("Tool_You_5", _loadData1);
-       XyzAbcTransformation trans5 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_5[0], TRANSLATION_OF_TOOL_You_5[1], TRANSLATION_OF_TOOL_You_5[2], TRANSLATION_OF_TOOL_You_5[3], TRANSLATION_OF_TOOL_You_5[4], TRANSLATION_OF_TOOL_You_5[5]);
-       ObjectFrame aTransformation5 = _toolAttachedToLBR5.addChildFrame(TOOL_You_5_FRAME+ "(TCP)", trans5);
-       _toolAttachedToLBR5.setDefaultMotionFrame(aTransformation5);
-       // Attach tool to the robot
-       _toolAttachedToLBR5.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 6 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_You_6);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_You_6_IN_MILLIMETER[0], CENTER_OF_MASS_You_6_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_You_6_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR6 = new Tool("Tool_You_6", _loadData1);
-       XyzAbcTransformation trans6 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_6[0], TRANSLATION_OF_TOOL_You_6[1], TRANSLATION_OF_TOOL_You_6[2], TRANSLATION_OF_TOOL_You_6[3], TRANSLATION_OF_TOOL_You_6[4], TRANSLATION_OF_TOOL_You_6[5]);
-       ObjectFrame aTransformation6 = _toolAttachedToLBR6.addChildFrame(TOOL_You_6_FRAME+ "(TCP)", trans6);
-       _toolAttachedToLBR6.setDefaultMotionFrame(aTransformation6);
-       // Attach tool to the robot
-       _toolAttachedToLBR6.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 7 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_1);
-       _loadData1.setCenterOfMass(
-               CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[1],
-               CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR7 = new Tool("Tool_Zuo_1", _loadData1);
-       XyzAbcTransformation trans7 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_1[0], TRANSLATION_OF_TOOL_Zuo_1[1], TRANSLATION_OF_TOOL_Zuo_1[2], TRANSLATION_OF_TOOL_Zuo_1[3], TRANSLATION_OF_TOOL_Zuo_1[4], TRANSLATION_OF_TOOL_Zuo_1[5]);
-       ObjectFrame aTransformation7 = _toolAttachedToLBR7.addChildFrame(TOOL_Zuo_1_FRAME+ "(TCP)", trans7);
-       _toolAttachedToLBR7.setDefaultMotionFrame(aTransformation7);
-       // Attach tool to the robot
-       _toolAttachedToLBR7.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 8 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_2);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR8 = new Tool("Tool_Zuo_2", _loadData1);
-       XyzAbcTransformation trans8 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_2[0], TRANSLATION_OF_TOOL_Zuo_2[1], TRANSLATION_OF_TOOL_Zuo_2[2], TRANSLATION_OF_TOOL_Zuo_2[3], TRANSLATION_OF_TOOL_Zuo_2[4], TRANSLATION_OF_TOOL_Zuo_2[5]);
-       ObjectFrame aTransformation8 = _toolAttachedToLBR8.addChildFrame(TOOL_Zuo_2_FRAME+ "(TCP)", trans8);
-       _toolAttachedToLBR8.setDefaultMotionFrame(aTransformation8);
-       // Attach tool to the robot
-       _toolAttachedToLBR8.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 9 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_3);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR9 = new Tool("Tool_Zuo_3", _loadData1);
-       XyzAbcTransformation trans9 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_3[0], TRANSLATION_OF_TOOL_Zuo_3[1], TRANSLATION_OF_TOOL_Zuo_3[2], TRANSLATION_OF_TOOL_Zuo_3[3], TRANSLATION_OF_TOOL_Zuo_3[4], TRANSLATION_OF_TOOL_Zuo_3[5]);
-       ObjectFrame aTransformation9 = _toolAttachedToLBR9.addChildFrame(TOOL_Zuo_3_FRAME+ "(TCP)", trans9);
-       _toolAttachedToLBR9.setDefaultMotionFrame(aTransformation9);
-       // Attach tool to the robot
-       _toolAttachedToLBR9.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 10 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_4);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR10 = new Tool("Tool_Zuo_4", _loadData1);
-       XyzAbcTransformation trans10 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_4[0], TRANSLATION_OF_TOOL_Zuo_4[1], TRANSLATION_OF_TOOL_Zuo_4[2], TRANSLATION_OF_TOOL_Zuo_4[3], TRANSLATION_OF_TOOL_Zuo_4[4], TRANSLATION_OF_TOOL_Zuo_4[5]);
-       ObjectFrame aTransformation10 = _toolAttachedToLBR10.addChildFrame(TOOL_Zuo_4_FRAME+ "(TCP)", trans10);
-       _toolAttachedToLBR10.setDefaultMotionFrame(aTransformation10);
-       // Attach tool to the robot
-       _toolAttachedToLBR10.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 11 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_5);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR11 = new Tool("Tool_Zuo_5", _loadData1);
-       XyzAbcTransformation trans11 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_5[0], TRANSLATION_OF_TOOL_Zuo_5[1], TRANSLATION_OF_TOOL_Zuo_5[2], TRANSLATION_OF_TOOL_Zuo_5[3], TRANSLATION_OF_TOOL_Zuo_5[4], TRANSLATION_OF_TOOL_Zuo_5[5]);
-       ObjectFrame aTransformation11 = _toolAttachedToLBR11.addChildFrame(TOOL_Zuo_5_FRAME+ "(TCP)", trans11);
-       _toolAttachedToLBR11.setDefaultMotionFrame(aTransformation11);
-       // Attach tool to the robot
-       _toolAttachedToLBR11.attachTo(lbr.getFlange());
-       
-       
-       
-       //Tool 12 parameters
-       _loadData1 = new LoadData();
-       _loadData1.setMass(MASS_Zuo_6);
-       _loadData1.setCenterOfMass(
-    		   CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[1],
-    		   CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[2]);
-       
-       _toolAttachedToLBR12 = new Tool("Tool_Zuo_6", _loadData1);
-       XyzAbcTransformation trans12 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_6[0], TRANSLATION_OF_TOOL_Zuo_6[1], TRANSLATION_OF_TOOL_Zuo_6[2], TRANSLATION_OF_TOOL_Zuo_6[3], TRANSLATION_OF_TOOL_Zuo_6[4], TRANSLATION_OF_TOOL_Zuo_6[5]);
-       ObjectFrame aTransformation12 = _toolAttachedToLBR12.addChildFrame(TOOL_Zuo_6_FRAME+ "(TCP)", trans12);
-       _toolAttachedToLBR12.setDefaultMotionFrame(aTransformation12);
-       // Attach tool to the robot
-       _toolAttachedToLBR12.attachTo(lbr.getFlange());
+//		//Tool 1 parameters
+//       _loadData = new LoadData();
+//       _loadData.setMass(MASS_You_1);
+//       _loadData.setCenterOfMass(
+//               CENTER_OF_MASS_You_1_IN_MILLIMETER[0], CENTER_OF_MASS_You_1_IN_MILLIMETER[1],
+//               CENTER_OF_MASS_You_1_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR = new Tool("TOOL_You_1", _loadData);
+//
+//       XyzAbcTransformation trans1 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_1[0], TRANSLATION_OF_TOOL_You_1[1], TRANSLATION_OF_TOOL_You_1[2], TRANSLATION_OF_TOOL_You_1[3], TRANSLATION_OF_TOOL_You_1[4], TRANSLATION_OF_TOOL_You_1[5]);
+//       ObjectFrame aTransformation1 = _toolAttachedToLBR.addChildFrame(TOOL_You_1_FRAME+ "(TCP)", trans1);
+//       _toolAttachedToLBR.setDefaultMotionFrame(aTransformation1);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR.attachTo(lbr.getFlange());
+//        
+//        
+//        
+//       //Tool 2 parameters
+//       _loadData2 = new LoadData();
+//       _loadData2.setMass(MASS_You_2);
+//       _loadData2.setCenterOfMass(
+//    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[0], CENTER_OF_MASS_You_2_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_You_2_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR2 = new Tool("Tool_You_2", _loadData2);
+//       XyzAbcTransformation trans2 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_2[0], TRANSLATION_OF_TOOL_You_2[1], TRANSLATION_OF_TOOL_You_2[2], TRANSLATION_OF_TOOL_You_2[3], TRANSLATION_OF_TOOL_You_2[4], TRANSLATION_OF_TOOL_You_2[5]);
+//       ObjectFrame aTransformation2 = _toolAttachedToLBR2.addChildFrame(TOOL_You_2_FRAME+ "(TCP)", trans2);
+//       _toolAttachedToLBR2.setDefaultMotionFrame(aTransformation2);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR2.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 3 parameters
+//       _loadData3 = new LoadData();
+//       _loadData3.setMass(MASS_You_3);
+//       _loadData3.setCenterOfMass(
+//    		   CENTER_OF_MASS_You_3_IN_MILLIMETER[0], CENTER_OF_MASS_You_3_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_You_3_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR3 = new Tool("Tool_You_3", _loadData3);
+//       XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_3[0], TRANSLATION_OF_TOOL_You_3[1], TRANSLATION_OF_TOOL_You_3[2], TRANSLATION_OF_TOOL_You_3[3], TRANSLATION_OF_TOOL_You_3[4], TRANSLATION_OF_TOOL_You_3[5]);
+//       ObjectFrame aTransformation3 = _toolAttachedToLBR3.addChildFrame(TOOL_You_3_FRAME+ "(TCP)", trans3);
+//       _toolAttachedToLBR3.setDefaultMotionFrame(aTransformation3);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR3.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 4 parameters
+//       _loadData4 = new LoadData();
+//       _loadData4.setMass(MASS_You_4);
+//       _loadData4.setCenterOfMass(
+//    		   CENTER_OF_MASS_You_4_IN_MILLIMETER[0], CENTER_OF_MASS_You_4_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_You_4_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR4 = new Tool("Tool_You_4", _loadData4);
+//       XyzAbcTransformation trans4 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_4[0], TRANSLATION_OF_TOOL_You_4[1], TRANSLATION_OF_TOOL_You_4[2], TRANSLATION_OF_TOOL_You_4[3], TRANSLATION_OF_TOOL_You_4[4], TRANSLATION_OF_TOOL_You_4[5]);
+//       ObjectFrame aTransformation4 = _toolAttachedToLBR4.addChildFrame(TOOL_You_4_FRAME+ "(TCP)", trans4);
+//       _toolAttachedToLBR4.setDefaultMotionFrame(aTransformation4);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR4.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 5 parameters
+//       _loadData5 = new LoadData();
+//       _loadData5.setMass(MASS_You_5);
+//       _loadData5.setCenterOfMass(
+//    		   CENTER_OF_MASS_You_5_IN_MILLIMETER[0], CENTER_OF_MASS_You_5_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_You_5_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR5 = new Tool("Tool_You_5", _loadData5);
+//       XyzAbcTransformation trans5 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_5[0], TRANSLATION_OF_TOOL_You_5[1], TRANSLATION_OF_TOOL_You_5[2], TRANSLATION_OF_TOOL_You_5[3], TRANSLATION_OF_TOOL_You_5[4], TRANSLATION_OF_TOOL_You_5[5]);
+//       ObjectFrame aTransformation5 = _toolAttachedToLBR5.addChildFrame(TOOL_You_5_FRAME+ "(TCP)", trans5);
+//       _toolAttachedToLBR5.setDefaultMotionFrame(aTransformation5);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR5.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 6 parameters
+//       _loadData6 = new LoadData();
+//       _loadData6.setMass(MASS_You_6);
+//       _loadData6.setCenterOfMass(
+//    		   CENTER_OF_MASS_You_6_IN_MILLIMETER[0], CENTER_OF_MASS_You_6_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_You_6_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR6 = new Tool("Tool_You_6", _loadData6);
+//       XyzAbcTransformation trans6 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_You_6[0], TRANSLATION_OF_TOOL_You_6[1], TRANSLATION_OF_TOOL_You_6[2], TRANSLATION_OF_TOOL_You_6[3], TRANSLATION_OF_TOOL_You_6[4], TRANSLATION_OF_TOOL_You_6[5]);
+//       ObjectFrame aTransformation6 = _toolAttachedToLBR6.addChildFrame(TOOL_You_6_FRAME+ "(TCP)", trans6);
+//       _toolAttachedToLBR6.setDefaultMotionFrame(aTransformation6);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR6.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 7 parameters
+//       _loadData7 = new LoadData();
+//       _loadData7.setMass(MASS_Zuo_1);
+//       _loadData7.setCenterOfMass(
+//               CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[1],
+//               CENTER_OF_MASS_Zuo_1_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR7 = new Tool("Tool_Zuo_1", _loadData7);
+//       XyzAbcTransformation trans7 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_1[0], TRANSLATION_OF_TOOL_Zuo_1[1], TRANSLATION_OF_TOOL_Zuo_1[2], TRANSLATION_OF_TOOL_Zuo_1[3], TRANSLATION_OF_TOOL_Zuo_1[4], TRANSLATION_OF_TOOL_Zuo_1[5]);
+//       ObjectFrame aTransformation7 = _toolAttachedToLBR7.addChildFrame(TOOL_Zuo_1_FRAME+ "(TCP)", trans7);
+//       _toolAttachedToLBR7.setDefaultMotionFrame(aTransformation7);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR7.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 8 parameters
+//       _loadData8 = new LoadData();
+//       _loadData8.setMass(MASS_Zuo_2);
+//       _loadData8.setCenterOfMass(
+//    		   CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_Zuo_2_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR8 = new Tool("Tool_Zuo_2", _loadData8);
+//       XyzAbcTransformation trans8 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_2[0], TRANSLATION_OF_TOOL_Zuo_2[1], TRANSLATION_OF_TOOL_Zuo_2[2], TRANSLATION_OF_TOOL_Zuo_2[3], TRANSLATION_OF_TOOL_Zuo_2[4], TRANSLATION_OF_TOOL_Zuo_2[5]);
+//       ObjectFrame aTransformation8 = _toolAttachedToLBR8.addChildFrame(TOOL_Zuo_2_FRAME+ "(TCP)", trans8);
+//       _toolAttachedToLBR8.setDefaultMotionFrame(aTransformation8);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR8.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 9 parameters
+//       _loadData9 = new LoadData();
+//       _loadData9.setMass(MASS_Zuo_3);
+//       _loadData9.setCenterOfMass(
+//    		   CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_Zuo_3_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR9 = new Tool("Tool_Zuo_3", _loadData9);
+//       XyzAbcTransformation trans9 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_3[0], TRANSLATION_OF_TOOL_Zuo_3[1], TRANSLATION_OF_TOOL_Zuo_3[2], TRANSLATION_OF_TOOL_Zuo_3[3], TRANSLATION_OF_TOOL_Zuo_3[4], TRANSLATION_OF_TOOL_Zuo_3[5]);
+//       ObjectFrame aTransformation9 = _toolAttachedToLBR9.addChildFrame(TOOL_Zuo_3_FRAME+ "(TCP)", trans9);
+//       _toolAttachedToLBR9.setDefaultMotionFrame(aTransformation9);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR9.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 10 parameters
+//       _loadData10 = new LoadData();
+//       _loadData10.setMass(MASS_Zuo_4);
+//       _loadData10.setCenterOfMass(
+//    		   CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_Zuo_4_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR10 = new Tool("Tool_Zuo_4", _loadData10);
+//       XyzAbcTransformation trans10 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_4[0], TRANSLATION_OF_TOOL_Zuo_4[1], TRANSLATION_OF_TOOL_Zuo_4[2], TRANSLATION_OF_TOOL_Zuo_4[3], TRANSLATION_OF_TOOL_Zuo_4[4], TRANSLATION_OF_TOOL_Zuo_4[5]);
+//       ObjectFrame aTransformation10 = _toolAttachedToLBR10.addChildFrame(TOOL_Zuo_4_FRAME+ "(TCP)", trans10);
+//       _toolAttachedToLBR10.setDefaultMotionFrame(aTransformation10);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR10.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 11 parameters
+//       _loadData11 = new LoadData();
+//       _loadData11.setMass(MASS_Zuo_5);
+//       _loadData11.setCenterOfMass(
+//    		   CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_Zuo_5_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR11 = new Tool("Tool_Zuo_5", _loadData11);
+//       XyzAbcTransformation trans11 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_5[0], TRANSLATION_OF_TOOL_Zuo_5[1], TRANSLATION_OF_TOOL_Zuo_5[2], TRANSLATION_OF_TOOL_Zuo_5[3], TRANSLATION_OF_TOOL_Zuo_5[4], TRANSLATION_OF_TOOL_Zuo_5[5]);
+//       ObjectFrame aTransformation11 = _toolAttachedToLBR11.addChildFrame(TOOL_Zuo_5_FRAME+ "(TCP)", trans11);
+//       _toolAttachedToLBR11.setDefaultMotionFrame(aTransformation11);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR11.attachTo(lbr.getFlange());
+//       
+//       
+//       
+//       //Tool 12 parameters
+//       _loadData12 = new LoadData();
+//       _loadData12.setMass(MASS_Zuo_6);
+//       _loadData12.setCenterOfMass(
+//    		   CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[0], CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[1],
+//    		   CENTER_OF_MASS_Zuo_6_IN_MILLIMETER[2]);
+//       
+//       _toolAttachedToLBR12 = new Tool("Tool_Zuo_6", _loadData12);
+//       XyzAbcTransformation trans12 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_Zuo_6[0], TRANSLATION_OF_TOOL_Zuo_6[1], TRANSLATION_OF_TOOL_Zuo_6[2], TRANSLATION_OF_TOOL_Zuo_6[3], TRANSLATION_OF_TOOL_Zuo_6[4], TRANSLATION_OF_TOOL_Zuo_6[5]);
+//       ObjectFrame aTransformation12 = _toolAttachedToLBR12.addChildFrame(TOOL_Zuo_6_FRAME+ "(TCP)", trans12);
+//       _toolAttachedToLBR12.setDefaultMotionFrame(aTransformation12);
+//       // Attach tool to the robot
+//       _toolAttachedToLBR12.attachTo(lbr.getFlange());
        
        
        
@@ -676,110 +687,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//è½´å��æ ‡x
 			//	Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getFrame("/TOOL"));
 				
-//				Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+//			    Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
 				Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
 				
-//				if (nToolMode==2){
-//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
-//				}
-//				else{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
-//				}
 				
-//				if (nToolMode==1){
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
-////						System.out.println("1:"+cmdPos);
-//						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//						cmdPos2.setX(0);
-//						cmdPos2.setY(0);
-//						cmdPos2.setZ(0);
-//						cmdPos2.setAlphaRad(0);
-//						cmdPos2.setBetaRad(Math.toRadians(-30));
-//						cmdPos2.setGammaRad(0);
-//						cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
-//						//System.out.println("22:"+cmdPos);
-//						
-//				}
-//				else if(nToolMode==2)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame());
-//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					cmdPos2.setX(0);
-//					cmdPos2.setY(0);
-//					cmdPos2.setZ(0);
-//					cmdPos2.setAlphaRad(0);
-//					cmdPos2.setBetaRad(Math.toRadians(-30));
-//					cmdPos2.setGammaRad(0);
-//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame(), cmdPos2);
-//				}	
-//				else if(nToolMode==3)
-//				{				
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
-////					System.out.println("1:"+cmdPos);
-//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					cmdPos2.setX(0);
-//					cmdPos2.setY(0);
-//					cmdPos2.setZ(0);
-//					cmdPos2.setAlphaRad(0);
-//					cmdPos2.setBetaRad(Math.toRadians(-30));
-//					cmdPos2.setGammaRad(0);
-//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame(), cmdPos2);
-//					
-//				}	
-//				else if(nToolMode==4)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-//				}	
-//				else if(nToolMode==5)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
-//				}	
-//				else if(nToolMode==6)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
-//				}	
-//				else if(nToolMode==7)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame());
-//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					cmdPos2.setX(0);
-//					cmdPos2.setY(0);
-//					cmdPos2.setZ(0);
-//					cmdPos2.setAlphaRad(0);
-//					cmdPos2.setBetaRad(Math.toRadians(-30));
-//					cmdPos2.setGammaRad(0);
-//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame(), cmdPos2);
-//				}	
-//				else if(nToolMode==8)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame());
-//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					cmdPos2.setX(0);
-//					cmdPos2.setY(0);
-//					cmdPos2.setZ(0);
-//					cmdPos2.setAlphaRad(0);
-//					cmdPos2.setBetaRad(Math.toRadians(-30));
-//					cmdPos2.setGammaRad(0);
-//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame(), cmdPos2);
-//				}	
-//				else if(nToolMode==9)
-//				{
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame());
-//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame());
-//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-//					cmdPos2.setX(0);
-//					cmdPos2.setY(0);
-//					cmdPos2.setZ(0);
-//					cmdPos2.setAlphaRad(0);
-//					cmdPos2.setBetaRad(Math.toRadians(-30));
-//					cmdPos2.setGammaRad(0);
-//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame(), cmdPos2);
-//				}	
 				if (nToolMode==1){
 					 cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
 						cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
@@ -886,6 +797,119 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				{
 					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
 				}
+//				if (nToolMode==2){
+//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
+//				}
+//				else{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
+//				}
+				
+//				if (nToolMode==1){
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+////						System.out.println("1:"+cmdPos);
+//						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//						cmdPos2.setX(0);
+//						cmdPos2.setY(0);
+//						cmdPos2.setZ(0);
+//						cmdPos2.setAlphaRad(0);
+//						cmdPos2.setBetaRad(Math.toRadians(-30));
+//						cmdPos2.setGammaRad(0);
+//						cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+//						//System.out.println("22:"+cmdPos);
+//						
+//				}
+//				else if(nToolMode==2)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame());
+//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					cmdPos2.setX(0);
+//					cmdPos2.setY(0);
+//					cmdPos2.setZ(0);
+//					cmdPos2.setAlphaRad(0);
+//					cmdPos2.setBetaRad(Math.toRadians(-30));
+//					cmdPos2.setGammaRad(0);
+//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR2.getDefaultMotionFrame(), cmdPos2);
+//				}	
+//				else if(nToolMode==3)
+//				{				
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
+////					System.out.println("1:"+cmdPos);
+//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					cmdPos2.setX(0);
+//					cmdPos2.setY(0);
+//					cmdPos2.setZ(0);
+//					cmdPos2.setAlphaRad(0);
+//					cmdPos2.setBetaRad(Math.toRadians(-30));
+//					cmdPos2.setGammaRad(0);
+//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame(), cmdPos2);
+//					
+//				}	
+//				else if(nToolMode==4)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+//				}	
+//				else if(nToolMode==5)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+//				}	
+//				else if(nToolMode==6)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+//				}	
+//				else if(nToolMode==7)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame());
+//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					cmdPos2.setX(0);
+//					cmdPos2.setY(0);
+//					cmdPos2.setZ(0);
+//					cmdPos2.setAlphaRad(0);
+//					cmdPos2.setBetaRad(Math.toRadians(-30));
+//					cmdPos2.setGammaRad(0);
+//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR7.getDefaultMotionFrame(), cmdPos2);
+//				}	
+//				else if(nToolMode==8)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame());
+//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					cmdPos2.setX(0);
+//					cmdPos2.setY(0);
+//					cmdPos2.setZ(0);
+//					cmdPos2.setAlphaRad(0);
+//					cmdPos2.setBetaRad(Math.toRadians(-30));
+//					cmdPos2.setGammaRad(0);
+//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR8.getDefaultMotionFrame(), cmdPos2);
+//				}	
+//				else if(nToolMode==9)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame());
+//					cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame());
+//					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+//					cmdPos2.setX(0);
+//					cmdPos2.setY(0);
+//					cmdPos2.setZ(0);
+//					cmdPos2.setAlphaRad(0);
+//					cmdPos2.setBetaRad(Math.toRadians(-30));
+//					cmdPos2.setGammaRad(0);
+//					cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR9.getDefaultMotionFrame(), cmdPos2);
+//				}	
+//				else if(nToolMode==10)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
+//				}	
+//				else if(nToolMode==11)
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
+//				}	
+//				else
+//				{
+//					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
+//				}
 				
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
@@ -2099,8 +2123,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
 			boolean DangerMove=false;
 			int nLastWorkingmode=0;
-			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(_toolAttachedToLBR6.getDefaultMotionFrame());
-			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR6.getDefaultMotionFrame());
+			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
 			while (true)
 			{ 
 
@@ -2124,13 +2148,13 @@ public HandGuidingMotion createhandGuidingMotion(){
 						if (nToolMode==2)
 						{
 							//nToolMode==2指的是安放模式
-							_toolAttachedToLBR2.getDefaultMotionFrame().move(createhandGuidingMotion());
+							_toolAttachedToLBR.getFrame("/Tool").move(createhandGuidingMotion());
 							bDangerous=false;
 							nWorkingmode=0;
 						}
 						else{
 							//其他指的是打磨模式
-							_toolAttachedToLBR.getDefaultMotionFrame().move(createhandGuidingMotion());
+							_toolAttachedToLBR.getFrame("/Tool").move(createhandGuidingMotion());
 							bDangerous=false;
 							nWorkingmode=0;
 						}
@@ -2158,10 +2182,10 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	{
 //			    		needle.getFrame("/you_21001").move(ptp(Ptest1).setJointVelocityRel(0.2));
 			    		System.out.println("zhunbei_ready");
-			    		_toolAttachedToLBR2.getDefaultMotionFrame().move(new PTP(jointPos).setJointVelocityRel(0.2));	
+			    		needle_Tool_2.getFrame("/you_21001").move(new PTP(jointPos).setJointVelocityRel(0.2));	
 			    		
-						//Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-			    		Frame Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+						Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
+
 		                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
 							//$cmd,RobotMove,1$
 					
