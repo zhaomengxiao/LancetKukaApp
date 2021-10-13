@@ -1831,7 +1831,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 				 
 				 
 				 
-			        MASS1=MASS1+0.5;
+//			        MASS1=MASS1+0.5;
 				 
 //				 
 ////			       _loadData1 = new LoadData();
@@ -1849,7 +1849,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			       
 			       
 			       
-			       System.out.println("MASS1:"+MASS1);
+			       System.out.println("MASS1:");
 			       
 
 			
