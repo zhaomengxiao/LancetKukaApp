@@ -2782,6 +2782,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	System.out.println("9");
 				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
+		       	        ThreadUtil.milliSleep(200);
 		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
@@ -2897,6 +2898,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	System.out.println("8");
 				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
+		       	        ThreadUtil.milliSleep(200);
 		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
