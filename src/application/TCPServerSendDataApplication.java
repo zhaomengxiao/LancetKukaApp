@@ -1413,7 +1413,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.B).setStiffness(20.0);
+			           cartImp.parametrize(CartDOF.B).setStiffness(5.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
@@ -1422,7 +1422,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.B).setStiffness(20.0);
+			           cartImp.parametrize(CartDOF.B).setStiffness(5.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
@@ -2576,32 +2576,32 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getX()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getX();
-//		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
 		        	    
-		            	//更新姿态
-
-			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(-nOutput, 0, 0, 0, 0, DistanceToPlane.getGammaRad())); 
-	                     
-			       	      if(Math.toDegrees(DistanceToPlane.getGammaRad())>3 && Math.toDegrees(DistanceToPlane.getGammaRad())<6){
-	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
-	                      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>6 && Math.toDegrees(DistanceToPlane.getGammaRad())<10){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>10 && Math.toDegrees(DistanceToPlane.getGammaRad())<15){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>15 && Math.toDegrees(DistanceToPlane.getGammaRad())<20){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>-18 && Math.toDegrees(DistanceToPlane.getGammaRad())<3){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
-			       	      }
+//		            	//更新姿态
+//
+//			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(-nOutput, 0, 0, 0, 0, DistanceToPlane.getGammaRad())); 
+//	                     
+//			       	      if(Math.toDegrees(DistanceToPlane.getGammaRad())>3 && Math.toDegrees(DistanceToPlane.getGammaRad())<6){
+//	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
+//	                      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>6 && Math.toDegrees(DistanceToPlane.getGammaRad())<10){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>10 && Math.toDegrees(DistanceToPlane.getGammaRad())<15){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>15 && Math.toDegrees(DistanceToPlane.getGammaRad())<20){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>-18 && Math.toDegrees(DistanceToPlane.getGammaRad())<3){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+//			       	      }
 			            	//
 		            	
 		            	
@@ -2693,31 +2693,31 @@ public HandGuidingMotion createhandGuidingMotion(){
 		        	    nOutput=nP*DistanceToPlane.getX()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getX();
 		        	    
-	//		            Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
-		            	//更新姿态
-
-			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(-nOutput, 0, 0, 0, 0, DistanceToPlane.getGammaRad())); 
-	                     
-			       	      if(Math.toDegrees(DistanceToPlane.getGammaRad())>3 && Math.toDegrees(DistanceToPlane.getGammaRad())<6){
-	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
-	                      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>6 && Math.toDegrees(DistanceToPlane.getGammaRad())<10){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>10 && Math.toDegrees(DistanceToPlane.getGammaRad())<15){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>15 && Math.toDegrees(DistanceToPlane.getGammaRad())<20){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>-18 && Math.toDegrees(DistanceToPlane.getGammaRad())<3){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
-			       	      }
+			            Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(-nOutput, 0, 0))); 
+//		            	//更新姿态
+//
+//			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(-nOutput, 0, 0, 0, 0, DistanceToPlane.getGammaRad())); 
+//	                     
+//			       	      if(Math.toDegrees(DistanceToPlane.getGammaRad())>3 && Math.toDegrees(DistanceToPlane.getGammaRad())<6){
+//	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
+//	                      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>6 && Math.toDegrees(DistanceToPlane.getGammaRad())<10){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>10 && Math.toDegrees(DistanceToPlane.getGammaRad())<15){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>15 && Math.toDegrees(DistanceToPlane.getGammaRad())<20){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getGammaRad())>-18 && Math.toDegrees(DistanceToPlane.getGammaRad())<3){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+//			       	      }
 			            	//
 					    if(Math.abs(DistanceToPlane.getY())>120){
 //					    	if(count%100==0){
@@ -2780,40 +2780,40 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 //				    	System.out.println("9");
-		        		
+				    	System.out.println("DistanceToPlane.getY()");
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
 		       	        count++;
-//		        	    nintegral=nintegral+DistanceToPlane.getY();
-//		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
-//		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
-//		        	    nPrevious_error=DistanceToPlane.getY();
-//		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
+		        	    nintegral=nintegral+DistanceToPlane.getY();
+		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
+		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
+		        	    nPrevious_error=DistanceToPlane.getY();
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, -nOutput, 0))); 
 		        	  
 		            	//更新姿态
 
-		       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(0, 0, 0, 0, DistanceToPlane.getBetaRad(), 0)); 
-                     
-		       	      if(Math.toDegrees(DistanceToPlane.getBetaRad())>3 && Math.toDegrees(DistanceToPlane.getBetaRad())<6){
-                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
-                      }
-		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>6 && Math.toDegrees(DistanceToPlane.getBetaRad())<10){
-		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
-		       	      }
-		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>10 && Math.toDegrees(DistanceToPlane.getBetaRad())<15){
-		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
-		       	      }
-		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>15 && Math.toDegrees(DistanceToPlane.getBetaRad())<20){
-		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
-		       	      }
-		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>-18 && Math.toDegrees(DistanceToPlane.getBetaRad())<3){
-		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
-		       	      }
+//		       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(0, 0, 0, 0, DistanceToPlane.getBetaRad(), 0)); 
+//                     
+//		       	      if(Math.toDegrees(DistanceToPlane.getBetaRad())>3 && Math.toDegrees(DistanceToPlane.getBetaRad())<6){
+//                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
+//                      }
+//		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>6 && Math.toDegrees(DistanceToPlane.getBetaRad())<10){
+//		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
+//		       	      }
+//		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>10 && Math.toDegrees(DistanceToPlane.getBetaRad())<15){
+//		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
+//		       	      }
+//		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>15 && Math.toDegrees(DistanceToPlane.getBetaRad())<20){
+//		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
+//		       	      }
+//		       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>-18 && Math.toDegrees(DistanceToPlane.getBetaRad())<3){
+//		       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//		       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+//		       	      }
 		            	//
 					    if(Math.abs(DistanceToPlane.getX())> 120){
 //					    	if(count%100==0){
@@ -2893,9 +2893,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 			    	//
 			    	else if(nToolMode==8){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-		        		
+				    	JointPosition test =lbr.getCurrentJointPosition();
 //				    	System.out.println("8");
-		        		
+				    	System.out.println("DistanceToPlane.getY()");
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
 	        	   
 		       	        count++;
@@ -2903,32 +2903,32 @@ public HandGuidingMotion createhandGuidingMotion(){
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
 		        	    nOutput=nP*DistanceToPlane.getY()+nI*nintegral+nD*nderivative;
 		        	    nPrevious_error=DistanceToPlane.getY();
-//		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, 0, 0))); 
+		            	Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform((Transformation.ofTranslation(0, -nOutput, 0))); 
 		        	   
-		            	//更新姿态
-
-			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(0, 0, 0, 0, DistanceToPlane.getBetaRad(), 0)); 
-	                     
-			       	      if(Math.toDegrees(DistanceToPlane.getBetaRad())>3 && Math.toDegrees(DistanceToPlane.getBetaRad())<6){
-	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
-	                      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>6 && Math.toDegrees(DistanceToPlane.getBetaRad())<10){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>10 && Math.toDegrees(DistanceToPlane.getBetaRad())<15){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>15 && Math.toDegrees(DistanceToPlane.getBetaRad())<20){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
-			       	      }
-			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>-18 && Math.toDegrees(DistanceToPlane.getBetaRad())<3){
-			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
-			       	      }
+//		            	//更新姿态
+//
+//			       	      Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofRad(0, 0, 0, 0, DistanceToPlane.getBetaRad(), 0)); 
+//	                     
+//			       	      if(Math.toDegrees(DistanceToPlane.getBetaRad())>3 && Math.toDegrees(DistanceToPlane.getBetaRad())<6){
+//	                    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//	                    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);  
+//	                      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>6 && Math.toDegrees(DistanceToPlane.getBetaRad())<10){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(10.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>10 && Math.toDegrees(DistanceToPlane.getBetaRad())<15){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(15.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>15 && Math.toDegrees(DistanceToPlane.getBetaRad())<20){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(30.0);
+//			       	      }
+//			       	      else if(Math.toDegrees(DistanceToPlane.getBetaRad())>-18 && Math.toDegrees(DistanceToPlane.getBetaRad())<3){
+//			       	    	  final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+//			       	    	  cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+//			       	      }
 			            	//
 			    		
 					    if(Math.abs(DistanceToPlane.getX())> 120){
@@ -2971,7 +2971,27 @@ public HandGuidingMotion createhandGuidingMotion(){
 							Err="5,";
 					    	nWorkingmode=0;
 					    }
-					    
+					    else if(Math.toDegrees(test.get(JointEnum.J4)) > 115){
+//					    	if(count%100==0){
+					    		System.out.println("J4>115");
+					    		Ptest_ForPlane1.setX(cmdPos2.getX());
+					    		Ptest_ForPlane1.setY(cmdPos2.getY());
+					    		Ptest_ForPlane1.setZ(cmdPos2.getZ());
+					    		Ptest_ForPlane1.setGammaRad(cmdPos2.getGammaRad());
+					    		Ptest_ForPlane1.setBetaRad(cmdPos2.getBetaRad());
+					    		Ptest_ForPlane1.setAlphaRad(cmdPos2.getAlphaRad());
+//					    	}
+					
+					        cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					        needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1));
+					        System.out.println("4");
+							Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+							Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+							System.out.println("Err==5");
+							Err="5,";
+							nWorkingmode=0;
+							
+					    }
 				    else{
 				    	needle_Tool_3.getFrame("/tcp_xyz").move(ptp(Ptest_ForPlane1).setJointVelocityRel(1).setMode(carthard));
 //					    	ThreadUtil.milliSleep(200);
