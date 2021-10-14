@@ -2780,9 +2780,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 //				    	System.out.println("9");
-				    	System.out.println("DistanceToPlane.getY()");
+				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-	        	   
+		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
@@ -2895,9 +2895,9 @@ public HandGuidingMotion createhandGuidingMotion(){
 				    	Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 				    	JointPosition test =lbr.getCurrentJointPosition();
 //				    	System.out.println("8");
-				    	System.out.println("DistanceToPlane.getY()");
+				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-	        	   
+		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
