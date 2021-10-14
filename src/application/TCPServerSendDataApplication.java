@@ -1413,7 +1413,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+			           cartImp.parametrize(CartDOF.B).setStiffness(8.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
@@ -1422,7 +1422,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.B).setStiffness(5.0);
+			           cartImp.parametrize(CartDOF.B).setStiffness(8.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
@@ -2782,8 +2782,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	System.out.println("9");
 				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-		       	        ThreadUtil.milliSleep(200);
-		       	        System.out.println(DistanceToPlane.getY());
+//		       	        ThreadUtil.milliSleep(200);
+//		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
@@ -2898,8 +2898,8 @@ public HandGuidingMotion createhandGuidingMotion(){
 //				    	System.out.println("8");
 				    	
 		       	        Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-		       	        ThreadUtil.milliSleep(200);
-		       	        System.out.println(DistanceToPlane.getY());
+//		       	        ThreadUtil.milliSleep(200);
+//		       	        System.out.println(DistanceToPlane.getY());
 		       	        count++;
 		        	    nintegral=nintegral+DistanceToPlane.getY();
 		         	    nderivative=DistanceToPlane.getY()-nPrevious_error;
