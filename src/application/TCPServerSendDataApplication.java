@@ -1395,7 +1395,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 		           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
 		           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 		           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-		           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
+		           cartImp.parametrize(CartDOF.C).setStiffness(6.0);
 		           cartImp.setNullSpaceStiffness(100.);
 		           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 		        }
@@ -1404,7 +1404,7 @@ public HandGuidingMotion createhandGuidingMotion(){
 			           cartImp.parametrize(CartDOF.Y).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.Z).setStiffness(150.0);
 			           cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-			           cartImp.parametrize(CartDOF.C).setStiffness(20.0);
+			           cartImp.parametrize(CartDOF.C).setStiffness(6.0);
 			           cartImp.setNullSpaceStiffness(100.);
 			           cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
 			        }
