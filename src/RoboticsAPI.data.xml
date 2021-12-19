@@ -217,10 +217,10 @@
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </frame>
                 <frame id="_39419f23-3884-4f8f-a5ec-312c6ecbbfa9" name="you_21003_zhiSet">
-                    <transformation a="0.0" b="0.0" c="1.0472" x="0.0" y="-167.96" z="281.58"/>
+                    <transformation a="0.0" b="0.0" c="1.0472" x="0.0" y="-164.4" z="279.53"/>
                 </frame>
                 <frame id="_d678b60d-49e6-4abe-b4a1-70d8877ef504" name="you_21004_zhiSet">
-                    <transformation a="0.0" b="0.0" c="1.0472" x="0.0" y="-167.96" z="281.58"/>
+                    <transformation a="0.0" b="0.0" c="1.0472" x="0.0" y="-163.86" z="279.22"/>
                 </frame>
                 <frame id="_cca289a7-f767-421a-aae6-c5d6c1c09675" name="you_21005_zhiSet">
                     <transformation a="0.0" b="0.0" c="1.0472" x="0.0" y="-167.96" z="281.58"/>
@@ -253,10 +253,10 @@
                     <transformation a="0.0" b="0.0" c="0.0" x="0.0" y="0.0" z="0.0"/>
                 </frame>
                 <frame id="_5aefb3cd-21e7-4f1c-bdad-b99459053474" name="zuo_21003_zhiSet">
-                    <transformation a="0.0" b="0.0" c="-1.0472" x="0.0" y="167.96" z="281.58"/>
+                    <transformation a="0.0" b="0.0" c="-1.0472" x="0.0" y="164.4" z="279.53"/>
                 </frame>
                 <frame id="_9be5605e-e13b-4098-a6b5-681b1dd0133b" name="zuo_21004_zhiSet">
-                    <transformation a="0.0" b="0.0" c="-1.0472" x="0.0" y="167.96" z="281.58"/>
+                    <transformation a="0.0" b="0.0" c="-1.0472" x="0.0" y="163.86" z="279.22"/>
                 </frame>
                 <frame id="_2f48366b-57bf-4217-a590-e4036b790df0" name="zuo_21005_zhiSet">
                     <transformation a="0.0" b="0.0" c="-1.0472" x="0.0" y="167.96" z="281.58"/>

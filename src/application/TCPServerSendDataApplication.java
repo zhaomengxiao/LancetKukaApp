@@ -161,6 +161,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private Frame startpos;
 	private Tool tool;
 	public boolean bDangerous=false;
+	public boolean breaktest=false;
 	
 	//å�‘é€�å­—ç¬¦ä¸² data0~data18
 	public static String data0="0";
@@ -213,13 +214,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		nC=0;
 		Err="0,";
 		io.setOutput5(false);
-		jointPos=new JointPosition(   Math.toRadians(0),
-                Math.toRadians(28.28),
-                Math.toRadians(22.32),
-                Math.toRadians(85.38),
-                Math.toRadians(-0.56),
-                Math.toRadians(-59.95),
-                Math.toRadians(27.77));
+		jointPos=new JointPosition(   Math.toRadians(9.44),
+                Math.toRadians(5.15),
+                Math.toRadians(-17.39),
+                Math.toRadians(61.02),
+                Math.toRadians(29.90),
+                Math.toRadians(-99.06),
+                Math.toRadians(-9.62));
 		
 		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
                 Math.toRadians(-7.41),
@@ -946,7 +947,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		}
 	}
 
-	public  class reciveRTdata implements Callable<String> {
+	
+	
+	//////111111111
+public  class reciveRTdata implements Callable<String> {
         
         
 		
@@ -1049,13 +1053,19 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 							String para2 = units[3].substring(0, units[3].length() - 1);
 							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
 							{
-							io.setOutput5(true);	
-//							System.out.println("io.setOutput5(true)");
+								io.setOutput5(true);	
+								//System.out.println("io.setOutput5(true)");
 							}
-							else{
-							io.setOutput5(false);
-//							System.out.println("io.setOutput5(false)");
-//							System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
+							else if(Double.parseDouble(para2)==0 && Double.parseDouble(units[2])==1)
+							{
+								io.setOutput5(false);
+								//System.out.println("io.setOutput5(false)");
+								//System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
+							}
+							else if(Double.parseDouble(para2)==8 && Double.parseDouble(units[2])==1)
+							{
+								breaktest=true;	
+//								System.out.println("breaktest=true;");
 							}
 //							System.out.println("sIO: " + para2);
 							writer_recive.write("$res,sIO,0$");
@@ -1321,6 +1331,32 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		}
 	}
 
+
+	//////11111111
+
+
+	public  class BreakTest implements Callable<String> {
+        
+        
+		
+		public String call() {
+			while (true){
+				if(breaktest==true){
+					System.out.println("breaktest==true");
+					BreakTest.initialize();
+					BreakTest.run();
+					System.out.println("BreakTest.run();");
+//					Err="100";
+					breaktest=false;
+				}
+//				ThreadUtil.milliSleep(2000);
+//				System.out.println("new thread");
+			}
+			//return Err;	
+			
+		}
+	}
+
 	
 	public HandGuidingMotion createhandGuidingMotion(){
 		double min=0;
@@ -1559,7 +1595,7 @@ public  class motion implements Callable<String> {
 	        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
 	        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
 	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
-	        cartImp.parametrize(CartDOF.ROT).setStiffness(250.0);
+	        cartImp.parametrize(CartDOF.ROT).setStiffness(210.0);
 
 //	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
 	        cartImp.setNullSpaceStiffness(100.);
@@ -4937,19 +4973,21 @@ else if(nToolMode==40){
 	public void run()  {
 		JointPosition actPos = lbr.getCurrentJointPosition();
 		
-		BreakTest.initialize();
-		BreakTest.run();
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
+		Future<String> breaktest = executor.submit(new BreakTest());
         //Monitor();
 
 		try {
 			System.out.println(add.get());
 			System.out.println(say.get());
 			System.out.println(sdd2.get());
+			System.out.println(breaktest.get());
 		} catch (InterruptedException e) {
 
 			e.printStackTrace();
