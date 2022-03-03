@@ -5,15 +5,13 @@ import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
 import com.kuka.common.StatisticTimer;
 import com.kuka.common.StatisticTimer.OneTimeStep;
 import com.kuka.common.ThreadUtil;
-import com.kuka.connectivity.motionModel.directServo.DirectServo;
-import com.kuka.connectivity.motionModel.directServo.IDirectServoRuntime;
+import com.kuka.connectivity.motionModel.smartServo.ISmartServoRuntime;
 import com.kuka.connectivity.motionModel.smartServo.ServoMotion;
+import com.kuka.connectivity.motionModel.smartServo.SmartServo;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
-import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.deviceModel.LBR;
 import com.kuka.roboticsAPI.geometricModel.CartDOF;
-import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.roboticsAPI.geometricModel.LoadData;
 import com.kuka.roboticsAPI.geometricModel.ObjectFrame;
 import com.kuka.roboticsAPI.geometricModel.Tool;
@@ -21,24 +19,22 @@ import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.PositionControlMode;
-import com.kuka.roboticsAPI.sensorModel.CartesianPositionInformation;
 
 /**
- * This example activates a DirectServo motion in Cartesian impedance control mode, sends a sequence of Cartesian set
+ * This example activates a SmartServo motion in Cartesian impedance control mode, sends a sequence of Cartesian set
  * points and modifies compliance parameters during the motion.
  * 
  */
-public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
+public class SmartServoSampleInteractionControl extends RoboticsAPIApplication
 {
     private LBR _lbr;
     private Tool _toolAttachedToLBR;
     private LoadData _loadData;
 
     // Tool Data
-
     private static final String TOOL_FRAME = "toolFrame";
-    private static final double[] TRANSLATION_OF_TOOL = { -150.7 , 0, 227.9 };
-    private static final double MASS = 1;
+    private static final double[] TRANSLATION_OF_TOOL = { 0, 0, 100 };
+    private static final double MASS = 0;
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
     private static final int NUM_RUNS = 600;
@@ -54,7 +50,21 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
 
         // Create a Tool by Hand this is the tool we want to move with some mass
         // properties and a TCP-Z-offset of 100.
-        
+        _loadData = new LoadData();
+        _loadData.setMass(MASS);
+        _loadData.setCenterOfMass(
+                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+                CENTER_OF_MASS_IN_MILLIMETER[2]);
+        _toolAttachedToLBR = new Tool("Tool", _loadData);
+
+        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
+                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
+                TRANSLATION_OF_TOOL[2]);
+        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+                + "(TCP)", trans);
+        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR.attachTo(_lbr.getFlange());
     }
 
     /**
@@ -72,7 +82,7 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
             getLogger()
                     .info("Validation of torque model failed - correct your mass property settings");
             getLogger()
-                    .info("DirectServo motion will be available for position controlled mode only, until validation is performed");
+                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
         }
     }
 
@@ -83,37 +93,28 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
      *            the control mode which shall be used
      * @see {@link CartesianImpedanceControlMode}
      */
-    public void runDirectServoMotion(final IMotionControlMode controlMode)
-    {
-    	
-    	_loadData = new LoadData();
-        _loadData.setMass(MASS);
-        _loadData.setCenterOfMass(
-                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-                CENTER_OF_MASS_IN_MILLIMETER[2]);
-        _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
-                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-                TRANSLATION_OF_TOOL[2]);
-        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-                + "(TCP)", trans);
-        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-        // Attach tool to the robot
-        _toolAttachedToLBR.attachTo(_lbr.getFlange());
-        
+    protected void runSmartServoMotion(final IMotionControlMode controlMode)
+    {
+        final boolean doDebugPrints = false;
+
         final JointPosition initialPosition = new JointPosition(
                 _lbr.getCurrentJointPosition());
 
-        final DirectServo aDirectServoMotion = new DirectServo(initialPosition);
+        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
 
-        aDirectServoMotion.setMinimumTrajectoryExecutionTime(40e-3);
+        // Set the motion properties to 10% of the systems abilities
+        aSmartServoMotion.setJointAccelerationRel(0.1);
+        aSmartServoMotion.setJointVelocityRel(0.1);
 
-        getLogger().info("Starting the DirectServo motion in " + controlMode);
+        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
+
+        getLogger().info("Starting the SmartServo in " + controlMode);
         _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-                aDirectServoMotion.setMode(controlMode));
+                aSmartServoMotion.setMode(controlMode));
 
-        final IDirectServoRuntime theServoRuntime = aDirectServoMotion
+        // Fetch the Runtime of the Motion part
+        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
                 .getRuntime();
 
         // create an JointPosition Instance, to play with
@@ -127,63 +128,75 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
             // do a cyclic loop
             // Refer to some timing...
             // in nanosec
-            // freqency * ...
             final double omega = FREQENCY * 2 * Math.PI * 1e-9;
             final long startTimeStamp = System.nanoTime();
 
-            //for (int i = 0; i < NUM_RUNS; ++i)
-         	 final JointPosition currentPos = _lbr.getCurrentJointPosition();
-         	destination.set(currentPos);
-            while (true)
+            for (int i = 0; i < NUM_RUNS; ++i)
             {
-          
-        
-                  theServoRuntime
-                  .setDestination(destination);
-                
-                
-//                // Timing - draw one step
-//                final OneTimeStep aStep = timing.newTimeStep();
-//                // ///////////////////////////////////////////////////////
-//                // Insert your code here
-//                // e.g Visual Servoing or the like
-//                // emulate some computational effort - or waiting for external
-//                // stuff
-//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-//
-//                theServoRuntime.updateWithRealtimeSystem();
-//
-//                final double curTime = System.nanoTime() - startTimeStamp;
-//                final double sinArgument = omega * curTime;
-//
-//                for (int k = 0; k < destination.getAxisCount(); ++k)
-//                {
-//                    destination.set(k, Math.sin(sinArgument)
-//                            * AMPLITUDE + initialPosition.get(k));
-//                }
-//                theServoRuntime
-//                        .setDestination(destination);
-//
-//                // Modify the stiffness settings every now and then               
-//                if (i % (NUM_RUNS / 10) == 0)
-//                {
-//                    // update realtime system
-//                    if (controlMode instanceof CartesianImpedanceControlMode)
-//                    {
-//                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
-//                        final double aTransStiffVal = Math.max(100. * (i
-//                                / (double) NUM_RUNS + 1), 1000.);
-//                        final double aRotStiffVal = Math.max(10. * (i
-//                                / (double) NUM_RUNS + 1), 150.);
-//                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
-//                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
-//                        // Send the new Stiffness settings down to the
-//                        // controller
-//                        theServoRuntime
-//                                .changeControlModeSettings(cartImp);
-//                    }
-//                }
-//                aStep.end();
+                // Timing - draw one step
+                final OneTimeStep aStep = timing.newTimeStep();
+                // ///////////////////////////////////////////////////////
+                // Insert your code here
+                // e.g Visual Servoing or the like
+                // emulate some computational effort - or waiting for external
+                // stuff
+                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+                theSmartServoRuntime.updateWithRealtimeSystem();
+
+                // Get the measured position in cartesian...
+                final JointPosition curMsrJntPose = theSmartServoRuntime
+                        .getAxisQMsrOnController();
+
+                final double curTime = System.nanoTime() - startTimeStamp;
+                final double sinArgument = omega * curTime;
+
+                for (int k = 0; k < destination.getAxisCount(); ++k)
+                {
+                    destination.set(k, Math.sin(sinArgument)
+                            * AMPLITUDE + initialPosition.get(k));
+                }
+                theSmartServoRuntime
+                        .setDestination(destination);
+
+                //
+                // Modify the stiffness settings every now and then
+                //
+                if (i % (NUM_RUNS / 10) == 0)
+                {
+
+                    // update realtime system
+                    if (controlMode instanceof CartesianImpedanceControlMode)
+                    {
+                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
+                        final double aTransStiffVal = Math.max(100. * (i
+                                / (double) NUM_RUNS + 1), 1000.);
+                        final double aRotStiffVal = Math.max(10. * (i
+                                / (double) NUM_RUNS + 1), 150.);
+                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
+                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+                        // Send the new Stiffness settings down to the
+                        // controller
+                        theSmartServoRuntime
+                                .changeControlModeSettings(cartImp);
+                    }
+                }
+
+                if (doDebugPrints)
+                {
+
+                    getLogger().info("Step " + i + " New Goal "
+                            + destination);
+                    getLogger().info("LBR Position "
+                            + _lbr.getCurrentJointPosition());
+                    getLogger().info("Measured LBR position "
+                            + curMsrJntPose);
+                    if (i % 100 == 0)
+                    {
+                        getLogger().info("Simple Joint Test - step " + i + "\n" + theSmartServoRuntime.toString());
+                    }
+                }
+                aStep.end();
             }
         }
         catch (final Exception e)
@@ -192,19 +205,17 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
             e.printStackTrace();
         }
 
-        // Print statistics and parameters of the motion
+        //Print statistics and parameters of the motion
         getLogger().info("Displaying final states after loop "
                 + controlMode.getClass().getName());
-
-        getLogger().info(getClass().getName() + "\n" + theServoRuntime.toString());
-
+        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
         // Stop the motion
-        theServoRuntime.stopMotion();
+        theSmartServoRuntime.stopMotion();
         getLogger().info("Statistic Timing of Overall Loop " + timing);
         if (timing.getMeanTimeMillis() > 150)
         {
             getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-            getLogger().info("You should check the TCP/IP Stack Configuration - see the manual for details");
+            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
         }
 
     }
@@ -218,15 +229,15 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
     protected CartesianImpedanceControlMode createCartImp()
     {
         final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-        cartImp.parametrize(CartDOF.TRANSL).setStiffness(5000.0);
-        cartImp.parametrize(CartDOF.ROT).setStiffness(20.0);
+        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
+        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
         cartImp.setNullSpaceStiffness(100.);
         // For your own safety, shrink the motion abilities to useful limits
         cartImp.setMaxPathDeviation(50., 50., 50., 50., 50., 50.);
         return cartImp;
     }
 
-    /** Sample to switch the motion control mode */
+    /** Sample to switch the motion control mode. */
     protected void switchMotionControlMode()
     {
         getLogger().info("Switch Motion Control Mode Sample");
@@ -237,19 +248,23 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
         final JointPosition initialPosition = new JointPosition(
                 _lbr.getCurrentJointPosition());
 
-        final DirectServo firstDirectServoMotion = new DirectServo(initialPosition);
+        final SmartServo firstSmartServoMotion = new SmartServo(initialPosition);
 
-        firstDirectServoMotion.setMode(cartImp);
+        // Set the motion properties to 10% of the systems abilities
+        firstSmartServoMotion.setJointAccelerationRel(0.1);
+        firstSmartServoMotion.setJointVelocityRel(0.1);
+        firstSmartServoMotion.setMode(cartImp);
 
-        // Set the control mode as member of the realtime motion
-        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(firstDirectServoMotion);
+        getLogger().info("Starting the SmartServo in " + cartImp);
+        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(firstSmartServoMotion);
 
         // Fetch the Runtime of the Motion part
         // NOTE: the Runtime will exist AFTER motion command was issued
-        final IDirectServoRuntime theFirstRuntime = firstDirectServoMotion
+        final ISmartServoRuntime theFirstRuntime = firstSmartServoMotion
                 .getRuntime();
 
         /* Do Interaction with that mode Run set points etc... */
+        initialPosition.set(2, -1);
         theFirstRuntime.setDestination(initialPosition);
 
         /* Here: Just wait, until fine interpolation has finished */
@@ -265,17 +280,20 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
         }
 
         // Open second Motion
-        for (int k = 0; k < initialPosition.getAxisCount(); k++)
+        for (int i = 0; i < initialPosition.getAxisCount(); i++)
         {
-            initialPosition.set(k, initialPosition.get(k) + 0.01);
+            initialPosition.set(i, initialPosition.get(i) + 0.1);
         }
 
-        final DirectServo secondDirectServoMotion = new DirectServo(initialPosition);
-        secondDirectServoMotion.setJointVelocityRel(0.1);
+        final SmartServo secondSmartServoMotion = new SmartServo(initialPosition);
+
+        secondSmartServoMotion.setJointAccelerationRel(0.2);
+        secondSmartServoMotion.setJointVelocityRel(0.1);
 
         // / Activate the Motion -- it will become truely active, as the first
-        // one vanishes      
-        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(secondDirectServoMotion);
+        // one vanishes
+        // Set the control mode as member of the realtime motion
+        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(secondSmartServoMotion);
 
         getLogger().info("Now blending over to -> Sending Stop Request "
                 );
@@ -284,9 +302,8 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
         // Now blend over - stop the first,
         // the second will immediately take over
         theFirstRuntime.stopMotion();
-        // get the runtime of the second motion
 
-        final IDirectServoRuntime theSecondRuntime = secondDirectServoMotion
+        final ISmartServoRuntime theSecondRuntime = secondSmartServoMotion
                 .getRuntime();
         theSecondRuntime.setDestination(initialPosition);
         /* do further computations... */
@@ -302,6 +319,7 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
                         + theSecondRuntime);
             }
         }
+
         theSecondRuntime.stopMotion();
 
         getLogger().info("Result of Motion 1 " + theFirstRuntime);
@@ -311,23 +329,25 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
     @Override
     public void run()
     {
-//        moveToInitialPosition();
+
+        moveToInitialPosition();
 
         // Initialize Cartesian impedance mode       
         final CartesianImpedanceControlMode cartImp = createCartImp();
 
-        runDirectServoMotion(cartImp);
+        runSmartServoMotion(cartImp);
 
-//        // Return to initial position
-//        moveToInitialPosition();
-//
-//        final PositionControlMode positionCtrlMode = new PositionControlMode();
-//
-//        runDirectServoMotion(positionCtrlMode);
-//
-//        moveToInitialPosition();
-//
-//        switchMotionControlMode();
+        // Return to initial position
+        moveToInitialPosition();
+
+        final PositionControlMode positionCtrlMode = new PositionControlMode();
+
+        runSmartServoMotion(positionCtrlMode);
+
+        moveToInitialPosition();
+
+        switchMotionControlMode();
+
     }
 
     /**
@@ -338,9 +358,7 @@ public class DirectServoSampleInteractionControl extends RoboticsAPIApplication
      */
     public static void main(final String[] args)
     {
-        final DirectServoSampleInteractionControl app = new DirectServoSampleInteractionControl();
-
+        final SmartServoSampleInteractionControl app = new SmartServoSampleInteractionControl();
         app.runApplication();
-
     }
 }

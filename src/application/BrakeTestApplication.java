@@ -33,6 +33,7 @@ public class BrakeTestApplication extends RoboticsAPIApplication {
         // initial position
         getLogger().info("Moving into initial position.");
         lbr_iiwa.move(ptpHome());
+        System.out.println("PTPHome");
 
         // start monitoring for maximum torques
         getLogger().info("Start evaluation of torque statistic.");
