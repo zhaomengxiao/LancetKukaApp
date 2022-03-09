@@ -2871,140 +2871,140 @@ public HandGuidingMotion createhandGuidingMotion(){
 					 
 					
 					if (nTest==0 && nToolMode==1){
-						jointPos_register =new JointPosition(   Math.toRadians(19.13),
-				                Math.toRadians(-11.35),
-				                Math.toRadians(-1.19),
-				                Math.toRadians(93.18),
-				                Math.toRadians(16.79),
-				                Math.toRadians(50.61),
-				                Math.toRadians(-22.61));	
+						jointPos_register =new JointPosition(   Math.toRadians(38.54),
+				                Math.toRadians(-13.76),
+				                Math.toRadians(-40.47),
+				                Math.toRadians(81.17),
+				                Math.toRadians(10.93),
+				                Math.toRadians(33.23),
+				                Math.toRadians(-4.18));	
 					}
 					else if (nTest==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(19.12),
-				                Math.toRadians(-25.33),
-				                Math.toRadians(-3.68),
-				                Math.toRadians(95.81),
-				                Math.toRadians(16.79),
-				                Math.toRadians(68.49),
-				                Math.toRadians(-17.75));	
+						jointPos_register =new JointPosition(   Math.toRadians(24.43),
+				                Math.toRadians(-20.00),
+				                Math.toRadians(-53.87),
+				                Math.toRadians(83.17),
+				                Math.toRadians(-14.73),
+				                Math.toRadians(46.92),
+				                Math.toRadians(39.49));	
 					}
 					else if (nTest==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-12.30),
-				                Math.toRadians(-16.69),
-				                Math.toRadians(-3.69),
-				                Math.toRadians(96.26),
-				                Math.toRadians(-15.61),
-				                Math.toRadians(59.60),
-				                Math.toRadians(18.78));	
+						jointPos_register =new JointPosition(   Math.toRadians(17.56),
+				                Math.toRadians(-40.81),
+				                Math.toRadians(-51.63),
+				                Math.toRadians(78.40),
+				                Math.toRadians(-1.11),
+				                Math.toRadians(55.80),
+				                Math.toRadians(38.68));	
 					}
 					else if (nTest==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-12.47),
-				                Math.toRadians(-29.01),
-				                Math.toRadians(-2.92),
-				                Math.toRadians(96.02),
-				                Math.toRadians(-9.52),
-				                Math.toRadians(71.90),
-				                Math.toRadians(15.20));	
+						jointPos_register =new JointPosition(   Math.toRadians(23.93),
+				                Math.toRadians(-32.01),
+				                Math.toRadians(-54.04),
+				                Math.toRadians(100.02),
+				                Math.toRadians(-3.31),
+				                Math.toRadians(70.16),
+				                Math.toRadians(35.13));	
 					}
 					else if (nTest==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(27.74),
-				                Math.toRadians(-26.74),
-				                Math.toRadians(-17.09),
-				                Math.toRadians(99.99),
-				                Math.toRadians(15.68),
-				                Math.toRadians(71.39),
-				                Math.toRadians(-7.81));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.89),
+				                Math.toRadians(-28.07),
+				                Math.toRadians(-43.78),
+				                Math.toRadians(100.16),
+				                Math.toRadians(13.96),
+				                Math.toRadians(62.68),
+				                Math.toRadians(6.47));	
 					}
 					else if (nTest==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(31.51),
-				                Math.toRadians(-10.14),
-				                Math.toRadians(-34.00),
-				                Math.toRadians(99.85),
-				                Math.toRadians(3.56),
-				                Math.toRadians(52.35),
-				                Math.toRadians(-1.68));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.74),
+				                Math.toRadians(-29.96),
+				                Math.toRadians(-54.75),
+				                Math.toRadians(73.49),
+				                Math.toRadians(8.05),
+				                Math.toRadians(34.16),
+				                Math.toRadians(19.35));	
 					}
 					///???
 					else if (nTest==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(27.83),
-				                Math.toRadians(-28.87),
-				                Math.toRadians(-40.51),
-				                Math.toRadians(99.28),
-				                Math.toRadians(-0.14),
-				                Math.toRadians(65.39),
-				                Math.toRadians(20.84));	
+						jointPos_register =new JointPosition(   Math.toRadians(20.89),
+				                Math.toRadians(-32.29),
+				                Math.toRadians(-53.78),
+				                Math.toRadians(73.10),
+				                Math.toRadians(-10.36),
+				                Math.toRadians(43.90),
+				                Math.toRadians(43.56));	
 					}
 					else if (nTest==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.47),
-				                Math.toRadians(-16.64),
-				                Math.toRadians(-29.85),
-				                Math.toRadians(91.59),
-				                Math.toRadians(22.02),
-				                Math.toRadians(50.24),
-				                Math.toRadians(-17.09));	
+						jointPos_register =new JointPosition(   Math.toRadians(18.34),
+				                Math.toRadians(-50.20),
+				                Math.toRadians(-54.88),
+				                Math.toRadians(67.02),
+				                Math.toRadians(11.21),
+				                Math.toRadians(51.01),
+				                Math.toRadians(38.12));	
 					}
 					else if (nTest==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.75),
-				                Math.toRadians(-29.93),
-				                Math.toRadians(-41.63),
+						jointPos_register =new JointPosition(   Math.toRadians(27.28),
+				                Math.toRadians(-29.82),
+				                Math.toRadians(-54.99),
 				                Math.toRadians(100.02),
-				                Math.toRadians(12.05),
-				                Math.toRadians(64.44),
-				                Math.toRadians(8.84));	
+				                Math.toRadians(-5.22),
+				                Math.toRadians(66.82),
+				                Math.toRadians(33.93));	
 					}
 					else if (nTest==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(37.69),
-				                Math.toRadians(-16.47),
-				                Math.toRadians(-46.40),
-				                Math.toRadians(99.77),
-				                Math.toRadians(4.20),
-				                Math.toRadians(51.86),
-				                Math.toRadians(11.07));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.87),
+				                Math.toRadians(-10.09),
+				                Math.toRadians(-40.76),
+				                Math.toRadians(98.77),
+				                Math.toRadians(8.03),
+				                Math.toRadians(49.65),
+				                Math.toRadians(-0.97));	
 					}
 					else if (nTest==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(23.52),
-				                Math.toRadians(-33.29),
-				                Math.toRadians(-52.33),
-				                Math.toRadians(100.00),
-				                Math.toRadians(-4.56),
-				                Math.toRadians(71.69),
-				                Math.toRadians(34.71));	
+						jointPos_register =new JointPosition(   Math.toRadians(33.44),
+				                Math.toRadians(-26.91),
+				                Math.toRadians(-55.01),
+				                Math.toRadians(91.57),
+				                Math.toRadians(-2.93),
+				                Math.toRadians(53.29),
+				                Math.toRadians(29.42));	
 					}
 					else if (nTest==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.32),
-				                Math.toRadians(-32.38),
-				                Math.toRadians(-38.45),
-				                Math.toRadians(97.88),
-				                Math.toRadians(12.59),
-				                Math.toRadians(66.38),
-				                Math.toRadians(8.09));	
+						jointPos_register =new JointPosition(   Math.toRadians(25.67),
+				                Math.toRadians(-15.52),
+				                Math.toRadians(-54.99),
+				                Math.toRadians(100.02),
+				                Math.toRadians(-16.21),
+				                Math.toRadians(61.23),
+				                Math.toRadians(34.23));	
 					}
 					else if (nTest==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(37.87),
-				                Math.toRadians(-12.04),
-				                Math.toRadians(-30.64),
-				                Math.toRadians(100.03),
-				                Math.toRadians(10.61),
-				                Math.toRadians(51.63),
-				                Math.toRadians(-6.32));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.67),
+				                Math.toRadians(-28.37),
+				                Math.toRadians(-30.44),
+				                Math.toRadians(66.25),
+				                Math.toRadians(-13.84),
+				                Math.toRadians(39.44),
+				                Math.toRadians(34.63));	
 					}
 					else if (nTest==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(24.27),
-				                Math.toRadians(-25.80),
-				                Math.toRadians(-51.64),
-				                Math.toRadians(88.42),
-				                Math.toRadians(-16.13),
-				                Math.toRadians(57.27),
-				                Math.toRadians(41.42));	
+						jointPos_register =new JointPosition(   Math.toRadians(16.07),
+				                Math.toRadians(-18.12),
+				                Math.toRadians(-54.99),
+				                Math.toRadians(99.34),
+				                Math.toRadians(-20.66),
+				                Math.toRadians(65.51),
+				                Math.toRadians(45.23));	
 					}
 					else if (nTest==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(36.30),
-				                Math.toRadians(-28.36),
-				                Math.toRadians(-51.07),
-				                Math.toRadians(80.93),
-				                Math.toRadians(1.05),
-				                Math.toRadians(43.57),
-				                Math.toRadians(25.01));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.21),
+				                Math.toRadians(-10.88),
+				                Math.toRadians(-29.84),
+				                Math.toRadians(100.03),
+				                Math.toRadians(14.33),
+				                Math.toRadians(50.30),
+				                Math.toRadians(-11.71));	
 					}
 					else if (nTest==0 && nToolMode==7) {
 						jointPos_register =new JointPosition(   Math.toRadians(39.61),
