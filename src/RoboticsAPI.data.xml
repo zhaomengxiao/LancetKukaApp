@@ -221,7 +221,7 @@
                     <transformation a="-1.5857" b="3.1333" c="0.0" x="-178.92" y="19.09" z="90.5"/>
                 </frame>
             </frames>
-            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-15.59" cogY="-3.48" cogZ="104.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.0"/>
+            <loadData cogA="0.0" cogB="0.0" cogC="0.0" cogX="-15.59" cogY="-3.48" cogZ="104.47" inertiaX="0.0" inertiaY="0.0" inertiaZ="0.0" mass="1.1"/>
         </toolTemplate>
     </objectTemplates>
 </RoboticsAPIData>
