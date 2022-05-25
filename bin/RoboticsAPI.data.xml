@@ -171,7 +171,7 @@
         <toolTemplate class="" name="Tool_2">
             <frames>
                 <frame id="_c735900c-c56a-471c-be97-ce9bfe9a8ab8" name="you_21001">
-                    <transformation a="0.0030" b="-0.0040" c="0.0" x="94.3535" y="-78.5561" z="122.4468"/>
+                    <transformation a="0.0030" b="-0.0040" c="0.0" x="94.3" y="-78.23" z="122.3"/>
                 </frame>
                 <frame id="_feb6e74e-83c2-43e4-b0a6-07b5f8f729e2" name="you_21002">
                     <transformation a="0.0030" b="-0.0040" c="0.0" x="-19.89" y="-188.98" z="90.43"/>
@@ -200,7 +200,7 @@
         <toolTemplate class="" name="Tool_3">
             <frames>
                 <frame id="_5d10614f-5995-4936-a34e-71b7529deb8b" name="zuo_21001">
-                    <transformation a="1.5707" b="0.0" c="3.1415" x="-78.5091" y="-94.3277" z="122.5563"/>
+                    <transformation a="1.6" b="0.0" c="3.1415" x="-78.22" y="-93.98" z="122.3"/>
                 </frame>
                 <frame id="_a41427b2-40bf-47d5-bad7-4f6ef139cf21" name="zuo_21002">
                     <transformation a="-1.5857" b="3.1333" c="0.0" x="-188.93" y="18.69" z="90.5"/>

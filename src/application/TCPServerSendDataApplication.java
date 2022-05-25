@@ -259,7 +259,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public double nDistance=0;
 	public double nStiff=0;
 	public double nTest=0;
-	public double nTest_rotation=0;
 
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX;
@@ -499,8 +498,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//					System.out.println("data14:"+data14);
 			}
 			//				//å…³èŠ‚åº¦æ•°2
-//			a1 = Math.toDegrees(actPos.get(1));
-			a1 = (int)(Math.random()*100000+1);
+			a1 = Math.toDegrees(actPos.get(1));
 			BigDecimal bigDecimal1 = new BigDecimal(a1);
 			a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 			data7=String.valueOf(a1)+",";
@@ -1067,11 +1065,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 //										test=false;
 										System.out.println("transition=true");
 									}
-									else if(Double.parseDouble(para2)==22 && Double.parseDouble(units[2])==22)
-									{
-										System.out.println("Communication is normal");
-										Err="13,";
-									}
 									//							if(Double.parseDouble(para2)==15 && Double.parseDouble(units[2])==15)
 									//							{
 									//							
@@ -1106,7 +1099,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 										if(para2.equals("6")){
 											nWorkingmode=6;
-										   System.out.println("nWorkingmode=6ch");
+											//		                            	System.out.println("nWorkingmode=6");
 										}
 									}
 
@@ -2091,7 +2084,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					StartOnece=true;
 				}
 				else if (nWorkingmode==2 ){
-					nLastWorkingmode=nWorkingmode;
 					bstop=true;
 					lbr.move(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 					nWorkingmode=0;
@@ -2099,7 +2091,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 
 				else if(nWorkingmode==3){
-					nLastWorkingmode=nWorkingmode;
 					bstop=true;
 					lbr.move(new PTP(jointPos_you).setJointVelocityRel(0.2));
 					nWorkingmode=0;
@@ -2671,34 +2662,34 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 								}
 								
 								if(Math.abs(ccx-cx)>55 || Math.abs(dfx) < 0.001){
+//									System.out.println("ccx-cx " );
 									dfx = 0;
 								}
 								if(Math.abs(ccy-cy)>55 || Math.abs(dfy) < 0.001){
+//									System.out.println("ccy-cy" );
 									dfy = 0;
 								}
 								if(Math.abs(ccz-cz)>55  || Math.abs(dfz) < 0.001){
+//									System.out.println("ccz-cz " );
 									dfz = 0;
 								}
 								
 								
 							}
 							else if(nToolMode==2||nToolMode==3){
-								if(Math.abs(ccc-cc)>(11.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
+								if(Math.abs(ccc-cc)>(9.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
 									dfc = 0;
 								}
-								if(Math.toDegrees(jStart.get(6))<-170){
-									dfc = 0;	
-								}
-								if(Math.abs(ccx-cx)>80 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
-//									
+								if(Math.abs(ccx-cx)>75 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
+//									System.out.println("ccx-cx " );
 									dfx = 0;
 								}
-								if(Math.abs(ccy-cy)>80 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
-//							
+								if(Math.abs(ccy-cy)>75 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
+//									System.out.println("ccx-cx " );
 									dfy = 0;
 								}
-								if(Math.abs(ccz-cz)>80 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
-//									
+								if(Math.abs(ccz-cz)>50 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
+//									System.out.println("ccx-cx " );
 									dfz = 0;
 								}
 								
@@ -2725,8 +2716,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 							//								
 							if(nToolMode==8 || nToolMode==9){
-							
-//								A=-dfx*Math.cos(a);
 								Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfx, 0, -dfz, 0, dfb, 0)));
 
 								destFrame.setX(Ptest2.getX());
@@ -3008,282 +2997,290 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 					if (nTest==0 && nToolMode==1){
-						jointPos_register =new JointPosition(   Math.toRadians(-26.68),
-								Math.toRadians(-15.66),
-								Math.toRadians(6.14),
-								Math.toRadians(93.59),
-								Math.toRadians(-23.73),
-								Math.toRadians(56.22),
-								Math.toRadians(25.43));	
+						jointPos_register =new JointPosition(   Math.toRadians(38.54),
+								Math.toRadians(-13.76),
+								Math.toRadians(-40.47),
+								Math.toRadians(81.17),
+								Math.toRadians(10.93),
+								Math.toRadians(33.23),
+								Math.toRadians(-4.18));	
 					}
 					else if (nTest==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-5.77),
-								Math.toRadians(3.22),
-								Math.toRadians(6.14),
-								Math.toRadians(97.57),
-								Math.toRadians(-1.42),
-								Math.toRadians(37.47),
-								Math.toRadians(2.57));	
+						jointPos_register =new JointPosition(   Math.toRadians(24.43),
+								Math.toRadians(-20.00),
+								Math.toRadians(-53.87),
+								Math.toRadians(83.17),
+								Math.toRadians(-14.73),
+								Math.toRadians(46.92),
+								Math.toRadians(39.49));	
 					}
 					else if (nTest==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-8.56),
-								Math.toRadians(-16.90),
-								Math.toRadians(6.14),
-								Math.toRadians(98.93),
-								Math.toRadians(-5.32),
-								Math.toRadians(58.86),
-								Math.toRadians(4.07));	
+						jointPos_register =new JointPosition(   Math.toRadians(17.56),
+								Math.toRadians(-40.81),
+								Math.toRadians(-51.63),
+								Math.toRadians(78.40),
+								Math.toRadians(-1.11),
+								Math.toRadians(55.80),
+								Math.toRadians(38.68));	
 					}
 					else if (nTest==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-29.52),
-								Math.toRadians(-23.92),
-								Math.toRadians(6.14),
-								Math.toRadians(89.33),
-								Math.toRadians(-26.11),
-								Math.toRadians(60.82),
-								Math.toRadians(26.32));	
+						jointPos_register =new JointPosition(   Math.toRadians(23.93),
+								Math.toRadians(-32.01),
+								Math.toRadians(-54.04),
+								Math.toRadians(100.02),
+								Math.toRadians(-3.31),
+								Math.toRadians(70.16),
+								Math.toRadians(35.13));	
 					}
 					else if (nTest==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(2.36),
-								Math.toRadians(-18.98),
-								Math.toRadians(6.14),
-								Math.toRadians(84.23),
-								Math.toRadians(6.06),
-								Math.toRadians(46.66),
-								Math.toRadians(-8.96));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.89),
+								Math.toRadians(-28.07),
+								Math.toRadians(-43.78),
+								Math.toRadians(100.16),
+								Math.toRadians(13.96),
+								Math.toRadians(62.68),
+								Math.toRadians(6.47));	
 					}
 					else if (nTest==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-26.03),
-								Math.toRadians(-25.32),
-								Math.toRadians(6.14),
-								Math.toRadians(75.64),
-								Math.toRadians(-26.98),
-								Math.toRadians(48.48),
-								Math.toRadians(29.32));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.74),
+								Math.toRadians(-29.96),
+								Math.toRadians(-54.75),
+								Math.toRadians(73.49),
+								Math.toRadians(8.05),
+								Math.toRadians(34.16),
+								Math.toRadians(19.35));	
 					}
 					///???
 					else if (nTest==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-23.81),
-								Math.toRadians(-34.16),
-								Math.toRadians(6.14),
-								Math.toRadians(73.27),
-								Math.toRadians(-23.69),
-								Math.toRadians(53.56),
-								Math.toRadians(23.51));	
+						jointPos_register =new JointPosition(   Math.toRadians(20.89),
+								Math.toRadians(-32.29),
+								Math.toRadians(-53.78),
+								Math.toRadians(73.10),
+								Math.toRadians(-10.36),
+								Math.toRadians(43.90),
+								Math.toRadians(43.56));	
 					}
 					else if (nTest==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.42),
-								Math.toRadians(-27.68),
-								Math.toRadians(6.14),
-								Math.toRadians(81.89),
-								Math.toRadians(6.68),
-								Math.toRadians(53.23),
-								Math.toRadians(-10.47));	
+						jointPos_register =new JointPosition(   Math.toRadians(18.34),
+								Math.toRadians(-50.20),
+								Math.toRadians(-54.88),
+								Math.toRadians(67.02),
+								Math.toRadians(11.21),
+								Math.toRadians(51.01),
+								Math.toRadians(38.12));	
 					}
 					else if (nTest==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.83),
-								Math.toRadians(-9.97),
-								Math.toRadians(6.14),
-								Math.toRadians(83.02),
-								Math.toRadians(11.96),
-								Math.toRadians(37.06),
-								Math.toRadians(-15.12));	
+						jointPos_register =new JointPosition(   Math.toRadians(27.28),
+								Math.toRadians(-29.82),
+								Math.toRadians(-54.99),
+								Math.toRadians(100.02),
+								Math.toRadians(-5.22),
+								Math.toRadians(66.82),
+								Math.toRadians(33.93));	
 					}
 					else if (nTest==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.65),
-								Math.toRadians(-9.14),
-								Math.toRadians(6.14),
-								Math.toRadians(83.56),
-								Math.toRadians(-5.46),
-								Math.toRadians(35.83),
-								Math.toRadians(5.82));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.87),
+								Math.toRadians(-10.09),
+								Math.toRadians(-40.76),
+								Math.toRadians(98.77),
+								Math.toRadians(8.03),
+								Math.toRadians(49.65),
+								Math.toRadians(-0.97));	
 					}
 					else if (nTest==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-29.59),
-								Math.toRadians(-16.83),
-								Math.toRadians(6.14),
-								Math.toRadians(74.29),
-								Math.toRadians(-34.39),
-								Math.toRadians(41.59),
-								Math.toRadians(40.49));	
+						jointPos_register =new JointPosition(   Math.toRadians(33.44),
+								Math.toRadians(-26.91),
+								Math.toRadians(-55.01),
+								Math.toRadians(91.57),
+								Math.toRadians(-2.93),
+								Math.toRadians(53.29),
+								Math.toRadians(29.42));	
 					}
 					else if (nTest==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-43.70),
-								Math.toRadians(0.53),
-								Math.toRadians(6.14),
-								Math.toRadians(111.20),
-								Math.toRadians(-35.53),
-								Math.toRadians(65.48),
-								Math.toRadians(40.99));	
+						jointPos_register =new JointPosition(   Math.toRadians(25.67),
+								Math.toRadians(-15.52),
+								Math.toRadians(-54.99),
+								Math.toRadians(100.02),
+								Math.toRadians(-16.21),
+								Math.toRadians(61.23),
+								Math.toRadians(34.23));	
 					}
 					else if (nTest==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(1.64),
-								Math.toRadians(2.67),
-								Math.toRadians(6.14),
-								Math.toRadians(104.91),
-								Math.toRadians(7.45),
-								Math.toRadians(45.64),
-								Math.toRadians(-7.87));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.67),
+								Math.toRadians(-28.37),
+								Math.toRadians(-30.44),
+								Math.toRadians(66.25),
+								Math.toRadians(-13.84),
+								Math.toRadians(39.44),
+								Math.toRadians(34.63));	
 					}
 					else if (nTest==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.37),
-								Math.toRadians(-12.49),
-								Math.toRadians(6.14),
-								Math.toRadians(105.17),
-								Math.toRadians(7.54),
-								Math.toRadians(61.27),
-								Math.toRadians(-9.08));	
+						jointPos_register =new JointPosition(   Math.toRadians(16.07),
+								Math.toRadians(-18.12),
+								Math.toRadians(-54.99),
+								Math.toRadians(99.34),
+								Math.toRadians(-20.66),
+								Math.toRadians(65.51),
+								Math.toRadians(45.23));	
 					}
 					else if (nTest==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-13.85),
-								Math.toRadians(-12.95),
-								Math.toRadians(6.14),
-								Math.toRadians(104.74),
-								Math.toRadians(-9.91),
-								Math.toRadians(61.21),
-								Math.toRadians(9.32));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.21),
+								Math.toRadians(-10.88),
+								Math.toRadians(-29.84),
+								Math.toRadians(100.03),
+								Math.toRadians(14.33),
+								Math.toRadians(50.30),
+								Math.toRadians(-11.71));	
 					}
-//					
+					else if (nTest==0 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(39.61),
+								Math.toRadians(-21.70),
+								Math.toRadians(-21.35),
+								Math.toRadians(90.82),
+								Math.toRadians(26.83),
+								Math.toRadians(55.10),
+								Math.toRadians(69.68));	
 
-					if (nTest==0 && nToolMode==7){
-						jointPos_register =new JointPosition(   Math.toRadians(16.45),
-								Math.toRadians(-24.52),
-								Math.toRadians(-9.83),
-								Math.toRadians(83.13),
-								Math.toRadians(4.49),
-								Math.toRadians(58.28),
-								Math.toRadians(85.46));	
 					}
 					else if (nTest==1 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(27.02),
-								Math.toRadians(-26.18),
-								Math.toRadians(-9.83),
-								Math.toRadians(89.83),
-								Math.toRadians(13.08),
-								Math.toRadians(67.27),
-								Math.toRadians(75.83));	
-					}
-					else if (nTest==2 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.85),
-								Math.toRadians(-20.60),
-								Math.toRadians(-9.83),
-								Math.toRadians(85.82),
-								Math.toRadians(-6.47),
-								Math.toRadians(58.08),
-								Math.toRadians(98.59));	
-					}
-					else if (nTest==3 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(25.47),
-								Math.toRadians(-17.81),
-								Math.toRadians(-9.83),
-								Math.toRadians(99.31),
-								Math.toRadians(10.35),
-								Math.toRadians(68.30),
-								Math.toRadians(77.47));	
-					}
-					else if (nTest==4 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.34),
-								Math.toRadians(-16.93),
-								Math.toRadians(-9.83),
-								Math.toRadians(103.57),
-								Math.toRadians(-15.54),
-								Math.toRadians(74.71),
-								Math.toRadians(107.44));	
-					}
-					else if (nTest==5 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(18.94),
-								Math.toRadians(-10.64),
-								Math.toRadians(-9.83),
-								Math.toRadians(103.92),
-								Math.toRadians(4.06),
-								Math.toRadians(65.45),
-								Math.toRadians(83.24));	
-					}
-					///???
-					else if (nTest==6 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(7.22),
-								Math.toRadians(-10.14),
-								Math.toRadians(-9.83),
-								Math.toRadians(107.16),
-								Math.toRadians(-5.60),
-								Math.toRadians(68.69),
-								Math.toRadians(94.64));	
-					}
-					else if (nTest==7 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(-9.48),
-								Math.toRadians(-18.45),
-								Math.toRadians(-9.83),
-								Math.toRadians(100.60),
-								Math.toRadians(-16.97),
-								Math.toRadians(73.95),
-								Math.toRadians(109.76));	
-					}
-					else if (nTest==8 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(21.20),
-								Math.toRadians(-22.84),
-								Math.toRadians(-9.83),
-								Math.toRadians(105.84),
-								Math.toRadians(7.27),
-								Math.toRadians(79.34),
-								Math.toRadians(83.23));	
-					}
-					else if (nTest==9 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(23.77),
-								Math.toRadians(-8.55),
-								Math.toRadians(-9.83),
-								Math.toRadians(92.36),
-								Math.toRadians(8.93),
-								Math.toRadians(52.28),
-								Math.toRadians(76.03));	
-					}
-					else if (nTest==10 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(10.26),
-								Math.toRadians(-5.24),
-								Math.toRadians(-9.83),
-								Math.toRadians(100.14),
-								Math.toRadians(-4.27),
-								Math.toRadians(56.56),
-								Math.toRadians(92.38));	
-					}
-					else if (nTest==11 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(16.82),
-								Math.toRadians(-11.10),
-								Math.toRadians(-9.83),
-								Math.toRadians(99.14),
-								Math.toRadians(2.45),
-								Math.toRadians(61.09),
-								Math.toRadians(85.19));	
-					}
-					else if (nTest==12 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(30.97),
-								Math.toRadians(-5.32),
-								Math.toRadians(-9.83),
-								Math.toRadians(106.71),
-								Math.toRadians(13.37),
-								Math.toRadians(64.47),
-								Math.toRadians(70.46));	
-					}
-					else if (nTest==13 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(5.40),
-								Math.toRadians(-0.07),
-								Math.toRadians(-9.83),
-								Math.toRadians(108.56),
-								Math.toRadians(-9.01),
-								Math.toRadians(60.41),
-								Math.toRadians(97.10));	
-					}
-					else if (nTest==14 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(15.38),
-								Math.toRadians(-9.63),
-								Math.toRadians(-9.83),
-								Math.toRadians(107.57),
-								Math.toRadians(0.93),
-								Math.toRadians(68.07),
-								Math.toRadians(86.80));	
+						jointPos_register =new JointPosition(   Math.toRadians(39.89),
+								Math.toRadians(-15.04),
+								Math.toRadians(-37.33),
+								Math.toRadians(94.53),
+								Math.toRadians(10.34),
+								Math.toRadians(48.96),
+								Math.toRadians(90.50));	
 					}
 
+					else if (nTest==2 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(35.41),
+								Math.toRadians(-20.01),
+								Math.toRadians(-54.99),
+								Math.toRadians(99.88),
+								Math.toRadians(-10.12),
+								Math.toRadians(59.47),
+								Math.toRadians(118.85));	
+					}
+					else if (nTest==3 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(34.79),
+								Math.toRadians(-36.51),
+								Math.toRadians(-53.31),
+								Math.toRadians(97.03),
+								Math.toRadians(3.61),
+								Math.toRadians(66.69),
+								Math.toRadians(120.08));	
+					}
+					else if (nTest==4 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(39.30),
+								Math.toRadians(-16.29),
+								Math.toRadians(-41.28),
+								Math.toRadians(93.30),
+								Math.toRadians(4.51),
+								Math.toRadians(47.98),
+								Math.toRadians(95.81));	
+					}
+					else if (nTest==5 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(39.20),
+								Math.toRadians(-31.81),
+								Math.toRadians(-39.81),
+								Math.toRadians(76.79),
+								Math.toRadians(21.14),
+								Math.toRadians(46.58),
+								Math.toRadians(91.65));	
+					}
+					else if (nTest==6 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(30.71),
+								Math.toRadians(-26.68),
+								Math.toRadians(-54.82),
+								Math.toRadians(89.53),
+								Math.toRadians(-1.99),
+								Math.toRadians(51.65),
+								Math.toRadians(121.68));
+
+					}
+
+					else if (nTest==7 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(39.75),
+								Math.toRadians(-23.73),
+								Math.toRadians(-25.85),
+								Math.toRadians(100.02),
+								Math.toRadians(20.99),
+								Math.toRadians(66.65),
+								Math.toRadians(78.36));	
+					}
+
+					else if (nTest==8 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(39.79),
+								Math.toRadians(-10.23),
+								Math.toRadians(-44.38),
+								Math.toRadians(98.68),
+								Math.toRadians(1.01),
+								Math.toRadians(49.29),
+								Math.toRadians(99.74));	
+					}
+
+					else if (nTest==9 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(33.21),
+								Math.toRadians(-29.06),
+								Math.toRadians(-48.71),
+								Math.toRadians(86.46),
+								Math.toRadians(1.99),
+								Math.toRadians(53.17),
+								Math.toRadians(114.49));
+
+					}
+					else if (nTest==10 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(38.11),
+								Math.toRadians(-28.01),
+								Math.toRadians(-49.69),
+								Math.toRadians(100.02),
+								Math.toRadians(1.36),
+								Math.toRadians(61.28),
+								Math.toRadians(110.87));
+
+					}
+					else if (nTest==11 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(23.07),
+								Math.toRadians(-34.40),
+								Math.toRadians(-22.71),
+								Math.toRadians(79.88),
+								Math.toRadians(8.76),
+								Math.toRadians(54.21),
+								Math.toRadians(92.38));
+
+					}
+					else if (nTest==12 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(19.53),
+								Math.toRadians(-19.32),
+								Math.toRadians(-39.70),
+								Math.toRadians(94.43),
+								Math.toRadians(-12.41),
+								Math.toRadians(56.21),
+								Math.toRadians(120.35));
+
+					}
+					else if (nTest==13 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(24.80),
+								Math.toRadians(-31.16),
+								Math.toRadians(-27.79),
+								Math.toRadians(77.08),
+								Math.toRadians(7.12),
+								Math.toRadians(48.06),
+								Math.toRadians(95.19));
+
+					}
+					else if (nTest==14 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(26.76),
+								Math.toRadians(-33.94),
+								Math.toRadians(-48.49),
+								Math.toRadians(100.02),
+								Math.toRadians(-2.79),
+								Math.toRadians(69.15),
+								Math.toRadians(123.23));
+
+					}
 					Err="10,";
-					lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
+					lbr.getFlange().move(ptp(jointPos_register).setJointVelocityRel(0.1));
 					//					System.out.println("move");
 					Err="0,";
 					nTest++;
@@ -3307,10 +3304,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 					//					System.out.println("nA"+nA);
-					
-					
-					//nToolMode==2   you_21002 下表面		
-					TRANSLATION_OF_TOOL_you[0]=nX-1.0;
+
+
+
+					TRANSLATION_OF_TOOL_you[0]=nX-0.8;
 					TRANSLATION_OF_TOOL_you[1]=nY-10;
 					TRANSLATION_OF_TOOL_you[2]=nZ;
 					TRANSLATION_OF_TOOL_you[3]=nA;
@@ -3333,9 +3330,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					TRANSLATION_OF_TOOL_you3[4]=nB;
 					TRANSLATION_OF_TOOL_you3[5]=nC;
 
-					//nToolMode==8     zuo_21002 下表面
+
 					TRANSLATION_OF_TOOL_zuo[0]=nX-10;
-					TRANSLATION_OF_TOOL_zuo[1]=nY-1.0;
+					TRANSLATION_OF_TOOL_zuo[1]=nY-0.8;
 					TRANSLATION_OF_TOOL_zuo[2]=nZ;
 					TRANSLATION_OF_TOOL_zuo[3]=nA;
 					TRANSLATION_OF_TOOL_zuo[4]=nB;
@@ -3367,295 +3364,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					System.out.println("11nWorkingmode=0");
 				}
 				else if(nWorkingmode==12){
-					System.out.println("nWorkingmode=12");
-					
-					if (nTest_rotation==0 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-19.42),
-								Math.toRadians(-10.57),
-								Math.toRadians(6.14),
-								Math.toRadians(97.40),
-								Math.toRadians(-16.56),
-								Math.toRadians(52.86),
-								Math.toRadians(50.62));	
-					}
-					else if (nTest_rotation==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-3.30),
-								Math.toRadians(-17.11),
-								Math.toRadians(-6.13),
-								Math.toRadians(93.75),
-								Math.toRadians(-3.46),
-								Math.toRadians(53.55),
-								Math.toRadians(31.40));	
-					}
-					else if (nTest_rotation==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-30.77),
-								Math.toRadians(-6.25),
-								Math.toRadians(-6.13),
-								Math.toRadians(113.05),
-								Math.toRadians(-28.37),
-								Math.toRadians(65.75),
-								Math.toRadians(4.46));	
-					}
-					else if (nTest_rotation==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-18.32),
-								Math.toRadians(-10.32),
-								Math.toRadians(6.14),
-								Math.toRadians(106.39),
-								Math.toRadians(-13.95),
-								Math.toRadians(61.06),
-								Math.toRadians(-5.88));	
-					}
-					else if (nTest_rotation==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-42.33),
-								Math.toRadians(-11.26),
-								Math.toRadians(6.14),
-								Math.toRadians(99.48),
-								Math.toRadians(-35.63),
-								Math.toRadians(64.56),
-								Math.toRadians(-34.67));
-					}
-					else if (nTest_rotation==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-22.15),
-								Math.toRadians(8.28),
-								Math.toRadians(6.14),
-								Math.toRadians(110.44),
-								Math.toRadians(-19.21),
-								Math.toRadians(48.38),
-								Math.toRadians(-50.09));
-					}
-					else if (nTest_rotation==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(8.17),
-								Math.toRadians(11.96),
-								Math.toRadians(-2.50),
-								Math.toRadians(108.03),
-								Math.toRadians(5.03),
-								Math.toRadians(39.36),
-								Math.toRadians(-138.94));
-					}
-					else if (nTest_rotation==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(11.59),
-								Math.toRadians(7.72),
-								Math.toRadians(-2.51),
-								Math.toRadians(104.03),
-								Math.toRadians(9.53),
-								Math.toRadians(39.98),
-								Math.toRadians(-142.96));
-					}
-					else if (nTest_rotation==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.70),
-								Math.toRadians(5.40),
-								Math.toRadians(-2.50),
-								Math.toRadians(104.09),
-								Math.toRadians(-14.70),
-								Math.toRadians(43.20),
-								Math.toRadians(-128.50));
-					}
-					else if (nTest_rotation==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-5.55),
-								Math.toRadians(2.18),
-								Math.toRadians(-2.50),
-								Math.toRadians(105.53),
-								Math.toRadians(-11.10),
-								Math.toRadians(47.28),
-								Math.toRadians(-98.17));
-					}
-					else if (nTest_rotation==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-12.98),
-								Math.toRadians(-8.50),
-								Math.toRadians(-2.50),
-								Math.toRadians(98.70),
-								Math.toRadians(-17.70),
-								Math.toRadians(52.84),
-								Math.toRadians(-19.46));
-					}
-					else if (nTest_rotation==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-19.82),
-								Math.toRadians(-18.80),
-								Math.toRadians(-2.50),
-								Math.toRadians(101.96),
-								Math.toRadians(-20.91),
-								Math.toRadians(67.77),
-								Math.toRadians(7.91));
-					}
-					else if (nTest_rotation==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-6.34),
-								Math.toRadians(-11.70),
-								Math.toRadians(-2.50),
-								Math.toRadians(107.93),
-								Math.toRadians(-9.41),
-								Math.toRadians(63.43),
-								Math.toRadians(33.88));
-					}
-					else if (nTest_rotation==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-6.63),
-								Math.toRadians(-10.61),
-								Math.toRadians(-2.50),
-								Math.toRadians(108.04),
-								Math.toRadians(-9.81),
-								Math.toRadians(62.52),
-								Math.toRadians(3.70));
-					}
-					else if (nTest_rotation==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(7.01),
-								Math.toRadians(-19.00),
-								Math.toRadians(-2.51),
-								Math.toRadians(90.33),
-								Math.toRadians(3.80),
-								Math.toRadians(52.43),
-								Math.toRadians(12.52));
-					}
-					///
-					
-					
-					
-					else if (nTest_rotation==0 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-7.48),
-							Math.toRadians(-24.21),
-							Math.toRadians(8.81),
-							Math.toRadians(85.78),
-							Math.toRadians(-6.64),
-							Math.toRadians(62.22),
-							Math.toRadians(61.61));	
-				}
-				    else if (nTest_rotation==1 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-10.56),
-							Math.toRadians(-5.60),
-							Math.toRadians(8.81),
-							Math.toRadians(102.69),
-							Math.toRadians(-6.59),
-							Math.toRadians(60.96),
-							Math.toRadians(13.05));
-				}
-				    else if (nTest_rotation==2 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
-							Math.toRadians(-15.38),
-							Math.toRadians(8.81),
-							Math.toRadians(91.86),
-							Math.toRadians(-2.58),
-							Math.toRadians(59.57),
-							Math.toRadians(-60.36));
-				}
-				    else if (nTest_rotation==3 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
-							Math.toRadians(-21.57),
-							Math.toRadians(8.80),
-							Math.toRadians(92.46),
-							Math.toRadians(-3.37),
-							Math.toRadians(66.18),
-							Math.toRadians(69.24));	
+					transition=true;
 				}
 
-				   else if (nTest_rotation==4 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(17.94),
-							Math.toRadians(-23.82),
-							Math.toRadians(8.80),
-							Math.toRadians(87.00),
-							Math.toRadians(13.89),
-							Math.toRadians(66.15),
-							Math.toRadians(-172.83));	
-				}
-				   else if (nTest_rotation==5 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(8.12),
-							Math.toRadians(-4.84),
-							Math.toRadians(8.80),
-							Math.toRadians(107.85),
-							Math.toRadians(8.83),
-							Math.toRadians(65.99),
-							Math.toRadians(-0.82));	
-				}
-					//
-				    else if (nTest_rotation==6 && nToolMode==7) {
-				    jointPos_register =new JointPosition(   Math.toRadians(40.89),
-						Math.toRadians(-17.35),
-						Math.toRadians(-19.71),
-						Math.toRadians(84.93),
-						Math.toRadians(25.21),
-						Math.toRadians(48.86),
-						Math.toRadians(-143.55));	
-				}
-
-				   else if (nTest_rotation==7 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(11.03),
-							Math.toRadians(-18.34),
-							Math.toRadians(8.82),
-							Math.toRadians(103.20),
-							Math.toRadians(8.80),
-							Math.toRadians(75.13),
-							Math.toRadians(129.64));	
-				}
-				   else if (nTest_rotation==8 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.44),
-							Math.toRadians(-5.32),
-							Math.toRadians(8.83),
-							Math.toRadians(99.77),
-							Math.toRadians(-1.44),
-							Math.toRadians(57.44),
-							Math.toRadians(-112.51));	
-				}
-				   else if (nTest_rotation==9 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(23.26),
-						Math.toRadians(0.55),
-						Math.toRadians(-19.17),
-						Math.toRadians(111.23),
-						Math.toRadians(0.29),
-						Math.toRadians(55.31),
-						Math.toRadians(-26.38));
-				}
-				   else if (nTest_rotation==10 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(30.28),
-							Math.toRadians(-19.30),
-							Math.toRadians(8.80),
-							Math.toRadians(96.13),
-							Math.toRadians(22.64),
-							Math.toRadians(74.81),
-							Math.toRadians(-174.30));
-				}
-				   else if (nTest_rotation==11 && nToolMode==7) {
-					   jointPos_register =new JointPosition(   Math.toRadians(42.38),
-								Math.toRadians(-17.67),
-								Math.toRadians(-19.71),
-								Math.toRadians(88.61),
-								Math.toRadians(25.40),
-								Math.toRadians(52.91),
-								Math.toRadians(-105.36));	
-				}
-				   else if (nTest_rotation==12 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(16.98),
-						Math.toRadians(8.14),
-						Math.toRadians(-19.71),
-						Math.toRadians(102.05),
-						Math.toRadians(-9.98),
-						Math.toRadians(39.36),
-						Math.toRadians(-43.35));
-				}
-				    else if (nTest_rotation==13 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(3.20),
-							Math.toRadians(-22.57),
-							Math.toRadians(8.81),
-							Math.toRadians(92.19),
-							Math.toRadians(2.40),
-							Math.toRadians(67.25),
-							Math.toRadians(65.06));	
-				}
-					   else if (nTest_rotation==14 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(29.01),
-								Math.toRadians(-16.13),
-								Math.toRadians(8.80),
-								Math.toRadians(94.78),
-								Math.toRadians(29.69),
-								Math.toRadians(75.27),
-								Math.toRadians(-98.16));
-					}
-					 Err="10,";
-						lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
-						//					System.out.println("move");
-						Err="0,";
-						nTest_rotation++;
-						if (nTest_rotation==15){
-							nTest_rotation=0;
-						}
-						nWorkingmode=0;
-				}
 				else{
 
 					//					
