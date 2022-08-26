@@ -754,8 +754,8 @@ public  class sendRTdata implements Callable<String> {
 		HandGuidingMotion motion = new HandGuidingMotion();
 		motion.setJointVelocityLimit(1.2)
 		.setCartVelocityLimit(1000.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(10), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
-		.setJointLimitsMin(Math.toRadians(-10), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
+		.setJointLimitsMax(Math.toRadians(30), Math.toRadians(0), Math.toRadians(45), Math.toRadians(120), +0.087,+1.571, +0.087)
+		.setJointLimitsMin(Math.toRadians(-30), Math.toRadians(-60), Math.toRadians(-45), Math.toRadians(0), -0.087,-1.571, -0.087)
 		.setJointLimitsEnabled(true,true,true,true,false,false,false)
 
 
@@ -1400,13 +1400,13 @@ public  class sendRTdata implements Callable<String> {
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
-		Future<String> sdd3 = executor.submit(new Monitor());
+//		Future<String> sdd3 = executor.submit(new Monitor());
 
 		try {
 			System.out.println(add.get());
 			System.out.println(say.get());
 			System.out.println(sdd2.get());
-			System.out.println(sdd3.get());
+//			System.out.println(sdd3.get());
 		} catch (InterruptedException e) {
 			
 			e.printStackTrace();
