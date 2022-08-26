@@ -1,4 +1,4 @@
-package application;
+ package application;
 
 
 
@@ -48,6 +48,7 @@ import com.kuka.roboticsAPI.applicationModel.tasks.RoboticsAPITask;
 import com.kuka.roboticsAPI.applicationModel.tasks.UseRoboticsAPIContext;
 import com.kuka.roboticsAPI.conditionModel.BooleanIOCondition;
 import com.kuka.roboticsAPI.controllerModel.Controller;
+import com.kuka.roboticsAPI.controllerModel.sunrise.ISafetyState;
 import com.kuka.roboticsAPI.deviceModel.CartesianVelocityLimitInfo;
 import com.kuka.roboticsAPI.deviceModel.JointEnum;
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
@@ -69,6 +70,7 @@ import com.kuka.roboticsAPI.geometricModel.math.XyzAbcTransformation;
 import com.kuka.roboticsAPI.motionModel.HandGuidingMotion;
 import com.kuka.roboticsAPI.motionModel.IMotion;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
+import com.kuka.roboticsAPI.motionModel.LIN;
 import com.kuka.roboticsAPI.motionModel.PTP;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
@@ -95,34 +97,17 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #dispose()
  */
 public class TCPServerSendDataApplication extends RoboticsAPIApplication {
-	//    int i=0;
+//    int i=0;
 	private HandGuidingMotion motion;
-
-	@Inject
-	private BrakeTestMonitorSampleApp BreakTest;
-
-	@Inject
-	private motion2 OnlyPlane;
 
 
 	@Inject
 	private  LBR lbr;
-
 	private Tool _toolAttachedToLBR;
-	private Tool _toolAttachedToLBR_you;
-	private Tool _toolAttachedToLBR_you2;
-	private Tool _toolAttachedToLBR_you3;
-	private Tool _toolAttachedToLBR_zuo;
-	private Tool _toolAttachedToLBR_zuo2;
-	private Tool _toolAttachedToLBR_zuo3;
-	
-	private Tool _toolAttachedToLBR_zuo_hand;
-	private Tool _toolAttachedToLBR_you_hand;
-	
 	private Controller kuka_Sunrise_Cabinet_1;
-	@Inject
-	private MytestIOIOGroup io;
-	private static final int AIM = 10;
+    @Inject
+    private MytestIOIOGroup io;
+    private static final int AIM = 10;
 	private static int i = 0;
 	private CartesianImpedanceControlMode _nullspacemode ;
 	IMotion bHandGuidingStart;
@@ -134,109 +119,50 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	Socket socket=null;
 	Socket socket_recive=null;
 	DataOutputStream outputStream_recive=null;
-
-	private static final double FREQENCY = 0.1;
-	private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-
-	/////////////////////////// 
-	private LoadData _loadData;
-	private LoadData _loadData_you;
-	private LoadData _loadData_you2;
-	private LoadData _loadData_you3;
-	private LoadData _loadData_zuo;
-	private LoadData _loadData_zuo2;
-	private LoadData _loadData_zuo3;
-	private LoadData _loadData_zuo_hand;
-	private LoadData _loadData_you_hand;
-
-	private  double[] TRANSLATION_OF_TOOL = { -150.7, 0, 227.9 };
-	private  double[] TRANSLATION_OF_TOOL_you = { -22.94,-190.54,90.6,-0.0258,-0.0073,0.0 };
-	private  double[] TRANSLATION_OF_TOOL_you2 = { -21.14,-190.59,90.61,-0.0258,-0.0073,0.0 };
-	private  double[] TRANSLATION_OF_TOOL_you3 = { -21.13,-180.58,90.61,-0.0258,-0.0073,0.0 }; 
-	private  double[] TRANSLATION_OF_TOOL_zuo = { -188.87,-20.61,101.06,-1.5721,3.1415,0.0031 };
-	private  double[] TRANSLATION_OF_TOOL_zuo2 = { -188.87,-18.81,101.07,-1.5907,3.1415,-0.006 };
-	private  double[] TRANSLATION_OF_TOOL_zuo3 = { -178.87,-19.54,101.06,-1.5907,3.1415,-0.006 };
-	private  double[] TRANSLATION_OF_TOOL_zuo_hand={ -8,0,170,0,0,0 };
-	private  double[] TRANSLATION_OF_TOOL_you_hand={ 0,-8,170,0,0,0 };
-
-	private static final double MASS = 0;
-	private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
-	private static final String TOOL_FRAME = "toolFrame";
-	private static final String TOOL_FRAME_you = "toolFrame_you";
-	private static final String TOOL_FRAME_you2 = "toolFrame_you2";
-	private static final String TOOL_FRAME_you3 = "toolFrame_you3";
-	private static final String TOOL_FRAME_zuo = "toolFrame_zuo";
-	private static final String TOOL_FRAME_zuo2 = "toolFrame_zuo2";
-	private static final String TOOL_FRAME_zuo3 = "toolFrame_zuo3";
-	private static final String TOOL_FRAME_zuo_hand = "toolFrame_zuo_hand";
-	private static final String TOOL_FRAME_you_hand = "toolFrame_you_hand";
-	protected String Tool_you_string;
-	protected String Tool_you2_string;
-	protected String Tool_you3_string;
-	protected String Tool_zuo_string;
-	protected String Tool_zuo2_string;
-	protected String Tool_zuo3_string;
-	protected String Tool_zuo_hand_string;
-	protected String Tool_you_hand_string;
-	//////////////////////////
-
-
-	private static final double[] MAX_TRANSLATION_VELOCITY = { 150, 150, 150 };
-	private ISmartServoLINRuntime _smartServoLINRuntime = null;
-	private static final int NUM_RUNS = 600;
-	private static final double AMPLITUDE = 70;
-	private SafeDataIOGroup SafeDataIO;
-	private JointPosition jointPos;
-	private JointPosition jointPos_zuo;
-	private JointPosition jointPos_you;
-	private JointPosition jointPos_register;
-	private JointPosition jointPos_zuo_transition;
-	private JointPosition jointPos_you_transition;
-	public boolean bForPlane;
-	public boolean bSendFail;
-	public boolean StartOnece;
-	public boolean Distal;
-	public boolean bChange=false;
-	public boolean transition=false;
-//	public boolean test=true;
-	public boolean electrify;
-
-	Frame pre_Place;
-	Frame Tcp;
-	int  num_ForTest=0;
-	int count=0;
-	//	@Named("gripper")
-	//	@Inject
-	//	private Tool gripper;
-
-	//	@Named("Tool_2")
-	//	@Inject
-	//	private Tool needle_Tool_2;
-
+	
+	 private static final double FREQENCY = 0.1;
+	 private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
+	 private LoadData _loadData;
+	 private static final double[] TRANSLATION_OF_TOOL = { -150.7, 0, 227.9 };
+	 private static final double MASS = 0;
+	 private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
+	 private static final String TOOL_FRAME = "toolFrame";
+     private static final double[] MAX_TRANSLATION_VELOCITY = { 150, 150, 150 };
+     private ISmartServoLINRuntime _smartServoLINRuntime = null;
+	 private static final int NUM_RUNS = 600;
+	 private static final double AMPLITUDE = 70;
+	 private SafeDataIOGroup SafeDataIO;
+	 private JointPosition jointPos;
+	 private JointPosition jointPos_zuo;
+	 private JointPosition jointPos_you;
+	 Frame pre_Place;
+//	@Named("gripper")
+//	@Inject
+//	private Tool gripper;
+	
+//	@Named("Tool_2")
+//	@Inject
+//	private Tool Tool_2;
+	
 	@Named("Tool_2")
-
+	
 	@Inject
-	com.kuka.roboticsAPI.geometricModel.Tool needle_Tool_2;
-
-	@Named("Tool_3")
-	@Inject
-	com.kuka.roboticsAPI.geometricModel.Tool needle_Tool_3;
-
+	private Tool needle;
+	
 	@Named("gripper")
 	@Inject
-	com.kuka.roboticsAPI.geometricModel.Tool needle_gripper;
-
-	//
-	private ObjectFrame zuo_21001;
-	//
+	private Tool needle_gripper;
+	@Inject
+	private BrakeTestMonitorSampleApp BreakTest;
 	private ObjectFrame tcp;
-	private ObjectFrame you_21001;
+	private ObjectFrame tcp_2;
 	private ObjectFrame handle;
 	private BooleanIOCondition VaccumDetect;
 	private Frame startpos;
 	private Tool tool;
 	public boolean bDangerous=false;
-
+	public boolean breaktest=false;
+	
 	//å�‘é€�å­—ç¬¦ä¸² data0~data18
 	public static String data0="0";
 	public static String data1="0";
@@ -257,114 +183,25 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public static String data16="0";
 	public static String data17="0";
 	public static String data18="0";
-	public static String data19="0";
-	public static String data20="0";
-
-	public double nintegral=0;
-	public double nderivative=0;
-	public double nPrevious_error=0;
-	public double nOutput=0;
-	public double nP=0.5;
-	public double nI=0.02;
-	public double nD=0.01;
-	public double nDistance=0;
-	public double nStiff=0;
-	public double nTest=0;
-	public double nTest_rotation=0;
-
+    
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
-	public static double nX;
-	public static double nY;
-	public static double nZ;
-	public static double nA;
-	public static double nB;
-	public static double nC;
-	public static double A;
-	public static double B;
-	public static double C;
-	public static double A_cps=0;
-	public static double B_cps=0;
-	public static double C_cps=0;
+	public static double nX=0;
+	public static double nY=0;
+	public static double nZ=0;
+	public static double nA=0;
+	public static double nB=0;
+	public static double nC=0;
 	public String Err="0,";
-	public boolean bCorrectPlane=false;
-	public boolean breaktest=false;
-	//	public boolean Initialize=false;
-	JointPosition currentPos_test;
-	double nXcorect;
-	/////位置控制测试
-	private double fx;
-	private double px;
-	private double dfx;
-	private double fy;
-	private double py;
-	private double dfy;
-	private double fz;
-	private double pz;
-	private double dfz;
-	private double fa;
-	private double fb;
-	private double fc;
-	private double dfa;
-	private double dfb;
-	private double dfc;
-	private double pa;
-	private double pb;
-	private double pc;
-	private double dx_Angle;
-	private double dy_Angle;
-	private double dz_Angle;
 	
-	private double cx;
-	private double cy;
-	private double cz;
-	private double ca;
-	private double cb;
-	private double cc;
+	 JointPosition currentPos_test;
 
-	private double ccx;
-	private double ccy;
-	private double ccz;
-	private double cca;
-	private double ccb;
-	private double ccc;
-	
-	private double sx;
-	private double sy;
-	private double sz;
-	private double sa;
-	private double sb;
-	private double sc;
-	
-	private double ssx;
-	private double ssy;
-	private double ssz;
-	private double ssa;
-	private double ssb;
-	private double ssc;
-	
-	boolean bstop = false;
-	////////////
 	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
 	public static int nWorkingmode=0;
 	public static int nToolMode=0;
-	public static int nReceive=0;
 	@Inject
 	private CopyOfTeachingByHand_2 JointImpedanceMode;
 	@Override
 	public void initialize() {
-
-		nXcorect=0;
-		Distal=false;
-		bCorrectPlane=false;
-		breaktest=false;
-		StartOnece=true;
-		bSendFail=true;
-		VaccumDetect = new BooleanIOCondition(io.getInput("Input4"), true);
-		count=0;
-		Err="0,";
-		num_ForTest=0;
-		OnlyPlane.initialize();
-		bForPlane=false;
 		nWorkingmode=0;
 		nToolMode=1;
 		kuka_Sunrise_Cabinet_1 = getController("KUKA_Sunrise_Cabinet_1");
@@ -375,48 +212,35 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		nA=0;
 		nB=0;
 		nC=0;
+		Err="0,";
 		io.setOutput5(false);
-		jointPos=new JointPosition(   Math.toRadians(40.2),
-				Math.toRadians(-13.02),
-				Math.toRadians(-2.20),
-				Math.toRadians(78.93),
-				Math.toRadians(47.49),
-				Math.toRadians(48.25),
-				Math.toRadians(-113.84));
+		jointPos=new JointPosition(   Math.toRadians(9.44),
+                Math.toRadians(5.15),
+                Math.toRadians(-17.39),
+                Math.toRadians(61.02),
+                Math.toRadians(29.90),
+                Math.toRadians(-99.06),
+                Math.toRadians(-9.62));
+		
+		jointPos_zuo=new JointPosition(   Math.toRadians(6.95),
+                Math.toRadians(-7.41),
+                Math.toRadians(40.42),
+                Math.toRadians(115),
+                Math.toRadians(-2.17),
+                Math.toRadians(-55.7),
+                Math.toRadians(122));
+		
+		jointPos_you=new JointPosition(   Math.toRadians(-9.91),
+                Math.toRadians(-4.63),
+                Math.toRadians(-44.98),
+                Math.toRadians(115),
+                Math.toRadians(-2.29),
+                Math.toRadians(-65.18),
+                Math.toRadians(-127));
+		
 
-		jointPos_zuo=new JointPosition(   Math.toRadians(24.12),
-				Math.toRadians(-12.20),
-				Math.toRadians(8.82),
-				Math.toRadians(87.29),
-				Math.toRadians(32.92),
-				Math.toRadians(54.79),
-				Math.toRadians(-128.32));
-
-		jointPos_you=new JointPosition(   Math.toRadians(-31.46),
-				Math.toRadians(-4.32),
-				Math.toRadians(6.14),
-				Math.toRadians(91.34),
-				Math.toRadians(-34.69),
-				Math.toRadians(45.71),
-				Math.toRadians(38.23));
-		jointPos_zuo_transition=new JointPosition(   Math.toRadians(29.86),
-				Math.toRadians(-2.14),
-				Math.toRadians(7.67),
-				Math.toRadians(74.85),
-				Math.toRadians(45.34),
-				Math.toRadians(34.49),
-				Math.toRadians(-63.27));
-		jointPos_you_transition=new JointPosition(   Math.toRadians(-5.85),
-                Math.toRadians(-16.96),
-                Math.toRadians(-53.00),
-                Math.toRadians(62.36),
-                Math.toRadians(-47.16),
-                Math.toRadians(50.81),
-                Math.toRadians(0.33));
-
-
-
-
+		
+		
 		try {
 			ThreadUtil.milliSleep(1000);
 			if(serverSocket!=null){
@@ -448,3859 +272,5062 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+       lbr = getContext().getDeviceFromType(LBR.class);
 
-		///////////////////////	
-		lbr = getContext().getDeviceFromType(LBR.class);
+     	_loadData = new LoadData();
+        _loadData.setMass(MASS);
+        _loadData.setCenterOfMass(
+                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+                CENTER_OF_MASS_IN_MILLIMETER[2]);
+        _toolAttachedToLBR = new Tool("Tool", _loadData);
 
-		//     	_loadData = new LoadData();
-		//        _loadData.setMass(MASS);
-		//        _loadData.setCenterOfMass(
-		//                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-		//                CENTER_OF_MASS_IN_MILLIMETER[2]);
-		//        
-		//        _toolAttachedToLBR = new Tool("Tool", _loadData);
-		//
-		//        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],TRANSLATION_OF_TOOL[3],TRANSLATION_OF_TOOL[4],TRANSLATION_OF_TOOL[5]);
-		//        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME + "(TCP)", trans);
-		//        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-		//        // Attach tool to the robot
-		//        _toolAttachedToLBR.attachTo(lbr.getFlange());
-		//        _toolAttachedToLBR.attachTo(tool.getFrame("/toolFrame"));
-
-
-
-		needle_Tool_2.attachTo(lbr.getFlange());
-		//lhy
-		needle_Tool_3.attachTo(lbr.getFlange());
+        XyzAbcTransformation trans = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1], TRANSLATION_OF_TOOL[2],0,-1.047,0);
+        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+                + "(TCP)", trans);
+        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+        // Attach tool to the robot
+        _toolAttachedToLBR.attachTo(lbr.getFlange());
+        
+		needle.attachTo(lbr.getFlange());
 		needle_gripper.attachTo(lbr.getFlange());
-		////////////////////////////////
 	}
-
 
 	public  class sendRTdata implements Callable<String> {
-
-		public void GetData()
-		{
-			//			 System.out.println("start_test");
-			//		        ThreadUtil.milliSleep(5000);
-			//		        System.out.println("end_test");
-			//		        io.setOutput2(true);
-			//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
-			data0 = "$0,";
-
-			//æŠ¥è­¦ä»£ç �
-			data1 = "0,";
-
-			//å·¥ä½œæ¨¡å¼�
-
-			data2 = Err;
-			//				System.out.println(Err);
-			//æ˜¯å�¦ä¸Šç”µ
-			data3 = "2,";
-
-			//å½“å‰�é€Ÿåº¦
-			//CartesianVelocityLimitInfo infoObject = lbr.getCartesianVelocityLimitInfo();
-			double a1 =getApplicationControl().getApplicationOverride();
-			BigDecimal bigDecimal0 = new BigDecimal(a1);
-			a1 = bigDecimal0.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data4 = String.valueOf(a1)+",";
-			///
-
-			///
-			//æ— æ„�ä¹‰
-			data5 = "3,";
-
-			//				//å…³èŠ‚åº¦æ•°1
-
-			JointPosition actPos = lbr.getCurrentJointPosition();
-			//				a1 = Math.toDegrees(actPos.get(0));
-			//				BigDecimal bigDecimal = new BigDecimal(a1);
-			//				a1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data6=String.valueOf(a1)+",";
-			if(electrify==true){
-				a1=1;
-				data6=String.valueOf(a1)+",";
-				//					ThreadUtil.milliSleep(2000);
-				//					System.out.println("data13:"+data13);
-			}
-			else if(electrify==false){
-				a1=0;
-				data6=String.valueOf(a1)+",";
-				//					ThreadUtil.milliSleep(2000);
-
-				//					System.out.println("data14:"+data14);
-			}
-			//				//å…³èŠ‚åº¦æ•°2
-//			a1 = Math.toDegrees(actPos.get(1));
-			a1 = (int)(Math.random()*100000+1);
-			BigDecimal bigDecimal1 = new BigDecimal(a1);
-			a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data7=String.valueOf(a1)+",";
-
-			//				//å…³èŠ‚åº¦æ•°3
-			a1 = Math.toDegrees(actPos.get(2));
-			BigDecimal bigDecimal2 = new BigDecimal(a1);
-			a1 = bigDecimal2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data8=String.valueOf(a1)+",";
-
-			//å…³èŠ‚åº¦æ•°4
-			a1 = Math.toDegrees(actPos.get(3));
-			BigDecimal bigDecimal3 = new BigDecimal(a1);
-			a1 = bigDecimal3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data9=String.valueOf(a1)+",";
-
-			//å…³èŠ‚åº¦æ•°5
-			a1 = Math.toDegrees(actPos.get(4));
-			BigDecimal bigDecimal4 = new BigDecimal(a1);
-			a1 = bigDecimal4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data10=String.valueOf(a1)+",";
-
-			//å…³èŠ‚åº¦æ•°6
-			a1 = Math.toDegrees(actPos.get(5));
-			BigDecimal bigDecimal5 = new BigDecimal(a1);
-			a1 = bigDecimal5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data11=String.valueOf(a1)+",";
-
-			//å…³èŠ‚åº¦æ•°7
-			a1 = Math.toDegrees(actPos.get(6));
-			BigDecimal bigDecimal6 = new BigDecimal(a1);
-			a1 = bigDecimal6.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			data12=String.valueOf(a1)+",";
-
-
-
-
-			//è½´å��æ ‡x
-			Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-
-
-
-			//				if (nToolMode==2){
-			//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
-			//				}
-			//				else{
-			//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
-			//				}
-
-			if (nToolMode==1){
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				//						System.out.println("1:"+cmdPos);
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
-				//System.out.println("22:"+cmdPos);
-
-			}
-			else if(nToolMode==2)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you.getDefaultMotionFrame(), cmdPos2);
-			}	
-			else if(nToolMode==3)
-			{			
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-				//					System.out.println("1:"+cmdPos);
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame(), cmdPos2);
-
-			}	
-			else if(nToolMode==4)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-			}	
-			else if(nToolMode==5)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you3.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you3.getDefaultMotionFrame());
-				//					System.out.println("1:"+cmdPos);
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you3.getDefaultMotionFrame(), cmdPos2);
-			}	
-			else if(nToolMode==6)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
-			}	
-			else if(nToolMode==7)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"), cmdPos2);
-			}	
-			else if(nToolMode==8)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame(), cmdPos2);
-			}	
-			else if(nToolMode==9)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame(), cmdPos2);
-			}	
-			else if(nToolMode==10)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo3.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo3.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(_toolAttachedToLBR_zuo3.getDefaultMotionFrame(), cmdPos2);
-
-				//					System.out.println("2:"+cmdPos);
-			}	
-			else if(nToolMode==11)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"), cmdPos2);
-			}	
-			else if(nToolMode==12)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame(), cmdPos2);
-
-				//					System.out.println("2:"+cmdPos);
-			}		
-			else if(nToolMode==13)
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
-				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame(), cmdPos2);
-
-				//					System.out.println("2:"+cmdPos);
-			}
-			else
-			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
-			}
-
-			a1=cmdPos.getX();
-			BigDecimal bigDecimal7 = new BigDecimal(a1);
-			a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data13=a1+",";
-			data13=String.valueOf(a1)+",";
-
-			//è½´å��æ ‡y
-			a1=cmdPos.getY();
-			BigDecimal bigDecimal8 = new BigDecimal(a1);
-			a1 = bigDecimal8.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data14=a1+",";
-			data14=String.valueOf(a1)+",";
-
-			//è½´å��æ ‡z
-			a1=cmdPos.getZ();
-			BigDecimal bigDecimal9 = new BigDecimal(a1);
-			a1 = bigDecimal9.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data15=a1+",";
-			data15=String.valueOf(a1)+",";
-
-			//è½´å��æ ‡rx
-			a1=Math.toDegrees(cmdPos.getAlphaRad());
-			BigDecimal bigDecima20 = new BigDecimal(a1);
-			a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data16=a1+",";
-			data16=String.valueOf(a1)+",";
-
-			//è½´å��æ ‡ry
-			a1=Math.toDegrees(cmdPos.getBetaRad());
-			BigDecimal bigDecima21 = new BigDecimal(a1);
-			a1 = bigDecima21.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data17=a1+",";
-			data17=String.valueOf(a1)+",";
-
-			//è½´å��æ ‡rz
-
-
-			a1=Math.toDegrees(cmdPos.getGammaRad());
-			BigDecimal bigDecima22 = new BigDecimal(a1);
-			a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			//				data18=a1+"$";
-			data18=String.valueOf(a1)+",$";
-		}
-
-		public String call() {
-
-
-
-
-			while(true){
-				try {
-					boolean bPause=false;
-					serverSocketSend = new ServerSocket(30001);
-
-
-
-					System.out.println("New socket.");
-					socket= serverSocketSend.accept();
-					//			socket.setSoTimeout(2500);
-					System.out.println("Socket accepted. IP:{" + socket.getInetAddress().getHostAddress() + "}.");
-					outputStream = new DataOutputStream(socket.getOutputStream());
-					writer= new OutputStreamWriter(outputStream);
-
-					while (bPause==false)
-					{
-
-
-						try{
-							bSendFail=true;
-							GetData();
-							//					ThreadUtil.milliSleep(1000);
-							//					System.out.println("x1");
-							////				    System.out.println(socket_recive.isBound());
-							////				    System.out.println(socket_recive.isConnected());
-							//				    System.out.println("x2");
-							////				    System.out.println(socket_recive.isClosed());
-							//				    System.out.println("x3");
-							//				    System.out.println(socket_recive.getOOBInline());
-
-							String data=data0+data1+data2+data3+data4+data5+data6+data7+data8+data9+data10+data11+data12+data13+data14+data15+data16+data17+data18;
-
-
-							writer.write(data);
-							writer.flush();
-							ThreadUtil.milliSleep(50);
-							//					ThreadUtil.milliSleep(2000);
-						}
-						catch (IOException e) {
-							System.out.println("Socket closed.");					
-							System.out.println("Closing socket.");
-							bSendFail=false;
-							writer.close();
-							outputStream.close();
-							socket.close();
-							serverSocketSend.close();
-							writer=null;
-							outputStream=null;
-							socket=null;
-							serverSocketSend=null;
-							bPause=true;
-
-							//					try {
-							//						ThreadUtil.milliSleep(1000);
-							//						if(serverSocket!=null){
-							//							serverSocket.close();
-							//							serverSocket=null;
-							//							System.out.println("222");
-							//						}
-							//						if(serverSocketSend!=null ){
-							//							serverSocketSend.close();
-							//							serverSocketSend=null;
-							//							System.out.println("22222");
-							//						}
-							//						if(writer!=null ){
-							//							writer.close();
-							//							writer=null;
-							//							System.out.println("3333");
-							//						}
-							//						if(outputStream!=null ){
-							//							outputStream.close();
-							//							outputStream=null;
-							//							System.out.println("133333");
-							//						}
-							//						if(socket!=null ){
-							//							socket.close();
-							//							socket=null;
-							//							System.out.println("233333");
-							//						}
-							//					} catch (IOException f) {
-							//						// TODO Auto-generated catch block
-							//						e.printStackTrace();
-							//					}
-
-						}
-
-
-					}
-
-					System.out.println("closed.");					
-					System.out.println("Socket.");
-
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				};
-			}
-		}
-	}
-
-	public  class reciveRTdata implements Callable<String> {
-
-
-
-		public String call() {	
-			String[] units=null;
-			while(true){
-				try{
-					boolean bPause=false;
-					serverSocket = new ServerSocket(30007);
-
-					System.out.println("New socket.");
-					socket_recive = serverSocket.accept();
-					socket_recive.setSoTimeout(5000);
-					System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
-
-					InputStream in = socket_recive.getInputStream();
-					//			outputStream_recive
-					outputStream_recive = new DataOutputStream(socket_recive.getOutputStream());
-					writer_recive= new OutputStreamWriter(outputStream_recive);
-					//			PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-					while(bPause==false){
-
-						try{
-
-							//					byte[] receivingBuffer = new byte[256];
-							//					in.read(receivingBuffer);
-
-							byte[] buf = new byte[1];
-							int size = 0;
-							//				        System.out.println("qq");
-							StringBuffer sb = new StringBuffer();
-
-							//				        System.out.println(in.read(buf,0,buf.length));
-							if (in.read(buf,0,buf.length)==-1)
-							{
-								bPause=true;
-								System.out.println("oo");
-								break;
-							}
-							//				        System.out.println("ee");
-							while (( size = in.read(buf,0,buf.length)) != -1) {
-								//				            System.out.println("ww");
-								String str = new String(buf);
-
-								sb.append(str);
-								//				            System.out.print(str);
-								//				            System.out.println(str);
-								if(str.equals("*")) {
-									//								System.out.println(new String(sb).trim());
-									//								System.out.println("ooo");
-									units = new String(sb).trim().split(",");
-
-									break;
-								}
-							}
-							//				        System.out.println("rr");
-
-
-							if(units[1] == null){
-								System.out.println("data receiving error: no command received.....");
-							}else{
-								if(units[1].equals("spd")){
-									//						
-									String para = units[2].substring(0, units[2].length() - 1);
-									//							System.out.println("spd: " + para);
-									writer_recive.write("$res,spd,1");
-									writer_recive.flush();
-
-								}
-								else if(units[1].equals("mp")){
-									//							System.out.println("para: " + units[2]);
-									//							System.out.println("para: " + units[3]);
-									//							System.out.println("para: " + units[4]);
-									//							System.out.println("para: " + units[5]);
-									//							System.out.println("para: " + units[6]);
-									bstop=true;
-									String para1 = units[7].substring(0, units[7].length() - 1);
-									System.out.println("para" + para1);
-
-									nX=Double.parseDouble(units[2]);
-									nY=Double.parseDouble(units[3]);
-									nZ=Double.parseDouble(units[4]);
-									nA=Double.parseDouble(units[5]);
-									nB=Double.parseDouble(units[6]);
-									nC=Double.parseDouble(para1);
-
-									//ss
-
-
-									pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-									pre_Place.setX(nX);
-									pre_Place.setY(nY);
-									pre_Place.setZ(nZ);
-									pre_Place.setAlphaRad(Math.toRadians(nA));
-									pre_Place.setBetaRad(Math.toRadians(nB));
-									pre_Place.setGammaRad(Math.toRadians(nC));
-									//							System.out.println("pre_Place"+pre_Place);
-									//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
-									writer_recive.write("$para,mp,0$");
-									writer_recive.flush();
-								}
-								else if(units[1].equals("ml")){
-									System.out.println("lhy-ml");
-									String para1 = units[7].substring(0, units[7].length() - 1);
-									System.out.println("zzr-ml");
-
-
-									nX=Double.parseDouble(units[2]);
-									nY=Double.parseDouble(units[3]);
-									nZ=Double.parseDouble(units[4]);
-									nA=Double.parseDouble(units[5]);
-									nB=Double.parseDouble(units[6]);
-									nC=Double.parseDouble(para1);
-									A=Math.toDegrees(nA);
-									B=Math.toDegrees(nB);
-									C=Math.toDegrees(nC);
-									//							System.out.println("A"+A);
-									////							System.out.println("nX"+nX );
-									////							System.out.println("nY"+nY );
-									////							System.out.println("nZ"+nZ );
-									//							System.out.println("nA"+nA );
-									//							System.out.println("nB"+nB );
-									//							System.out.println("nC"+nC );
-									//							System.out.println("A"+A);
-									//							System.out.println("B"+B);
-									//							System.out.println("C"+C);
-									//							pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-									//							pre_Place.setX(nX);
-									//							pre_Place.setY(nY);
-									//							pre_Place.setZ(nZ);
-									//							pre_Place.setAlphaRad(Math.toRadians(nA));
-									//							pre_Place.setBetaRad(Math.toRadians(nB));
-									//							pre_Place.setGammaRad(Math.toRadians(nC));
-
-									writer_recive.write("$para,ml,0$");
-									writer_recive.flush();
-									ThreadUtil.milliSleep(1500);
-									//							System.out.println("mlout");
-								}
-
-								else if(units[1].equals("mj")){
-									//							System.out.println("chenpeng:11111111111 " );
-									String para1 = units[7].substring(0, units[7].length() - 1);
-									//							System.out.println("j1: " + units[2]);
-
-									//确保handguing模式下是关掉的状态
-									if(SafeDataIO.getInput4()==false){
-										if(units[2].equals("1")){
-											io.setOutput2(false);
-											System.out.println("io.setOutput2(true)");
-										}
-										else if(units[2].equals("2")){
-											io.setOutput2(true);
-											System.out.println("io.setOutput2(false)");
-										}
-										if(units[3].equals("6")){
-											nWorkingmode=6;
-											System.out.println("nWorkingmode=6");
-										}
-									}
-
-
-									//							nX=Double.parseDouble(units[2]);
-									//							nY=Double.parseDouble(units[3]);
-									//							nZ=Double.parseDouble(units[4]);
-									//							nA=Double.parseDouble(units[5]);
-									//							nB=Double.parseDouble(units[6]);
-									//							nC=Double.parseDouble(para1);
-									//							
-									//							//ss
-									//
-									//							
-									//							pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-									//							pre_Place.setX(nX);
-									//							pre_Place.setY(nY);
-									//							pre_Place.setZ(nZ);
-									//							pre_Place.setAlphaRad(Math.toRadians(nA));
-									//							pre_Place.setBetaRad(Math.toRadians(nB));
-									//							pre_Place.setGammaRad(Math.toRadians(nC));
-									//							System.out.println("pre_Place"+pre_Place);
-									//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
-									writer_recive.write("$para,mp,0$");
-									writer_recive.flush();
-								}
-								else if(units[1].equals("sIO")){
-									//							System.out.println("chenpeng:tttt" );
-
-									String para2 = units[3].substring(0, units[3].length() - 1);
-									//							System.out.println("units[2]:" + Double.parseDouble(units[2]));
-									//							System.out.println("para2:" + Double.parseDouble(para2));
-
-
-									if(Double.parseDouble(para2)==12 && Double.parseDouble(units[2])==12)
-									{
-										bCorrectPlane=true;
-										//							System.out.println("bCorrectPlane=true");
-
-									}
-
-									else if(Double.parseDouble(para2)==13 && Double.parseDouble(units[2])==13)
-									{
-										bCorrectPlane=false;
-										//							System.out.println("bCorrectPlane=false");
-									}
-									else if(Double.parseDouble(para2)==14 && Double.parseDouble(units[2])==14)
-									{
-										//							Initialize=true;
-										nXcorect=0;
-										//							System.out.println("nXcorect=0");
-									}
-
-									else if(Double.parseDouble(para2)==19 && Double.parseDouble(units[2])==19)
-									{
-										Distal=true;
-										//							System.out.println("Distal=true");
-									}
-
-									else if(Double.parseDouble(para2)==20 && Double.parseDouble(units[2])==20)
-									{
-										breaktest=true;
-										//							System.out.println("breaktest=true");
-									}
-									else if(Double.parseDouble(para2)==21 && Double.parseDouble(units[2])==21)
-									{
-										transition=true;
-//										test=false;
-										System.out.println("transition=true");
-									}
-									else if(Double.parseDouble(para2)==22 && Double.parseDouble(units[2])==22)
-									{
-										System.out.println("Communication is normal");
-										Err="13,";
-									}
-									//							if(Double.parseDouble(para2)==15 && Double.parseDouble(units[2])==15)
-									//							{
-									//							
-									//							StartOnece=true;
-									//							nXcorect=0;
-									//							
-									//							System.out.println("15");
-									//							}
-
-									if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
-									{
-										io.setOutput5(true);
-										electrify=true;
-//										System.out.println("on");
-									}
-									else{
-										io.setOutput5(false);
-										electrify=false;
-//										System.out.println("off");
-
-									}
-
-									if(SafeDataIO.getInput4()==false){
-										if(units[2].equals("2")){
-											io.setOutput2(false);
-											//		                            	System.out.println("io.setOutput2(false)");
-										}
-										else if(units[2].equals("3")){
-											io.setOutput2(true);
-											//		                            	System.out.println("io.setOutput2(true)");
-										}
-
-										if(para2.equals("6")){
-											nWorkingmode=6;
-										   System.out.println("nWorkingmode=6ch");
-										}
-									}
-
-
-									writer_recive.write("$res,sIO,0$");
-									writer_recive.flush();
-
-								}
-								else if(units[1].equals("RobotMove")){
-									//							System.out.println("para: " + units[2]);
-									String para2 = units[3].substring(0, units[3].length() - 1);
-									if(Double.parseDouble(para2)==2 )
-									{
-										System.out.println("RobotMove2");
-										nToolMode=2;
-									}
-									else if(Double.parseDouble(para2)==1 ) {
-										System.out.println("RobotMove1");
-										nToolMode=1;
-									}
-									else if(Double.parseDouble(para2)==3 ) {
-										System.out.println("RobotMove3");
-										nToolMode=3;
-										bstop=true;
-									}
-									else if(Double.parseDouble(para2)==4 ) {
-										System.out.println("RobotMove4");
-										nToolMode=4;
-										bstop=true;
-									}
-									else if(Double.parseDouble(para2)==5 ) {
-										System.out.println("RobotMove5");
-										nToolMode=5;
-									}
-									else if(Double.parseDouble(para2)==6 ) {
-										System.out.println("RobotMove6");
-										nToolMode=6;
-									}
-									else if(Double.parseDouble(para2)==7 ) {
-										System.out.println("RobotMove7");
-										nToolMode=7;
-									}
-									else if(Double.parseDouble(para2)==8 ) {
-										System.out.println("RobotMove8");
-										nToolMode=8;
-										bstop=true;
-									}
-									else if(Double.parseDouble(para2)==9 ) {
-										System.out.println("RobotMove9");
-										nToolMode=9;
-										bstop=true;
-									}
-									else if(Double.parseDouble(para2)==10 ) {
-										System.out.println("RobotMove10");
-										nToolMode=10;
-									}
-									else if(Double.parseDouble(para2)==11 ) {
-										System.out.println("RobotMove11");
-										nToolMode=11;
-									}
-									else if(Double.parseDouble(para2)==12 ) {
-										System.out.println("RobotMove12");
-									}
-									//							else if(Double.parseDouble(para2)==13 ) {
-									//								System.out.println("RobotMove13");
-									//							}
-									writer_recive.write("$res,RobotMove,0$");
-									writer_recive.flush();
-
-								}
-								else if(units[1].equals("setwm")){
-									String para3 = units[2].substring(0, units[2].length() - 1);
-									//							System.out.println("setwm: " + para3);
-									nWorkingmode=Integer.parseInt(para3);
-									writer_recive.write("$res,setwm"+nWorkingmode);
-									//							System.out.println("setwm:"+nWorkingmode);
-									writer_recive.flush();
-
-								}
-								else if(units[1].equals("stcp")){
-									System.out.println("normal " + units);
-									String para4 = units[2].substring(0, units[2].length() - 1);
-									System.out.println("stcp: " + para4);
-									//							nToolMode=Integer.parseInt(para4);
-									writer_recive.write("$res,stcp,1");
-									writer_recive.flush();
-								}
-
-								else{
-									writer_recive.write("$res,err,-1");
-									writer_recive.flush();
-								}
-
-							}
-
-							ThreadUtil.milliSleep(20);
-							//					if (bSendFail==false){
-							//						System.out.println("closed. bSendFail==false");					
-							//						System.out.println("Socket. bSendFail==false");
-							//						
-							//						in.close();
-							//						writer_recive.close();
-							//						outputStream_recive.close();
-							//						socket_recive.close();
-							//						serverSocket.close();
-							//						
-							//						writer_recive=null;
-							//						outputStream_recive=null;
-							//						socket_recive=null;
-							//						serverSocket=null;
-							//						in=null;
-							//						bPause=true;
-							//				
-							//					}
-
-						}catch (IOException e ) {
-							System.out.println("closed222.");					
-							System.out.println("Socket222.");
-
-							in.close();
-							writer_recive.close();
-							outputStream_recive.close();
-							socket_recive.close();
-							serverSocket.close();
-
-							writer_recive=null;
-							outputStream_recive=null;
-							socket_recive=null;
-							serverSocket=null;
-							in=null;
-							bPause=true;
-
-
-						}
-
-
-
-
-						//				System.out.println("closed...");					
-						//				System.out.println("Socket...");
-
-					}
-					System.out.println("closed111.");					
-					System.out.println("Socket112.");
-
-					if(in!=null){
-						in.close();
-						in=null;
-						System.out.println("in");
-					}
-					if(writer_recive!=null){
-						writer_recive.close();
-						writer_recive=null;
-						System.out.println("writer_recive");
-					}
-					if(outputStream_recive!=null ){
-						outputStream_recive.close();
-						outputStream_recive=null;
-						System.out.println("outputStream_recive");
-					}
-					if(socket_recive!=null ){
-						socket_recive.close();
-						socket_recive=null;
-						System.out.println("socket_recive");
-					}
-					if(serverSocket!=null ){
-						serverSocket.close();
-						serverSocket=null;
-						System.out.println("serverSocket");
-					}
-
-
-
-					//			in.close();
-					//			writer_recive.close();
-					//			outputStream_recive.close();
-					//			socket_recive.close();
-					//			serverSocket.close();
-					//			
-					//			writer_recive=null;
-					//			outputStream_recive=null;
-					//			socket_recive=null;
-					//			serverSocket=null;
-					//			in=null;
-					bPause=true;
-
-					System.out.println("closed000");					
-					System.out.println("Socket000");
-				}catch(IOException e){
-					//				System.out.println("closed//...");		
-
-					System.out.println("Socket//IOException e");
-					ThreadUtil.milliSleep(1000);
-					//				System.out.println("closed.");					
-					//				System.out.println("Socket.");
-					//				in.close();
-					//				writer.close();
-					//				socket.close();
-					//				serverSocket.close();
-					//				
-					//				in=null;
-					//				writer=null;
-					//				//			outputStream=null;
-					//				socket=null;
-					//				serverSocket=null;
-				};
-				//			return "end";
-			}
-		}
-	}
-
-
-	public HandGuidingMotion createhandGuidingMotion(){
-
-		double min1=0;
-		double max1=0;
-		JointPosition jReady =lbr.getCurrentJointPosition();
-		if(Math.toDegrees(jReady.get(JointEnum.J1)) < -40){
-			min1=Math.toDegrees(jReady.get(JointEnum.J1));
-		}
-		else
-		{
-			min1=-40;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J1)) > 40){
-			max1=Math.toDegrees(jReady.get(JointEnum.J1));
-		}
-		else
-		{
-			max1=40;
-		}
-
-		double min2=0;
-		double max2=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J2)) < -60){
-			min2=Math.toDegrees(jReady.get(JointEnum.J2));
-		}
-		else
-		{
-			min2=-60;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J2)) > 60){
-			max2=Math.toDegrees(jReady.get(JointEnum.J2));
-		}
-		else
-		{
-			max2=60;
-		}
-
-
-		double min3=0;
-		double max3=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J3)) < -55){
-			min3=Math.toDegrees(jReady.get(JointEnum.J3));
-		}
-		else
-		{
-			min3=-55;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J3)) > 10){
-			max3=Math.toDegrees(jReady.get(JointEnum.J3));
-		}
-		else
-		{
-			max3=10;
-		}
-
-		double min4=0;
-		double max4=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J4)) < 50){
-			min4=Math.toDegrees(jReady.get(JointEnum.J4));
-		}
-		else
-		{
-			min4=50;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J4)) > 100){
-			max4=Math.toDegrees(jReady.get(JointEnum.J4));
-		}
-		else
-		{
-			max4=100;
-		}
-
-		double min5=0;
-		double max5=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J5)) < -150){
-			min5=Math.toDegrees(jReady.get(JointEnum.J5));
-		}
-		else
-		{
-			min5=-150;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J5)) > 50){
-			max5=Math.toDegrees(jReady.get(JointEnum.J5));
-		}
-		else
-		{
-			max5=50;
-		}
-
-		double min6=0;
-		double max6=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J6)) < 0){
-			min6=Math.toDegrees(jReady.get(JointEnum.J6));
-		}
-		else
-		{
-			min6=0;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J6)) > 100){
-			max6=Math.toDegrees(jReady.get(JointEnum.J6));
-		}
-		else
-		{
-			max6=100;
-		}
-
-		double min7=0;
-		double max7=0;
-
-		if(Math.toDegrees(jReady.get(JointEnum.J7)) < -150){
-			min7=Math.toDegrees(jReady.get(JointEnum.J7));
-		}
-		else
-		{
-			min7=-150;
-		}
-
-		if(Math.toDegrees(jReady.get(JointEnum.J7)) > 150){
-			max7=Math.toDegrees(jReady.get(JointEnum.J7));
-		}
-		else
-		{
-			max7=150;
-		}
-
-
-		HandGuidingMotion motion = new HandGuidingMotion();
-		motion.setJointVelocityLimit(0.8)
-		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
-		.setJointLimitsMax(Math.toRadians(max1), Math.toRadians(max2), Math.toRadians(max3), Math.toRadians(max4), Math.toRadians(max5),Math.toRadians(max6), Math.toRadians(max7))
-		.setJointLimitsMin(Math.toRadians(min1), Math.toRadians(min2), Math.toRadians(min3), Math.toRadians(min4), Math.toRadians(min5),Math.toRadians(min6), Math.toRadians(min7))
-		.setJointLimitsEnabled(true,true,true,true,true,true,true)
-
-
-
-
-		;
-		return motion;
-	}
-
-
-	public CartesianImpedanceControlMode createCartImp(){
-		CartesianImpedanceControlMode mode = new CartesianImpedanceControlMode();
-		mode.parametrize(CartDOF.ROT).setStiffness(300);
-		mode.parametrize(CartDOF.X).setStiffness(1);
-		mode.parametrize(CartDOF.Y).setStiffness(5000);
-		mode.parametrize(CartDOF.Z).setStiffness(5000);
-
-		return mode;
-	}
-
-
-
-
-	public  class motion implements Callable<String> {
-
-
-		public void moveToInitialPosition()
-		{
-			System.out.println("11");
-			if (!ServoMotion.validateForImpedanceMode(lbr))
-			{
-				getLogger()
-				.info("Validation of torque model failed - correct your mass property settings");
-				getLogger()
-				.info("Servo motion will be available for position controlled mode only, until validation is performed");
-			}
-		}
-
-		//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
-		public void runSmartServoMotion(final IMotionControlMode controlMode)
-		{
-
-			System.out.println("22");
-			final boolean doDebugPrints = false;
-
-			final JointPosition initialPosition = new JointPosition(
-					lbr.getCurrentJointPosition());
-			System.out.println("33");
-			final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
-
-			// Set the motion properties to 10% of the systems abilities
-			aSmartServoMotion.setJointAccelerationRel(0.1);
-			aSmartServoMotion.setJointVelocityRel(0.1);
-			System.out.println("44");
-			aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-			getLogger().info("Starting the SmartServo in " + controlMode);
-			IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-					aSmartServoMotion.setMode(controlMode));
-			// Fetch the Runtime of the Motion part
-			final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
-					.getRuntime();
-
-			// create an JointPosition Instance, to play with
-			final JointPosition destination = new JointPosition(
-					lbr.getJointCount());
-			System.out.println("55");
-			// For Roundtrip time measurement...
-			final StatisticTimer timing = new StatisticTimer();
-			try
-			{
-				// do a cyclic loop
-				// Refer to some timing...
-				// in nanosec
-				final double omega = FREQENCY * 2 * Math.PI * 1e-9;
-				final long startTimeStamp = System.nanoTime();
-				final JointPosition currentPos = lbr.getCurrentJointPosition();
-
-				while(SafeDataIO.getInput4()==false)
-				{
-					final JointPosition currentPos_now = lbr.getCurrentJointPosition();
-					//	            	System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
-
-					// Timing - draw one step
-					final OneTimeStep aStep = timing.newTimeStep();
-					// ///////////////////////////////////////////////////////
-					// Insert your code here
-					// e.g Visual Servoing or the like
-					// emulate some computational effort - or waiting for external
-					// stuff
-					ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
-					theSmartServoRuntime.updateWithRealtimeSystem();
-
-					// Get the measured position in cartesian...
-					final JointPosition curMsrJntPose = theSmartServoRuntime
-							.getAxisQMsrOnController();
-
-
-
-					if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
-						if (controlMode instanceof JointImpedanceControlMode)
-						{  		 
-
-							final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-							double para =200;
-							double para1=200;
-							double para2=200;
-
-							if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160){
-								para = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5))));  
-								//	                    	   System.out.println(para);
-							}
-							else{
-								para=200;
-							}
-
-							if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110){
-								para1 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos_now.get(JointEnum.J6))));  
-							}
-							else{
-								para1=200;
-							}
-
-							if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
-								para2 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(175)) - Math.abs(currentPos_now.get(JointEnum.J7))));  
-							}
-							else{
-								para2=200;
-							}
-
-							//	                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
-							jointImp.setStiffness(2000, 2000, 2000, 2000, para, para1, para2);
-							//	                       System.out.println(para);
-							jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-							theSmartServoRuntime
-							.changeControlModeSettings(jointImp);
-
-
-						}
-					}
-					else{
-
-
-						if (controlMode instanceof JointImpedanceControlMode)
-						{
-							final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
-							jointImp.setStiffness(2000, 2000, 2000, 2000, 200, 200, 200);
-							jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-							// Send the new Stiffness settings down to the
-							// controller
-							theSmartServoRuntime
-							.changeControlModeSettings(jointImp);
-						} 	
-					}
-
-
-					//	                
-					//	                if(Math.toDegrees(currentPos_now.get(JointEnum.J5))>160)
-					//	                {
-					//	                JointPosition currentPos1=new JointPosition(currentPos.get(JointEnum.J1), currentPos.get(JointEnum.J2), currentPos.get(JointEnum.J3), currentPos.get(JointEnum.J4), 2.7925, currentPos.get(JointEnum.J6), currentPos.get(JointEnum.J7));
-					//	                destination.set(currentPos1);
-					//	            	System.out.println("change.."+currentPos1);
-					//	                }
-					//	                else{
-					//	                	destination.set(currentPos);
-					//	                }
-
-					destination.set(currentPos);
-
-					theSmartServoRuntime
-					.setDestination(destination);
-
-					aStep.end();
-
-
-				}
-			}
-			catch (final Exception e)
-			{
-				getLogger().info(e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-
-			//Print statistics and parameters of the motion
-			getLogger().info("Displaying final states after loop "
-					+ controlMode.getClass().getName());
-			getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
-			// Stop the motion
-			theSmartServoRuntime.stopMotion();
-			getLogger().info("Statistic Timing of Overall Loop " + timing);
-			if (timing.getMeanTimeMillis() > 150)
-			{
-				getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-				getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
-			}
-
-		}
-
-		protected JointImpedanceControlMode createJointImp()
-		{
-			final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(2000, 2000, 2000, 2000, 200, 200, 200);
-			//		        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
-
-			jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
-			return jointImp;
-		}
-
-		protected CartesianImpedanceControlMode ConeLimit()
-		{
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-
-			//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-			cartImp.setNullSpaceStiffness(100.);
-
-			//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-			// For your own safety, shrink the motion abilities to useful limits
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
-			cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
-			return cartImp; 	
-		}
-
-		protected CartesianImpedanceControlMode HardLimit()
-		{
-
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-
-			if(nToolMode==3){
-				cartImp.parametrize(CartDOF.X).setDamping(1);
-				cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-				cartImp.parametrize(CartDOF.Y).setStiffness(70.0);
-				cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.C).setStiffness(6.0);
-				cartImp.setNullSpaceStiffness(100.);
-				cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			}
-			else if(nToolMode==2){
-				cartImp.parametrize(CartDOF.X).setDamping(1);
-				cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-				cartImp.parametrize(CartDOF.Y).setStiffness(70.0);
-				cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.C).setStiffness(6.0);
-				cartImp.setNullSpaceStiffness(100.);
-				cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			}
-
-			else if(nToolMode==8){
-				cartImp.parametrize(CartDOF.X).setDamping(1);
-				cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-				cartImp.parametrize(CartDOF.Y).setStiffness(100.0);
-				cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.C).setStiffness(6.0);
-				cartImp.setNullSpaceStiffness(100.);
-				cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-
-
-			}
-			else if(nToolMode==9){
-				cartImp.parametrize(CartDOF.X).setDamping(1);
-				cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-				cartImp.parametrize(CartDOF.Y).setStiffness(100.0);
-				cartImp.parametrize(CartDOF.Z).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-				cartImp.parametrize(CartDOF.C).setStiffness(6.0);
-				cartImp.setNullSpaceStiffness(100.);
-				cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-
-			}
-			return cartImp; 	
-		}
-		protected CartesianImpedanceControlMode HardLimit_X()
-		{
-
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-
-			cartImp.parametrize(CartDOF.X).setStiffness(4500.0);
-			cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-
-			//		        System.out.println(nStiff);
-			//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-			cartImp.setNullSpaceStiffness(100.);
-
-			//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-			// For your own safety, shrink the motion abilities to useful limits
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
-			cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			return cartImp; 	
-		}
-		protected CartesianImpedanceControlMode HardLimit_Y()
-		{
-
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-
-			cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Y).setStiffness(4500.0);
-			cartImp.parametrize(CartDOF.Z).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-
-			//		        System.out.println(nStiff);
-			//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-			cartImp.setNullSpaceStiffness(100.);
-
-			//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-			// For your own safety, shrink the motion abilities to useful limits
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
-			cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			return cartImp; 	
-		}
-
-		protected CartesianImpedanceControlMode HardLimit_Z()
-		{
-
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-
-			cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
-			cartImp.parametrize(CartDOF.Z).setStiffness(4500.0);
-			cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
-
-			//		        System.out.println(nStiff);
-			//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-			cartImp.setNullSpaceStiffness(100.);
-
-			//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-			// For your own safety, shrink the motion abilities to useful limits
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
-			//		        cartImp.setMaxControlForce(1, 1, 1, 1, 1, 1, true);
-			cartImp.setMaxPathDeviation(1500., 1500., 1500., 3., 3., 3.);
-			return cartImp; 	
-		}
-
-		protected CartesianImpedanceControlMode createCartImp()
-		{
-			final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
-			cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
-			cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
-			//		        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
-			cartImp.setNullSpaceStiffness(100.);
-
-			//		        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
-			// For your own safety, shrink the motion abilities to useful limits
-			cartImp.setMaxPathDeviation(150., 150., 50., 50., 50., 50.);
-			return cartImp;
-		}
-
-		//ç¬›å�¡å°”é˜»æŠ—æŽ§åˆ¶ä»£ç �
-		public void runSmartCartesianMotion(final IMotionControlMode controlMode){
-			//		     	_loadData = new LoadData();
-			//		        _loadData.setMass(MASS);
-			//		        _loadData.setCenterOfMass(
-			//		                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-			//		                CENTER_OF_MASS_IN_MILLIMETER[2]);
-			//		        _toolAttachedToLBR = new Tool("Tool", _loadData);
-			//
-			//		        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
-			//		                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
-			//		                TRANSLATION_OF_TOOL[2]);
-			//		        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
-			//		                + "(TCP)", trans);
-			//		        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
-			//		        // Attach tool to the robot
-			//		        _toolAttachedToLBR.attachTo(lbr.getFlange());
-
-			final JointPosition initialPosition = new JointPosition(
-					lbr.getCurrentJointPosition());
-
-			final DirectServo aDirectServoMotion = new DirectServo(initialPosition);
-
-			aDirectServoMotion.setMinimumTrajectoryExecutionTime(40e-3);
-
-			getLogger().info("Starting the DirectServo motion in " + controlMode);
-			_toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
-					aDirectServoMotion.setMode(controlMode));
-			System.out.println("sss ");
-			final IDirectServoRuntime theServoRuntime = aDirectServoMotion
-					.getRuntime();
-			System.out.println("ggg ");
-			// create an JointPosition Instance, to play with
-			final JointPosition destination = new JointPosition(
-					lbr.getJointCount());
-			System.out.println("vvv ");
-			// For Roundtrip time measurement...
-			final StatisticTimer timing = new StatisticTimer();
-			System.out.println("ccc");
-			try
-			{
-				// do a cyclic loop
-				// Refer to some timing...
-				// in nanosec
-				// freqency * ...
-				final double omega = FREQENCY * 2 * Math.PI * 1e-9;
-				final long startTimeStamp = System.nanoTime();
-
-				//for (int i = 0; i < NUM_RUNS; ++i)
-				final JointPosition currentPos = lbr.getCurrentJointPosition();
-
-				JointPosition currentPos_CheckSafety;
-				//		         	destination.set(currentPos_test);
-				destination.set(currentPos);
-
-				boolean bDanger=false;
-				//		         	System.out.println("hhh");
-				System.out.println(bDangerous+"dd"+nWorkingmode);
-
-				while (nWorkingmode==4 && bDangerous==false)
-				{
-
-					currentPos_CheckSafety=lbr.getCurrentJointPosition();
-					if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 165){
-						bDangerous=false;
-
-					}
-					else{
-						System.out.println("J1"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1)));
-						System.out.println("J2"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2)));
-						System.out.println("J3"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3)));
-						System.out.println("J4"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4)));
-						System.out.println("J5"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5)));
-						System.out.println("J6"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6)));
-						System.out.println("J7"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7)));
-						getLogger().info("bDangerous==true");
-
-						bDangerous=true;
-					}
-
-					theServoRuntime.setDestination(destination);
-
-					//		                // Timing - draw one step
-					//		                final OneTimeStep aStep = timing.newTimeStep();
-					//		                // ///////////////////////////////////////////////////////
-					//		                // Insert your code here
-					//		                // e.g Visual Servoing or the like
-					//		                // emulate some computational effort - or waiting for external
-					//		                // stuff
-					//		                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-					//
-					//		                theServoRuntime.updateWithRealtimeSystem();
-					//
-					//		                final double curTime = System.nanoTime() - startTimeStamp;
-					//		                final double sinArgument = omega * curTime;
-					//
-					//		                for (int k = 0; k < destination.getAxisCount(); ++k)
-					//		                {
-					//		                    destination.set(k, Math.sin(sinArgument)
-					//		                            * AMPLITUDE + initialPosition.get(k));
-					//		                }
-					//		                theServoRuntime
-					//		                        .setDestination(destination);
-					//
-					//		                // Modify the stiffness settings every now and then               
-					//		                if (i % (NUM_RUNS / 10) == 0)
-					//		                {
-					//		                    // update realtime system
-					//		                    if (controlMode instanceof CartesianImpedanceControlMode)
-					//		                    {
-					//		                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
-					//		                        final double aTransStiffVal = Math.max(100. * (i
-					//		                                / (double) NUM_RUNS + 1), 1000.);
-					//		                        final double aRotStiffVal = Math.max(10. * (i
-					//		                                / (double) NUM_RUNS + 1), 150.);
-					//		                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
-					//		                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
-					//		                        // Send the new Stiffness settings down to the
-					//		                        // controller
-					//		                        theServoRuntime
-					//		                                .changeControlModeSettings(cartImp);
-					//		                    }
-					//		                }
-					//		                aStep.end();
-				}
-			}
-			catch (final Exception e)
-			{
-				getLogger().info(e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-
-			// Print statistics and parameters of the motion
-			getLogger().info("Displaying final states after loop "
-					+ controlMode.getClass().getName());
-
-			getLogger().info(getClass().getName() + "\n" + theServoRuntime.toString());
-
-			// Stop the motion
-			theServoRuntime.stopMotion();
-			getLogger().info("Statistic Timing of Overall Loop " + timing);
-			if (timing.getMeanTimeMillis() > 150)
-			{
-				getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
-				getLogger().info("You should check the TCP/IP Stack Configuration - see the manual for details");
-			}
-		}
-
-		private StatisticTimer startSineMovement(
-				ISmartServoLINRuntime smartServoLINRuntime, StatisticTimer timing)
-		{
-			Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(lbr
-					.getFlange());
-
-			getLogger().info("Do sine movement");
-			try
-			{
-				double omega = FREQENCY * 2 * Math.PI * 1e-9;
-				long startTimeStamp = System.nanoTime();
-				Frame Ptest2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-
-				while(nWorkingmode==2)
-				{
-
-					//testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
-					//$cmd,RobotMove,1$
-					if(nX!=0 && nY!=0 && nZ!=0 ){
-						Ptest2.setX(nX);
-						Ptest2.setY(nY);
-						Ptest2.setZ(nZ);
-						//								System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
-						Ptest2.setAlphaRad(Math.toRadians(nA));
-						Ptest2.setBetaRad(Math.toRadians(nB));
-						Ptest2.setGammaRad(Math.toRadians(nC));
-
-						//								ThreadUtil.milliSleep(500);
-						//								System.out.println("222");
-					}
-
-					final OneTimeStep aStep = timing.newTimeStep();
-					// ///////////////////////////////////////////////////////
-					// Insert your code here
-					// e.g Visual Servoing or the like
-					// Synchronize with the realtime system
-
-					ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
-
-					// Update the smart servo LIN runtime
-					smartServoLINRuntime.updateWithRealtimeSystem();
-
-					double curTime = System.nanoTime() - startTimeStamp;
-					double sinArgument = omega * curTime;
-
-					// Compute the sine function
-					Frame destFrame = new Frame(aFrame);
-					destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
-
-					// Set new destination
-					smartServoLINRuntime.setDestination(Ptest2);
-					aStep.end();
-				}
-
-			}
-			catch (Exception e)
-			{
-				getLogger().error(e.getLocalizedMessage());
-				e.printStackTrace();
-			}
-			return timing;
-		}
-
-
-		//	@SuppressWarnings("null")
-		public String call() {
-			//			int answer;
-			//			answer = getApplicationUI().displayModalDialog(
-			//			ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
-			boolean DangerMove=false;
-			int nLastWorkingmode=0;
-			Frame Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-			Frame Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-			while (true)
-			{ 
-
-
-
-				boolean btest=SafeDataIO.getInput4();
-				if (btest==true)
-				{
-					nWorkingmode=1;
-
-
-				}
-				if (nWorkingmode==1){
-					transition=false;
-					Err="0,";
-					System.out.println("start handguiding");
-					ThreadUtil.milliSleep(500);
-					nLastWorkingmode=nWorkingmode;
-					if(SafeDataIO.getInput4()==true)
-					{
-						bForPlane=true;
-						ThreadUtil.milliSleep(500);
-						DangerMove=false;
-						if (nToolMode==2)
-						{
-							//nToolMode==2指的是安放模式
-							needle_gripper.getFrame("/tcp").move(createhandGuidingMotion());
-							bDangerous=false;
-							nWorkingmode=0;
-						}
-						else{
-							//其他指的是打磨模式
-							needle_Tool_2.getFrame("/you_21001").move(createhandGuidingMotion());
-							bDangerous=false;
-							nWorkingmode=0;
-						}
-
-						nX=0;
-						nY=0;
-						nZ=0;
-						nA=0;
-						nB=0;
-						nC=0;
-					}
-					nWorkingmode=0;
-					StartOnece=true;
-				}
-				else if (nWorkingmode==2 ){
-					nLastWorkingmode=nWorkingmode;
-					bstop=true;
-					lbr.move(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-
-				}
-
-				else if(nWorkingmode==3){
-					nLastWorkingmode=nWorkingmode;
-					bstop=true;
-					lbr.move(new PTP(jointPos_you).setJointVelocityRel(0.2));
-					nWorkingmode=0;
-				}
-
-				else if(nWorkingmode==5){
-					nLastWorkingmode=nWorkingmode;
-					System.out.println("nWorkingmode==5");
-
-					Frame Tcp = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-					Tcp.setX(nX);
-					Tcp.setY(nY);
-					Tcp.setZ(nZ);
-					Tcp.setAlphaRad(Math.toRadians(nA));
-					Tcp.setBetaRad(Math.toRadians(nB));
-					Tcp.setGammaRad(Math.toRadians(nC));
-
-
-
-					Tool_you_string = "Tool_you_" + nReceive;
-					Tool_you2_string ="Tool_you2_" + nReceive;
-					Tool_you3_string ="Tool_you3_" + nReceive;
-					Tool_zuo_string ="Tool_zuo_" + nReceive;
-					Tool_zuo2_string ="Tool_zuo2_" + nReceive;
-					Tool_zuo3_string ="Tool_zuo3_" + nReceive;
-					Tool_you_hand_string = "Tool_you_hand_" + nReceive;
-					Tool_zuo_hand_string = "Tool_zuo_hand_" + nReceive;
-
-					//nToolMode==2   you_21002 下表面				
-					_loadData_you = new LoadData();
-					_loadData_you.setMass(MASS);
-					_loadData_you.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-					//			
-
-					_toolAttachedToLBR_you = new Tool(Tool_you_string, _loadData_you);
-
-					XyzAbcTransformation trans2 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_you[0], TRANSLATION_OF_TOOL_you[1], TRANSLATION_OF_TOOL_you[2],TRANSLATION_OF_TOOL_you[3],TRANSLATION_OF_TOOL_you[4],TRANSLATION_OF_TOOL_you[5]);
-
-					ObjectFrame aTransformation2 = _toolAttachedToLBR_you.addChildFrame(TOOL_FRAME_you + "(TCP)", trans2);
-					_toolAttachedToLBR_you.setDefaultMotionFrame(aTransformation2);
-					//				    // Attach tool to the robot
-					_toolAttachedToLBR_you.attachTo(lbr.getFlange());
-					//					 System.out.println("_loadData_you");
-
-
-
-
-					//				  //nToolMode==3   you_21003 上表面
-					_loadData_you2 = new LoadData();
-					_loadData_you2.setMass(MASS);
-					_loadData_you2.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_you2 = new Tool(Tool_you2_string, _loadData_you2);
-
-					XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_you2[0], TRANSLATION_OF_TOOL_you2[1], TRANSLATION_OF_TOOL_you2[2],TRANSLATION_OF_TOOL_you2[3],TRANSLATION_OF_TOOL_you2[4],TRANSLATION_OF_TOOL_you2[5]);
-					ObjectFrame aTransformation3 = _toolAttachedToLBR_you2.addChildFrame(TOOL_FRAME_you2 + "(TCP)", trans3);
-					_toolAttachedToLBR_you2.setDefaultMotionFrame(aTransformation3);
-					// Attach tool to the robot
-					_toolAttachedToLBR_you2.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_you2");
-					////					
-					////				    
-					////				    
-					////				    
-					////				    
-					//				  //nToolMode==5     you_21004 验证点
-					_loadData_you3 = new LoadData();
-					_loadData_you3.setMass(MASS);
-					_loadData_you3.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_you3 = new Tool(Tool_you3_string, _loadData_you3);
-
-					XyzAbcTransformation trans4 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_you3[0], TRANSLATION_OF_TOOL_you3[1], TRANSLATION_OF_TOOL_you3[2],TRANSLATION_OF_TOOL_you3[3],TRANSLATION_OF_TOOL_you3[4],TRANSLATION_OF_TOOL_you3[5]);
-					System.out.println("XyzAbcTransformation trans4"+trans4);
-					ObjectFrame aTransformation4 = _toolAttachedToLBR_you3.addChildFrame(TOOL_FRAME_you3 + "(TCP)", trans4);
-					_toolAttachedToLBR_you3.setDefaultMotionFrame(aTransformation4);
-					// Attach tool to the robot
-					_toolAttachedToLBR_you3.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_you3");
-
-
-
-
-
-					//nToolMode==8     zuo_21002 下表面
-					_loadData_zuo = new LoadData();
-					_loadData_zuo.setMass(MASS);
-					_loadData_zuo.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_zuo = new Tool(Tool_zuo_string, _loadData_zuo);
-
-					XyzAbcTransformation trans5 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_zuo[0], TRANSLATION_OF_TOOL_zuo[1], TRANSLATION_OF_TOOL_zuo[2],TRANSLATION_OF_TOOL_zuo[3],TRANSLATION_OF_TOOL_zuo[4],TRANSLATION_OF_TOOL_zuo[5]);
-					ObjectFrame aTransformation5 = _toolAttachedToLBR_zuo.addChildFrame(TOOL_FRAME_zuo + "(TCP)", trans5);
-					_toolAttachedToLBR_zuo.setDefaultMotionFrame(aTransformation5);
-					// Attach tool to the robot
-					_toolAttachedToLBR_zuo.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_zuo");
-					//				    
-					//				    
-					//				    
-					//				    
-					//				    
-					//nToolMode==9   zuo_21003 上表面
-					_loadData_zuo2 = new LoadData();
-					_loadData_zuo2.setMass(MASS);
-					_loadData_zuo2.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_zuo2 = new Tool(Tool_zuo2_string, _loadData_zuo2);
-
-					XyzAbcTransformation trans6 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_zuo2[0], TRANSLATION_OF_TOOL_zuo2[1], TRANSLATION_OF_TOOL_zuo2[2],TRANSLATION_OF_TOOL_zuo2[3],TRANSLATION_OF_TOOL_zuo2[4],TRANSLATION_OF_TOOL_zuo2[5]);
-					ObjectFrame aTransformation6 = _toolAttachedToLBR_zuo2.addChildFrame(TOOL_FRAME_zuo2 + "(TCP)", trans6);
-					_toolAttachedToLBR_zuo2.setDefaultMotionFrame(aTransformation6);
-					// Attach tool to the robot
-					_toolAttachedToLBR_zuo2.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_zuo2");
-					//				    
-					//				    
-					//				    
-					//				    
-					//				    
-					//nToolMode==10 zuo_21004
-					_loadData_zuo3 = new LoadData();
-					_loadData_zuo3.setMass(MASS);
-					_loadData_zuo3.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_zuo3 = new Tool(Tool_zuo3_string, _loadData_zuo3);
-
-					XyzAbcTransformation trans7 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_zuo3[0], TRANSLATION_OF_TOOL_zuo3[1], TRANSLATION_OF_TOOL_zuo3[2],TRANSLATION_OF_TOOL_zuo3[3],TRANSLATION_OF_TOOL_zuo3[4],TRANSLATION_OF_TOOL_zuo3[5]);
-					System.out.println("XyzAbcTransformation trans7"+trans7);
-					ObjectFrame aTransformation7 = _toolAttachedToLBR_zuo3.addChildFrame(TOOL_FRAME_zuo3 + "(TCP)", trans7);
-					_toolAttachedToLBR_zuo3.setDefaultMotionFrame(aTransformation7);
-					// Attach tool to the robot
-					_toolAttachedToLBR_zuo3.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_zuo3");
-
-
-					//nToolMode==12 zuo_hand
-					_loadData_zuo_hand = new LoadData();
-					_loadData_zuo_hand.setMass(MASS);
-					_loadData_zuo_hand.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_zuo_hand = new Tool(Tool_zuo_hand_string, _loadData_zuo_hand);
-
-					XyzAbcTransformation trans8 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_zuo_hand[0], TRANSLATION_OF_TOOL_zuo_hand[1], TRANSLATION_OF_TOOL_zuo_hand[2],TRANSLATION_OF_TOOL_zuo_hand[3],TRANSLATION_OF_TOOL_zuo_hand[4],TRANSLATION_OF_TOOL_zuo_hand[5]);
-					System.out.println("XyzAbcTransformation trans8"+trans8);
-					ObjectFrame aTransformation8 = _toolAttachedToLBR_zuo_hand.addChildFrame(TOOL_FRAME_zuo_hand + "(TCP)", trans8);
-					_toolAttachedToLBR_zuo_hand.setDefaultMotionFrame(aTransformation8);
-					// Attach tool to the robot
-					_toolAttachedToLBR_zuo_hand.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_zuo3");
-
-					
-					
-					//nToolMode==13 you_hand
-					_loadData_you_hand = new LoadData();
-					_loadData_you_hand.setMass(MASS);
-					_loadData_you_hand.setCenterOfMass(
-							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-							CENTER_OF_MASS_IN_MILLIMETER[2]);
-
-					_toolAttachedToLBR_you_hand = new Tool(Tool_you_hand_string, _loadData_you_hand);
-
-					XyzAbcTransformation trans9 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_you_hand[0], TRANSLATION_OF_TOOL_you_hand[1], TRANSLATION_OF_TOOL_you_hand[2],TRANSLATION_OF_TOOL_you_hand[3],TRANSLATION_OF_TOOL_you_hand[4],TRANSLATION_OF_TOOL_you_hand[5]);
-					System.out.println("XyzAbcTransformation trans9"+trans9);
-					ObjectFrame aTransformation9 = _toolAttachedToLBR_you_hand.addChildFrame(TOOL_FRAME_you_hand + "(TCP)", trans9);
-					_toolAttachedToLBR_you_hand.setDefaultMotionFrame(aTransformation9);
-					// Attach tool to the robot
-					_toolAttachedToLBR_you_hand.attachTo(lbr.getFlange());
-					//				    System.out.println("_loadData_zuo3");
-					
-					//				    ThreadUtil.milliSleep(1500);
-					nReceive++;
-					nWorkingmode=0;
-					System.out.println("5nWorkingmode=0;");
-
-				}
-
-				else if(nWorkingmode==6){
-					bstop=true;
-					nLastWorkingmode=nWorkingmode;
-
-					if(true){   
-						//						if(num_ForTest!=0)
-						if(true)
-						{
-
-							if (transition==true){
-								System.out.println("transition==true");
-								if(nToolMode==2||nToolMode==3){
-
-				    				lbr.move(ptp(jointPos_you_transition).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-
-				    			}
-				    			else if(nToolMode==8||nToolMode==9){
-				    				lbr.move(ptp(jointPos_zuo_transition).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-				    			}
-
-								
-								JointPosition PosNow=lbr.getCurrentJointPosition();
-								if (nToolMode==2||nToolMode==3){
-				    				if (Math.abs(Math.toDegrees(PosNow.get(4))-Math.toDegrees(jointPos_you_transition.get(4)))<0.5 && Math.abs(Math.toDegrees(PosNow.get(5))-Math.toDegrees(jointPos_you_transition.get(5)))<0.5  && Math.abs(Math.toDegrees(PosNow.get(6))-Math.toDegrees(jointPos_you_transition.get(6)))<0.5){
-					    				transition=false;
-//					    				System.out.println("transition=false turn");
-					    			}
-				    			}
-								else if(nToolMode==8||nToolMode==9){
-				    				if (Math.abs(Math.toDegrees(PosNow.get(4))-Math.toDegrees(jointPos_zuo_transition.get(4)))<0.5 && Math.abs(Math.toDegrees(PosNow.get(5))-Math.toDegrees(jointPos_zuo_transition.get(5)))<0.5  && Math.abs(Math.toDegrees(PosNow.get(6))-Math.toDegrees(jointPos_zuo_transition.get(6)))<0.5){
-					    				transition=false;
-//					    				System.out.println("transition=false turn");
-					    			}
-				    			}
-
-							}
-
-							if (transition==false){
-//								System.out.println("num_ForTest!=0");
-								Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-
-								pre_Place1.setX(nX);
-								pre_Place1.setY(nY);
-								pre_Place1.setZ(nZ);
-								pre_Place1.setAlphaRad(Math.toRadians(nA));
-								pre_Place1.setBetaRad(Math.toRadians(nB));
-								pre_Place1.setGammaRad(Math.toRadians(nC));	
-
-								Frame pre_Place2 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-								//	     					    pre_Place2 = pre_Place2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-								pre_Place2.setX(nX);
-								pre_Place2.setY(nY);
-								pre_Place2.setZ(nZ);
-								pre_Place2.setAlphaRad(Math.toRadians(nA));
-								pre_Place2.setBetaRad(Math.toRadians(nB));
-								pre_Place2.setGammaRad(Math.toRadians(nC));
-
-
-//								System.out.println("pre_Place"+pre_Place2);
-
-								Frame Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-								Frame Object4 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-								if(nToolMode==3){
-									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
-									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_you2[0] ,-TRANSLATION_OF_TOOL_you2[1],-TRANSLATION_OF_TOOL_you2[2], 0, 0, 0)));
-								}
-								else if(nToolMode==2){
-									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you.getDefaultMotionFrame());
-									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
-									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_you[0] ,-TRANSLATION_OF_TOOL_you[1],-TRANSLATION_OF_TOOL_you[2], 0, 0, 0)));
-								}
-								else if(nToolMode==9){
-									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
-									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo2[0] ,-TRANSLATION_OF_TOOL_zuo2[1],-TRANSLATION_OF_TOOL_zuo2[2], 0, 0, 0)));
-//									System.out.println("Ptest1"+Ptest1);
-								}
-								else if(nToolMode==8){
-									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
-									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
-									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo[0] ,-TRANSLATION_OF_TOOL_zuo[1],-TRANSLATION_OF_TOOL_zuo[2], 0, 0, 0)));
-//									System.out.println("Ptest1"+Ptest1);
-								}
-
-
-//								System.out.println("zhunbei_ready");
-
-								try{	
-									lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-//									System.out.println("222");	
-									Frame Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-
-									if(nToolMode==3){
-										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-									}
-									else if(nToolMode==2){
-										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you.getDefaultMotionFrame());
-									}
-									else if(nToolMode==9){
-										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-//										System.out.println("Object5"+Object5);
-									}
-									else if(nToolMode==8){
-										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
-//										System.out.println("Object5"+Object5);
-									}
-
-//									System.out.println("333");	
-									Object5.setX(Object4.getX());
-									Object5.setY(Object4.getY());
-									Object5.setZ(Object4.getZ());
-									Object5.setAlphaRad(Object4.getAlphaRad());
-									Object5.setBetaRad(Object4.getBetaRad());
-									Object5.setGammaRad(Object4.getGammaRad());
-//									System.out.println("Object5"+Object5);
-									JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-//									System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
-
-
-									if(nToolMode==3){
-
-									
-//										System.out.println("Start nWorkingmode==6");
-										_toolAttachedToLBR_you2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-//										System.out.println("End nWorkingmode==6");
-													    		    	
-									}
-									else if(nToolMode==2){
-//										System.out.println("Start nWorkingmode==6");  
-										_toolAttachedToLBR_you.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));							
-//										System.out.println("End nWorkingmode==6");
-										
-									}
-									else if(nToolMode==9){
-
-//										System.out.println("Start nWorkingmode==6");
-										_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										
-//										System.out.println("End nWorkingmode==6");
-
-
-										//											Frame pend=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-										//											
-										//						    		    	boolean bcondition=false;
-										//						    		    	JointPosition jNow=lbr.getCurrentJointPosition();
-										//						    		    	if(Math.abs(Math.toDegrees(jNow.get(4)))<20){
-										//						    		    		_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//						    		    	}
-										//						    		    	else{
-										//						    		    		double dStart=Math.abs(Math.toDegrees(jNow.get(4)));
-										//							    		    	Frame ptest =lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-										//							    		    	ptest.setX(pre_Place2.getX());
-										//							    		    	ptest.setY(pre_Place2.getY());
-										//							    		    	ptest.setZ(pre_Place2.getZ());
-										//							    		    	ptest.setAlphaRad(pre_Place2.getAlphaRad());
-										//							    		    	ptest.setBetaRad(pre_Place2.getBetaRad());
-										//							    		    	ptest.setGammaRad(pre_Place2.getGammaRad());
-										//							    		    	
-										//							    		    	int i=-20;
-										//							    		    
-										//							    		    	while(i<20 || bcondition==true ){
-										//								    		    	try{
-										//								    		    		ptest=ptest.transform(Transformation.ofDeg(0, 0, 0,0, i, 0));
-										//								    		    		JointPosition jtest=lbr.getInverseKinematicFromFrameAndRedundancy(ptest);
-										//								    		    		if(Math.abs(Math.toDegrees(jtest.get(4)))<20){
-										//								    		    			bcondition=true;
-										//								    		    			System.out.println("jtest4——9:"+Math.toDegrees(jtest.get(4)));
-										//								    		    		}
-										//								    		    		double dSelect=Math.abs(Math.toDegrees(jtest.get(4)));
-										//								    		    		if (dStart>dSelect){
-										//								    		    			pend=ptest;
-										//								    		    			System.out.println("get4——9:"+Math.toDegrees(jtest.get(4)));
-										//								    		    		}
-										//								    		    		
-										//								    		    	}
-										//								    				catch(Throwable cause)
-										//								    				{
-										//								    					System.out.println("OutOfRange_dingwei");
-										//								    				}
-										//							    		    	}
-										//							    		    	if (bcondition==true){
-										//							    		    		_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(ptest).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//							    		    	}
-										//							    		    	else{
-										//							    		    		_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(pend).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//							    		    	}
-										//						    		    	}					   
-										//						    		    	
-										//						    		    	_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-
-									}
-									else if(nToolMode==8){
-//										System.out.println("Start nWorkingmode==6");
-										_toolAttachedToLBR_zuo.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-//										System.out.println("End nWorkingmode==6");
-									}
-
-									//更新平面定位初始点
-
-									if(nToolMode==3){
-										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-										//System.out.println("lhy1");
-									}
-									else if(nToolMode==2){
-										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-										//System.out.println("lhy2");
-									}
-									else if(nToolMode==9){
-										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-//										System.out.println("lhy3");
-									}
-									else if(nToolMode==8){
-										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-//										System.out.println("lhy4");
-									}
-
-									if(io.getInput4()==false){
-										Err="3,";
-//										System.out.println("Move");
-										Err="3,";
-										ThreadUtil.milliSleep(70);
-										Err="0,";
-									}
-									//									num_ForTest=num_ForTest+5;
-
-								}	
-								catch(Throwable cause)
-								{
-									System.out.println("RangeLimit");
-									Err="1,";
-								}
-							}
-							else{
-
-							}
-						}
-						else{
-							num_ForTest=1;
-							System.out.println("num_ForTest==0");
-						}
-
-
-
-
-						//	                    ThreadUtil.milliSleep(500);
-						StartOnece=true;
-						nWorkingmode=0;
-						bstop=true;
-					}
-
-
-
-				}
-
-				else if(nWorkingmode==7){
-
-
-					System.out.println("start nWorkingmode=7");
-					if(nToolMode==2||nToolMode==3){
-//						System.out.println("you");
-						Frame current = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
-						_toolAttachedToLBR_you_hand.move(ptp(current).setJointVelocityRel(0.1));
-
-
-						SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-						aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-//						System.out.println("Start Smart Servo Lin motion");
-
-						//设置是否有阻抗的地方
-						//_toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
-						_toolAttachedToLBR_you_hand.moveAsync(aSmartServoLINMotion);
-
-//						System.out.println("Get the runtime of the SmartServoLIN motion");
-						ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-								.getRuntime();
-
-						px = py = pz = 0.03;
-					
-						pa = pb = pc=0.0003;
-
-						Frame destFrame = current.copyWithRedundancy();
-						
-						double zFx = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-								.getX();
-						double zFy = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-								.getY();
-						double zFz = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-								.getZ();
-
-						double zFa = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getZ();
-						double zFb = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getY();
-						double zFc = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getX();
-						//力
-
-
-						ccx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getX();
-						ccy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getY();
-						ccz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getZ();
-						cca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getAlphaRad();
-						ccb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getBetaRad();
-						ccc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getGammaRad();
-						//位置
-
-//						System.out.println("get Force in x " + zFx);
-//						System.out.println("get Force in y " + zFy);
-//						System.out.println("get Force in z " + zFz);
-//						System.out.println("get Torque in a " + zFa);
-//						System.out.println("get Torque in b " + zFb);
-//						System.out.println("get Torque in c " + zFc);
-						JointPosition jStart=lbr.getCurrentJointPosition();
-						try {
-							while (!bstop) {
-
-								fx = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-										.getX();
-								fy = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-										.getY();
-								fz = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
-										.getZ();
-								fa = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getZ();
-								fb = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getY();
-								fc = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getX();
-
-								dfx = -px * (fx - zFx);
-								dfy = py * (fy - zFy);
-								dfz = -pz * (fz - zFz);
-								dfa = pa * (fa - zFa);
-								dfb =  pb * (fb - zFb);
-								dfc =  pc * (fc - zFc);
-
-								cx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getX();
-								cy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getY();
-								cz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getZ();
-								ca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getAlphaRad();
-								cb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getBetaRad();
-								cc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getGammaRad();
-
-
-								JointPosition jNow=lbr.getCurrentJointPosition();
-								double bBiaozhi=1;
-								if (jNow.get(6)>0){
-									bBiaozhi=1;
-								}
-								else{
-									bBiaozhi=-1;
-								}
-//								if(nToolMode==8||nToolMode==9){
-//									if(Math.abs(dfb) < 0.001){
-//										dfb = 0;
-//									}
-//									
-//									if(Math.abs(Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))>12 && (Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))*fb*bBiaozhi<0  ){
-//										dfb = 0;
-//									}
-//									
-//									if(Math.abs(ccx-cx)>55 || Math.abs(dfx) < 0.001){
-//										dfx = 0;
-//									}
-//									if(Math.abs(ccy-cy)>55 || Math.abs(dfy) < 0.001){
-//										dfy = 0;
-//									}
-//									if(Math.abs(ccz-cz)>55  || Math.abs(dfz) < 0.001){
-//										dfz = 0;
-//									}
-//									
-//									
-//								}
-//								 if(nToolMode==2||nToolMode==3){
-									if(Math.abs(ccc-cc)>(11.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
-										dfc = 0;
-									}
-									if(Math.toDegrees(jStart.get(6))<-170){
-										dfc = 0;	
-									}
-									if(Math.abs(ccx-cx)>80 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
-//										
-										dfx = 0;
-									}
-									if(Math.abs(ccy-cy)>80 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
-//								
-										dfy = 0;
-									}
-									if(Math.abs(ccz-cz)>80 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
-//										
-										dfz = 0;
-									}
-									
-//								}
-
-
-								if (Math.abs(dfz) < 0.5) {
-									dfz = 0;
-								}
-								if (ccz - cz > 50) {
-									if (fz > 0) {
-										dfz = 0;
-
-									}
-								}
-
-								if (ccz - cz < -50) {
-									if (fz < 0) {
-										dfz = 0;
-
-									}
-
-								}
-
-								//								
-//								if(nToolMode==8 || nToolMode==9){
-//									
-//									
-//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfz*Math.tan(A_cps), 0, -dfz, 0, dfb, 0)));
-//
-//									destFrame.setX(Ptest2.getX());
-//									destFrame.setY(Ptest2.getY());
-//									destFrame.setZ(Ptest2.getZ());
-//									destFrame.setAlphaRad(Ptest2.getAlphaRad());
-//									destFrame.setBetaRad(Ptest2.getBetaRad());
-//									destFrame.setGammaRad(Ptest2.getGammaRad());
-//
-//								}
-//								 if(nToolMode==2 || nToolMode==3){
-//									if(nA<3.1416 && nB<3.1416 && nC<3.1416){
-////										
-//										A_cps=3.14159-nA;
-//										C_cps=3.14159-nC;
-//									}
-//									else if(nA<0 && nB<0 && nC>0){
-//										A_cps=-nA;
-//										C_cps=nC;
-//									}
-
-
-									
-									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
-//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, -dfz*Math.tan(A_cps), -dfz, 0, 0, dfc)));
-									destFrame.setX(Ptest2.getX());
-									destFrame.setY(Ptest2.getY());
-									destFrame.setZ(Ptest2.getZ());
-									destFrame.setAlphaRad(Ptest2.getAlphaRad());
-									destFrame.setBetaRad(Ptest2.getBetaRad());
-									destFrame.setGammaRad(Ptest2.getGammaRad());
-
-									
-//								}
-
-
-
-
-								smartServoLINRuntime.updateWithRealtimeSystem();
-
-								smartServoLINRuntime.setDestination(destFrame);
-
-								//smartServoLINRuntime.changeControlModeSettings(cic);
-								if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-									//					bstop = true;
-								}
-
-								//				ThreadUtil.milliSleep(5);
-							}
-
-						}
-						 catch (Exception e) {
-								// TODO: handle exception
-								System.out.println(e.toString());
-							}
-						smartServoLINRuntime.stopMotion();
-					}
-					
-					else if (nToolMode==8 || nToolMode==9){
-//						System.out.println("zuo");
-						Frame current = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
-						_toolAttachedToLBR_zuo_hand.move(ptp(current).setJointVelocityRel(0.1));
-
-
-						SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-						aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-//						System.out.println("Start Smart Servo Lin motion");
-
-						//设置是否有阻抗的地方
-						//_toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
-						_toolAttachedToLBR_zuo_hand.moveAsync(aSmartServoLINMotion);
-
-//						System.out.println("Get the runtime of the SmartServoLIN motion");
-						ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-								.getRuntime();
-
-						px = py = pz = 0.03;
-					
-						pa = pb = pc=0.0003;
-
-						Frame destFrame = current.copyWithRedundancy();
-						
-						double zFx = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-								.getX();
-						double zFy = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-								.getY();
-						double zFz = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-								.getZ();
-
-						double zFa = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getZ();
-						double zFb = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getY();
-						double zFc = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getX();
-						//力
-
-
-						ccx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getX();
-						ccy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getY();
-						ccz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getZ();
-						cca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getAlphaRad();
-						ccb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getBetaRad();
-						ccc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getGammaRad();
-						//位置
-
-//						System.out.println("get Force in x " + zFx);
-//						System.out.println("get Force in y " + zFy);
-//						System.out.println("get Force in z " + zFz);
-//						System.out.println("get Torque in a " + zFa);
-//						System.out.println("get Torque in b " + zFb);
-//						System.out.println("get Torque in c " + zFc);
-						JointPosition jStart=lbr.getCurrentJointPosition();
-						try {
-							while (!bstop) {
-
-								fx = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-										.getX();
-								fy = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-										.getY();
-								fz = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
-										.getZ();
-								fa = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getZ();
-								fb = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getY();
-								fc = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getX();
-
-								dfx = -px * (fx - zFx);
-								dfy = py * (fy - zFy);
-								dfz = -pz * (fz - zFz);
-								dfa = pa * (fa - zFa);
-								dfb =  pb * (fb - zFb);
-								dfc =  pc * (fc - zFc);
-
-								cx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getX();
-								cy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getY();
-								cz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getZ();
-								ca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getAlphaRad();
-								cb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getBetaRad();
-								cc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getGammaRad();
-
-
-								JointPosition jNow=lbr.getCurrentJointPosition();
-								double bBiaozhi=1;
-								if (jNow.get(6)>0){
-									bBiaozhi=1;
-								}
-								else{
-									bBiaozhi=-1;
-								}
-
-									if(Math.abs(dfc) < 0.001){
-										dfc = 0;					
-									}
-									
-									if(Math.abs(Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))>12 && (Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))*fc*bBiaozhi<0  ){
-										dfc = 0;	
-									}
-									
-									if(Math.abs(ccx-cx)>75 || Math.abs(dfx) < 0.001){
-										dfx = 0;
-									}
-									if(Math.abs(ccy-cy)>75 || Math.abs(dfy) < 0.001){
-										dfy = 0;
-									}
-									if(Math.abs(ccz-cz)>75  || Math.abs(dfz) < 0.001){
-										dfz = 0;
-									}
-									
-									
-//								}
-//								else if(nToolMode==2||nToolMode==3){
-//									if(Math.abs(ccc-cc)>(11.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
-//										dfc = 0;
-//									}
-//									if(Math.toDegrees(jStart.get(6))<-170){
-//										dfc = 0;	
-//									}
-//									if(Math.abs(ccx-cx)>80 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
-////										
-//										dfx = 0;
-//									}
-//									if(Math.abs(ccy-cy)>80 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
-////								
-//										dfy = 0;
-//									}
-//									if(Math.abs(ccz-cz)>80 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
-////										
-//										dfz = 0;
-//									}
-//									
-//								}
-
-
-								if (Math.abs(dfz) < 0.5) {
-									dfz = 0;
-								}
-								if (ccz - cz > 50) {
-									if (fz > 0) {
-										dfz = 0;
-
-									}
-								}
-
-								if (ccz - cz < -50) {
-									if (fz < 0) {
-										dfz = 0;
-
-									}
-
-								}
-
-								//								
-//								if(nToolMode==8 || nToolMode==9){
-									
-									
-//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfz*Math.tan(A_cps), 0, -dfz, 0, dfb, 0)));
-									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
-									destFrame.setX(Ptest2.getX());
-									destFrame.setY(Ptest2.getY());
-									destFrame.setZ(Ptest2.getZ());
-									destFrame.setAlphaRad(Ptest2.getAlphaRad());
-									destFrame.setBetaRad(Ptest2.getBetaRad());
-									destFrame.setGammaRad(Ptest2.getGammaRad());
-
-//								}
-//								else if(nToolMode==2 || nToolMode==3){
-////									if(nA<3.1416 && nB<3.1416 && nC<3.1416){
-//////										
-////										A_cps=3.14159-nA;
-////										C_cps=3.14159-nC;
-////									}
-////									else if(nA<0 && nB<0 && nC>0){
-////										A_cps=-nA;
-////										C_cps=nC;
-////									}
-//
-//
-//									
-//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
-////									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, -dfz*Math.tan(A_cps), -dfz, 0, 0, dfc)));
-//									destFrame.setX(Ptest2.getX());
-//									destFrame.setY(Ptest2.getY());
-//									destFrame.setZ(Ptest2.getZ());
-//									destFrame.setAlphaRad(Ptest2.getAlphaRad());
-//									destFrame.setBetaRad(Ptest2.getBetaRad());
-//									destFrame.setGammaRad(Ptest2.getGammaRad());
-//
-//									
-//								}
-
-
-
-
-								smartServoLINRuntime.updateWithRealtimeSystem();
-
-								smartServoLINRuntime.setDestination(destFrame);
-
-								//smartServoLINRuntime.changeControlModeSettings(cic);
-								if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-									//					bstop = true;
-								}
-
-								//				ThreadUtil.milliSleep(5);
-							}
-
-						}
-						 catch (Exception e) {
-								// TODO: handle exception
-								System.out.println(e.toString());
-							}
-						smartServoLINRuntime.stopMotion();
-					}
-					
-					
-
-					
-
-
-					ThreadUtil.milliSleep(20);
-					nWorkingmode=0;
-				}
-
-				else if(nWorkingmode==8){
-					bstop = false;
-					System.out.println("start nWorkingmode=8");
-					Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					lbr.move(ptp(current).setJointVelocityRel(0.1));
-
-
-					SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-					aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
-
-					System.out.println("Start Smart Servo Lin motion");
-
-
-					lbr.moveAsync(aSmartServoLINMotion);
-
-					System.out.println("Get the runtime of the SmartServoLIN motion");
-					ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-							.getRuntime();
-					System.out.println("6");
-					px = py = pz = 0.02;
-					pa = pb = pc=0.0002;
-					
-
-					Frame destFrame = current.copyWithRedundancy();
-
-					double zFx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-							.getX();
-					double zFy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-							.getY();
-					double zFz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-							.getZ();
-
-					double zFa = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getZ();
-					double zFb = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getY();
-					double zFc = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getX();
-
-
-					ccx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-					ccy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-					ccz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-					cca = lbr.getCurrentCartesianPosition(lbr.getFlange()).getAlphaRad();
-					ccb = lbr.getCurrentCartesianPosition(lbr.getFlange()).getBetaRad();
-					ccc = lbr.getCurrentCartesianPosition(lbr.getFlange()).getGammaRad();
-
-					System.out.println("get Force in x " + zFx);
-					System.out.println("get Force in y " + zFy);
-					System.out.println("get Force in z " + zFz);
-					System.out.println("get Torque in a " + zFa);
-					System.out.println("get Torque in b " + zFb);
-					System.out.println("get Torque in c " + zFc);
-
-					try {
-						while (!bstop) {
-							//
-							fx = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-									.getX();
-							fy = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-									.getY();
-							fz = lbr.getExternalForceTorque(lbr.getFlange()).getForce()
-									.getZ();
-							fa = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getZ();
-							fb = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getY();
-							fc = lbr.getExternalForceTorque(lbr.getFlange()).getTorque().getX();
-							//
-							dfx = -px * (fx - zFx);
-							dfy = py * (fy - zFy);
-							dfz = -pz * (fz - zFz);
-							dfa = pa * (fa - zFa);
-							dfb =  pb * (fb - zFb);
-							dfc =  pc * (fc - zFc);
-							//
-							cx = lbr.getCurrentCartesianPosition(lbr.getFlange()).getX();
-							cy = lbr.getCurrentCartesianPosition(lbr.getFlange()).getY();
-							cz = lbr.getCurrentCartesianPosition(lbr.getFlange()).getZ();
-							ca = lbr.getCurrentCartesianPosition(lbr.getFlange()).getAlphaRad();
-							cb = lbr.getCurrentCartesianPosition(lbr.getFlange()).getBetaRad();
-							cc = lbr.getCurrentCartesianPosition(lbr.getFlange()).getGammaRad();
-							//
-							//
-							if(Math.abs(ccx-cx)>50 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
-								dfx = 0;
-							}
-							if(Math.abs(ccy-cy)>50 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
-								dfy = 0;
-							}
-							if(Math.abs(ccz-cz)>50 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
-								dfz = 0;
-							}
-							if(Math.abs(ccc-cc)>(10/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.00001){
-								dfc = 0;
-							}
-
-							if (Math.abs(dfz) < 0.5) {
-								dfz = 0;
-							}
-							if (ccz - cz > 50) {
-								if (fz > 0) {
-									dfz = 0;
-
-								}
-							}
-
-							if (ccz - cz < -50) {
-								if (fz < 0) {
-									dfz = 0;
-
-								}
-
-							}
-							//
-							//								
-							Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfx, 0, -dfz, 0, 0, dfc)));
-
-							destFrame.setX(Ptest2.getX());
-							destFrame.setY(Ptest2.getY());
-							destFrame.setZ(Ptest2.getZ());
-							destFrame.setAlphaRad(Ptest2.getAlphaRad());
-							destFrame.setBetaRad(Ptest2.getBetaRad());
-							destFrame.setGammaRad(Ptest2.getGammaRad());
-
-							//
-							//
-							smartServoLINRuntime.updateWithRealtimeSystem();
-
-							smartServoLINRuntime.setDestination(destFrame);
-							//
-							//								//smartServoLINRuntime.changeControlModeSettings(cic);
-							if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-								//									//					bstop = true;
-							}
-
-							//				ThreadUtil.milliSleep(5);
-						}
-						//
-					} catch (Exception e) {
-						//							// TODO: handle exception
-						//							System.out.println(e.toString());
-					}
-
-					smartServoLINRuntime.stopMotion();
-
-
-					ThreadUtil.milliSleep(20);
-					nWorkingmode=0;
-				}
-				else if(nWorkingmode==9){
-					//					System.out.println("start nWorkingmode=9");
-					final CartesianImpedanceControlMode carthard_Collect = ConeLimit();	
-					if (StartOnece==true &&  bCorrectPlane==true){
-						Err="7,";
-						if(nToolMode==2){
-							Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1).setMode(carthard_Collect));
-
-							//			    			System.out.println("wait");
-							ThreadUtil.milliSleep(5000);
-							//					    	System.out.println("finish");
-							cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-							double surface =DistanceToPlane.getX();
-							nXcorect=DistanceToPlane.getX();
-							Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofTranslation(-surface, 0, 0));
-
-						}
-
-						else if(nToolMode==3){
-							Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							needle_Tool_2.getFrame("/tcp_x_1_yz3").move(ptp(cmdPos2).setJointVelocityRel(0.1).setMode(carthard_Collect));
-
-							//			    			System.out.println("wait");
-							ThreadUtil.milliSleep(5000);
-							//					    	System.out.println("finish");
-							cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
-							Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-							double surface =DistanceToPlane.getX();
-							nXcorect=DistanceToPlane.getX();
-							Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofTranslation(-surface, 0, 0)); 
-
-						}
-
-						else if(nToolMode==8){
-							Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1).setMode(carthard_Collect));
-
-							//    		    			System.out.println("wait");
-							ThreadUtil.milliSleep(5000);
-							//    				    	System.out.println("finish");
-							cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-							double surface =DistanceToPlane.getX();
-							nXcorect=DistanceToPlane.getX();
-							Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofTranslation(-surface, 0, 0));
-
-						}
-
-						else if(nToolMode==9){
-							Frame cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							needle_Tool_3.getFrame("/tcp_xyz").move(ptp(cmdPos2).setJointVelocityRel(0.1).setMode(carthard_Collect));
-
-							//    		    			System.out.println("wait");
-							ThreadUtil.milliSleep(5000);
-							//    				    	System.out.println("finish");
-							cmdPos2 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-							Transformation DistanceToPlane=Ptest_ForPlane.staticTransformationTo(cmdPos2);
-							double surface =DistanceToPlane.getX();
-							nXcorect=DistanceToPlane.getX();
-							Ptest_ForPlane1 = Ptest_ForPlane.copyWithRedundancy().transform(Transformation.ofTranslation(-surface, 0, 0));
-
-						}
-
-						Err="6,";
-
-						StartOnece=false;
-						//		       	        Initialize=false;
-						//		       	        System.out.println(" end nWorkingmode=9");
-						nWorkingmode=0;
-					}
-
-					nWorkingmode=0;
-					//					 ThreadUtil.milliSleep(500);
-				}
-				else if(nWorkingmode==10){
-					System.out.println("nWorkingmode==10");
-					Frame cmdPos = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					cmdPos.getX();
-					cmdPos.getY();
-					cmdPos.getZ();
-					cmdPos.getAlphaRad();
-					cmdPos.getBetaRad();
-					cmdPos.getGammaRad();
-					System.out.println("cmdPos:"+cmdPos);
-
-
-					if (nTest==0 && nToolMode==1){
-						jointPos_register =new JointPosition(   Math.toRadians(-26.68),
-								Math.toRadians(-15.66),
-								Math.toRadians(6.14),
-								Math.toRadians(93.59),
-								Math.toRadians(-23.73),
-								Math.toRadians(56.22),
-								Math.toRadians(25.43));	
-					}
-					else if (nTest==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-5.77),
-								Math.toRadians(3.22),
-								Math.toRadians(6.14),
-								Math.toRadians(97.57),
-								Math.toRadians(-1.42),
-								Math.toRadians(37.47),
-								Math.toRadians(2.57));	
-					}
-					else if (nTest==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-8.56),
-								Math.toRadians(-16.90),
-								Math.toRadians(6.14),
-								Math.toRadians(98.93),
-								Math.toRadians(-5.32),
-								Math.toRadians(58.86),
-								Math.toRadians(4.07));	
-					}
-					else if (nTest==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-29.52),
-								Math.toRadians(-23.92),
-								Math.toRadians(6.14),
-								Math.toRadians(89.33),
-								Math.toRadians(-26.11),
-								Math.toRadians(60.82),
-								Math.toRadians(26.32));	
-					}
-					else if (nTest==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(2.36),
-								Math.toRadians(-18.98),
-								Math.toRadians(6.14),
-								Math.toRadians(84.23),
-								Math.toRadians(6.06),
-								Math.toRadians(46.66),
-								Math.toRadians(-8.96));	
-					}
-					else if (nTest==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-26.03),
-								Math.toRadians(-25.32),
-								Math.toRadians(6.14),
-								Math.toRadians(75.64),
-								Math.toRadians(-26.98),
-								Math.toRadians(48.48),
-								Math.toRadians(29.32));	
-					}
-					///???
-					else if (nTest==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-23.81),
-								Math.toRadians(-34.16),
-								Math.toRadians(6.14),
-								Math.toRadians(73.27),
-								Math.toRadians(-23.69),
-								Math.toRadians(53.56),
-								Math.toRadians(23.51));	
-					}
-					else if (nTest==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.42),
-								Math.toRadians(-27.68),
-								Math.toRadians(6.14),
-								Math.toRadians(81.89),
-								Math.toRadians(6.68),
-								Math.toRadians(53.23),
-								Math.toRadians(-10.47));	
-					}
-					else if (nTest==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.83),
-								Math.toRadians(-9.97),
-								Math.toRadians(6.14),
-								Math.toRadians(83.02),
-								Math.toRadians(11.96),
-								Math.toRadians(37.06),
-								Math.toRadians(-15.12));	
-					}
-					else if (nTest==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.65),
-								Math.toRadians(-9.14),
-								Math.toRadians(6.14),
-								Math.toRadians(83.56),
-								Math.toRadians(-5.46),
-								Math.toRadians(35.83),
-								Math.toRadians(5.82));	
-					}
-					else if (nTest==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-29.59),
-								Math.toRadians(-16.83),
-								Math.toRadians(6.14),
-								Math.toRadians(74.29),
-								Math.toRadians(-34.39),
-								Math.toRadians(41.59),
-								Math.toRadians(40.49));	
-					}
-					else if (nTest==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-43.70),
-								Math.toRadians(0.53),
-								Math.toRadians(6.14),
-								Math.toRadians(111.20),
-								Math.toRadians(-35.53),
-								Math.toRadians(65.48),
-								Math.toRadians(40.99));	
-					}
-					else if (nTest==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(1.64),
-								Math.toRadians(2.67),
-								Math.toRadians(6.14),
-								Math.toRadians(104.91),
-								Math.toRadians(7.45),
-								Math.toRadians(45.64),
-								Math.toRadians(-7.87));	
-					}
-					else if (nTest==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.37),
-								Math.toRadians(-12.49),
-								Math.toRadians(6.14),
-								Math.toRadians(105.17),
-								Math.toRadians(7.54),
-								Math.toRadians(61.27),
-								Math.toRadians(-9.08));	
-					}
-					else if (nTest==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-13.85),
-								Math.toRadians(-12.95),
-								Math.toRadians(6.14),
-								Math.toRadians(104.74),
-								Math.toRadians(-9.91),
-								Math.toRadians(61.21),
-								Math.toRadians(9.32));	
-					}
-//					
-
-					if (nTest==0 && nToolMode==7){
-						jointPos_register =new JointPosition(   Math.toRadians(16.45),
-								Math.toRadians(-24.52),
-								Math.toRadians(-9.83),
-								Math.toRadians(83.13),
-								Math.toRadians(4.49),
-								Math.toRadians(58.28),
-								Math.toRadians(85.46));	
-					}
-					else if (nTest==1 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(27.02),
-								Math.toRadians(-26.18),
-								Math.toRadians(-9.83),
-								Math.toRadians(89.83),
-								Math.toRadians(13.08),
-								Math.toRadians(67.27),
-								Math.toRadians(75.83));	
-					}
-					else if (nTest==2 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.85),
-								Math.toRadians(-20.60),
-								Math.toRadians(-9.83),
-								Math.toRadians(85.82),
-								Math.toRadians(-6.47),
-								Math.toRadians(58.08),
-								Math.toRadians(98.59));	
-					}
-					else if (nTest==3 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(25.47),
-								Math.toRadians(-17.81),
-								Math.toRadians(-9.83),
-								Math.toRadians(99.31),
-								Math.toRadians(10.35),
-								Math.toRadians(68.30),
-								Math.toRadians(77.47));	
-					}
-					else if (nTest==4 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.34),
-								Math.toRadians(-16.93),
-								Math.toRadians(-9.83),
-								Math.toRadians(103.57),
-								Math.toRadians(-15.54),
-								Math.toRadians(74.71),
-								Math.toRadians(107.44));	
-					}
-					else if (nTest==5 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(18.94),
-								Math.toRadians(-10.64),
-								Math.toRadians(-9.83),
-								Math.toRadians(103.92),
-								Math.toRadians(4.06),
-								Math.toRadians(65.45),
-								Math.toRadians(83.24));	
-					}
-					///???
-					else if (nTest==6 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(7.22),
-								Math.toRadians(-10.14),
-								Math.toRadians(-9.83),
-								Math.toRadians(107.16),
-								Math.toRadians(-5.60),
-								Math.toRadians(68.69),
-								Math.toRadians(94.64));	
-					}
-					else if (nTest==7 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(-9.48),
-								Math.toRadians(-18.45),
-								Math.toRadians(-9.83),
-								Math.toRadians(100.60),
-								Math.toRadians(-16.97),
-								Math.toRadians(73.95),
-								Math.toRadians(109.76));	
-					}
-					else if (nTest==8 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(21.20),
-								Math.toRadians(-22.84),
-								Math.toRadians(-9.83),
-								Math.toRadians(105.84),
-								Math.toRadians(7.27),
-								Math.toRadians(79.34),
-								Math.toRadians(83.23));	
-					}
-					else if (nTest==9 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(23.77),
-								Math.toRadians(-8.55),
-								Math.toRadians(-9.83),
-								Math.toRadians(92.36),
-								Math.toRadians(8.93),
-								Math.toRadians(52.28),
-								Math.toRadians(76.03));	
-					}
-					else if (nTest==10 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(10.26),
-								Math.toRadians(-5.24),
-								Math.toRadians(-9.83),
-								Math.toRadians(100.14),
-								Math.toRadians(-4.27),
-								Math.toRadians(56.56),
-								Math.toRadians(92.38));	
-					}
-					else if (nTest==11 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(16.82),
-								Math.toRadians(-11.10),
-								Math.toRadians(-9.83),
-								Math.toRadians(99.14),
-								Math.toRadians(2.45),
-								Math.toRadians(61.09),
-								Math.toRadians(85.19));	
-					}
-					else if (nTest==12 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(30.97),
-								Math.toRadians(-5.32),
-								Math.toRadians(-9.83),
-								Math.toRadians(106.71),
-								Math.toRadians(13.37),
-								Math.toRadians(64.47),
-								Math.toRadians(70.46));	
-					}
-					else if (nTest==13 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(5.40),
-								Math.toRadians(-0.07),
-								Math.toRadians(-9.83),
-								Math.toRadians(108.56),
-								Math.toRadians(-9.01),
-								Math.toRadians(60.41),
-								Math.toRadians(97.10));	
-					}
-					else if (nTest==14 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(15.38),
-								Math.toRadians(-9.63),
-								Math.toRadians(-9.83),
-								Math.toRadians(107.57),
-								Math.toRadians(0.93),
-								Math.toRadians(68.07),
-								Math.toRadians(86.80));	
-					}
-
-					Err="10,";
-					lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
-					//					System.out.println("move");
-					Err="0,";
-					nTest++;
-					if (nTest==15){
-						nTest=0;
-					}
-					//					System.out.println("nTest:"+nTest);
-					nWorkingmode=0;
-					//					System.out.println("nWorkingmode=0;");
-				}
-				else if(nWorkingmode==11){
-					nLastWorkingmode=nWorkingmode;
-					System.out.println("nWorkingmode=11");
-					Frame Tcp = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
-					Tcp.setX(nX);
-					Tcp.setY(nY);
-					Tcp.setZ(nZ);
-					Tcp.setAlphaRad(Math.toRadians(nA));
-					Tcp.setBetaRad(Math.toRadians(nB));
-					Tcp.setGammaRad(Math.toRadians(nC));
-
-
-					//					System.out.println("nA"+nA);
-					
-					
-					//nToolMode==2   you_21002 下表面		
-					TRANSLATION_OF_TOOL_you[0]=nX-1.0;
-					TRANSLATION_OF_TOOL_you[1]=nY-10;
-					TRANSLATION_OF_TOOL_you[2]=nZ;
-					TRANSLATION_OF_TOOL_you[3]=nA;
-					TRANSLATION_OF_TOOL_you[4]=nB;
-					TRANSLATION_OF_TOOL_you[5]=nC;
-
-
-					TRANSLATION_OF_TOOL_you2[0]=nX+0.8;
-					TRANSLATION_OF_TOOL_you2[1]=nY-10;
-					TRANSLATION_OF_TOOL_you2[2]=nZ;
-					TRANSLATION_OF_TOOL_you2[3]=nA;
-					TRANSLATION_OF_TOOL_you2[4]=nB;
-					TRANSLATION_OF_TOOL_you2[5]=nC;
-
-
-					TRANSLATION_OF_TOOL_you3[0]=nX;
-					TRANSLATION_OF_TOOL_you3[1]=nY;
-					TRANSLATION_OF_TOOL_you3[2]=nZ;
-					TRANSLATION_OF_TOOL_you3[3]=nA;
-					TRANSLATION_OF_TOOL_you3[4]=nB;
-					TRANSLATION_OF_TOOL_you3[5]=nC;
-
-					//nToolMode==8     zuo_21002 下表面
-					TRANSLATION_OF_TOOL_zuo[0]=nX-10;
-					TRANSLATION_OF_TOOL_zuo[1]=nY-1.0;
-					TRANSLATION_OF_TOOL_zuo[2]=nZ;
-					TRANSLATION_OF_TOOL_zuo[3]=nA;
-					TRANSLATION_OF_TOOL_zuo[4]=nB;
-					TRANSLATION_OF_TOOL_zuo[5]=nC;
-
-
-					TRANSLATION_OF_TOOL_zuo2[0]=nX-10;
-					TRANSLATION_OF_TOOL_zuo2[1]=nY+0.8;
-					TRANSLATION_OF_TOOL_zuo2[2]=nZ;
-					TRANSLATION_OF_TOOL_zuo2[3]=nA;
-					TRANSLATION_OF_TOOL_zuo2[4]=nB;
-					TRANSLATION_OF_TOOL_zuo2[5]=nC;
-
-
-
-					TRANSLATION_OF_TOOL_zuo3[0]=nX;
-					TRANSLATION_OF_TOOL_zuo3[1]=nY;
-					TRANSLATION_OF_TOOL_zuo3[2]=nZ;
-					TRANSLATION_OF_TOOL_zuo3[3]=nA;
-					TRANSLATION_OF_TOOL_zuo3[4]=nB;
-					TRANSLATION_OF_TOOL_zuo3[5]=nC;
-					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[0]"+TRANSLATION_OF_TOOL_zuo3[0]);
-					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[1]"+TRANSLATION_OF_TOOL_zuo3[1]);
-					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[2]"+TRANSLATION_OF_TOOL_zuo3[2]);
-//					TRANSLATION_OF_TOOL_zuo_hand[0]=nX;
-//					TRANSLATION_OF_TOOL_zuo_hand[1]=nY;
-//					TRANSLATION_OF_TOOL_zuo_hand[2]=nZ;
-					TRANSLATION_OF_TOOL_zuo_hand[3]=nA;
-					TRANSLATION_OF_TOOL_zuo_hand[4]=nB;
-					TRANSLATION_OF_TOOL_zuo_hand[5]=nC;
-
-					
-					
-//					TRANSLATION_OF_TOOL_you_hand[0]=nX;
-//					TRANSLATION_OF_TOOL_you_hand[1]=nY;
-//					TRANSLATION_OF_TOOL_you_hand[2]=nZ;
-					TRANSLATION_OF_TOOL_you_hand[3]=nA;
-					TRANSLATION_OF_TOOL_you_hand[4]=nB;
-					TRANSLATION_OF_TOOL_you_hand[5]=nC;
-
-					nWorkingmode=0;
-					System.out.println("11nWorkingmode=0");
-				}
-				else if(nWorkingmode==12){
-					System.out.println("nWorkingmode=12");
-					
-					if (nTest_rotation==0 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-19.42),
-								Math.toRadians(-10.57),
-								Math.toRadians(6.14),
-								Math.toRadians(97.40),
-								Math.toRadians(-16.56),
-								Math.toRadians(52.86),
-								Math.toRadians(50.62));	
-					}
-					else if (nTest_rotation==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-3.30),
-								Math.toRadians(-17.11),
-								Math.toRadians(-6.13),
-								Math.toRadians(93.75),
-								Math.toRadians(-3.46),
-								Math.toRadians(53.55),
-								Math.toRadians(31.40));	
-					}
-					else if (nTest_rotation==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-30.77),
-								Math.toRadians(-6.25),
-								Math.toRadians(-6.13),
-								Math.toRadians(113.05),
-								Math.toRadians(-28.37),
-								Math.toRadians(65.75),
-								Math.toRadians(4.46));	
-					}
-					else if (nTest_rotation==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-18.32),
-								Math.toRadians(-10.32),
-								Math.toRadians(6.14),
-								Math.toRadians(106.39),
-								Math.toRadians(-13.95),
-								Math.toRadians(61.06),
-								Math.toRadians(-5.88));	
-					}
-					else if (nTest_rotation==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-42.33),
-								Math.toRadians(-11.26),
-								Math.toRadians(6.14),
-								Math.toRadians(99.48),
-								Math.toRadians(-35.63),
-								Math.toRadians(64.56),
-								Math.toRadians(-34.67));
-					}
-					else if (nTest_rotation==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-22.15),
-								Math.toRadians(8.28),
-								Math.toRadians(6.14),
-								Math.toRadians(110.44),
-								Math.toRadians(-19.21),
-								Math.toRadians(48.38),
-								Math.toRadians(-50.09));
-					}
-					else if (nTest_rotation==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(8.17),
-								Math.toRadians(11.96),
-								Math.toRadians(-2.50),
-								Math.toRadians(108.03),
-								Math.toRadians(5.03),
-								Math.toRadians(39.36),
-								Math.toRadians(-138.94));
-					}
-					else if (nTest_rotation==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(11.59),
-								Math.toRadians(7.72),
-								Math.toRadians(-2.51),
-								Math.toRadians(104.03),
-								Math.toRadians(9.53),
-								Math.toRadians(39.98),
-								Math.toRadians(-142.96));
-					}
-					else if (nTest_rotation==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-7.70),
-								Math.toRadians(5.40),
-								Math.toRadians(-2.50),
-								Math.toRadians(104.09),
-								Math.toRadians(-14.70),
-								Math.toRadians(43.20),
-								Math.toRadians(-128.50));
-					}
-					else if (nTest_rotation==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-5.55),
-								Math.toRadians(2.18),
-								Math.toRadians(-2.50),
-								Math.toRadians(105.53),
-								Math.toRadians(-11.10),
-								Math.toRadians(47.28),
-								Math.toRadians(-98.17));
-					}
-					else if (nTest_rotation==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-12.98),
-								Math.toRadians(-8.50),
-								Math.toRadians(-2.50),
-								Math.toRadians(98.70),
-								Math.toRadians(-17.70),
-								Math.toRadians(52.84),
-								Math.toRadians(-19.46));
-					}
-					else if (nTest_rotation==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-19.82),
-								Math.toRadians(-18.80),
-								Math.toRadians(-2.50),
-								Math.toRadians(101.96),
-								Math.toRadians(-20.91),
-								Math.toRadians(67.77),
-								Math.toRadians(7.91));
-					}
-					else if (nTest_rotation==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-6.34),
-								Math.toRadians(-11.70),
-								Math.toRadians(-2.50),
-								Math.toRadians(107.93),
-								Math.toRadians(-9.41),
-								Math.toRadians(63.43),
-								Math.toRadians(33.88));
-					}
-					else if (nTest_rotation==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(-6.63),
-								Math.toRadians(-10.61),
-								Math.toRadians(-2.50),
-								Math.toRadians(108.04),
-								Math.toRadians(-9.81),
-								Math.toRadians(62.52),
-								Math.toRadians(3.70));
-					}
-					else if (nTest_rotation==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(7.01),
-								Math.toRadians(-19.00),
-								Math.toRadians(-2.51),
-								Math.toRadians(90.33),
-								Math.toRadians(3.80),
-								Math.toRadians(52.43),
-								Math.toRadians(12.52));
-					}
-					///
-					
-					
-					
-					else if (nTest_rotation==0 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-7.48),
-							Math.toRadians(-24.21),
-							Math.toRadians(8.81),
-							Math.toRadians(85.78),
-							Math.toRadians(-6.64),
-							Math.toRadians(62.22),
-							Math.toRadians(61.61));	
-				}
-				    else if (nTest_rotation==1 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-10.56),
-							Math.toRadians(-5.60),
-							Math.toRadians(8.81),
-							Math.toRadians(102.69),
-							Math.toRadians(-6.59),
-							Math.toRadians(60.96),
-							Math.toRadians(13.05));
-				}
-				    else if (nTest_rotation==2 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
-							Math.toRadians(-15.38),
-							Math.toRadians(8.81),
-							Math.toRadians(91.86),
-							Math.toRadians(-2.58),
-							Math.toRadians(59.57),
-							Math.toRadians(-60.36));
-				}
-				    else if (nTest_rotation==3 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
-							Math.toRadians(-21.57),
-							Math.toRadians(8.80),
-							Math.toRadians(92.46),
-							Math.toRadians(-3.37),
-							Math.toRadians(66.18),
-							Math.toRadians(69.24));	
-				}
-
-				   else if (nTest_rotation==4 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(17.94),
-							Math.toRadians(-23.82),
-							Math.toRadians(8.80),
-							Math.toRadians(87.00),
-							Math.toRadians(13.89),
-							Math.toRadians(66.15),
-							Math.toRadians(-172.83));	
-				}
-				   else if (nTest_rotation==5 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(8.12),
-							Math.toRadians(-4.84),
-							Math.toRadians(8.80),
-							Math.toRadians(107.85),
-							Math.toRadians(8.83),
-							Math.toRadians(65.99),
-							Math.toRadians(-0.82));	
-				}
-					//
-				    else if (nTest_rotation==6 && nToolMode==7) {
-				    jointPos_register =new JointPosition(   Math.toRadians(40.89),
-						Math.toRadians(-17.35),
-						Math.toRadians(-19.71),
-						Math.toRadians(84.93),
-						Math.toRadians(25.21),
-						Math.toRadians(48.86),
-						Math.toRadians(-143.55));	
-				}
-
-				   else if (nTest_rotation==7 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(11.03),
-							Math.toRadians(-18.34),
-							Math.toRadians(8.82),
-							Math.toRadians(103.20),
-							Math.toRadians(8.80),
-							Math.toRadians(75.13),
-							Math.toRadians(129.64));	
-				}
-				   else if (nTest_rotation==8 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(-4.44),
-							Math.toRadians(-5.32),
-							Math.toRadians(8.83),
-							Math.toRadians(99.77),
-							Math.toRadians(-1.44),
-							Math.toRadians(57.44),
-							Math.toRadians(-112.51));	
-				}
-				   else if (nTest_rotation==9 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(23.26),
-						Math.toRadians(0.55),
-						Math.toRadians(-19.17),
-						Math.toRadians(111.23),
-						Math.toRadians(0.29),
-						Math.toRadians(55.31),
-						Math.toRadians(-26.38));
-				}
-				   else if (nTest_rotation==10 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(30.28),
-							Math.toRadians(-19.30),
-							Math.toRadians(8.80),
-							Math.toRadians(96.13),
-							Math.toRadians(22.64),
-							Math.toRadians(74.81),
-							Math.toRadians(-174.30));
-				}
-				   else if (nTest_rotation==11 && nToolMode==7) {
-					   jointPos_register =new JointPosition(   Math.toRadians(42.38),
-								Math.toRadians(-17.67),
-								Math.toRadians(-19.71),
-								Math.toRadians(88.61),
-								Math.toRadians(25.40),
-								Math.toRadians(52.91),
-								Math.toRadians(-105.36));	
-				}
-				   else if (nTest_rotation==12 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(16.98),
-						Math.toRadians(8.14),
-						Math.toRadians(-19.71),
-						Math.toRadians(102.05),
-						Math.toRadians(-9.98),
-						Math.toRadians(39.36),
-						Math.toRadians(-43.35));
-				}
-				    else if (nTest_rotation==13 && nToolMode==7) {
-					jointPos_register =new JointPosition(   Math.toRadians(3.20),
-							Math.toRadians(-22.57),
-							Math.toRadians(8.81),
-							Math.toRadians(92.19),
-							Math.toRadians(2.40),
-							Math.toRadians(67.25),
-							Math.toRadians(65.06));	
-				}
-					   else if (nTest_rotation==14 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(29.01),
-								Math.toRadians(-16.13),
-								Math.toRadians(8.80),
-								Math.toRadians(94.78),
-								Math.toRadians(29.69),
-								Math.toRadians(75.27),
-								Math.toRadians(-98.16));
-					}
-					 Err="10,";
-						lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
-						Err="0,";
-						nTest_rotation++;
-						if (nTest_rotation==15){
-							nTest_rotation=0;
-						}
-						nWorkingmode=0;
-				}
-				else{
-
-					//					
-					if(DangerMove==false && nLastWorkingmode==4){
-						JointPosition jReady =lbr.getCurrentJointPosition();
-						//		                final JointPosition currentPos = lbr.getCurrentJointPosition();
-
-
-						//						 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-						//		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
-						//					    	needle.getFrame("/you_21001").move(lin(Ptest1).setJointVelocityRel(0.2));
-						//					    	DangerMove=true;
-						//		                }
-
-						if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-							if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
-								System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
-								System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
-								System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
-								System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
-								System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
-								System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
-							}
-							if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
-								System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
-							}
-							Frame Ptest1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-							needle_Tool_2.getFrame("/you_21001").move(lin(Ptest1).setJointVelocityRel(0.2));
-							DangerMove=true;
-							System.out.println("dangermove1");
-						}
-
-
-					}
-					//ThreadUtil.milliSleep(4);
-				}
-
-
-
-
-
-			}
-			//return "end get";
-		}
-
-	}
-
-	public  class BreakTestProgram implements Callable<String> {
-
-
-		public String call() {
-			while (true){
-				if(SafeDataIO.getInput4()==true){
-					bstop = true;
-				}
-				if(SafeDataIO.getInput4()==false){
-					bstop = false;
-				}
-
-				if(SafeDataIO.getInput4()==true && breaktest==true){
-					breaktest=false;
-				}
-				if(breaktest==true && SafeDataIO.getInput4()==false){
-					System.out.println("breaktest==true");
-					BreakTest.initialize();
-					BreakTest.run();
-					System.out.println("BreakTest.run();");
-					//				  Err="100";
-					breaktest=false;
-				}
-				ThreadUtil.milliSleep(500);
-				//			System.out.println("new thread");
-
-			}
-			//return Err;	
-
-		}
-	}
-
-	//ä¿¡å�·é‡‡é›†
-	public void Monitor() {
-
-		while (true)
-		{
-
-
-
-			try{
-				ThreadUtil.milliSleep(5000);
-
-
-
-
-				//æš‚æ—¶æ— æ„�ä¹‰ï¼ˆé¢„ç•™é»˜è®¤ä¸º0ï¼‰
+         
+		 public void GetData()
+		    {
+			// ThreadUtil.milliSleep(1000);
 				data0 = "$0,";
-
-				//æŠ¥è­¦ä»£ç �
 				data1 = "0,";
-
-				//å·¥ä½œæ¨¡å¼�
-				data2 = "0,";
-
-				//æ˜¯å�¦ä¸Šç”µ
+				data2 = Err;
 				data3 = "1,";
-
-				//å½“å‰�é€Ÿåº¦
-				//CartesianVelocityLimitInfo infoObject = lbr.getCartesianVelocityLimitInfo();
 				double a1 =getApplicationControl().getApplicationOverride();
 				BigDecimal bigDecimal0 = new BigDecimal(a1);
 				a1 = bigDecimal0.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data4 = String.valueOf(a1)+",";
-
-				//æ— æ„�ä¹‰
 				data5 = "0,";
-
-				//				//å…³èŠ‚åº¦æ•°1
 				JointPosition actPos = lbr.getCurrentJointPosition();
 				a1 = Math.toDegrees(actPos.get(0));
 				BigDecimal bigDecimal = new BigDecimal(a1);
 				a1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data6=String.valueOf(a1)+",";
-
-				//				//å…³èŠ‚åº¦æ•°2
 				a1 = Math.toDegrees(actPos.get(1));
 				BigDecimal bigDecimal1 = new BigDecimal(a1);
 				a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data7=String.valueOf(a1)+",";
-
-				//				//å…³èŠ‚åº¦æ•°3
 				a1 = Math.toDegrees(actPos.get(2));
 				BigDecimal bigDecimal2 = new BigDecimal(a1);
 				a1 = bigDecimal2.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data8=String.valueOf(a1)+",";
-
-				//å…³èŠ‚åº¦æ•°4
 				a1 = Math.toDegrees(actPos.get(3));
 				BigDecimal bigDecimal3 = new BigDecimal(a1);
 				a1 = bigDecimal3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data9=String.valueOf(a1)+",";
-
-				//å…³èŠ‚åº¦æ•°5
 				a1 = Math.toDegrees(actPos.get(4));
 				BigDecimal bigDecimal4 = new BigDecimal(a1);
 				a1 = bigDecimal4.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data10=String.valueOf(a1)+",";
-
-				//å…³èŠ‚åº¦æ•°6
 				a1 = Math.toDegrees(actPos.get(5));
 				BigDecimal bigDecimal5 = new BigDecimal(a1);
 				a1 = bigDecimal5.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data11=String.valueOf(a1)+",";
-
-				//å…³èŠ‚åº¦æ•°7
 				a1 = Math.toDegrees(actPos.get(6));
 				BigDecimal bigDecimal6 = new BigDecimal(a1);
 				a1 = bigDecimal6.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 				data12=String.valueOf(a1)+",";
-
-				//è½´å��æ ‡x
-				Frame cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-				System.out.println("1:"+cmdPos);
-				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
-				cmdPos2.setX(0);
-				cmdPos2.setY(0);
-				cmdPos2.setZ(0);
-				cmdPos2.setAlphaRad(0);
-				cmdPos2.setBetaRad(Math.toRadians(-30));
-				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCommandedCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
-				System.out.println("2:"+cmdPos);
-
-				Frame cmdPos1 = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/CoverScrewing"));
-				System.out.println("getFlange()"+cmdPos1);
-
-
-
-				//				if (nToolMode==2){
-				//					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/tcp_anfang"));
-				//				}
-				//				else{
-				//					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001"));
-				//				}
-
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				
+				
+				
+				
 				if (nToolMode==1){
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21001"));
-					System.out.println("1:"+cmdPos);
-					cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
+				}
+				else if(nToolMode==2)
+				{
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 					cmdPos2.setX(0);
 					cmdPos2.setY(0);
 					cmdPos2.setZ(0);
 					cmdPos2.setAlphaRad(0);
 					cmdPos2.setBetaRad(Math.toRadians(-30));
 					cmdPos2.setGammaRad(0);
-					cmdPos=lbr.getCommandedCartesianPosition(needle_Tool_2.getFrame("/you_21001"), cmdPos2);
-					System.out.println("2:"+cmdPos);
-
-
-				}
-				else if(nToolMode==2)
-				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21002"));
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"), cmdPos2);
 				}	
 				else if(nToolMode==3)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21003"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
 				}	
 				else if(nToolMode==4)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/tcp_x_1_yz3"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"), cmdPos2);		
 				}	
 				else if(nToolMode==5)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21004"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);	
 				}	
 				else if(nToolMode==6)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"), cmdPos2);	
 				}	
 				else if(nToolMode==7)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21001"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
 				}	
 				else if(nToolMode==8)
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21002"));
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"), cmdPos2);
 				}	
-				else if(nToolMode==9)
-				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21003"));
-				}	
-				else if(nToolMode==10)
-				{
-
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21004"));
-				}	
-				else if(nToolMode==11)
-				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-				}	
-
+		  else if (nToolMode==9){
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+			}
+			else if(nToolMode==10)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
+			}	
+			else if(nToolMode==11)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==12)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"), cmdPos2);		
+			}	
+			else if(nToolMode==13)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==14)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==15)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==16)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"), cmdPos2);
+			}	
+			  else if (nToolMode==17){
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"), cmdPos2);
+			}
+			else if(nToolMode==18)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"), cmdPos2);
+			}	
+			else if(nToolMode==19)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==20)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"), cmdPos2);		
+			}	
+			else if(nToolMode==21)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==22)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==23)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==24)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"), cmdPos2);
+			}
+			  else if (nToolMode==25){
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"), cmdPos2);
+			}
+			else if(nToolMode==26)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"), cmdPos2);
+			}	
+			else if(nToolMode==27)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==28)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"), cmdPos2);		
+			}	
+			else if(nToolMode==29)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==30)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==31)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==32)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"), cmdPos2);
+			}
+			  else if (nToolMode==33){
+					cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"), cmdPos2);
+			}
+			else if(nToolMode==34)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"), cmdPos2);
+			}	
+			else if(nToolMode==35)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==36)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"), cmdPos2);		
+			}	
+			else if(nToolMode==37)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==38)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"), cmdPos2);	
+			}	
+			else if(nToolMode==39)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"), cmdPos2);
+			}	
+			else if(nToolMode==40)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"), cmdPos2);
+			}
 				else
 				{
-					cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
+					 cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+						cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
 				}
-
+				
 				a1=cmdPos.getX();
 				BigDecimal bigDecimal7 = new BigDecimal(a1);
 				a1 = bigDecimal7.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data13=a1+",";
+//				data13=a1+",";
 				data13=String.valueOf(a1)+",";
-
+				
 				//è½´å��æ ‡y
 				a1=cmdPos.getY();
 				BigDecimal bigDecimal8 = new BigDecimal(a1);
 				a1 = bigDecimal8.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data14=a1+",";
+//				data14=a1+",";
 				data14=String.valueOf(a1)+",";
-
+				
 				//è½´å��æ ‡z
 				a1=cmdPos.getZ();
 				BigDecimal bigDecimal9 = new BigDecimal(a1);
 				a1 = bigDecimal9.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data15=a1+",";
+//				data15=a1+",";
 				data15=String.valueOf(a1)+",";
-
+				
 				//è½´å��æ ‡rx
 				a1=Math.toDegrees(cmdPos.getAlphaRad());
 				BigDecimal bigDecima20 = new BigDecimal(a1);
 				a1 = bigDecima20.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data16=a1+",";
+//				data16=a1+",";
 				data16=String.valueOf(a1)+",";
-
+				
 				//è½´å��æ ‡ry
 				a1=Math.toDegrees(cmdPos.getBetaRad());
 				BigDecimal bigDecima21 = new BigDecimal(a1);
 				a1 = bigDecima21.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data17=a1+",";
+//				data17=a1+",";
 				data17=String.valueOf(a1)+",";
-
+				
 				//è½´å��æ ‡rz
 
-
+				
 				a1=Math.toDegrees(cmdPos.getGammaRad());
 				BigDecimal bigDecima22 = new BigDecimal(a1);
 				a1 = bigDecima22.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-				//				data18=a1+"$";
+//				data18=a1+"$";
 				data18=String.valueOf(a1)+",$";
-			}catch(Exception ex){
-				break;
+		    }
+		
+		public String call() {
+			
+			
+			
+			
+			while(true){
+			try {
+			boolean bPause=false;
+			serverSocketSend = new ServerSocket(30001);
+			
+			
+			
+			System.out.println("New socket.");
+			socket= serverSocketSend.accept();
+//			socket.setSoTimeout(2500);
+			System.out.println("Socket accepted. IP:{" + socket.getInetAddress().getHostAddress() + "}.");
+			outputStream = new DataOutputStream(socket.getOutputStream());
+			writer= new OutputStreamWriter(outputStream);
+
+			while (bPause==false)
+			{
+
+
+				try{
+					GetData();
+//					ThreadUtil.milliSleep(1000);
+//					System.out.println("x1");
+////				    System.out.println(socket_recive.isBound());
+////				    System.out.println(socket_recive.isConnected());
+//				    System.out.println("x2");
+////				    System.out.println(socket_recive.isClosed());
+//				    System.out.println("x3");
+//				    System.out.println(socket_recive.getOOBInline());
+				    
+					String data=data0+data1+data2+data3+data4+data5+data6+data7+data8+data9+data10+data11+data12+data13+data14+data15+data16+data17+data18;
+
+			
+					writer.write(data);
+					writer.flush();
+					ThreadUtil.milliSleep(50);
+//					ThreadUtil.milliSleep(2000);
+					}
+				catch (IOException e) {
+					System.out.println("Socket closed.");					
+					System.out.println("Closing socket.");
+					
+					writer.close();
+					outputStream.close();
+					socket.close();
+					serverSocketSend.close();
+					writer=null;
+					outputStream=null;
+					socket=null;
+					serverSocketSend=null;
+					bPause=true;
+					
+				}
+				
+
+			}
+			
+			System.out.println("closed.");					
+			System.out.println("Socket.");
+			
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
+		}
+		}
+	}
+
+	
+	
+	//////111111111
+public  class reciveRTdata implements Callable<String> {
+        
+        
+		
+		public String call() {	
+			String[] units=null;
+			while(true){
+			try{
+			boolean bPause=false;
+			serverSocket = new ServerSocket(30007);
+			
+			System.out.println("New socket.");
+		    socket_recive = serverSocket.accept();
+//		    socket_recive.setSoTimeout(2500);
+			System.out.println("Socket accepted. IP:{" + socket_recive.getInetAddress().getHostAddress() + "}.");
+		    
+			InputStream in = socket_recive.getInputStream();
+			outputStream_recive = new DataOutputStream(socket_recive.getOutputStream());
+			writer_recive= new OutputStreamWriter(outputStream_recive);	
+			while(bPause==false){
+
+				try{
+					
+
+					
+				      byte[] buf = new byte[1];
+				        int size = 0;
+//				        System.out.println("qq");
+				        StringBuffer sb = new StringBuffer();
+				    
+//				        System.out.println(in.read(buf,0,buf.length));
+				        if (in.read(buf,0,buf.length)==-1)
+				        {
+				        	bPause=true;
+//				        	System.out.println("oo");
+				        	break;
+				        }
+//				        System.out.println("ee");
+				        while (( size = in.read(buf,0,buf.length)) != -1) {
+//				            System.out.println("ww");
+				            String str = new String(buf);
+
+				            sb.append(str);
+//				            System.out.print(str);
+//				            System.out.println(str);
+				            if(str.equals("*")) {
+//								System.out.println(new String(sb).trim());
+//								System.out.println("tt");
+								units = new String(sb).trim().split(",");
+								
+				                break;
+				            }
+				        }
+//				        System.out.println("rr");
+				        
+
+					if(units[1] == null){
+						System.out.println("data receiving error: no command received.....");
+					}else{
+						if(units[1].equals("spd")){
+//						
+							String para = units[2].substring(0, units[2].length() - 1);
+//							System.out.println("spd: " + para);
+							writer_recive.write("$res,spd,1");
+							writer_recive.flush();
+							
+						}
+						else if(units[1].equals("mp")){
+//							System.out.println("para: " + units[2]);
+//							System.out.println("para: " + units[3]);
+//							System.out.println("para: " + units[4]);
+//							System.out.println("para: " + units[5]);
+//							System.out.println("para: " + units[6]);
+							String para1 = units[7].substring(0, units[7].length() - 1);
+//							System.out.println("para" + para1);
+
+							nX=Double.parseDouble(units[2]);
+							nY=Double.parseDouble(units[3]);
+							nZ=Double.parseDouble(units[4]);
+							nA=Double.parseDouble(units[5]);
+							nB=Double.parseDouble(units[6]);
+							nC=Double.parseDouble(para1);
+							
+							//ss
+
+							
+							pre_Place = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+							pre_Place.setX(nX);
+							pre_Place.setY(nY);
+							pre_Place.setZ(nZ);
+							pre_Place.setAlphaRad(Math.toRadians(nA));
+							pre_Place.setBetaRad(Math.toRadians(nB));
+							pre_Place.setGammaRad(Math.toRadians(nC));
+//							System.out.println("pre_Place"+pre_Place);
+//							System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+							writer_recive.write("$para,mp,0$");
+							writer_recive.flush();
+						}
+						else if(units[1].equals("sIO")){
+//							System.out.println("para: " + units[2]);
+							String para2 = units[3].substring(0, units[3].length() - 1);
+							if(Double.parseDouble(para2)==1 && Double.parseDouble(units[2])==1)
+							{
+								io.setOutput5(true);	
+								//System.out.println("io.setOutput5(true)");
+							}
+							else if(Double.parseDouble(para2)==0 && Double.parseDouble(units[2])==1)
+							{
+								io.setOutput5(false);
+								//System.out.println("io.setOutput5(false)");
+								//System.out.println("*"+Double.parseDouble(para2)+"*  "+"*"+Double.parseDouble(units[2])+"*");
+							}
+							else if(Double.parseDouble(para2)==8 && Double.parseDouble(units[2])==1)
+							{
+								breaktest=true;	
+								System.out.println("breaktest=true;");
+							}
+//							System.out.println("sIO: " + para2);
+							writer_recive.write("$res,sIO,0$");
+							writer_recive.flush();
+							
+						}
+						else if(units[1].equals("RobotMove")){
+							System.out.println("RobotMove " + units);
+//							System.out.println("para: " + units[2]);
+							String para2 = units[3].substring(0, units[3].length() - 1);
+							if(Double.parseDouble(para2)==2 )
+							{
+								System.out.println("RobotMove2");
+								nToolMode=2;
+							}
+							else if(Double.parseDouble(para2)==1 ) {
+								System.out.println("RobotMove1");
+								nToolMode=1;
+							}
+							else if(Double.parseDouble(para2)==3 ) {
+								System.out.println("RobotMove3");
+								nToolMode=3;
+							}
+							else if(Double.parseDouble(para2)==4 ) {
+								System.out.println("RobotMove4");
+								nToolMode=4;
+							}
+							else if(Double.parseDouble(para2)==5 ) {
+								System.out.println("RobotMove5");
+								nToolMode=5;
+							}
+							else if(Double.parseDouble(para2)==6 ) {
+								System.out.println("RobotMove6");
+								nToolMode=6;
+							}
+							else if(Double.parseDouble(para2)==7 ) {
+								System.out.println("RobotMove7");
+								nToolMode=7;
+							}
+							else if(Double.parseDouble(para2)==8 ) {
+								System.out.println("RobotMove8");
+								nToolMode=8;
+							}
+							else if(Double.parseDouble(para2)==9 ) {
+								System.out.println("RobotMove9");
+								nToolMode=9;
+							}
+							else if(Double.parseDouble(para2)==10 ) {
+								System.out.println("RobotMove10");
+								nToolMode=10;
+							}
+							else if(Double.parseDouble(para2)==11 ) {
+								System.out.println("RobotMove11");
+								nToolMode=11;
+							}
+							else if(Double.parseDouble(para2)==12 ) {
+								System.out.println("RobotMove12");
+								nToolMode=12;
+							}
+							else if(Double.parseDouble(para2)==13 ) {
+								System.out.println("RobotMove13");
+								nToolMode=13;
+							}					
+							else if(Double.parseDouble(para2)==14 ) {
+								System.out.println("RobotMove14");
+								nToolMode=14;
+							}
+							else if(Double.parseDouble(para2)==15 ) {
+								System.out.println("RobotMove15");
+								nToolMode=15;
+							}
+							else if(Double.parseDouble(para2)==16 ) {
+								System.out.println("RobotMove16");
+								nToolMode=16;
+							}
+							else if(Double.parseDouble(para2)==17 ) {
+								System.out.println("RobotMove17");
+								nToolMode=17;
+							}
+							else if(Double.parseDouble(para2)==18 ) {
+								System.out.println("RobotMove18");
+								nToolMode=18;
+							}
+							else if(Double.parseDouble(para2)==19 ) {
+								System.out.println("RobotMove19");
+								nToolMode=19;
+							}
+							else if(Double.parseDouble(para2)==20 ) {
+								System.out.println("RobotMove20");
+								nToolMode=20;
+							}
+							else if(Double.parseDouble(para2)==21 ) {
+								System.out.println("RobotMove21");
+								nToolMode=21;
+							}
+							else if(Double.parseDouble(para2)==22 ) {
+								System.out.println("RobotMove22");
+								nToolMode=22;
+							}
+							else if(Double.parseDouble(para2)==23 ) {
+								System.out.println("RobotMove23");
+								nToolMode=23;
+							}
+							else if(Double.parseDouble(para2)==24 ) {
+								System.out.println("RobotMove24");
+								nToolMode=24;
+							}
+							else if(Double.parseDouble(para2)==25 ) {
+								System.out.println("RobotMove25");
+								nToolMode=25;
+							}
+							else if(Double.parseDouble(para2)==26 ) {
+								System.out.println("RobotMove26");
+								nToolMode=26;
+							}					
+							else if(Double.parseDouble(para2)==27 ) {
+								System.out.println("RobotMove27");
+								nToolMode=27;
+							}
+							else if(Double.parseDouble(para2)==28 ) {
+								System.out.println("RobotMove28");
+								nToolMode=28;
+							}					
+							else if(Double.parseDouble(para2)==29 ) {
+								System.out.println("RobotMove29");
+								nToolMode=29;
+							}
+							else if(Double.parseDouble(para2)==30 ) {
+								System.out.println("RobotMove30");
+								nToolMode=30;
+							}
+							else if(Double.parseDouble(para2)==31 ) {
+								System.out.println("RobotMove31");
+								nToolMode=31;
+							}
+							else if(Double.parseDouble(para2)==32 ) {
+								System.out.println("RobotMove32");
+								nToolMode=32;
+							}
+							else if(Double.parseDouble(para2)==33 ) {
+								System.out.println("RobotMove33");
+								nToolMode=33;
+							}
+							else if(Double.parseDouble(para2)==34 ) {
+								System.out.println("RobotMove34");
+								nToolMode=34;
+							}
+							else if(Double.parseDouble(para2)==35 ) {
+								System.out.println("RobotMove35");
+								nToolMode=35;
+							}
+							else if(Double.parseDouble(para2)==36 ) {
+								System.out.println("RobotMove36");
+								nToolMode=36;
+							}
+							else if(Double.parseDouble(para2)==37 ) {
+								System.out.println("RobotMove37");
+								nToolMode=37;
+							}
+							else if(Double.parseDouble(para2)==38 ) {
+								System.out.println("RobotMove38");
+								nToolMode=38;
+							}
+							else if(Double.parseDouble(para2)==39 ) {
+								System.out.println("RobotMove39");
+								nToolMode=39;
+							}
+							else if(Double.parseDouble(para2)==40 ) {
+								System.out.println("RobotMove40");
+								nToolMode=40;
+							}
+							writer_recive.write("$res,RobotMove,0$");
+							writer_recive.flush();
+							
+						}
+						else if(units[1].equals("setwm")){
+							String para3 = units[2].substring(0, units[2].length() - 1);
+//							System.out.println("setwm: " + para3);
+							nWorkingmode=Integer.parseInt(para3);
+							writer_recive.write("$res,setwm"+nWorkingmode);
+//							System.out.println("setwm:"+nWorkingmode);
+							writer_recive.flush();
+							
+						}
+						else if(units[1].equals("stcp")){
+							System.out.println("normal " + units);
+							String para4 = units[2].substring(0, units[2].length() - 1);
+							System.out.println("stcp: " + para4);
+//							nToolMode=Integer.parseInt(para4);
+							writer_recive.write("$res,stcp,1");
+							writer_recive.flush();
+						}
+						else{
+							writer_recive.write("$res,err,-1");
+							writer_recive.flush();
+						}
+					
+					}
+					ThreadUtil.milliSleep(20);
+					
+				}catch (IOException e) {
+					System.out.println("closed.");					
+					System.out.println("Socket.");
+					
+					in.close();
+					writer_recive.close();
+					outputStream_recive.close();
+					socket_recive.close();
+					serverSocket.close();
+					
+					writer_recive=null;
+					outputStream_recive=null;
+					socket_recive=null;
+					serverSocket=null;
+					in=null;
+					bPause=true;
+					
+					
+				}
+
+			}
+			System.out.println("closed11.");					
+			System.out.println("Socket11.");
+			
+			if(in!=null){
+				in.close();
+				in=null;
+				System.out.println("in");
+			}
+			if(writer_recive!=null){
+				writer_recive.close();
+				writer_recive=null;
+				System.out.println("writer_recive");
+			}
+			if(outputStream_recive!=null ){
+				outputStream_recive.close();
+				outputStream_recive=null;
+				System.out.println("outputStream_recive");
+			}
+			if(socket_recive!=null ){
+				socket_recive.close();
+				socket_recive=null;
+				System.out.println("socket_recive");
+			}
+			if(serverSocket!=null ){
+				serverSocket.close();
+				serverSocket=null;
+				System.out.println("serverSocket");
+			}
+			
+			
+			bPause=true;
+			
+			System.out.println("closed000");					
+			System.out.println("Socket000");
+			}catch(IOException e){
+//				System.out.println("closed//...");		
+				
+				System.out.println("Socket//IOException e");
+				ThreadUtil.milliSleep(1000);
+			};
 			}
 		}
-
-	}
-
-	public boolean MotionType() {
-		bForPlane=SafeDataIO.getInput4();
-		//		ThreadUtil.milliSleep(1000);
-		//		System.out.println("tttplane");
-		return bForPlane;
 	}
 
 
+	//////11111111
+
+
+	public  class BreakTestProgram implements Callable<String> {
+        
+        
+		
+		public String call() {
+			while (true){
+				if(breaktest==true && SafeDataIO.getInput4()==true){
+					breaktest=false;
+				}
+				
+				if(breaktest==true && SafeDataIO.getInput4()==false){
+					System.out.println("breaktest==true");
+					BreakTest.initialize();
+					BreakTest.run();
+					System.out.println("BreakTest.run();");
+//					Err="100";
+					breaktest=false;
+				}
+//				ThreadUtil.milliSleep(500);
+//				System.out.println("new thread");
+			}
+			//return Err;	
+			
+		}
+	}
+
+	
+	public HandGuidingMotion createhandGuidingMotion(){
+		double min=0;
+		double max=0;
+		JointPosition jReady =lbr.getCurrentJointPosition();
+		if(Math.toDegrees(jReady.get(JointEnum.J1)) < -10){
+			min=Math.toDegrees(jReady.get(JointEnum.J1));
+		}
+		else
+		{
+			min=-10;
+		}
+		
+		if(Math.toDegrees(jReady.get(JointEnum.J1)) > 10){
+			max=Math.toDegrees(jReady.get(JointEnum.J1));
+		}
+		else
+		{
+			max=10;
+		}
+		
+		HandGuidingMotion motion = new HandGuidingMotion();
+		motion.setJointVelocityLimit(0.8)
+		.setCartVelocityLimit(900.0).setJointLimitViolationFreezesAll(false)
+		.setJointLimitsMax(Math.toRadians(max), Math.toRadians(30), Math.toRadians(45), Math.toRadians(100), Math.toRadians(65),Math.toRadians(-40), Math.toRadians(165))
+		.setJointLimitsMin(Math.toRadians(min), Math.toRadians(-14), Math.toRadians(-45), Math.toRadians(0), Math.toRadians(-65),Math.toRadians(-100), Math.toRadians(-165))
+		.setJointLimitsEnabled(true,true,true,true,true,true,true)
+
+
+		
+
+;
+		return motion;
+	}
+
+public CartesianImpedanceControlMode createCartImp(){
+	CartesianImpedanceControlMode mode = new CartesianImpedanceControlMode();
+	mode.parametrize(CartDOF.ROT).setStiffness(300);
+	mode.parametrize(CartDOF.X).setStiffness(1);
+	mode.parametrize(CartDOF.Y).setStiffness(5000);
+	mode.parametrize(CartDOF.Z).setStiffness(5000);
+
+	return mode;
+}
+
+
+
+
+public  class motion implements Callable<String> {
+	
+	
+	public void resetmotion()
+	{
+		System.out.println("start");
+		io.setOutput6(true);
+		ThreadUtil.milliSleep(200);
+		System.out.println("dleay");
+		io.setOutput6(false);
+	}
+	
+    public void moveToInitialPosition()
+    {
+    	System.out.println("11");
+        if (!ServoMotion.validateForImpedanceMode(lbr))
+        {
+            getLogger()
+                    .info("Validation of torque model failed - correct your mass property settings");
+            getLogger()
+                    .info("Servo motion will be available for position controlled mode only, until validation is performed");
+        }
+    }
+    
+	//è½´é˜»æŠ—æŽ§åˆ¶ä»£ç �
+    public void runSmartServoMotion(final IMotionControlMode controlMode)
+    {
+
+    	System.out.println("22");
+        final boolean doDebugPrints = false;
+
+        final JointPosition initialPosition = new JointPosition(
+                lbr.getCurrentJointPosition());
+        System.out.println("33");
+        final SmartServo aSmartServoMotion = new SmartServo(initialPosition);
+
+        // Set the motion properties to 10% of the systems abilities
+        aSmartServoMotion.setJointAccelerationRel(0.1);
+        aSmartServoMotion.setJointVelocityRel(0.1);
+        System.out.println("44");
+        aSmartServoMotion.setMinimumTrajectoryExecutionTime(20e-3);
+
+        getLogger().info("Starting the SmartServo in " + controlMode);
+        IMotionContainer container = _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
+                aSmartServoMotion.setMode(controlMode));
+        // Fetch the Runtime of the Motion part
+        final ISmartServoRuntime theSmartServoRuntime = aSmartServoMotion
+                .getRuntime();
+
+        // create an JointPosition Instance, to play with
+        final JointPosition destination = new JointPosition(
+                lbr.getJointCount());
+        System.out.println("55");
+        // For Roundtrip time measurement...
+        final StatisticTimer timing = new StatisticTimer();
+        try
+        {
+            // do a cyclic loop
+            // Refer to some timing...
+            // in nanosec
+            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
+            final long startTimeStamp = System.nanoTime();
+            final JointPosition currentPos = lbr.getCurrentJointPosition();
+
+            while(SafeDataIO.getInput4()==false)
+            {
+            	final JointPosition currentPos_now = lbr.getCurrentJointPosition();
+//            	System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+           
+                // Timing - draw one step
+                final OneTimeStep aStep = timing.newTimeStep();
+                // ///////////////////////////////////////////////////////
+                // Insert your code here
+                // e.g Visual Servoing or the like
+                // emulate some computational effort - or waiting for external
+                // stuff
+                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+                theSmartServoRuntime.updateWithRealtimeSystem();
+
+                // Get the measured position in cartesian...
+                final JointPosition curMsrJntPose = theSmartServoRuntime
+                        .getAxisQMsrOnController();
+
+                
+   
+                if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110 || Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+                	 if (controlMode instanceof JointImpedanceControlMode)
+                       {  		 
+                		 
+                       final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+                       double para =200;
+                       double para1=200;
+                       double para2=200;
+                       
+                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J5))) > 160){
+                    	   para = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5))));  
+//                    	   System.out.println(para);
+                       }
+                       else{
+                    	   para=200;
+                       }
+                       
+                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J6))) > 110){
+                    	   para1 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(120)) - Math.abs(currentPos_now.get(JointEnum.J6))));  
+                       }
+                       else{
+                    	   para1=200;
+                       }
+                       
+                       if(Math.abs(Math.toDegrees(currentPos_now.get(JointEnum.J7))) > 165){
+                    	   para2 = 2000 / Math.toDegrees(Math.abs(Math.abs(Math.toRadians(175)) - Math.abs(currentPos_now.get(JointEnum.J7))));  
+                       }
+                       else{
+                    	   para2=200;
+                       }
+                       
+//                       System.out.println("xishu "+Math.toDegrees(Math.abs(Math.abs(Math.toRadians(170)) - Math.abs(currentPos_now.get(JointEnum.J5)))));
+                       jointImp.setStiffness(2000, 2000, 2000, 2000, para, para1, para2);
+//                       System.out.println(para);
+                       jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+                       theSmartServoRuntime
+                               .changeControlModeSettings(jointImp);
+                		 
+                		 
+                       }
+                }
+                else{
+                
+                    
+                	if (controlMode instanceof JointImpedanceControlMode)
+               	 	{
+               	 		final JointImpedanceControlMode jointImp = (JointImpedanceControlMode) controlMode;
+               	 		jointImp.setStiffness(2000, 2000, 2000, 2000, 200, 200, 200);
+               	 		jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+               	 		// Send the new Stiffness settings down to the
+               	 		// controller
+               	 		theSmartServoRuntime
+               	 		.changeControlModeSettings(jointImp);
+               	 	} 	
+                }
+                
+                
+                
+                destination.set(currentPos);
+                
+                theSmartServoRuntime
+                        .setDestination(destination);
+
+                aStep.end();
+
+
+            }
+        }
+        catch (final Exception e)
+        {
+            getLogger().info(e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+
+        //Print statistics and parameters of the motion
+        getLogger().info("Displaying final states after loop "
+                + controlMode.getClass().getName());
+        getLogger().info(getClass().getName() + theSmartServoRuntime.toString());
+        // Stop the motion
+        theSmartServoRuntime.stopMotion();
+        getLogger().info("Statistic Timing of Overall Loop " + timing);
+        if (timing.getMeanTimeMillis() > 150)
+        {
+            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+            getLogger().info("Under Windows, you should play with the registry, see the e.g. the RealtimePTP Class javaDoc for details");
+        }
+
+    }
+	 
+	    protected JointImpedanceControlMode createJointImp()
+	    {
+	        final JointImpedanceControlMode jointImp = new JointImpedanceControlMode(2000, 2000, 2000, 2000, 200, 200, 200);
+//	        jointImp.setStiffness(1, 1, 1, 1, 1, 1, 1);
+	   
+	        jointImp.setDamping(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5);
+	        return jointImp;
+	    }
+	    
+	    protected CartesianImpedanceControlMode ConeLimit()
+	    {
+	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+	        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+	        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
+	        cartImp.parametrize(CartDOF.ROT).setStiffness(210.0);
+
+//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+	        cartImp.setNullSpaceStiffness(100.);
+	   
+//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+	        // For your own safety, shrink the motion abilities to useful limits
+//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//	        cartImp.setMaxControlForce(1,z 1, 1, 1, 1, 1, true);
+	        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+	        return cartImp; 	
+	    }
+	    protected CartesianImpedanceControlMode InstallLimit()
+	    {
+	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+	        cartImp.parametrize(CartDOF.X).setStiffness(5000.0);
+	        cartImp.parametrize(CartDOF.Y).setStiffness(5000.0);
+	        cartImp.parametrize(CartDOF.Z).setStiffness(500.0);
+	        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+	        
+	        cartImp.setNullSpaceStiffness(100.);
+	        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+	        return cartImp; 	
+	    }
+	    protected CartesianImpedanceControlMode ZoneLimit()
+	    {
+	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+	        cartImp.parametrize(CartDOF.X).setStiffness(4000.0);
+	        cartImp.parametrize(CartDOF.Y).setStiffness(4000.0);
+	        cartImp.parametrize(CartDOF.Z).setStiffness(2000.0);
+	        cartImp.parametrize(CartDOF.ROT).setStiffness(300.0);
+
+//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+	        cartImp.setNullSpaceStiffness(100.);
+	   
+//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+	        // For your own safety, shrink the motion abilities to useful limits
+//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//	        cartImp.setMaxControlForce(100.0, 100.0, 50.0, 20.0, 20.0, 20.0, true);
+//	        cartImp.setMaxControlForce(1,z 1, 1, 1, 1, 1, true);
+	        cartImp.setMaxPathDeviation(150., 150., 150., 3., 3., 3.);
+	        return cartImp; 	
+	    }
+	    protected CartesianImpedanceControlMode createCartImp()
+	    {
+	        final CartesianImpedanceControlMode cartImp = new CartesianImpedanceControlMode();
+	        cartImp.parametrize(CartDOF.TRANSL).setStiffness(1000.0);
+	        cartImp.parametrize(CartDOF.ROT).setStiffness(100.0);
+//	        cartImp.parametrize(CartDOF.X).setAdditionalControlForce(-4.9);
+	        cartImp.setNullSpaceStiffness(100.);
+	        
+//	        cartImp.setMaxCartesianVelocity(5.0,5.0,5.0,0.2,0.2, 0.2);
+	        // For your own safety, shrink the motion abilities to useful limits
+	        cartImp.setMaxPathDeviation(150., 150., 50., 50., 50., 50.);
+	        return cartImp;
+	    }
+	    
+	 //ç¬›å�¡å°”é˜»æŠ—æŽ§åˆ¶ä»£ç �
+	    public void runSmartCartesianMotion(final IMotionControlMode controlMode){
+//	     	_loadData = new LoadData();
+//	        _loadData.setMass(MASS);
+//	        _loadData.setCenterOfMass(
+//	                CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+//	                CENTER_OF_MASS_IN_MILLIMETER[2]);
+//	        _toolAttachedToLBR = new Tool("Tool", _loadData);
+//
+//	        XyzAbcTransformation trans = XyzAbcTransformation.ofTranslation(
+//	                TRANSLATION_OF_TOOL[0], TRANSLATION_OF_TOOL[1],
+//	                TRANSLATION_OF_TOOL[2]);
+//	        ObjectFrame aTransformation = _toolAttachedToLBR.addChildFrame(TOOL_FRAME
+//	                + "(TCP)", trans);
+//	        _toolAttachedToLBR.setDefaultMotionFrame(aTransformation);
+//	        // Attach tool to the robot
+//	        _toolAttachedToLBR.attachTo(lbr.getFlange());
+	        
+	        final JointPosition initialPosition = new JointPosition(
+	                lbr.getCurrentJointPosition());
+
+	        final DirectServo aDirectServoMotion = new DirectServo(initialPosition);
+
+	        aDirectServoMotion.setMinimumTrajectoryExecutionTime(40e-3);
+
+	        getLogger().info("Starting the DirectServo motion in " + controlMode);
+	        _toolAttachedToLBR.getDefaultMotionFrame().moveAsync(
+	                aDirectServoMotion.setMode(controlMode));
+	        System.out.println("sss ");
+	        final IDirectServoRuntime theServoRuntime = aDirectServoMotion
+	                .getRuntime();
+	        System.out.println("ggg ");
+	        // create an JointPosition Instance, to play with
+	        final JointPosition destination = new JointPosition(
+	                lbr.getJointCount());
+	        System.out.println("vvv ");
+	        // For Roundtrip time measurement...
+	        final StatisticTimer timing = new StatisticTimer();
+	        System.out.println("ccc");
+	        try
+	        {
+	            // do a cyclic loop
+	            // Refer to some timing...
+	            // in nanosec
+	            // freqency * ...
+	            final double omega = FREQENCY * 2 * Math.PI * 1e-9;
+	            final long startTimeStamp = System.nanoTime();
+
+	            //for (int i = 0; i < NUM_RUNS; ++i)
+	         	final JointPosition currentPos = lbr.getCurrentJointPosition();
+	         	
+	         	JointPosition currentPos_CheckSafety;
+//	         	destination.set(currentPos_test);
+	         	destination.set(currentPos);
+	         	
+	         	boolean bDanger=false;
+//	         	System.out.println("hhh");
+	         	System.out.println(bDangerous+"dd"+nWorkingmode);
+	            while (nWorkingmode==4 && bDangerous==false)
+	            {
+	          
+	            	currentPos_CheckSafety=lbr.getCurrentJointPosition();
+	            	if (Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5))) < 160 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6))) < 110 && Math.abs(Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7))) < 165){
+	            		bDangerous=false;
+	            		
+	            	}
+	            	else{
+	            		System.out.println("J1"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J1)));
+	            		System.out.println("J2"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J2)));
+	            		System.out.println("J3"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J3)));
+	            		System.out.println("J4"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J4)));
+	            		System.out.println("J5"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J5)));
+	            		System.out.println("J6"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J6)));
+	            		System.out.println("J7"+Math.toDegrees(currentPos_CheckSafety.get(JointEnum.J7)));
+	            		getLogger().info("bDangerous==true");
+	            		
+	            		bDangerous=true;
+	            	}
+	            	
+	                theServoRuntime.setDestination(destination);
+	                     
+//	                // Timing - draw one step
+//	                final OneTimeStep aStep = timing.newTimeStep();
+//	                // ///////////////////////////////////////////////////////
+//	                // Insert your code here
+//	                // e.g Visual Servoing or the like
+//	                // emulate some computational effort - or waiting for external
+//	                // stuff
+//	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+	//
+//	                theServoRuntime.updateWithRealtimeSystem();
+	//
+//	                final double curTime = System.nanoTime() - startTimeStamp;
+//	                final double sinArgument = omega * curTime;
+	//
+//	                for (int k = 0; k < destination.getAxisCount(); ++k)
+//	                {
+//	                    destination.set(k, Math.sin(sinArgument)
+//	                            * AMPLITUDE + initialPosition.get(k));
+//	                }
+//	                theServoRuntime
+//	                        .setDestination(destination);
+	//
+//	                // Modify the stiffness settings every now and then               
+//	                if (i % (NUM_RUNS / 10) == 0)
+//	                {
+//	                    // update realtime system
+//	                    if (controlMode instanceof CartesianImpedanceControlMode)
+//	                    {
+//	                        final CartesianImpedanceControlMode cartImp = (CartesianImpedanceControlMode) controlMode;
+//	                        final double aTransStiffVal = Math.max(100. * (i
+//	                                / (double) NUM_RUNS + 1), 1000.);
+//	                        final double aRotStiffVal = Math.max(10. * (i
+//	                                / (double) NUM_RUNS + 1), 150.);
+//	                        cartImp.parametrize(CartDOF.TRANSL).setStiffness(aTransStiffVal);
+//	                        cartImp.parametrize(CartDOF.ROT).setStiffness(aRotStiffVal);
+//	                        // Send the new Stiffness settings down to the
+//	                        // controller
+//	                        theServoRuntime
+//	                                .changeControlModeSettings(cartImp);
+//	                    }
+//	                }
+//	                aStep.end();
+	            }
+	        }
+	        catch (final Exception e)
+	        {
+	            getLogger().info(e.getLocalizedMessage());
+	            e.printStackTrace();
+	        }
+
+	        // Print statistics and parameters of the motion
+	        getLogger().info("Displaying final states after loop "
+	                + controlMode.getClass().getName());
+
+	        getLogger().info(getClass().getName() + "\n" + theServoRuntime.toString());
+
+	        // Stop the motion
+	        theServoRuntime.stopMotion();
+	        getLogger().info("Statistic Timing of Overall Loop " + timing);
+	        if (timing.getMeanTimeMillis() > 150)
+	        {
+	            getLogger().info("Statistic Timing is unexpected slow, you should try to optimize TCP/IP Transfer");
+	            getLogger().info("You should check the TCP/IP Stack Configuration - see the manual for details");
+	        }
+	    }
+
+	    private StatisticTimer startSineMovement(
+	            ISmartServoLINRuntime smartServoLINRuntime, StatisticTimer timing)
+	    {
+	        Frame aFrame = smartServoLINRuntime.getCurrentCartesianDestination(lbr
+	                .getFlange());
+
+	        getLogger().info("Do sine movement");
+	        try
+	        {
+	            double omega = FREQENCY * 2 * Math.PI * 1e-9;
+	            long startTimeStamp = System.nanoTime();
+	        	Frame Ptest2 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+	         	
+	           while(nWorkingmode==2)
+	            {
+	            
+	                   //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+						//$cmd,RobotMove,1$
+						if(nX!=0 && nY!=0 && nZ!=0 ){
+							Ptest2.setX(nX);
+							Ptest2.setY(nY);
+							Ptest2.setZ(nZ);
+//							System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+							Ptest2.setAlphaRad(Math.toRadians(nA));
+							Ptest2.setBetaRad(Math.toRadians(nB));
+							Ptest2.setGammaRad(Math.toRadians(nC));
+							
+//							ThreadUtil.milliSleep(500);
+//							System.out.println("222");
+						}
+						
+	                final OneTimeStep aStep = timing.newTimeStep();
+	                // ///////////////////////////////////////////////////////
+	                // Insert your code here
+	                // e.g Visual Servoing or the like
+	                // Synchronize with the realtime system
+
+	                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+
+	                // Update the smart servo LIN runtime
+	                smartServoLINRuntime.updateWithRealtimeSystem();
+
+	                double curTime = System.nanoTime() - startTimeStamp;
+	                double sinArgument = omega * curTime;
+
+	                // Compute the sine function
+	                Frame destFrame = new Frame(aFrame);
+	                destFrame.setZ(AMPLITUDE * Math.sin(sinArgument));
+
+	                // Set new destination
+	                smartServoLINRuntime.setDestination(Ptest2);
+	                aStep.end();
+	            }
+
+	        }
+	        catch (Exception e)
+	        {
+	            getLogger().error(e.getLocalizedMessage());
+	            e.printStackTrace();
+	        }
+	        return timing;
+	    }
+	    
+	
+//	@SuppressWarnings("null")
+	public String call() {
+//		int answer;
+//		answer = getApplicationUI().displayModalDialog(
+//		ApplicationDialogType.INFORMATION,"Moving Mode", "Manule","Handle");
+		boolean DangerMove=false;
+		int nLastWorkingmode=0;
+		while (true)
+		{ 
+//			boolean btest=SafeDataIO.getInput4();
+//			if (btest==true)
+//			{
+//				nWorkingmode=1;
+//				System.out.println("SafeDataIO.getInput4"+btest);
+//			}
+//			System.out.println(btest);
+			boolean btest=SafeDataIO.getInput4();
+			if (btest==true)
+			{
+				nWorkingmode=1;
+			}
+			if (nWorkingmode==1){
+				Err="0,";
+				System.out.println("start handguiding");
+				ThreadUtil.milliSleep(500);
+		    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+		    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2));
+				nLastWorkingmode=nWorkingmode;
+				if(SafeDataIO.getInput4()==true)
+				{
+					DangerMove=false;
+						//其他指的是打磨模式
+						needle.getFrame("/zuo_21002_zhiPolish").move(createhandGuidingMotion());
+						bDangerous=false;
+						nWorkingmode=0;
+//					}
+					
+	                nX=0;
+	                nY=0;
+	                nZ=0;
+	                nA=0;
+	                nB=0;
+	                nC=0;
+				}
+				nWorkingmode=0;
+				
+			}
+		    else if (nWorkingmode==2 ){
+		    	nLastWorkingmode=nWorkingmode;
+		    	DangerMove=false;
+//				System.out.println("automode"+nWorkingmode);
+//				Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();	
+		    	ThreadUtil.milliSleep(1000);
+		    	final CartesianImpedanceControlMode cartImp = createCartImp();	
+		    	if(nX==1)
+		    	{
+		    		System.out.println("zhunbei_ready");
+		    		needle.getFrame("/zuo_21002_zhiPolish").move(new PTP(jointPos).setJointVelocityRel(0.2));		    		
+					Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+		    	
+		    	}
+		    	//左侧
+		    	else if(nX==2)
+		    	{
+		    		System.out.println("zuoce_ready");
+		    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+		    		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2).setMode(cartImp));
+		    	}
+		    	//右侧
+		    	else if(nX==3)
+		    	{
+		    		System.out.println("youce_ready");
+		    		lbr.moveAsync(new PTP(jointPos).setJointVelocityRel(0.2).setMode(cartImp));
+		    		lbr.moveAsync(new PTP(jointPos_you).setJointVelocityRel(0.2).setMode(cartImp));
+		    	}
+		    	else{
+		    		System.out.println("err");
+		    	}
+	                System.out.println("*2");
+	                nWorkingmode=0;
+	                System.out.println("*3");
+	                nX=0;
+	                nY=0;
+	                nZ=0;
+	                nA=0;
+	                nB=0;
+	                nC=0;
+			}
+			
+			else if(nWorkingmode==3){
+				DangerMove=false;
+				nLastWorkingmode=nWorkingmode;
+				
+				
+				Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+
+               //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+				//$cmd,RobotMove,1$
+				if(nX!=0 && nY!=0 && nZ!=0){
+					Ptest1.setX(nX);
+					Ptest1.setY(nY);
+					Ptest1.setZ(nZ);
+//					System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+					Ptest1.setAlphaRad(Math.toRadians(nA));
+					Ptest1.setBetaRad(Math.toRadians(nB));
+					Ptest1.setGammaRad(Math.toRadians(nC));
+
+					
+					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+						//System.out.println("pre_Place11***:"+pre_Place);
+						needle.getFrame("/zuo_21002_zhiPolish").move(ptp(pre_Place).setJointVelocityRel(0.35));	
+					}
+					else{
+						//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+					}
+					
+					
+//					ThreadUtil.milliSleep(500);
+//					System.out.println("222");
+				}
+				else{
+					ThreadUtil.milliSleep(10);
+				}
+				//nWorkingmode=0;
+
+			}
+			else if(nWorkingmode==4){
+				nLastWorkingmode=nWorkingmode;
+		        // Initialize Cartesian impedance mode    
+//				System.out.println("CartesianimplentMode"+nWorkingmode);
+//				moveToInitialPosition();
+//				final CartesianImpedanceControlMode cartImp = createCartImp();
+//		        runSmartCartesianMotion(cartImp);
+           
+		    	//圆锥打磨模式
+		    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+		    		
+		    	System.out.println("ConeLimit");
+		    	JointPosition jReady =lbr.getCurrentJointPosition();
+//                final JointPosition currentPos = lbr.getCurrentJointPosition();
+                
+     		   
+                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
+                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
+                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
+                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
+                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
+                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
+                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
+                	}
+                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
+                	}
+                	System.out.println("dangermove1");
+                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+			    	needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2));
+			    	DangerMove=true;
+                }
+                else{
+                	
+                	if (nToolMode==1){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+    			    	needle.getFrame("/zuo_21001_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==2){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+    			    	needle.getFrame("/zuo_21001_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==3){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+    			    	needle.getFrame("/zuo_21001_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==4){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+    			    	needle.getFrame("/zuo_21001_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==5){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+    			    	needle.getFrame("/you_21001_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==6){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+    			    	needle.getFrame("/you_21001_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==7){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+    			    	needle.getFrame("/you_21001_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==8){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+    			    	needle.getFrame("/you_21001_wanSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if (nToolMode==9){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+    			    	needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==10){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+    			    	needle.getFrame("/zuo_21002_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==11){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+    			    	needle.getFrame("/zuo_21002_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==12){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+    			    	needle.getFrame("/zuo_21002_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==13){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+    			    	needle.getFrame("/you_21002_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==14){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+    			    	needle.getFrame("/you_21002_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==15){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+    			    	needle.getFrame("/you_21002_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==16){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+    			    	needle.getFrame("/you_21002_wanSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if (nToolMode==17){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+    			    	needle.getFrame("/zuo_21003_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==18){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+    			    	needle.getFrame("/zuo_21003_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==19){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+    			    	needle.getFrame("/zuo_21003_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==20){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+    			    	needle.getFrame("/zuo_21003_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==21){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+    			    	needle.getFrame("/you_21003_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==22){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+    			    	needle.getFrame("/you_21003_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==23){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+    			    	needle.getFrame("/you_21003_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==24){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+    			    	needle.getFrame("/you_21003_wanSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if (nToolMode==25){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+    			    	needle.getFrame("/zuo_21004_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==26){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+    			    	needle.getFrame("/zuo_21004_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==27){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+    			    	needle.getFrame("/zuo_21004_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==28){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+    			    	needle.getFrame("/zuo_21004_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==29){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+    			    	needle.getFrame("/you_21004_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==30){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+    			    	needle.getFrame("/you_21004_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==31){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+    			    	needle.getFrame("/you_21004_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==32){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+    			    	needle.getFrame("/you_21004_wanSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if (nToolMode==33){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+    			    	needle.getFrame("/zuo_21005_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==34){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+    			    	needle.getFrame("/zuo_21005_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==35){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+    			    	needle.getFrame("/zuo_21005_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==36){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+    			    	needle.getFrame("/zuo_21005_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==37){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+    			    	needle.getFrame("/you_21005_zhiPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==38){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+    			    	needle.getFrame("/you_21005_wanPolish").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==39){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+    			    	needle.getFrame("/you_21005_zhiSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+    				else if(nToolMode==40){
+    			    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+    			    	needle.getFrame("/you_21005_wanSet").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+    				}
+                }
+                
+
+                
+		        // Initialize Joint impedance mode    
+//				System.out.println("JointimplentMode"+nWorkingmode);
+//				moveToInitialPosition();
+//		        final JointImpedanceControlMode jointImp = createJointImp();
+//		        runSmartServoMotion(jointImp);
+                
+                
+
+		        nWorkingmode=0;
+
+				
+		        
+		  if(bDangerous==true){
+			  nWorkingmode=1;
+			  System.out.println("WorkingModeForceToSet1");
+		  }
+
+		}
+			//自动矫正点位
+			//自动矫正点位
+			else if(nWorkingmode==5){
+				Frame Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));;
+//				System.out.println("StartAuto");
+//				ThreadUtil.milliSleep(1000);
+//				Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+            	if (nToolMode==1){
+            		Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+				}
+				else if(nToolMode==2){
+			    	Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+				}
+				else if(nToolMode==3){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+				}
+				else if(nToolMode==4){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+				}
+				else if(nToolMode==5){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+				}
+				else if(nToolMode==6){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+				}
+				else if(nToolMode==7){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+				}
+				else if(nToolMode==8){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+				}
+				else if (nToolMode==9){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				}
+				else if(nToolMode==10){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				}
+				else if(nToolMode==11){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				}
+				else if(nToolMode==12){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				}
+				else if(nToolMode==13){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				}
+				else if(nToolMode==14){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				}
+				else if(nToolMode==15){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				}
+				else if(nToolMode==16){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				}
+				else if (nToolMode==17){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+				}
+				else if(nToolMode==18){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				}
+				else if(nToolMode==19){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				}
+				else if(nToolMode==20){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				}
+				else if(nToolMode==21){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				}
+				else if(nToolMode==22){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				}
+				else if(nToolMode==23){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				}
+				else if(nToolMode==24){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				}
+				else if (nToolMode==25){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+				}
+				else if(nToolMode==26){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				}
+				else if(nToolMode==27){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				}
+				else if(nToolMode==28){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				}
+				else if(nToolMode==29){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				}
+				else if(nToolMode==30){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				}
+				else if(nToolMode==31){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				}
+				else if(nToolMode==32){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				}
+				else if (nToolMode==33){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				}
+				else if(nToolMode==34){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				}
+				else if(nToolMode==35){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				}
+				else if(nToolMode==36){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				}
+				else if(nToolMode==37){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				}
+				else if(nToolMode==38){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				}
+				else if(nToolMode==39){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				}
+				else if(nToolMode==40){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				}
+				int num=0;
+				double nMinA=0,nMinB=0,nMinC=0;
+				double nMinSun=10000000;
+				double nObjectA=10000,nObjectB=100000,nObjectC=100000;
+				double nObjectA_BackUp=10000,nObjectB_BackUp=100000,nObjectC_BackUp=100000;
+//				Frame destObject1 = current.setX(current.getX());
+//				System.out.println("current.getX():"+current.getX());
+//				System.out.println("current.getA():"+current.getAlphaRad());
+//				System.out.println("current.getB():"+current.getBetaRad());
+//				System.out.println("nA:"+nA+"  nB:"+nB+"  nC:"+nC);
+				for (num = 0; num < 360; num = num + 1){
+					//当前点位
+					Frame current = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+					
+					if (nToolMode==1){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==2){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==3){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==4){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"), cmdPos2);
+					}
+					else if(nToolMode==5){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==6){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==7){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==8){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"), cmdPos2);
+					}
+					else if (nToolMode==9){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==10){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==11){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==12){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"), cmdPos2);
+					}
+					else if(nToolMode==13){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==14){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==15){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==16){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"), cmdPos2);
+					}
+					else if (nToolMode==17){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==18){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==19){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==20){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"), cmdPos2);
+					}
+					else if(nToolMode==21){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==22){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==23){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==24){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"), cmdPos2);
+					}
+					else if (nToolMode==25){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==26){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==27){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==28){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"), cmdPos2);
+					}
+					else if(nToolMode==29){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==30){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==31){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==32){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"), cmdPos2);
+					}
+					else if (nToolMode==33){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==34){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==35){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==36){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"), cmdPos2);
+					}
+					else if(nToolMode==37){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"), cmdPos2);
+					}
+					else if(nToolMode==38){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"), cmdPos2);
+					}
+					else if(nToolMode==39){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"), cmdPos2);
+					}
+					else if(nToolMode==40){
+						Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+						cmdPos2.setX(0);
+						cmdPos2.setY(0);
+						cmdPos2.setZ(0);
+						cmdPos2.setAlphaRad(0);
+						cmdPos2.setBetaRad(Math.toRadians(-30));
+						cmdPos2.setGammaRad(0);
+						current=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"), cmdPos2);
+					}
+					Frame destObject = current.setX(current.getX());
+					destObject = Object.setY(current.getY());
+					destObject = Object.setZ(current.getZ());
+					destObject = Object.setGammaRad(current.getGammaRad());		
+					destObject = Object.setBetaRad(current.getBetaRad());
+					destObject = Object.setAlphaRad(current.getAlphaRad());
+					
+					
+//					Frame destObject = current.setX(-737.37);
+//					destObject = Object.setY(216.62);
+//					destObject = Object.setZ(232.57);
+//					destObject = Object.setAlphaRad(-2.86530);
+//					destObject = Object.setBetaRad(-0.096691);
+//					destObject = Object.setGammaRad(2.3420570);		
+					
+				
+					
+					//System.out.println(Math.toDegrees(destObject.getBetaRad()));
+					
+					
+					
+//					nA=-157.22;
+//					nB=22.9288;
+//					nC=157.359;
+//					nA=164.7;
+//					nB=-31.71;
+//					nC=-164.418;
+//					System.out.println("nA:"+nA+" nB:"+nB+" nC:"+nC);
+					
+//					System.out.println("pre_Place"+pre_Place);
+//					System.out.println("nX"+nX+"  nY"+nY+"  nZ"+nZ+"  nA"+nA+"  nB"+nB+"  nC"+nC);
+					
+					
+					//目标点位
+					Frame destFrame = current.setX(nX);
+					destFrame = current.setY(nY);
+					destFrame = current.setZ(nZ);
+					destFrame=  current.setAlphaRad(Math.toRadians(nA));
+					destFrame=  current.setBetaRad(Math.toRadians(nB));
+					destFrame=  current.setGammaRad(Math.toRadians(nC));
+					
+//					System.out.println("11"+destFrame);
+//					
+//					destFrame = current.setX(-714.741);
+//					destFrame = current.setY(144.732);
+//					destFrame = current.setZ(315.285);
+//					destFrame = current.setAlphaRad(Math.toRadians(-139.612));
+//					destFrame = current.setBetaRad(Math.toRadians(39.7936));
+//					destFrame = current.setGammaRad(Math.toRadians(154.836));	
+//					System.out.println("22"+destFrame);
+					
+					
+					Frame Ptest1 = destFrame.transform((Transformation.ofDeg(0, 0, 0, num, 0, 0)));
+					
+					if(Math.toDegrees(Ptest1.getAlphaRad())>174 &&Math.toDegrees(Ptest1.getAlphaRad())<179){
+						nObjectA_BackUp=Math.toDegrees(Ptest1.getAlphaRad());
+						nObjectB_BackUp=Math.toDegrees(Ptest1.getBetaRad());
+						nObjectC_BackUp=Math.toDegrees(Ptest1.getGammaRad());
+					}
+//					nMinA=Math.abs(Math.abs(Math.toDegrees(destObject.getAlphaRad()))-Math.abs(Math.toDegrees(Ptest1.getAlphaRad())));
+//					nMinB=Math.abs(Math.abs(Math.toDegrees(destObject.getBetaRad()))-Math.abs(Math.toDegrees(Ptest1.getBetaRad())));
+//					nMinC=Math.abs(Math.abs(Math.toDegrees(destObject.getGammaRad()))-Math.abs(Math.toDegrees(Ptest1.getGammaRad())));
+					
+					nMinA=Math.abs(Math.toDegrees(destObject.getAlphaRad())-Math.toDegrees(Ptest1.getAlphaRad()));
+					nMinB=Math.abs(Math.toDegrees(destObject.getBetaRad())-Math.toDegrees(Ptest1.getBetaRad()));
+					nMinC=Math.abs(Math.toDegrees(destObject.getGammaRad())-Math.toDegrees(Ptest1.getGammaRad()));
+					
+					//System.out.println(Math.toDegrees(destObject.getAlphaRad()));
+					//System.out.println(Math.toDegrees(Ptest1.getAlphaRad()));
+					
+					//System.out.println("a:"+nMinA+" b:"+nMinB+" c:"+nMinC);
+					if((nMinA+nMinB+nMinC)<nMinSun)
+					{
+						
+						nMinSun=(nMinA+nMinB+nMinC);
+						nObjectA=Math.toDegrees(Ptest1.getAlphaRad());
+						nObjectB=Math.toDegrees(Ptest1.getBetaRad());
+						nObjectC=Math.toDegrees(Ptest1.getGammaRad());
+					}
+				
+					//ThreadUtil.milliSleep(10);
+				}
+//				System.out.println((nMinSun));
+				//System.out.println("a:"+Math.toDegrees(Ptest1.getAlphaRad())+" b:"+Math.toDegrees(Ptest1.getBetaRad())+" c:"+Math.toDegrees(Ptest1.getGammaRad()));
+//				System.out.println("a:"+nObjectA+" b:"+nObjectB+" c:"+nObjectC);
+//				System.out.println("a_BackUp:"+nObjectA_BackUp+" b_BackUp:"+nObjectB_BackUp+" c_BackUp:"+nObjectC_BackUp);
+				Frame Object1=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));				
+				
+            	if (nToolMode==1){
+            		Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+				}
+				else if(nToolMode==2){
+			    	Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+				}
+				else if(nToolMode==3){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+				}
+				else if(nToolMode==4){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+				}
+				else if(nToolMode==5){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+				}
+				else if(nToolMode==6){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+				}
+				else if(nToolMode==7){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+				}
+				else if(nToolMode==8){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+				}
+				else if (nToolMode==9){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				}
+				else if(nToolMode==10){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				}
+				else if(nToolMode==11){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				}
+				else if(nToolMode==12){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				}
+				else if(nToolMode==13){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				}
+				else if(nToolMode==14){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				}
+				else if(nToolMode==15){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				}
+				else if(nToolMode==16){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				}
+				else if (nToolMode==17){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+				}
+				else if(nToolMode==18){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				}
+				else if(nToolMode==19){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				}
+				else if(nToolMode==20){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				}
+				else if(nToolMode==21){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				}
+				else if(nToolMode==22){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				}
+				else if(nToolMode==23){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				}
+				else if(nToolMode==24){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				}
+				else if (nToolMode==25){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+				}
+				else if(nToolMode==26){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				}
+				else if(nToolMode==27){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				}
+				else if(nToolMode==28){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				}
+				else if(nToolMode==29){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				}
+				else if(nToolMode==30){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				}
+				else if(nToolMode==31){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				}
+				else if(nToolMode==32){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				}
+				else if (nToolMode==33){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				}
+				else if(nToolMode==34){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				}
+				else if(nToolMode==35){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				}
+				else if(nToolMode==36){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				}
+				else if(nToolMode==37){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				}
+				else if(nToolMode==38){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				}
+				else if(nToolMode==39){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				}
+				else if(nToolMode==40){
+					Object=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				}
+				
+				//判断使用最优值还是备选值
+				if(nObjectA>0){
+					Object1.setAlphaRad(Math.toRadians(nObjectA));
+					Object1.setBetaRad(Math.toRadians(nObjectB));
+					Object1.setGammaRad(Math.toRadians(nObjectC));
+				}
+				else{
+					Object1.setAlphaRad(Math.toRadians(nObjectA_BackUp));
+					Object1.setBetaRad(Math.toRadians(nObjectB_BackUp));
+					Object1.setGammaRad(Math.toRadians(nObjectC_BackUp));
+				}
+
+//				System.out.println("x"+Object1.getX()+"y"+Object1.getY()+"z"+Object1.getZ()+"a:"+Object1.getAlphaRad()+" b:"+Object1.getBetaRad()+" c:"+Object1.getGammaRad());
+				
+				Frame Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				
+				if (nToolMode==1){
+            		Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+				}
+				else if(nToolMode==2){
+			    	Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+				}
+				else if(nToolMode==3){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+				}
+				else if(nToolMode==4){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+				}
+				else if(nToolMode==5){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+				}
+				else if(nToolMode==6){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+				}
+				else if(nToolMode==7){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+				}
+				else if(nToolMode==8){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+				}
+				else if (nToolMode==9){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				}
+				else if(nToolMode==10){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				}
+				else if(nToolMode==11){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				}
+				else if(nToolMode==12){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				}
+				else if(nToolMode==13){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				}
+				else if(nToolMode==14){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				}
+				else if(nToolMode==15){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				}
+				else if(nToolMode==16){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				}
+				else if (nToolMode==17){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+				}
+				else if(nToolMode==18){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				}
+				else if(nToolMode==19){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				}
+				else if(nToolMode==20){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				}
+				else if(nToolMode==21){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				}
+				else if(nToolMode==22){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				}
+				else if(nToolMode==23){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				}
+				else if(nToolMode==24){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				}
+				else if (nToolMode==25){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+				}
+				else if(nToolMode==26){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				}
+				else if(nToolMode==27){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				}
+				else if(nToolMode==28){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				}
+				else if(nToolMode==29){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				}
+				else if(nToolMode==30){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				}
+				else if(nToolMode==31){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				}
+				else if(nToolMode==32){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				}
+				else if (nToolMode==33){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				}
+				else if(nToolMode==34){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				}
+				else if(nToolMode==35){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				}
+				else if(nToolMode==36){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				}
+				else if(nToolMode==37){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				}
+				else if(nToolMode==38){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				}
+				else if(nToolMode==39){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				}
+				else if(nToolMode==40){
+					Object2=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				}
+				
+
+				
+				Frame Object4=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				if (nToolMode==1){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(-0.6  ,-125.8 ,-250.4, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==2){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0 ,0, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==3){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(-0.9 ,-168.5,-275.2, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==4){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==5){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0.6 ,125.8,-250.4, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==6){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==7){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0.9 ,168.5,-275.2, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==8){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+//					System.out.println("Object4"+Object4);	
+				}
+				else if(nToolMode==9){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0.4 ,-126.1,-249.6, 0, 0, 0)));
+				}
+				else if(nToolMode==10){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(2.8 ,-158.3,-308.8, 0, 0, 0)));
+				}
+				else if(nToolMode==11){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0.6 ,-168.7,-274, 0, 0, 0)));
+				}
+				else if(nToolMode==12){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==13){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
+					Object4 = Object4.transform((Transformation.ofDeg(-0.4 ,126.1,-249.6, 0, 0, 0)));
+				}
+				else if(nToolMode==14){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
+					Object4 = Object4.transform((Transformation.ofDeg(-2.8 ,158.3,308.8, 0, 0, 0)));
+				}
+				else if(nToolMode==15){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, -60)));
+					Object4 = Object4.transform((Transformation.ofDeg(-0.6 ,168.7,-274, 0, 0, 0)));
+				}
+				else if(nToolMode==16){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==17){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-125.3,-257, 0, 0, 0)));
+				}
+				else if(nToolMode==18){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==19){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-168,-281.6, 0, 0, 0)));
+				}
+				else if(nToolMode==20){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==21){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==22){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==23){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==24){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==25){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-125.3,-257, 0, 0, 0)));
+				}
+				else if(nToolMode==26){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==27){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-168,-281.6, 0, 0, 0)));
+				}
+				else if(nToolMode==28){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==29){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==30){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==31){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==32){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==33){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-125.3,-257, 0, 0, 0)));
+				}
+				else if(nToolMode==34){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==35){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 60)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,-168,-281.6, 0, 0, 0)));
+				}
+				else if(nToolMode==36){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==37){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==38){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==39){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				else if(nToolMode==40){
+					Object4 = Object2.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+					Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
+				}
+				try{
+					
+					lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
+//					System.out.println("222");	
+				Frame Object5 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+//				System.out.println("333");	
+				Object5.setX(Object4.getX());
+				Object5.setY(Object4.getY());
+				Object5.setZ(Object4.getZ());
+				Object5.setAlphaRad(Object4.getAlphaRad());
+				Object5.setBetaRad(Object4.getBetaRad());
+				Object5.setGammaRad(Object4.getGammaRad());
+//				System.out.println("Object5"+Object5);
+				JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
+				
+				
+				
+				
+				
+				if (nToolMode==1){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/zuo_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==2){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21001_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21001_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==3){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==4){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21001_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21001_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if (nToolMode==5){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/you_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/you_21001_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==6){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21001_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21001_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==7){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21001_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==8){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21001_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21001_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if (nToolMode==9){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/zuo_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==10){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==11){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==12){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21002_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21002_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if (nToolMode==13){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/you_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/you_21002_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==14){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21002_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==15){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21002_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==16){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21002_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21002_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}	
+				else if (nToolMode==17){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/zuo_21003_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21003_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==18){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21003_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21003_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==19){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21003_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21003_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==20){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21003_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21003_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if (nToolMode==21){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/you_21003_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/you_21003_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==22){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21003_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21003_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==23){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21003_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21003_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==24){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21003_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21003_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}	
+				else if (nToolMode==25){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/zuo_21004_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21004_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==26){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21004_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21004_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==27){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21004_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21004_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==28){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+//						System.out.println("1:"+cmdPos);
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/zuo_21004_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/zuo_21004_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if (nToolMode==29){					
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"), cmdPos2);
+					
+					
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+				   DistanceToPlane.getGammaRad();
+//			       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+				   
+				    
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				  needle.getFrame("/you_21004_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/you_21004_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }					
+				}
+				else if(nToolMode==30){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));		
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				    DistanceToPlane.getGammaRad();  	    
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21004_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21004_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				   	    }	    
+				}
+				else if(nToolMode==31){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21004_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21004_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}
+				else if(nToolMode==32){
+					Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+					Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+					Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+					cmdPos2.setX(0);
+					cmdPos2.setY(0);
+					cmdPos2.setZ(0);
+					cmdPos2.setAlphaRad(0);
+					cmdPos2.setBetaRad(Math.toRadians(-30));
+					cmdPos2.setGammaRad(0);
+					cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"), cmdPos2);
+					pre_Point.setX(cmdPos.getX());
+					pre_Point.setY(cmdPos.getY());
+					pre_Point.setZ(cmdPos.getZ());
+					pre_Point.setAlphaRad(Object1.getAlphaRad());
+					pre_Point.setBetaRad(Object1.getBetaRad());
+					pre_Point.setGammaRad(Object1.getGammaRad());
+					//用优化角度还是直接角度赋值
+//						pre_Point.setAlphaRad(Math.toRadians(nA));
+//						pre_Point.setBetaRad(Math.toRadians(nB));
+//						pre_Point.setGammaRad(Math.toRadians(nC));
+					final CartesianImpedanceControlMode cartImp = ZoneLimit();
+					
+					//判断
+					Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				    Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				    DistanceToPlane.getGammaRad();
+				    System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//			       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//			       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				    if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				   	     Err="1,";
+				   	     needle.getFrame("/you_21004_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				   	    else{
+				   	    	needle.getFrame("/you_21004_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				   	    }
+				    
+				}	
+							
+					else if (nToolMode==33){					
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"), cmdPos2);
+				
+				
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+     	   DistanceToPlane.getGammaRad();
+//		       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+     	   
+				
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				 Err="1,";
+     	  needle.getFrame("/zuo_21005_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				}
+				else{
+					needle.getFrame("/zuo_21005_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				}					
+					}
+						else if(nToolMode==34){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));		
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				DistanceToPlane.getGammaRad();  	    
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/zuo_21005_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21005_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }	    
+						}
+						else if(nToolMode==35){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+//					System.out.println("1:"+cmdPos);
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				final CartesianImpedanceControlMode cartImp = ZoneLimit();
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				DistanceToPlane.getGammaRad();
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//		       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//		       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/zuo_21005_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21005_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				
+}
+else if(nToolMode==36){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+//					System.out.println("1:"+cmdPos);
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				final CartesianImpedanceControlMode cartImp = ZoneLimit();
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				DistanceToPlane.getGammaRad();
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//		       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//		       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/zuo_21005_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				    else{
+				    	needle.getFrame("/zuo_21005_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				
+}
+else if (nToolMode==37){					
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();				
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"), cmdPos2);
+				
+				
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);  	    
+     	   DistanceToPlane.getGammaRad();
+//		       	   System.out.println("AAAA:"+DistanceToPlane.getAlphaRad());
+     	   
+				
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				 Err="1,";
+     	  needle.getFrame("/you_21005_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				}
+				else{
+					needle.getFrame("/you_21005_zhiPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				}					
+}
+else if(nToolMode==38){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));		
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe);
+				DistanceToPlane.getGammaRad();  	    
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());					
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/you_21005_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }
+				    else{
+				    	needle.getFrame("/you_21005_wanPolish").move(lin(pre_Point).setJointVelocityRel(0.2));
+				    }	    
+}
+else if(nToolMode==39){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				final CartesianImpedanceControlMode cartImp = ZoneLimit();
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				DistanceToPlane.getGammaRad();
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//		       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//		       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/you_21005_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				    else{
+				    	needle.getFrame("/you_21005_zhiSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				
+}
+else if(nToolMode==40){
+				Frame pre_Point = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
+				Frame cmdPos = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"), cmdPos2);
+				pre_Point.setX(cmdPos.getX());
+				pre_Point.setY(cmdPos.getY());
+				pre_Point.setZ(cmdPos.getZ());
+				pre_Point.setAlphaRad(Object1.getAlphaRad());
+				pre_Point.setBetaRad(Object1.getBetaRad());
+				pre_Point.setGammaRad(Object1.getGammaRad());
+				//用优化角度还是直接角度赋值
+//					pre_Point.setAlphaRad(Math.toRadians(nA));
+//					pre_Point.setBetaRad(Math.toRadians(nB));
+//					pre_Point.setGammaRad(Math.toRadians(nC));
+				final CartesianImpedanceControlMode cartImp = ZoneLimit();
+				
+				//判断
+				Frame cmdPosSafe = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				Transformation DistanceToPlane=pre_Point.staticTransformationTo(cmdPosSafe); 
+				DistanceToPlane.getGammaRad();
+				System.out.println("DistanceToPlane:"+DistanceToPlane.getAlphaRad());
+//		       	    System.out.println("BBBB:"+DistanceToPlane.getBetaRad());
+//		       	    System.out.println("CCCC:"+DistanceToPlane.getGammaRad());
+				if(Math.abs(Math.toDegrees(DistanceToPlane.getAlphaRad()))>10){
+				     Err="1,";
+				     needle.getFrame("/you_21005_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				    else{
+				    	needle.getFrame("/you_21005_wanSet").move(lin(pre_Point).setJointVelocityRel(0.2).setMode(cartImp));
+				    }
+				
+}
+				if(Math.toDegrees(test.get(JointEnum.J1))>11 || Math.toDegrees(test.get(JointEnum.J1))<-11){
+//					System.out.println("err1："+Math.toDegrees(test.get(JointEnum.J1)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J2))>31 || Math.toDegrees(test.get(JointEnum.J2))<-15){
+//					System.out.println("err2："+Math.toDegrees(test.get(JointEnum.J2)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J3))>46 || Math.toDegrees(test.get(JointEnum.J3))<-46){
+//					System.out.println("err3："+Math.toDegrees(test.get(JointEnum.J3)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J4))>116 || Math.toDegrees(test.get(JointEnum.J4))<-1){
+//					System.out.println("err4："+Math.toDegrees(test.get(JointEnum.J4)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J5))>66 || Math.toDegrees(test.get(JointEnum.J5))<-66){
+//					System.out.println("err5："+Math.toDegrees(test.get(JointEnum.J5)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J6))>-46 || Math.toDegrees(test.get(JointEnum.J6))<-111){
+//					System.out.println("err6："+Math.toDegrees(test.get(JointEnum.J6)));
+				}
+				if(Math.toDegrees(test.get(JointEnum.J7))>166 || Math.toDegrees(test.get(JointEnum.J7))<-166){
+//					System.out.println("err7："+Math.toDegrees(test.get(JointEnum.J7)));
+				}
+//				System.out.println("J1："+Math.toDegrees(test.get(JointEnum.J1))+"   J2:"+Math.toDegrees(test.get(JointEnum.J2))+"   J3:"+Math.toDegrees(test.get(JointEnum.J3))+"   J4:"+Math.toDegrees(test.get(JointEnum.J4))+"   J5:"+Math.toDegrees(test.get(JointEnum.J5))+"   J6:"+Math.toDegrees(test.get(JointEnum.J6))+"   J7:"+Math.toDegrees(test.get(JointEnum.J7)) );
+				}
+				catch(Throwable cause)
+				{
+					System.out.println("OutOfRange2");
+				}
+						
+				nWorkingmode=0;
+
+				
+			}
+			
+			else if(nWorkingmode==6){
+				nLastWorkingmode=nWorkingmode;
+//		        // Initialize Joint impedance mode    
+//				System.out.println("JointimplentMode"+nWorkingmode);
+//				moveToInitialPosition();
+//		        final JointImpedanceControlMode jointImp = createJointImp();
+//		        runSmartServoMotion(jointImp);
+				
+//				Frame Ptest1= getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();		
+//				needle.getFrame("/zuo_21002_zhiPolish").move(ptp(Ptest1).setBlendingCart(0).setJointVelocityRel(0.2).setBlendingRel(0).setBlendingRel(0));
+//				System.out.println("automode"+nWorkingmode);
+//				Frame Ptest1= getApplicationData().getFrame("/P1").copyWithRedundancy();
+				
+				
+				Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+
+               //testdata x:735  y:7.59  z:122 Aï¼š-91 Bï¼š-40 Cï¼š-178 $cmd,ml,715,7,122,-91,-40,-178$
+				//$cmd,RobotMove,1$
+				if(nX!=0 && nY!=0 && nZ!=0){
+					Ptest1.setX(nX);
+					Ptest1.setY(nY);
+					Ptest1.setZ(nZ);
+//		     		System.out.println("nx:"+nX+"  ny:"+nY+"  nz:"+nZ+"  a:"+nZ);
+					Ptest1.setAlphaRad(Math.toRadians(nA));
+					Ptest1.setBetaRad(Math.toRadians(nB));
+					Ptest1.setGammaRad(Math.toRadians(nC));
+
+					
+					if(Math.abs(nX)<2000 && Math.abs(nY)<2000 && Math.abs(nZ)<2000 && Math.abs(nA)<2000 && Math.abs(nB)<2000 && Math.abs(nC)<2000){
+						//System.out.println("pre_Place11***:"+pre_Place);
+						needle.getFrame("/zuo_21002_zhiSet").move(ptp(pre_Place).setJointVelocityRel(0.1));	
+					}
+					else{
+						//System.out.println("Err_DangerPlace: "+"nX:"+nX+"nY:"+nY+"nZ:"+nZ+"nA:"+nA+"nB:"+nB+"nC:"+nC);
+					}
+					
+					
+//					ThreadUtil.milliSleep(500);
+//					System.out.println("222");
+				}
+				else{
+					ThreadUtil.milliSleep(10);
+				}
+				//nWorkingmode=0;
+				
+			}
+			else if(nWorkingmode==7){
+				nLastWorkingmode=nWorkingmode;
+		        // Initialize Cartesian impedance mode    
+//				System.out.println("CartesianimplentMode"+nWorkingmode);
+//				moveToInitialPosition();
+//				final CartesianImpedanceControlMode cartImp = createCartImp();
+//		        runSmartCartesianMotion(cartImp);
+           
+		    	//空间打磨模式
+//		    	final CartesianImpedanceControlMode cartImp = ConeLimit();	
+		    	final CartesianImpedanceControlMode cartImp = ZoneLimit();
+		    	System.out.println("ZoneLimit");
+		    	JointPosition jReady =lbr.getCurrentJointPosition();
+		    	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/test"));
+		    	needle.getFrame("/test").move(ptp(Ptest1).setJointVelocityRel(0.2).setMode(cartImp));
+               
+                
+
+		        nWorkingmode=0;
+			}
+			else if(nWorkingmode==8){
+				nLastWorkingmode=nWorkingmode;
+				final CartesianImpedanceControlMode carthard = InstallLimit();
+				System.out.println("InstallLimit");
+				JointPosition jReady =lbr.getCurrentJointPosition();
+				if(nToolMode==1){
+					   System.out.println("nToolMode=1");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiPolish"));
+				       needle.getFrame("//zuo_21001_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==2){
+					   System.out.println("nToolMode=2");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanPolish"));
+				       needle.getFrame("//zuo_21001_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==3){
+				   System.out.println("nToolMode=3");
+			       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_zhiSet"));
+			       needle.getFrame("/zuo_21001_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+				   System.out.println("movecomPds");
+				   nWorkingmode=0;
+				
+				}
+				else if(nToolMode==4){
+					   System.out.println("nToolMode=4");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21001_wanSet"));
+				       needle.getFrame("/zuo_21001_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==5){
+					   System.out.println("nToolMode=5");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiPolish"));
+				       needle.getFrame("/you_21001_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==6){
+					   System.out.println("nToolMode=6");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanPolish"));
+				       needle.getFrame("/you_21001_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==7){
+					   System.out.println("nToolMode=7");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_zhiSet"));
+				       needle.getFrame("/you_21001_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==8){
+					   System.out.println("nToolMode=8");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21001_wanSet"));
+				       needle.getFrame("/you_21001_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==9){
+					   System.out.println("nToolMode=9");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+				       needle.getFrame("/zuo_21002_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==10){
+					   System.out.println("nToolMode=10");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanPolish"));
+				       needle.getFrame("/zuo_21002_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==11){
+					   System.out.println("nToolMode=11");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiSet"));
+				       needle.getFrame("/zuo_21002_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==12){
+					   System.out.println("nToolMode=12");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_wanSet"));
+				       needle.getFrame("/zuo_21002_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==13){
+					   System.out.println("nToolMode=13");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiPolish"));
+				       needle.getFrame("/you_21002_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==14){
+					   System.out.println("nToolMode=14");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanPolish"));
+				       needle.getFrame("/you_21002_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==15){
+					   System.out.println("nToolMode=15");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_zhiSet"));
+				       needle.getFrame("/you_21002_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==16){
+					   System.out.println("nToolMode=16");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21002_wanSet"));
+				       needle.getFrame("/you_21002_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				
+				else if(nToolMode==17){
+					   System.out.println("nToolMode=17");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiPolish"));
+				       needle.getFrame("/zuo_21003_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==18){
+					   System.out.println("nToolMode=18");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanPolish"));
+				       needle.getFrame("/zuo_21003_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==19){
+					   System.out.println("nToolMode=19");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_zhiSet"));
+				       needle.getFrame("/zuo_21003_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==20){
+					   System.out.println("nToolMode=20");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21003_wanSet"));
+				       needle.getFrame("/zuo_21003_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==21){
+					   System.out.println("nToolMode=21");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiPolish"));
+				       needle.getFrame("/you_21003_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==22){
+					   System.out.println("nToolMode=22");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanPolish"));
+				       needle.getFrame("/you_21003_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==23){
+					   System.out.println("nToolMode=23");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_zhiSet"));
+				       needle.getFrame("/you_21003_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==24){
+					   System.out.println("nToolMode=24");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21003_wanSet"));
+				       needle.getFrame("/you_21003_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==25){
+					   System.out.println("nToolMode=25");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiPolish"));
+				       needle.getFrame("/zuo_21004_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==26){
+					   System.out.println("nToolMode=26");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanPolish"));
+				       needle.getFrame("/zuo_21004_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==27){
+					   System.out.println("nToolMode=27");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_zhiSet"));
+				       needle.getFrame("/zuo_21004_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==28){
+					   System.out.println("nToolMode=28");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21004_wanSet"));
+				       needle.getFrame("/zuo_21004_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==29){
+					   System.out.println("nToolMode=29");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiPolish"));
+				       needle.getFrame("/you_21004_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==30){
+					   System.out.println("nToolMode=30");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanPolish"));
+				       needle.getFrame("/you_21004_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==31){
+					   System.out.println("nToolMode=31");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_zhiSet"));
+				       needle.getFrame("/you_21004_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==32){
+					   System.out.println("nToolMode=32");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21004_wanSet"));
+				       needle.getFrame("/you_21004_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				
+				else if(nToolMode==33){
+					   System.out.println("nToolMode=33");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiPolish"));
+				       needle.getFrame("/zuo_21005_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==34){
+					   System.out.println("nToolMode=34");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanPolish"));
+				       needle.getFrame("/zuo_21005_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==35){
+					   System.out.println("nToolMode=35");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_zhiSet"));
+				       needle.getFrame("/zuo_21005_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==36){
+					   System.out.println("nToolMode=36");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21005_wanSet"));
+				       needle.getFrame("/zuo_21005_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==37){
+					   System.out.println("nToolMode=37");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiPolish"));
+				       needle.getFrame("/you_21005_zhiPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==38){
+					   System.out.println("nToolMode=38");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanPolish"));
+				       needle.getFrame("/you_21005_wanPolish").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==39){
+					   System.out.println("nToolMode=39");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_zhiSet"));
+				       needle.getFrame("/you_21005_zhiSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				else if(nToolMode==40){
+					   System.out.println("nToolMode=40");
+				       Frame comPds = lbr.getCurrentCartesianPosition(needle.getFrame("/you_21005_wanSet"));
+				       needle.getFrame("/you_21005_wanSet").move(ptp(comPds).setJointVelocityRel(0.1).setMode(carthard));
+					   System.out.println("movecomPds");
+					   nWorkingmode=0;
+					
+					}
+				
+				nWorkingmode=0;
+			}
+			else{
+				
+//				
+				if(DangerMove==false && nLastWorkingmode==4){
+					JointPosition jReady =lbr.getCurrentJointPosition();
+//	                final JointPosition currentPos = lbr.getCurrentJointPosition();
+	                
+	     		   
+//					 if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -25 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 10 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 110 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+//	                	System.out.println("dangermove1");
+//	                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+//				    	needle.getFrame("/zuo_21002_zhiPolish").move(lin(Ptest1).setJointVelocityRel(0.2));
+//				    	DangerMove=true;
+//	                }
+					 
+		                if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J5)) < -160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160 ||  Math.toDegrees(jReady.get(JointEnum.J6)) > 110 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+		                	if(Math.toDegrees(jReady.get(JointEnum.J1)) < -160 || Math.toDegrees(jReady.get(JointEnum.J1)) > 160){
+		                		System.out.println("J1:"+jReady.get(JointEnum.J1)+"   MAX:160;MIN:-160");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J2)) < -34 || Math.toDegrees(jReady.get(JointEnum.J2)) > 70){
+		                		System.out.println("J2:"+jReady.get(JointEnum.J2)+"   MAX:70;MIN:-34");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J3)) < -65 || Math.toDegrees(jReady.get(JointEnum.J3)) > 55){
+		                		System.out.println("J3:"+jReady.get(JointEnum.J3)+"   MAX:55;MIN:-65");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J4)) < -10 || Math.toDegrees(jReady.get(JointEnum.J4)) > 115){
+		                		System.out.println("J4:"+jReady.get(JointEnum.J4)+"   MAX:110;MIN:-10");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J5)) < -160 || Math.toDegrees(jReady.get(JointEnum.J5)) > 160){
+		                		System.out.println("J5:"+jReady.get(JointEnum.J5)+"   MAX:160;MIN:-160");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J6)) < -110 || Math.toDegrees(jReady.get(JointEnum.J6)) > 110){
+		                		System.out.println("J6:"+jReady.get(JointEnum.J6)+"   MAX:110;MIN:-110");
+		                	}
+		                	if(Math.toDegrees(jReady.get(JointEnum.J7)) < -165 || Math.toDegrees(jReady.get(JointEnum.J7)) > 165){
+		                		System.out.println("J7:"+jReady.get(JointEnum.J7)+"   MAX:165;MIN:-165");
+		                	}
+		                	Frame Ptest1 = lbr.getCurrentCartesianPosition(needle.getFrame("/zuo_21002_zhiPolish"));
+					    	needle.getFrame("/zuo_21002_zhiPolish").move(lin(Ptest1).setJointVelocityRel(0.2));
+					    	DangerMove=true;
+		                	System.out.println("dangermove1");
+		                }
+		                	
+					 
+				}
+				//ThreadUtil.milliSleep(4);
+			}
+
+		
+		
+
+		
+		}
+		//return "end get";
+	}
+
+}
+
+
+	
+	public void MotionType() {
+		// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„æ–¹æ³•å­˜æ ¹
+		
+	}
+
+	
 	//@SuppressWarnings("null")
 	@Override
 	public void run()  {
-
-		//	    io.setOutput3(true);
-		//		BreakTest.initialize();
-		//		BreakTest.run();
-		////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
-		//		ThreadUtil.milliSleep(2000000);
-
-		//		OnlyPlane.run();
-		//		ThreadUtil.milliSleep(2000);
-		//		OnlyPlane.initialize();
-		//		OnlyPlane.run();
-		//////
-		//		_loadData3 = new LoadData();
-		//		  _loadData3.setMass(MASS);
-		//		  _loadData3.setCenterOfMass(
-		//		    CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-		//		    CENTER_OF_MASS_IN_MILLIMETER[2]);
-		//
-		//		  _toolAttachedToLBR3 = new Tool("Tool2", _loadData3);
-		//
-		//		  XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_3[0], TRANSLATION_OF_TOOL_3[1], TRANSLATION_OF_TOOL_3[2],TRANSLATION_OF_TOOL_2[3],TRANSLATION_OF_TOOL_2[4],TRANSLATION_OF_TOOL_2[5]);
-		//		  ObjectFrame aTransformation3 = _toolAttachedToLBR3.addChildFrame(TOOL_3_FRAME + "(TCP)", trans3);
-		//		  _toolAttachedToLBR3.setDefaultMotionFrame(aTransformation3);
-		//		  // Attach tool to the robot
-		//		  _toolAttachedToLBR3.attachTo(lbr.getFlange());
-		//
-		//
-		//		  Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
-		//
-		//		  System.out.println("1:"+cmdPos);
+		JointPosition actPos = lbr.getCurrentJointPosition();
+		
+//		BreakTest.initialize();
+//		BreakTest.run();
 
 		ExecutorService executor = Executors.newCachedThreadPool();
 		Future<String> add = executor.submit(new sendRTdata());
 		Future<String> say = executor.submit(new motion());
 		Future<String> sdd2 = executor.submit(new reciveRTdata());
 		Future<String> breaktest = executor.submit(new BreakTestProgram());
-		//Monitor();
+        //Monitor();
 
 		try {
 			System.out.println(add.get());
@@ -4308,14 +5335,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			System.out.println(sdd2.get());
 			System.out.println(breaktest.get());
 		} catch (InterruptedException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+
 			e.printStackTrace();
 		} 
 
-
+		
+		
+		
 
 	}
 	@Override
