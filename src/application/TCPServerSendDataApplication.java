@@ -3657,55 +3657,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Override
 	public void run()  {
 
-		//	    io.setOutput3(true);
-		//		BreakTest.initialize();
-		//		BreakTest.run();
-		////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
-		//		ThreadUtil.milliSleep(2000000);
-
-		//		OnlyPlane.run();
-		//		ThreadUtil.milliSleep(2000);
-		//		OnlyPlane.initialize();
-		//		OnlyPlane.run();
-		//////
-		//		_loadData3 = new LoadData();
-		//		  _loadData3.setMass(MASS);
-		//		  _loadData3.setCenterOfMass(
-		//		    CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
-		//		    CENTER_OF_MASS_IN_MILLIMETER[2]);
-		//
-		//		  _toolAttachedToLBR3 = new Tool("Tool2", _loadData3);
-		//
-		//		  XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_3[0], TRANSLATION_OF_TOOL_3[1], TRANSLATION_OF_TOOL_3[2],TRANSLATION_OF_TOOL_2[3],TRANSLATION_OF_TOOL_2[4],TRANSLATION_OF_TOOL_2[5]);
-		//		  ObjectFrame aTransformation3 = _toolAttachedToLBR3.addChildFrame(TOOL_3_FRAME + "(TCP)", trans3);
-		//		  _toolAttachedToLBR3.setDefaultMotionFrame(aTransformation3);
-		//		  // Attach tool to the robot
-		//		  _toolAttachedToLBR3.attachTo(lbr.getFlange());
-		//
-		//
-		//		  Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
-		//
-		//		  System.out.println("1:"+cmdPos);
-
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String> add = executor.submit(new sendRTdata());
-		Future<String> say = executor.submit(new motion());
-		Future<String> sdd2 = executor.submit(new reciveRTdata());
-		Future<String> breaktest = executor.submit(new BreakTestProgram());
-		//Monitor();
-
-		try {
-			System.out.println(add.get());
-			System.out.println(say.get());
-			System.out.println(sdd2.get());
-			System.out.println(breaktest.get());
-		} catch (InterruptedException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
-			e.printStackTrace();
-		} 
+		 lbr.move(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 
 
 
