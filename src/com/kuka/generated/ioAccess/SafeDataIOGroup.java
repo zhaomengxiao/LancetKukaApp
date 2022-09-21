@@ -177,5 +177,6 @@ public class SafeDataIOGroup extends AbstractIOGroup
 	{
 		return getBooleanIOValue("Input7", false);
 	}
+	
 
 }

@@ -115,7 +115,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private Tool _toolAttachedToLBR_zuo;
 	private Tool _toolAttachedToLBR_zuo2;
 	private Tool _toolAttachedToLBR_zuo3;
-
+	
+	private Tool _toolAttachedToLBR_zuo_hand;
+	private Tool _toolAttachedToLBR_you_hand;
+	
 	private Controller kuka_Sunrise_Cabinet_1;
 	@Inject
 	private MytestIOIOGroup io;
@@ -143,6 +146,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private LoadData _loadData_zuo;
 	private LoadData _loadData_zuo2;
 	private LoadData _loadData_zuo3;
+	private LoadData _loadData_zuo_hand;
+	private LoadData _loadData_you_hand;
 
 	private  double[] TRANSLATION_OF_TOOL = { -150.7, 0, 227.9 };
 	private  double[] TRANSLATION_OF_TOOL_you = { -22.94,-190.54,90.6,-0.0258,-0.0073,0.0 };
@@ -151,6 +156,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private  double[] TRANSLATION_OF_TOOL_zuo = { -188.87,-20.61,101.06,-1.5721,3.1415,0.0031 };
 	private  double[] TRANSLATION_OF_TOOL_zuo2 = { -188.87,-18.81,101.07,-1.5907,3.1415,-0.006 };
 	private  double[] TRANSLATION_OF_TOOL_zuo3 = { -178.87,-19.54,101.06,-1.5907,3.1415,-0.006 };
+	private  double[] TRANSLATION_OF_TOOL_zuo_hand={ -8,0,170,0,0,0 };
+	private  double[] TRANSLATION_OF_TOOL_you_hand={ 0,-8,170,0,0,0 };
 
 	private static final double MASS = 0;
 	private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 35.3, 0, 101.3 };
@@ -161,12 +168,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private static final String TOOL_FRAME_zuo = "toolFrame_zuo";
 	private static final String TOOL_FRAME_zuo2 = "toolFrame_zuo2";
 	private static final String TOOL_FRAME_zuo3 = "toolFrame_zuo3";
+	private static final String TOOL_FRAME_zuo_hand = "toolFrame_zuo_hand";
+	private static final String TOOL_FRAME_you_hand = "toolFrame_you_hand";
 	protected String Tool_you_string;
 	protected String Tool_you2_string;
 	protected String Tool_you3_string;
 	protected String Tool_zuo_string;
 	protected String Tool_zuo2_string;
 	protected String Tool_zuo3_string;
+	protected String Tool_zuo_hand_string;
+	protected String Tool_you_hand_string;
 	//////////////////////////
 
 
@@ -187,6 +198,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public boolean Distal;
 	public boolean bChange=false;
 	public boolean transition=false;
+//	public boolean test=true;
 	public boolean electrify;
 
 	Frame pre_Place;
@@ -258,6 +270,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public double nDistance=0;
 	public double nStiff=0;
 	public double nTest=0;
+	public double n_Test=1;
+	public double nTest_rotation=0;
 
 	//å…¨å±€X,Y,Zå�˜é‡� è¾“å…¥å�˜é‡�
 	public static double nX;
@@ -269,6 +283,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	public static double A;
 	public static double B;
 	public static double C;
+	public static double A_cps=0;
+	public static double B_cps=0;
+	public static double C_cps=0;
 	public String Err="0,";
 	public boolean bCorrectPlane=false;
 	public boolean breaktest=false;
@@ -294,7 +311,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private double pa;
 	private double pb;
 	private double pc;
-
+	private double dx_Angle;
+	private double dy_Angle;
+	private double dz_Angle;
+	
 	private double cx;
 	private double cy;
 	private double cz;
@@ -308,6 +328,21 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	private double cca;
 	private double ccb;
 	private double ccc;
+	
+	private double sx;
+	private double sy;
+	private double sz;
+	private double sa;
+	private double sb;
+	private double sc;
+	
+	private double ssx;
+	private double ssy;
+	private double ssz;
+	private double ssa;
+	private double ssb;
+	private double ssc;
+	
 	boolean bstop = false;
 	////////////
 	//å…¨å±€å·¥ä½œæ¨¡å¼�å�˜é‡� è¾“å…¥å�˜é‡�
@@ -350,21 +385,21 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				Math.toRadians(48.25),
 				Math.toRadians(-113.84));
 
-		jointPos_zuo=new JointPosition(   Math.toRadians(-37.46),
-				Math.toRadians(-10.8),
-				Math.toRadians(61),
-				Math.toRadians(74),
-				Math.toRadians(1.4),
-				Math.toRadians(-40),
-				Math.toRadians(62));
+		jointPos_zuo=new JointPosition(   Math.toRadians(24.12),
+				Math.toRadians(-12.20),
+				Math.toRadians(8.82),
+				Math.toRadians(87.29),
+				Math.toRadians(32.92),
+				Math.toRadians(54.79),
+				Math.toRadians(-128.32));
 
-		jointPos_you=new JointPosition(   Math.toRadians(-28.12),
-				Math.toRadians(-9.18),
-				Math.toRadians(5.17),
-				Math.toRadians(85.38),
-				Math.toRadians(-32.64),
-				Math.toRadians(42.12),
-				Math.toRadians(36.19));
+		jointPos_you=new JointPosition(   Math.toRadians(-31.46),
+				Math.toRadians(-4.32),
+				Math.toRadians(6.14),
+				Math.toRadians(91.34),
+				Math.toRadians(-34.69),
+				Math.toRadians(45.71),
+				Math.toRadians(38.23));
 		jointPos_zuo_transition=new JointPosition(   Math.toRadians(29.86),
 				Math.toRadians(-2.14),
 				Math.toRadians(7.67),
@@ -372,6 +407,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				Math.toRadians(45.34),
 				Math.toRadians(34.49),
 				Math.toRadians(-63.27));
+		jointPos_you_transition=new JointPosition(   Math.toRadians(-5.85),
+                Math.toRadians(-16.96),
+                Math.toRadians(-53.00),
+                Math.toRadians(62.36),
+                Math.toRadians(-47.16),
+                Math.toRadians(50.81),
+                Math.toRadians(0.33));
 
 
 
@@ -490,7 +532,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				//					System.out.println("data14:"+data14);
 			}
 			//				//å…³èŠ‚åº¦æ•°2
-			a1 = Math.toDegrees(actPos.get(1));
+//			a1 = Math.toDegrees(actPos.get(1));
+			a1 = (int)(Math.random()*100000+1);
 			BigDecimal bigDecimal1 = new BigDecimal(a1);
 			a1 = bigDecimal1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 			data7=String.valueOf(a1)+",";
@@ -672,7 +715,36 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				cmdPos2.setGammaRad(0);
 				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"), cmdPos2);
 			}	
+			else if(nToolMode==12)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
+				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCommandedCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame(), cmdPos2);
 
+				//					System.out.println("2:"+cmdPos);
+			}		
+			else if(nToolMode==13)
+			{
+				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
+				cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
+				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
+				cmdPos2.setX(0);
+				cmdPos2.setY(0);
+				cmdPos2.setZ(0);
+				cmdPos2.setAlphaRad(0);
+				cmdPos2.setBetaRad(Math.toRadians(-30));
+				cmdPos2.setGammaRad(0);
+				cmdPos=lbr.getCommandedCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame(), cmdPos2);
+
+				//					System.out.println("2:"+cmdPos);
+			}
 			else
 			{
 				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/test"));
@@ -1054,7 +1126,13 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 									else if(Double.parseDouble(para2)==21 && Double.parseDouble(units[2])==21)
 									{
 										transition=true;
+//										test=false;
 										System.out.println("transition=true");
+									}
+									else if(Double.parseDouble(para2)==22 && Double.parseDouble(units[2])==22)
+									{
+										System.out.println("Communication is normal");
+										Err="13,";
 									}
 									//							if(Double.parseDouble(para2)==15 && Double.parseDouble(units[2])==15)
 									//							{
@@ -1090,7 +1168,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 										if(para2.equals("6")){
 											nWorkingmode=6;
-											//		                            	System.out.println("nWorkingmode=6");
+										   System.out.println("nWorkingmode=6ch");
 										}
 									}
 
@@ -2040,7 +2118,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 				}
 				if (nWorkingmode==1){
-					//					transition=true;
+					transition=false;
 					Err="0,";
 					System.out.println("start handguiding");
 					ThreadUtil.milliSleep(500);
@@ -2075,6 +2153,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					StartOnece=true;
 				}
 				else if (nWorkingmode==2 ){
+					nLastWorkingmode=nWorkingmode;
 					bstop=true;
 					lbr.move(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
 					nWorkingmode=0;
@@ -2082,6 +2161,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				}
 
 				else if(nWorkingmode==3){
+					nLastWorkingmode=nWorkingmode;
 					bstop=true;
 					lbr.move(new PTP(jointPos_you).setJointVelocityRel(0.2));
 					nWorkingmode=0;
@@ -2107,6 +2187,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					Tool_zuo_string ="Tool_zuo_" + nReceive;
 					Tool_zuo2_string ="Tool_zuo2_" + nReceive;
 					Tool_zuo3_string ="Tool_zuo3_" + nReceive;
+					Tool_you_hand_string = "Tool_you_hand_" + nReceive;
+					Tool_zuo_hand_string = "Tool_zuo_hand_" + nReceive;
 
 					//nToolMode==2   you_21002 下表面				
 					_loadData_you = new LoadData();
@@ -2228,8 +2310,42 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					//				    System.out.println("_loadData_zuo3");
 
 
+					//nToolMode==12 zuo_hand
+					_loadData_zuo_hand = new LoadData();
+					_loadData_zuo_hand.setMass(MASS);
+					_loadData_zuo_hand.setCenterOfMass(
+							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+							CENTER_OF_MASS_IN_MILLIMETER[2]);
 
+					_toolAttachedToLBR_zuo_hand = new Tool(Tool_zuo_hand_string, _loadData_zuo_hand);
 
+					XyzAbcTransformation trans8 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_zuo_hand[0], TRANSLATION_OF_TOOL_zuo_hand[1], TRANSLATION_OF_TOOL_zuo_hand[2],TRANSLATION_OF_TOOL_zuo_hand[3],TRANSLATION_OF_TOOL_zuo_hand[4],TRANSLATION_OF_TOOL_zuo_hand[5]);
+					System.out.println("XyzAbcTransformation trans8"+trans8);
+					ObjectFrame aTransformation8 = _toolAttachedToLBR_zuo_hand.addChildFrame(TOOL_FRAME_zuo_hand + "(TCP)", trans8);
+					_toolAttachedToLBR_zuo_hand.setDefaultMotionFrame(aTransformation8);
+					// Attach tool to the robot
+					_toolAttachedToLBR_zuo_hand.attachTo(lbr.getFlange());
+					//				    System.out.println("_loadData_zuo3");
+
+					
+					
+					//nToolMode==13 you_hand
+					_loadData_you_hand = new LoadData();
+					_loadData_you_hand.setMass(MASS);
+					_loadData_you_hand.setCenterOfMass(
+							CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+							CENTER_OF_MASS_IN_MILLIMETER[2]);
+
+					_toolAttachedToLBR_you_hand = new Tool(Tool_you_hand_string, _loadData_you_hand);
+
+					XyzAbcTransformation trans9 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_you_hand[0], TRANSLATION_OF_TOOL_you_hand[1], TRANSLATION_OF_TOOL_you_hand[2],TRANSLATION_OF_TOOL_you_hand[3],TRANSLATION_OF_TOOL_you_hand[4],TRANSLATION_OF_TOOL_you_hand[5]);
+					System.out.println("XyzAbcTransformation trans9"+trans9);
+					ObjectFrame aTransformation9 = _toolAttachedToLBR_you_hand.addChildFrame(TOOL_FRAME_you_hand + "(TCP)", trans9);
+					_toolAttachedToLBR_you_hand.setDefaultMotionFrame(aTransformation9);
+					// Attach tool to the robot
+					_toolAttachedToLBR_you_hand.attachTo(lbr.getFlange());
+					//				    System.out.println("_loadData_zuo3");
+					
 					//				    ThreadUtil.milliSleep(1500);
 					nReceive++;
 					nWorkingmode=0;
@@ -2248,18 +2364,34 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 							if (transition==true){
 								System.out.println("transition==true");
-								lbr.move(ptp(jointPos_zuo_transition).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-								System.out.println("1");
+								if(nToolMode==2||nToolMode==3){
+
+				    				lbr.move(ptp(jointPos_you_transition).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+
+				    			}
+				    			else if(nToolMode==8||nToolMode==9){
+				    				lbr.move(ptp(jointPos_zuo_transition).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+				    			}
+
+								
 								JointPosition PosNow=lbr.getCurrentJointPosition();
-								if (Math.abs(Math.toDegrees(PosNow.get(4))-Math.toDegrees(jointPos_zuo_transition.get(4)))<0.5 && Math.abs(Math.toDegrees(PosNow.get(5))-Math.toDegrees(jointPos_zuo_transition.get(5)))<0.5  && Math.abs(Math.toDegrees(PosNow.get(6))-Math.toDegrees(jointPos_zuo_transition.get(6)))<0.5){
-									transition=false;
-									System.out.println("transition=false turn");
-								}
+								if (nToolMode==2||nToolMode==3){
+				    				if (Math.abs(Math.toDegrees(PosNow.get(4))-Math.toDegrees(jointPos_you_transition.get(4)))<0.5 && Math.abs(Math.toDegrees(PosNow.get(5))-Math.toDegrees(jointPos_you_transition.get(5)))<0.5  && Math.abs(Math.toDegrees(PosNow.get(6))-Math.toDegrees(jointPos_you_transition.get(6)))<0.5){
+					    				transition=false;
+//					    				System.out.println("transition=false turn");
+					    			}
+				    			}
+								else if(nToolMode==8||nToolMode==9){
+				    				if (Math.abs(Math.toDegrees(PosNow.get(4))-Math.toDegrees(jointPos_zuo_transition.get(4)))<0.5 && Math.abs(Math.toDegrees(PosNow.get(5))-Math.toDegrees(jointPos_zuo_transition.get(5)))<0.5  && Math.abs(Math.toDegrees(PosNow.get(6))-Math.toDegrees(jointPos_zuo_transition.get(6)))<0.5){
+					    				transition=false;
+//					    				System.out.println("transition=false turn");
+					    			}
+				    			}
 
 							}
 
 							if (transition==false){
-								System.out.println("num_ForTest!=0");
+//								System.out.println("num_ForTest!=0");
 								Frame pre_Place1 = getApplicationData().getFrame("/CoverScrewing/SmallCover").copyWithRedundancy();
 
 								pre_Place1.setX(nX);
@@ -2279,7 +2411,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 								pre_Place2.setGammaRad(Math.toRadians(nC));
 
 
-								System.out.println("pre_Place"+pre_Place2);
+//								System.out.println("pre_Place"+pre_Place2);
 
 								Frame Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
 								Frame Object4 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
@@ -2300,22 +2432,22 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
 									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo2[0] ,-TRANSLATION_OF_TOOL_zuo2[1],-TRANSLATION_OF_TOOL_zuo2[2], 0, 0, 0)));
-									System.out.println("Ptest1"+Ptest1);
+//									System.out.println("Ptest1"+Ptest1);
 								}
 								else if(nToolMode==8){
 									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
 									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
 									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
 									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo[0] ,-TRANSLATION_OF_TOOL_zuo[1],-TRANSLATION_OF_TOOL_zuo[2], 0, 0, 0)));
-									System.out.println("Ptest1"+Ptest1);
+//									System.out.println("Ptest1"+Ptest1);
 								}
 
 
-								System.out.println("zhunbei_ready");
+//								System.out.println("zhunbei_ready");
 
 								try{	
 									lbr.getInverseKinematicFromFrameAndRedundancy(Object4);
-									System.out.println("222");	
+//									System.out.println("222");	
 									Frame Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
 
 									if(nToolMode==3){
@@ -2326,100 +2458,45 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 									}
 									else if(nToolMode==9){
 										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-										System.out.println("Object5"+Object5);
+//										System.out.println("Object5"+Object5);
 									}
 									else if(nToolMode==8){
 										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
-										System.out.println("Object5"+Object5);
+//										System.out.println("Object5"+Object5);
 									}
 
-									System.out.println("333");	
+//									System.out.println("333");	
 									Object5.setX(Object4.getX());
 									Object5.setY(Object4.getY());
 									Object5.setZ(Object4.getZ());
 									Object5.setAlphaRad(Object4.getAlphaRad());
 									Object5.setBetaRad(Object4.getBetaRad());
 									Object5.setGammaRad(Object4.getGammaRad());
-									System.out.println("Object5"+Object5);
+//									System.out.println("Object5"+Object5);
 									JointPosition test=lbr.getInverseKinematicFromFrameAndRedundancy(Object5);
-									System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
+//									System.out.println("JointEnum.J1:"+test.get(JointEnum.J1));
 
 
 									if(nToolMode==3){
 
-										//						    		    	Frame pend=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-										//						    		    	boolean bcondition=false;
-										//						    		    	JointPosition jNow=lbr.getCurrentJointPosition();
-										//						    		    	if(Math.abs(Math.toDegrees(jNow.get(4)))<20){
-										System.out.println("Start nWorkingmode==6");
+									
+//										System.out.println("Start nWorkingmode==6");
 										_toolAttachedToLBR_you2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										System.out.println("End nWorkingmode==6");
-										//						    		    	}
-										//						    		    	else{
-										//						    		    		double dStart=Math.abs(Math.toDegrees(jNow.get(4)));
-										//							    		    	Frame ptest =lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you2.getDefaultMotionFrame());
-										//							    		    	ptest.setX(pre_Place2.getX());
-										//							    		    	ptest.setY(pre_Place2.getY());
-										//							    		    	ptest.setZ(pre_Place2.getZ());
-										//							    		    	ptest.setAlphaRad(pre_Place2.getAlphaRad());
-										//							    		    	ptest.setBetaRad(pre_Place2.getBetaRad());
-										//							    		    	ptest.setGammaRad(pre_Place2.getGammaRad());
-										//							    		    	
-										//							    		    	int i=-20;
-										//							    		    
-										//							    		    	while(i<20 || bcondition==true ){
-										//								    		    	try{
-										//								    		    		ptest=ptest.transform(Transformation.ofDeg(0, 0, 0,0, 0, i));
-										//								    		    		JointPosition jtest=lbr.getInverseKinematicFromFrameAndRedundancy(ptest);
-										//								    		    		if(Math.abs(Math.toDegrees(jtest.get(4)))<20){
-										//								    		    			bcondition=true;
-										//								    		    			System.out.println("jtest4:"+Math.toDegrees(jtest.get(4)));
-										//								    		    		}
-										//								    		    		double dSelect=Math.abs(Math.toDegrees(jtest.get(4)));
-										//								    		    		if (dStart>dSelect){
-										//								    		    			pend=ptest;
-										//								    		    			System.out.println("get4:"+Math.toDegrees(jtest.get(4)));
-										//								    		    		}
-										//								    		    		
-										//								    		    	}
-										//								    				catch(Throwable cause)
-										//								    				{
-										//								    					System.out.println("OutOfRange_dingwei");
-										//								    				}
-										//							    		    	}
-										//							    		    	if (bcondition==true){
-										//							    		    		_toolAttachedToLBR_you2.getDefaultMotionFrame().move(lin(ptest).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//							    		    	}
-										//							    		    	else{
-										//							    		    		_toolAttachedToLBR_you2.getDefaultMotionFrame().move(lin(pend).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//							    		    	}
-										//						    		    	}					    		    	
+//										System.out.println("End nWorkingmode==6");
+													    		    	
 									}
 									else if(nToolMode==2){
-										//											System.out.println("Start nWorkingmode==6");
-										_toolAttachedToLBR_you.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//											System.out.println("End nWorkingmode==6");
+//										System.out.println("Start nWorkingmode==6");  
+										_toolAttachedToLBR_you.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));							
+//										System.out.println("End nWorkingmode==6");
+										
 									}
 									else if(nToolMode==9){
 
-										System.out.println("Start nWorkingmode==6");
+//										System.out.println("Start nWorkingmode==6");
 										_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										//						    		    	Frame ptest =lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-										//						    		    	ptest.setX(pre_Place2.getX());
-										//						    		    	ptest.setY(pre_Place2.getY());
-										//						    		    	ptest.setZ(pre_Place2.getZ());
-										//						    		    	ptest.setAlphaRad(pre_Place2.getAlphaRad());
-										//						    		    	ptest.setBetaRad(pre_Place2.getBetaRad());
-										//						    		    	ptest.setGammaRad(pre_Place2.getGammaRad());
-										//						    		    	ptest=ptest.transform(Transformation.ofDeg(1, 0, 0,0, 0, 0));
-
-										Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
-										Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-										Object4 = Object4.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
-										Object4 = Object4.transform((Transformation.ofDeg(0 ,0,0, 0, 0, 0)));
-
-										//						    		    	_toolAttachedToLBR_zuo2.getDefaultMotionFrame().move(lin(Object4).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										System.out.println("End nWorkingmode==6");
+										
+//										System.out.println("End nWorkingmode==6");
 
 
 										//											Frame pend=lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo2.getDefaultMotionFrame());
@@ -2473,9 +2550,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 									}
 									else if(nToolMode==8){
-										System.out.println("Start nWorkingmode==6");
+//										System.out.println("Start nWorkingmode==6");
 										_toolAttachedToLBR_zuo.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
-										System.out.println("End nWorkingmode==6");
+//										System.out.println("End nWorkingmode==6");
 									}
 
 									//更新平面定位初始点
@@ -2493,17 +2570,17 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 									else if(nToolMode==9){
 										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-										System.out.println("lhy3");
+//										System.out.println("lhy3");
 									}
 									else if(nToolMode==8){
 										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
-										System.out.println("lhy4");
+//										System.out.println("lhy4");
 									}
 
 									if(io.getInput4()==false){
 										Err="3,";
-										System.out.println("Move");
+//										System.out.println("Move");
 										Err="3,";
 										ThreadUtil.milliSleep(70);
 										Err="0,";
@@ -2542,195 +2619,436 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				else if(nWorkingmode==7){
 
 
-					System.out.println("start nWorkingmode=8");
-					Frame current = lbr.getCurrentCartesianPosition(lbr.getFlange());
-					lbr.move(ptp(current).setJointVelocityRel(0.1));
+					System.out.println("start nWorkingmode=7");
+					if(nToolMode==2||nToolMode==3){
+//						System.out.println("you");
+						Frame current = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame());
+						_toolAttachedToLBR_you_hand.move(ptp(current).setJointVelocityRel(0.1));
 
 
-					SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
-					aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
+						SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
+						aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
 
-					System.out.println("Start Smart Servo Lin motion");
+//						System.out.println("Start Smart Servo Lin motion");
 
-					//设置是否有阻抗的地方
-					//_toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
-					lbr.moveAsync(aSmartServoLINMotion);
+						//设置是否有阻抗的地方
+						//_toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
+						_toolAttachedToLBR_you_hand.moveAsync(aSmartServoLINMotion);
 
-					System.out.println("Get the runtime of the SmartServoLIN motion");
-					ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
-							.getRuntime();
-					System.out.println("6");
-					px = py = pz = 0.02;
-					pa = pb = pc=0.0002;
+//						System.out.println("Get the runtime of the SmartServoLIN motion");
+						ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
+								.getRuntime();
 
-					Frame destFrame = current.copyWithRedundancy();
+						px = py = pz = 0.03;
+					
+						pa = pb = pc=0.0003;
 
-					double zFx = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-							.getX();
-					double zFy = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-							.getY();
-					double zFz = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-							.getZ();
+						Frame destFrame = current.copyWithRedundancy();
+						
+						double zFx = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+								.getX();
+						double zFy = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+								.getY();
+						double zFz = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+								.getZ();
 
-					double zFa = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getZ();
-					double zFb = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getY();
-					double zFc = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getX();
-
-
-					ccx = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getX();
-					ccy = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getY();
-					ccz = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getZ();
-					cca = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getAlphaRad();
-					ccb = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getBetaRad();
-					ccc = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getGammaRad();
-
-					System.out.println("get Force in x " + zFx);
-					System.out.println("get Force in y " + zFy);
-					System.out.println("get Force in z " + zFz);
-					System.out.println("get Torque in a " + zFa);
-					System.out.println("get Torque in b " + zFb);
-					System.out.println("get Torque in c " + zFc);
-					JointPosition jStart=lbr.getCurrentJointPosition();
-					try {
-						while (!bstop) {
-
-							fx = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-									.getX();
-							fy = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-									.getY();
-							fz = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getForce()
-									.getZ();
-							fa = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getZ();
-							fb = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getY();
-							fc = lbr.getExternalForceTorque(needle_Tool_2.getFrame("/you_21005")).getTorque().getX();
-
-							dfx = -px * (fx - zFx);
-							dfy = py * (fy - zFy);
-							dfz = -pz * (fz - zFz);
-							dfa = pa * (fa - zFa);
-							dfb =  pb * (fb - zFb);
-							dfc =  pc * (fc - zFc);
-
-							cx = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getX();
-							cy = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getY();
-							cz = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getZ();
-							ca = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getAlphaRad();
-							cb = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getBetaRad();
-							cc = lbr.getCurrentCartesianPosition(needle_Tool_2.getFrame("/you_21005")).getGammaRad();
+						double zFa = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getZ();
+						double zFb = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getY();
+						double zFc = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getX();
+						//力
 
 
+						ccx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getX();
+						ccy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getY();
+						ccz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getZ();
+						cca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getAlphaRad();
+						ccb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getBetaRad();
+						ccc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getGammaRad();
+						//位置
 
-							JointPosition jNow=lbr.getCurrentJointPosition();
-							double bBiaozhi=1;
-							if (jNow.get(6)>0){
-								bBiaozhi=1;
-							}
-							else{
-								bBiaozhi=-1;
-							}
-							if(nToolMode==8||nToolMode==9){
-								if(Math.abs(dfb) < 0.001){
-									dfb = 0;
+//						System.out.println("get Force in x " + zFx);
+//						System.out.println("get Force in y " + zFy);
+//						System.out.println("get Force in z " + zFz);
+//						System.out.println("get Torque in a " + zFa);
+//						System.out.println("get Torque in b " + zFb);
+//						System.out.println("get Torque in c " + zFc);
+						JointPosition jStart=lbr.getCurrentJointPosition();
+						try {
+							while (!bstop) {
+
+								fx = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+										.getX();
+								fy = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+										.getY();
+								fz = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getForce()
+										.getZ();
+								fa = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getZ();
+								fb = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getY();
+								fc = lbr.getExternalForceTorque(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getTorque().getX();
+
+								dfx = -px * (fx - zFx);
+								dfy = py * (fy - zFy);
+								dfz = -pz * (fz - zFz);
+								dfa = pa * (fa - zFa);
+								dfb =  pb * (fb - zFb);
+								dfc =  pc * (fc - zFc);
+
+								cx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getX();
+								cy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getY();
+								cz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getZ();
+								ca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getAlphaRad();
+								cb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getBetaRad();
+								cc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you_hand.getDefaultMotionFrame()).getGammaRad();
+
+
+								JointPosition jNow=lbr.getCurrentJointPosition();
+								double bBiaozhi=1;
+								if (jNow.get(6)>0){
+									bBiaozhi=1;
 								}
-								
-								if(Math.abs(Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))>8 && (Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))*fb*bBiaozhi<0  ){
-									dfb = 0;
+								else{
+									bBiaozhi=-1;
 								}
-								
-//								if(Math.abs(ccx-cx)>55 || Math.abs(dfx) < 0.001){
-//									System.out.println("ccx-cx " );
-//									dfx = 0;
+//								if(nToolMode==8||nToolMode==9){
+//									if(Math.abs(dfb) < 0.001){
+//										dfb = 0;
+//									}
+//									
+//									if(Math.abs(Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))>12 && (Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))*fb*bBiaozhi<0  ){
+//										dfb = 0;
+//									}
+//									
+//									if(Math.abs(ccx-cx)>55 || Math.abs(dfx) < 0.001){
+//										dfx = 0;
+//									}
+//									if(Math.abs(ccy-cy)>55 || Math.abs(dfy) < 0.001){
+//										dfy = 0;
+//									}
+//									if(Math.abs(ccz-cz)>55  || Math.abs(dfz) < 0.001){
+//										dfz = 0;
+//									}
+//									
+//									
 //								}
-//								if(Math.abs(ccy-cy)>55 || Math.abs(dfy) < 0.001){
-//									System.out.println("ccy-cy" );
-//									dfy = 0;
+//								 if(nToolMode==2||nToolMode==3){
+									if(Math.abs(ccc-cc)>(11.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
+										dfc = 0;
+									}
+									if(Math.toDegrees(jStart.get(6))<-170){
+										dfc = 0;	
+									}
+									if(Math.abs(ccx-cx)>80 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
+//										
+										dfx = 0;
+									}
+									if(Math.abs(ccy-cy)>80 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
+//								
+										dfy = 0;
+									}
+									if(Math.abs(ccz-cz)>80 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
+//										
+										dfz = 0;
+									}
+									
 //								}
-//								if(Math.abs(ccz-cz)>55  || Math.abs(dfz) < 0.001){
-//									System.out.println("ccz-cz " );
-//									dfz = 0;
-//								}
-								
-								
-							}
-							else if(nToolMode==2||nToolMode==3){
-								if(Math.abs(ccc-cc)>(7.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
-									dfc = 0;
-								}
-								if(Math.abs(ccx-cx)>55 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
-									dfx = 0;
-								}
-								if(Math.abs(ccy-cy)>55 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
-									dfy = 0;
-								}
-								if(Math.abs(ccz-cz)>55 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
+
+
+								if (Math.abs(dfz) < 0.5) {
 									dfz = 0;
 								}
-								
-							}
+								if (ccz - cz > 50) {
+									if (fz > 0) {
+										dfz = 0;
 
-
-							if (Math.abs(dfz) < 0.5) {
-								dfz = 0;
-							}
-							if (ccz - cz > 50) {
-								if (fz > 0) {
-									dfz = 0;
-
+									}
 								}
-							}
 
-							if (ccz - cz < -50) {
-								if (fz < 0) {
-									dfz = 0;
+								if (ccz - cz < -50) {
+									if (fz < 0) {
+										dfz = 0;
+
+									}
 
 								}
 
+								//								
+//								if(nToolMode==8 || nToolMode==9){
+//									
+//									
+//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfz*Math.tan(A_cps), 0, -dfz, 0, dfb, 0)));
+//
+//									destFrame.setX(Ptest2.getX());
+//									destFrame.setY(Ptest2.getY());
+//									destFrame.setZ(Ptest2.getZ());
+//									destFrame.setAlphaRad(Ptest2.getAlphaRad());
+//									destFrame.setBetaRad(Ptest2.getBetaRad());
+//									destFrame.setGammaRad(Ptest2.getGammaRad());
+//
+//								}
+//								 if(nToolMode==2 || nToolMode==3){
+//									if(nA<3.1416 && nB<3.1416 && nC<3.1416){
+////										
+//										A_cps=3.14159-nA;
+//										C_cps=3.14159-nC;
+//									}
+//									else if(nA<0 && nB<0 && nC>0){
+//										A_cps=-nA;
+//										C_cps=nC;
+//									}
+
+
+									
+									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
+//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, -dfz*Math.tan(A_cps), -dfz, 0, 0, dfc)));
+									destFrame.setX(Ptest2.getX());
+									destFrame.setY(Ptest2.getY());
+									destFrame.setZ(Ptest2.getZ());
+									destFrame.setAlphaRad(Ptest2.getAlphaRad());
+									destFrame.setBetaRad(Ptest2.getBetaRad());
+									destFrame.setGammaRad(Ptest2.getGammaRad());
+
+									
+//								}
+
+
+
+
+								smartServoLINRuntime.updateWithRealtimeSystem();
+
+								smartServoLINRuntime.setDestination(destFrame);
+
+								//smartServoLINRuntime.changeControlModeSettings(cic);
+								if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
+									//					bstop = true;
+								}
+
+								//				ThreadUtil.milliSleep(5);
 							}
 
-							//								
-							if(nToolMode==8 || nToolMode==9){
-								Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfx, 0, -dfz, 0, dfb, 0)));
-
-								destFrame.setX(Ptest2.getX());
-								destFrame.setY(Ptest2.getY());
-								destFrame.setZ(Ptest2.getZ());
-								destFrame.setAlphaRad(Ptest2.getAlphaRad());
-								destFrame.setBetaRad(Ptest2.getBetaRad());
-								destFrame.setGammaRad(Ptest2.getGammaRad());
-
-							}
-							else if(nToolMode==2 || nToolMode==3){
-								Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
-
-								destFrame.setX(Ptest2.getX());
-								destFrame.setY(Ptest2.getY());
-								destFrame.setZ(Ptest2.getZ());
-								destFrame.setAlphaRad(Ptest2.getAlphaRad());
-								destFrame.setBetaRad(Ptest2.getBetaRad());
-								destFrame.setGammaRad(Ptest2.getGammaRad());
-							}
-
-
-
-
-							smartServoLINRuntime.updateWithRealtimeSystem();
-
-							smartServoLINRuntime.setDestination(destFrame);
-
-							//smartServoLINRuntime.changeControlModeSettings(cic);
-							if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
-								//					bstop = true;
-							}
-
-							//				ThreadUtil.milliSleep(5);
 						}
-
-					} catch (Exception e) {
-						// TODO: handle exception
-						System.out.println(e.toString());
+						 catch (Exception e) {
+								// TODO: handle exception
+								System.out.println(e.toString());
+							}
+						smartServoLINRuntime.stopMotion();
 					}
+					
+					else if (nToolMode==8 || nToolMode==9){
+//						System.out.println("zuo");
+						Frame current = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame());
+						_toolAttachedToLBR_zuo_hand.move(ptp(current).setJointVelocityRel(0.1));
 
-					smartServoLINRuntime.stopMotion();
+
+						SmartServoLIN aSmartServoLINMotion = new SmartServoLIN(current);
+						aSmartServoLINMotion.setMinimumTrajectoryExecutionTime(20e-3);
+
+//						System.out.println("Start Smart Servo Lin motion");
+
+						//设置是否有阻抗的地方
+						//_toolAttachedToLBR.moveAsync(aSmartServoLINMotion.setMode(cic));
+						_toolAttachedToLBR_zuo_hand.moveAsync(aSmartServoLINMotion);
+
+//						System.out.println("Get the runtime of the SmartServoLIN motion");
+						ISmartServoLINRuntime smartServoLINRuntime = aSmartServoLINMotion
+								.getRuntime();
+
+						px = py = pz = 0.03;
+					
+						pa = pb = pc=0.0003;
+
+						Frame destFrame = current.copyWithRedundancy();
+						
+						double zFx = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+								.getX();
+						double zFy = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+								.getY();
+						double zFz = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+								.getZ();
+
+						double zFa = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getZ();
+						double zFb = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getY();
+						double zFc = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getX();
+						//力
+
+
+						ccx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getX();
+						ccy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getY();
+						ccz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getZ();
+						cca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getAlphaRad();
+						ccb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getBetaRad();
+						ccc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getGammaRad();
+						//位置
+
+//						System.out.println("get Force in x " + zFx);
+//						System.out.println("get Force in y " + zFy);
+//						System.out.println("get Force in z " + zFz);
+//						System.out.println("get Torque in a " + zFa);
+//						System.out.println("get Torque in b " + zFb);
+//						System.out.println("get Torque in c " + zFc);
+						JointPosition jStart=lbr.getCurrentJointPosition();
+						try {
+							while (!bstop) {
+
+								fx = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+										.getX();
+								fy = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+										.getY();
+								fz = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getForce()
+										.getZ();
+								fa = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getZ();
+								fb = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getY();
+								fc = lbr.getExternalForceTorque(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getTorque().getX();
+
+								dfx = -px * (fx - zFx);
+								dfy = py * (fy - zFy);
+								dfz = -pz * (fz - zFz);
+								dfa = pa * (fa - zFa);
+								dfb =  pb * (fb - zFb);
+								dfc =  pc * (fc - zFc);
+
+								cx = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getX();
+								cy = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getY();
+								cz = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getZ();
+								ca = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getAlphaRad();
+								cb = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getBetaRad();
+								cc = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo_hand.getDefaultMotionFrame()).getGammaRad();
+
+
+								JointPosition jNow=lbr.getCurrentJointPosition();
+								double bBiaozhi=1;
+								if (jNow.get(6)>0){
+									bBiaozhi=1;
+								}
+								else{
+									bBiaozhi=-1;
+								}
+
+									if(Math.abs(dfc) < 0.001){
+										dfc = 0;					
+									}
+									
+									if(Math.abs(Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))>12 && (Math.toDegrees(jStart.get(4))-Math.toDegrees(jNow.get(4)))*fc*bBiaozhi<0  ){
+										dfc = 0;	
+									}
+									
+									if(Math.abs(ccx-cx)>75 || Math.abs(dfx) < 0.001){
+										dfx = 0;
+									}
+									if(Math.abs(ccy-cy)>75 || Math.abs(dfy) < 0.001){
+										dfy = 0;
+									}
+									if(Math.abs(ccz-cz)>75  || Math.abs(dfz) < 0.001){
+										dfz = 0;
+									}
+									
+									
+//								}
+//								else if(nToolMode==2||nToolMode==3){
+//									if(Math.abs(ccc-cc)>(11.5/57.2) && (ccc-cc)*fc<0 || Math.abs(dfc) < 0.001){
+//										dfc = 0;
+//									}
+//									if(Math.toDegrees(jStart.get(6))<-170){
+//										dfc = 0;	
+//									}
+//									if(Math.abs(ccx-cx)>80 && (ccx-cx)*fx>0 || Math.abs(dfx) < 0.001){
+////										
+//										dfx = 0;
+//									}
+//									if(Math.abs(ccy-cy)>80 && (ccy-cy)*fy<0 || Math.abs(dfy) < 0.001){
+////								
+//										dfy = 0;
+//									}
+//									if(Math.abs(ccz-cz)>80 && (ccz-cz)*fz>0 || Math.abs(dfz) < 0.001){
+////										
+//										dfz = 0;
+//									}
+//									
+//								}
+
+
+								if (Math.abs(dfz) < 0.5) {
+									dfz = 0;
+								}
+								if (ccz - cz > 50) {
+									if (fz > 0) {
+										dfz = 0;
+
+									}
+								}
+
+								if (ccz - cz < -50) {
+									if (fz < 0) {
+										dfz = 0;
+
+									}
+
+								}
+
+								//								
+//								if(nToolMode==8 || nToolMode==9){
+									
+									
+//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(-dfz*Math.tan(A_cps), 0, -dfz, 0, dfb, 0)));
+									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
+									destFrame.setX(Ptest2.getX());
+									destFrame.setY(Ptest2.getY());
+									destFrame.setZ(Ptest2.getZ());
+									destFrame.setAlphaRad(Ptest2.getAlphaRad());
+									destFrame.setBetaRad(Ptest2.getBetaRad());
+									destFrame.setGammaRad(Ptest2.getGammaRad());
+
+//								}
+//								else if(nToolMode==2 || nToolMode==3){
+////									if(nA<3.1416 && nB<3.1416 && nC<3.1416){
+//////										
+////										A_cps=3.14159-nA;
+////										C_cps=3.14159-nC;
+////									}
+////									else if(nA<0 && nB<0 && nC>0){
+////										A_cps=-nA;
+////										C_cps=nC;
+////									}
+//
+//
+//									
+//									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, dfy, -dfz, 0, 0, dfc)));
+////									Frame Ptest2 = destFrame.transform((Transformation.ofRad(0, -dfz*Math.tan(A_cps), -dfz, 0, 0, dfc)));
+//									destFrame.setX(Ptest2.getX());
+//									destFrame.setY(Ptest2.getY());
+//									destFrame.setZ(Ptest2.getZ());
+//									destFrame.setAlphaRad(Ptest2.getAlphaRad());
+//									destFrame.setBetaRad(Ptest2.getBetaRad());
+//									destFrame.setGammaRad(Ptest2.getGammaRad());
+//
+//									
+//								}
+
+
+
+
+								smartServoLINRuntime.updateWithRealtimeSystem();
+
+								smartServoLINRuntime.setDestination(destFrame);
+
+								//smartServoLINRuntime.changeControlModeSettings(cic);
+								if (lbr.getCurrentCartesianPosition(lbr.getFlange()).getX() > 700) {
+									//					bstop = true;
+								}
+
+								//				ThreadUtil.milliSleep(5);
+							}
+
+						}
+						 catch (Exception e) {
+								// TODO: handle exception
+								System.out.println(e.toString());
+							}
+						smartServoLINRuntime.stopMotion();
+					}
+					
+					
+
+					
 
 
 					ThreadUtil.milliSleep(20);
@@ -2758,6 +3076,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					System.out.println("6");
 					px = py = pz = 0.02;
 					pa = pb = pc=0.0002;
+					
 
 					Frame destFrame = current.copyWithRedundancy();
 
@@ -2970,290 +3289,282 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 					if (nTest==0 && nToolMode==1){
-						jointPos_register =new JointPosition(   Math.toRadians(38.54),
-								Math.toRadians(-13.76),
-								Math.toRadians(-40.47),
-								Math.toRadians(81.17),
-								Math.toRadians(10.93),
-								Math.toRadians(33.23),
-								Math.toRadians(-4.18));	
+						jointPos_register =new JointPosition(   Math.toRadians(-26.68),
+								Math.toRadians(-15.66),
+								Math.toRadians(6.14),
+								Math.toRadians(93.59),
+								Math.toRadians(-23.73),
+								Math.toRadians(56.22),
+								Math.toRadians(25.43));	
 					}
 					else if (nTest==1 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(24.43),
-								Math.toRadians(-20.00),
-								Math.toRadians(-53.87),
-								Math.toRadians(83.17),
-								Math.toRadians(-14.73),
-								Math.toRadians(46.92),
-								Math.toRadians(39.49));	
+						jointPos_register =new JointPosition(   Math.toRadians(-5.77),
+								Math.toRadians(3.22),
+								Math.toRadians(6.14),
+								Math.toRadians(97.57),
+								Math.toRadians(-1.42),
+								Math.toRadians(37.47),
+								Math.toRadians(2.57));	
 					}
 					else if (nTest==2 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(17.56),
-								Math.toRadians(-40.81),
-								Math.toRadians(-51.63),
-								Math.toRadians(78.40),
-								Math.toRadians(-1.11),
-								Math.toRadians(55.80),
-								Math.toRadians(38.68));	
+						jointPos_register =new JointPosition(   Math.toRadians(-8.56),
+								Math.toRadians(-16.90),
+								Math.toRadians(6.14),
+								Math.toRadians(98.93),
+								Math.toRadians(-5.32),
+								Math.toRadians(58.86),
+								Math.toRadians(4.07));	
 					}
 					else if (nTest==3 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(23.93),
-								Math.toRadians(-32.01),
-								Math.toRadians(-54.04),
-								Math.toRadians(100.02),
-								Math.toRadians(-3.31),
-								Math.toRadians(70.16),
-								Math.toRadians(35.13));	
+						jointPos_register =new JointPosition(   Math.toRadians(-29.52),
+								Math.toRadians(-23.92),
+								Math.toRadians(6.14),
+								Math.toRadians(89.33),
+								Math.toRadians(-26.11),
+								Math.toRadians(60.82),
+								Math.toRadians(26.32));	
 					}
 					else if (nTest==4 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.89),
-								Math.toRadians(-28.07),
-								Math.toRadians(-43.78),
-								Math.toRadians(100.16),
-								Math.toRadians(13.96),
-								Math.toRadians(62.68),
-								Math.toRadians(6.47));	
+						jointPos_register =new JointPosition(   Math.toRadians(2.36),
+								Math.toRadians(-18.98),
+								Math.toRadians(6.14),
+								Math.toRadians(84.23),
+								Math.toRadians(6.06),
+								Math.toRadians(46.66),
+								Math.toRadians(-8.96));	
 					}
 					else if (nTest==5 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.74),
-								Math.toRadians(-29.96),
-								Math.toRadians(-54.75),
-								Math.toRadians(73.49),
-								Math.toRadians(8.05),
-								Math.toRadians(34.16),
-								Math.toRadians(19.35));	
+						jointPos_register =new JointPosition(   Math.toRadians(-26.03),
+								Math.toRadians(-25.32),
+								Math.toRadians(6.14),
+								Math.toRadians(75.64),
+								Math.toRadians(-26.98),
+								Math.toRadians(48.48),
+								Math.toRadians(29.32));	
 					}
 					///???
 					else if (nTest==6 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(20.89),
-								Math.toRadians(-32.29),
-								Math.toRadians(-53.78),
-								Math.toRadians(73.10),
-								Math.toRadians(-10.36),
-								Math.toRadians(43.90),
-								Math.toRadians(43.56));	
+						jointPos_register =new JointPosition(   Math.toRadians(-23.81),
+								Math.toRadians(-34.16),
+								Math.toRadians(6.14),
+								Math.toRadians(73.27),
+								Math.toRadians(-23.69),
+								Math.toRadians(53.56),
+								Math.toRadians(23.51));	
 					}
 					else if (nTest==7 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(18.34),
-								Math.toRadians(-50.20),
-								Math.toRadians(-54.88),
-								Math.toRadians(67.02),
-								Math.toRadians(11.21),
-								Math.toRadians(51.01),
-								Math.toRadians(38.12));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.42),
+								Math.toRadians(-27.68),
+								Math.toRadians(6.14),
+								Math.toRadians(81.89),
+								Math.toRadians(6.68),
+								Math.toRadians(53.23),
+								Math.toRadians(-10.47));	
 					}
 					else if (nTest==8 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(27.28),
-								Math.toRadians(-29.82),
-								Math.toRadians(-54.99),
-								Math.toRadians(100.02),
-								Math.toRadians(-5.22),
-								Math.toRadians(66.82),
-								Math.toRadians(33.93));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.83),
+								Math.toRadians(-9.97),
+								Math.toRadians(6.14),
+								Math.toRadians(83.02),
+								Math.toRadians(11.96),
+								Math.toRadians(37.06),
+								Math.toRadians(-15.12));	
 					}
 					else if (nTest==9 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.87),
-								Math.toRadians(-10.09),
-								Math.toRadians(-40.76),
-								Math.toRadians(98.77),
-								Math.toRadians(8.03),
-								Math.toRadians(49.65),
-								Math.toRadians(-0.97));	
+						jointPos_register =new JointPosition(   Math.toRadians(-7.65),
+								Math.toRadians(-9.14),
+								Math.toRadians(6.14),
+								Math.toRadians(83.56),
+								Math.toRadians(-5.46),
+								Math.toRadians(35.83),
+								Math.toRadians(5.82));	
 					}
 					else if (nTest==10 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(33.44),
-								Math.toRadians(-26.91),
-								Math.toRadians(-55.01),
-								Math.toRadians(91.57),
-								Math.toRadians(-2.93),
-								Math.toRadians(53.29),
-								Math.toRadians(29.42));	
+						jointPos_register =new JointPosition(   Math.toRadians(-29.59),
+								Math.toRadians(-16.83),
+								Math.toRadians(6.14),
+								Math.toRadians(74.29),
+								Math.toRadians(-34.39),
+								Math.toRadians(41.59),
+								Math.toRadians(40.49));	
 					}
 					else if (nTest==11 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(25.67),
-								Math.toRadians(-15.52),
-								Math.toRadians(-54.99),
-								Math.toRadians(100.02),
-								Math.toRadians(-16.21),
-								Math.toRadians(61.23),
-								Math.toRadians(34.23));	
+						jointPos_register =new JointPosition(   Math.toRadians(-43.70),
+								Math.toRadians(0.53),
+								Math.toRadians(6.14),
+								Math.toRadians(111.20),
+								Math.toRadians(-35.53),
+								Math.toRadians(65.48),
+								Math.toRadians(40.99));	
 					}
 					else if (nTest==12 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(4.67),
-								Math.toRadians(-28.37),
-								Math.toRadians(-30.44),
-								Math.toRadians(66.25),
-								Math.toRadians(-13.84),
-								Math.toRadians(39.44),
-								Math.toRadians(34.63));	
+						jointPos_register =new JointPosition(   Math.toRadians(1.64),
+								Math.toRadians(2.67),
+								Math.toRadians(6.14),
+								Math.toRadians(104.91),
+								Math.toRadians(7.45),
+								Math.toRadians(45.64),
+								Math.toRadians(-7.87));	
 					}
 					else if (nTest==13 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(16.07),
-								Math.toRadians(-18.12),
-								Math.toRadians(-54.99),
-								Math.toRadians(99.34),
-								Math.toRadians(-20.66),
-								Math.toRadians(65.51),
-								Math.toRadians(45.23));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.37),
+								Math.toRadians(-12.49),
+								Math.toRadians(6.14),
+								Math.toRadians(105.17),
+								Math.toRadians(7.54),
+								Math.toRadians(61.27),
+								Math.toRadians(-9.08));	
 					}
 					else if (nTest==14 && nToolMode==1) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.21),
-								Math.toRadians(-10.88),
-								Math.toRadians(-29.84),
-								Math.toRadians(100.03),
-								Math.toRadians(14.33),
-								Math.toRadians(50.30),
-								Math.toRadians(-11.71));	
+						jointPos_register =new JointPosition(   Math.toRadians(-13.85),
+								Math.toRadians(-12.95),
+								Math.toRadians(6.14),
+								Math.toRadians(104.74),
+								Math.toRadians(-9.91),
+								Math.toRadians(61.21),
+								Math.toRadians(9.32));	
 					}
-					else if (nTest==0 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.61),
-								Math.toRadians(-21.70),
-								Math.toRadians(-21.35),
-								Math.toRadians(90.82),
-								Math.toRadians(26.83),
-								Math.toRadians(55.10),
-								Math.toRadians(69.68));	
+//					
 
+					if (nTest==0 && nToolMode==7){
+						jointPos_register =new JointPosition(   Math.toRadians(16.45),
+								Math.toRadians(-24.52),
+								Math.toRadians(-9.83),
+								Math.toRadians(83.13),
+								Math.toRadians(4.49),
+								Math.toRadians(58.28),
+								Math.toRadians(85.46));	
 					}
 					else if (nTest==1 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.89),
-								Math.toRadians(-15.04),
-								Math.toRadians(-37.33),
-								Math.toRadians(94.53),
-								Math.toRadians(10.34),
-								Math.toRadians(48.96),
-								Math.toRadians(90.50));	
+						jointPos_register =new JointPosition(   Math.toRadians(27.02),
+								Math.toRadians(-26.18),
+								Math.toRadians(-9.83),
+								Math.toRadians(89.83),
+								Math.toRadians(13.08),
+								Math.toRadians(67.27),
+								Math.toRadians(75.83));	
 					}
-
 					else if (nTest==2 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(35.41),
-								Math.toRadians(-20.01),
-								Math.toRadians(-54.99),
-								Math.toRadians(99.88),
-								Math.toRadians(-10.12),
-								Math.toRadians(59.47),
-								Math.toRadians(118.85));	
+						jointPos_register =new JointPosition(   Math.toRadians(4.85),
+								Math.toRadians(-20.60),
+								Math.toRadians(-9.83),
+								Math.toRadians(85.82),
+								Math.toRadians(-6.47),
+								Math.toRadians(58.08),
+								Math.toRadians(98.59));	
 					}
 					else if (nTest==3 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(34.79),
-								Math.toRadians(-36.51),
-								Math.toRadians(-53.31),
-								Math.toRadians(97.03),
-								Math.toRadians(3.61),
-								Math.toRadians(66.69),
-								Math.toRadians(120.08));	
+						jointPos_register =new JointPosition(   Math.toRadians(25.47),
+								Math.toRadians(-17.81),
+								Math.toRadians(-9.83),
+								Math.toRadians(99.31),
+								Math.toRadians(10.35),
+								Math.toRadians(68.30),
+								Math.toRadians(77.47));	
 					}
 					else if (nTest==4 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.30),
-								Math.toRadians(-16.29),
-								Math.toRadians(-41.28),
-								Math.toRadians(93.30),
-								Math.toRadians(4.51),
-								Math.toRadians(47.98),
-								Math.toRadians(95.81));	
+						jointPos_register =new JointPosition(   Math.toRadians(-7.34),
+								Math.toRadians(-16.93),
+								Math.toRadians(-9.83),
+								Math.toRadians(103.57),
+								Math.toRadians(-15.54),
+								Math.toRadians(74.71),
+								Math.toRadians(107.44));	
 					}
 					else if (nTest==5 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.20),
-								Math.toRadians(-31.81),
-								Math.toRadians(-39.81),
-								Math.toRadians(76.79),
-								Math.toRadians(21.14),
-								Math.toRadians(46.58),
-								Math.toRadians(91.65));	
+						jointPos_register =new JointPosition(   Math.toRadians(18.94),
+								Math.toRadians(-10.64),
+								Math.toRadians(-9.83),
+								Math.toRadians(103.92),
+								Math.toRadians(4.06),
+								Math.toRadians(65.45),
+								Math.toRadians(83.24));	
 					}
+					///???
 					else if (nTest==6 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(30.71),
-								Math.toRadians(-26.68),
-								Math.toRadians(-54.82),
-								Math.toRadians(89.53),
-								Math.toRadians(-1.99),
-								Math.toRadians(51.65),
-								Math.toRadians(121.68));
-
+						jointPos_register =new JointPosition(   Math.toRadians(7.22),
+								Math.toRadians(-10.14),
+								Math.toRadians(-9.83),
+								Math.toRadians(107.16),
+								Math.toRadians(-5.60),
+								Math.toRadians(68.69),
+								Math.toRadians(94.64));	
 					}
-
 					else if (nTest==7 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.75),
-								Math.toRadians(-23.73),
-								Math.toRadians(-25.85),
-								Math.toRadians(100.02),
-								Math.toRadians(20.99),
-								Math.toRadians(66.65),
-								Math.toRadians(78.36));	
+						jointPos_register =new JointPosition(   Math.toRadians(-9.48),
+								Math.toRadians(-18.45),
+								Math.toRadians(-9.83),
+								Math.toRadians(100.60),
+								Math.toRadians(-16.97),
+								Math.toRadians(73.95),
+								Math.toRadians(109.76));	
 					}
-
 					else if (nTest==8 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(39.79),
-								Math.toRadians(-10.23),
-								Math.toRadians(-44.38),
-								Math.toRadians(98.68),
-								Math.toRadians(1.01),
-								Math.toRadians(49.29),
-								Math.toRadians(99.74));	
+						jointPos_register =new JointPosition(   Math.toRadians(21.20),
+								Math.toRadians(-22.84),
+								Math.toRadians(-9.83),
+								Math.toRadians(105.84),
+								Math.toRadians(7.27),
+								Math.toRadians(79.34),
+								Math.toRadians(83.23));	
 					}
-
 					else if (nTest==9 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(33.21),
-								Math.toRadians(-29.06),
-								Math.toRadians(-48.71),
-								Math.toRadians(86.46),
-								Math.toRadians(1.99),
-								Math.toRadians(53.17),
-								Math.toRadians(114.49));
-
+						jointPos_register =new JointPosition(   Math.toRadians(23.77),
+								Math.toRadians(-8.55),
+								Math.toRadians(-9.83),
+								Math.toRadians(92.36),
+								Math.toRadians(8.93),
+								Math.toRadians(52.28),
+								Math.toRadians(76.03));	
 					}
 					else if (nTest==10 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(38.11),
-								Math.toRadians(-28.01),
-								Math.toRadians(-49.69),
-								Math.toRadians(100.02),
-								Math.toRadians(1.36),
-								Math.toRadians(61.28),
-								Math.toRadians(110.87));
-
+						jointPos_register =new JointPosition(   Math.toRadians(10.26),
+								Math.toRadians(-5.24),
+								Math.toRadians(-9.83),
+								Math.toRadians(100.14),
+								Math.toRadians(-4.27),
+								Math.toRadians(56.56),
+								Math.toRadians(92.38));	
 					}
 					else if (nTest==11 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(23.07),
-								Math.toRadians(-34.40),
-								Math.toRadians(-22.71),
-								Math.toRadians(79.88),
-								Math.toRadians(8.76),
-								Math.toRadians(54.21),
-								Math.toRadians(92.38));
-
+						jointPos_register =new JointPosition(   Math.toRadians(16.82),
+								Math.toRadians(-11.10),
+								Math.toRadians(-9.83),
+								Math.toRadians(99.14),
+								Math.toRadians(2.45),
+								Math.toRadians(61.09),
+								Math.toRadians(85.19));	
 					}
 					else if (nTest==12 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(19.53),
-								Math.toRadians(-19.32),
-								Math.toRadians(-39.70),
-								Math.toRadians(94.43),
-								Math.toRadians(-12.41),
-								Math.toRadians(56.21),
-								Math.toRadians(120.35));
-
+						jointPos_register =new JointPosition(   Math.toRadians(30.97),
+								Math.toRadians(-5.32),
+								Math.toRadians(-9.83),
+								Math.toRadians(106.71),
+								Math.toRadians(13.37),
+								Math.toRadians(64.47),
+								Math.toRadians(70.46));	
 					}
 					else if (nTest==13 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(24.80),
-								Math.toRadians(-31.16),
-								Math.toRadians(-27.79),
-								Math.toRadians(77.08),
-								Math.toRadians(7.12),
-								Math.toRadians(48.06),
-								Math.toRadians(95.19));
-
+						jointPos_register =new JointPosition(   Math.toRadians(5.40),
+								Math.toRadians(-0.07),
+								Math.toRadians(-9.83),
+								Math.toRadians(108.56),
+								Math.toRadians(-9.01),
+								Math.toRadians(60.41),
+								Math.toRadians(97.10));	
 					}
 					else if (nTest==14 && nToolMode==7) {
-						jointPos_register =new JointPosition(   Math.toRadians(26.76),
-								Math.toRadians(-33.94),
-								Math.toRadians(-48.49),
-								Math.toRadians(100.02),
-								Math.toRadians(-2.79),
-								Math.toRadians(69.15),
-								Math.toRadians(123.23));
-
+						jointPos_register =new JointPosition(   Math.toRadians(15.38),
+								Math.toRadians(-9.63),
+								Math.toRadians(-9.83),
+								Math.toRadians(107.57),
+								Math.toRadians(0.93),
+								Math.toRadians(68.07),
+								Math.toRadians(86.80));	
 					}
+
 					Err="10,";
-					lbr.getFlange().move(ptp(jointPos_register).setJointVelocityRel(0.1));
+					lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
 					//					System.out.println("move");
 					Err="0,";
 					nTest++;
@@ -3277,10 +3588,10 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 					//					System.out.println("nA"+nA);
-
-
-
-					TRANSLATION_OF_TOOL_you[0]=nX-0.8;
+					
+					
+					//nToolMode==2   you_21002 下表面		
+					TRANSLATION_OF_TOOL_you[0]=nX-1.0;
 					TRANSLATION_OF_TOOL_you[1]=nY-10;
 					TRANSLATION_OF_TOOL_you[2]=nZ;
 					TRANSLATION_OF_TOOL_you[3]=nA;
@@ -3303,9 +3614,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					TRANSLATION_OF_TOOL_you3[4]=nB;
 					TRANSLATION_OF_TOOL_you3[5]=nC;
 
-
+					//nToolMode==8     zuo_21002 下表面
 					TRANSLATION_OF_TOOL_zuo[0]=nX-10;
-					TRANSLATION_OF_TOOL_zuo[1]=nY-0.8;
+					TRANSLATION_OF_TOOL_zuo[1]=nY-1.0;
 					TRANSLATION_OF_TOOL_zuo[2]=nZ;
 					TRANSLATION_OF_TOOL_zuo[3]=nA;
 					TRANSLATION_OF_TOOL_zuo[4]=nB;
@@ -3330,16 +3641,779 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[0]"+TRANSLATION_OF_TOOL_zuo3[0]);
 					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[1]"+TRANSLATION_OF_TOOL_zuo3[1]);
 					//						System.out.println("TRANSLATION_OF_TOOL_zuo3[2]"+TRANSLATION_OF_TOOL_zuo3[2]);
+//					TRANSLATION_OF_TOOL_zuo_hand[0]=nX;
+//					TRANSLATION_OF_TOOL_zuo_hand[1]=nY;
+//					TRANSLATION_OF_TOOL_zuo_hand[2]=nZ;
+					TRANSLATION_OF_TOOL_zuo_hand[3]=nA;
+					TRANSLATION_OF_TOOL_zuo_hand[4]=nB;
+					TRANSLATION_OF_TOOL_zuo_hand[5]=nC;
 
-
+					
+					
+//					TRANSLATION_OF_TOOL_you_hand[0]=nX;
+//					TRANSLATION_OF_TOOL_you_hand[1]=nY;
+//					TRANSLATION_OF_TOOL_you_hand[2]=nZ;
+					TRANSLATION_OF_TOOL_you_hand[3]=nA;
+					TRANSLATION_OF_TOOL_you_hand[4]=nB;
+					TRANSLATION_OF_TOOL_you_hand[5]=nC;
 
 					nWorkingmode=0;
 					System.out.println("11nWorkingmode=0");
 				}
 				else if(nWorkingmode==12){
-					transition=true;
+					System.out.println("nWorkingmode=12");
+					
+					if (nTest_rotation==0 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-19.42),
+								Math.toRadians(-10.57),
+								Math.toRadians(6.14),
+								Math.toRadians(97.40),
+								Math.toRadians(-16.56),
+								Math.toRadians(52.86),
+								Math.toRadians(50.62));	
+					}
+					else if (nTest_rotation==1 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-3.30),
+								Math.toRadians(-17.11),
+								Math.toRadians(-6.13),
+								Math.toRadians(93.75),
+								Math.toRadians(-3.46),
+								Math.toRadians(53.55),
+								Math.toRadians(31.40));	
+					}
+					else if (nTest_rotation==2 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-30.77),
+								Math.toRadians(-6.25),
+								Math.toRadians(-6.13),
+								Math.toRadians(113.05),
+								Math.toRadians(-28.37),
+								Math.toRadians(65.75),
+								Math.toRadians(4.46));	
+					}
+					else if (nTest_rotation==3 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-18.32),
+								Math.toRadians(-10.32),
+								Math.toRadians(6.14),
+								Math.toRadians(106.39),
+								Math.toRadians(-13.95),
+								Math.toRadians(61.06),
+								Math.toRadians(-5.88));	
+					}
+					else if (nTest_rotation==4 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-42.33),
+								Math.toRadians(-11.26),
+								Math.toRadians(6.14),
+								Math.toRadians(99.48),
+								Math.toRadians(-35.63),
+								Math.toRadians(64.56),
+								Math.toRadians(-34.67));
+					}
+					else if (nTest_rotation==5 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-22.15),
+								Math.toRadians(8.28),
+								Math.toRadians(6.14),
+								Math.toRadians(110.44),
+								Math.toRadians(-19.21),
+								Math.toRadians(48.38),
+								Math.toRadians(-50.09));
+					}
+					else if (nTest_rotation==6 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(8.17),
+								Math.toRadians(11.96),
+								Math.toRadians(-2.50),
+								Math.toRadians(108.03),
+								Math.toRadians(5.03),
+								Math.toRadians(39.36),
+								Math.toRadians(-138.94));
+					}
+					else if (nTest_rotation==7 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(11.59),
+								Math.toRadians(7.72),
+								Math.toRadians(-2.51),
+								Math.toRadians(104.03),
+								Math.toRadians(9.53),
+								Math.toRadians(39.98),
+								Math.toRadians(-142.96));
+					}
+					else if (nTest_rotation==8 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-7.70),
+								Math.toRadians(5.40),
+								Math.toRadians(-2.50),
+								Math.toRadians(104.09),
+								Math.toRadians(-14.70),
+								Math.toRadians(43.20),
+								Math.toRadians(-128.50));
+					}
+					else if (nTest_rotation==9 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-5.55),
+								Math.toRadians(2.18),
+								Math.toRadians(-2.50),
+								Math.toRadians(105.53),
+								Math.toRadians(-11.10),
+								Math.toRadians(47.28),
+								Math.toRadians(-98.17));
+					}
+					else if (nTest_rotation==10 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-12.98),
+								Math.toRadians(-8.50),
+								Math.toRadians(-2.50),
+								Math.toRadians(98.70),
+								Math.toRadians(-17.70),
+								Math.toRadians(52.84),
+								Math.toRadians(-19.46));
+					}
+					else if (nTest_rotation==11 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-19.82),
+								Math.toRadians(-18.80),
+								Math.toRadians(-2.50),
+								Math.toRadians(101.96),
+								Math.toRadians(-20.91),
+								Math.toRadians(67.77),
+								Math.toRadians(7.91));
+					}
+					else if (nTest_rotation==12 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-6.34),
+								Math.toRadians(-11.70),
+								Math.toRadians(-2.50),
+								Math.toRadians(107.93),
+								Math.toRadians(-9.41),
+								Math.toRadians(63.43),
+								Math.toRadians(33.88));
+					}
+					else if (nTest_rotation==13 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(-6.63),
+								Math.toRadians(-10.61),
+								Math.toRadians(-2.50),
+								Math.toRadians(108.04),
+								Math.toRadians(-9.81),
+								Math.toRadians(62.52),
+								Math.toRadians(3.70));
+					}
+					else if (nTest_rotation==14 && nToolMode==1) {
+						jointPos_register =new JointPosition(   Math.toRadians(7.01),
+								Math.toRadians(-19.00),
+								Math.toRadians(-2.51),
+								Math.toRadians(90.33),
+								Math.toRadians(3.80),
+								Math.toRadians(52.43),
+								Math.toRadians(12.52));
+					}
+					///
+					
+					
+					
+					else if (nTest_rotation==0 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(-7.48),
+							Math.toRadians(-24.21),
+							Math.toRadians(8.81),
+							Math.toRadians(85.78),
+							Math.toRadians(-6.64),
+							Math.toRadians(62.22),
+							Math.toRadians(61.61));	
+				}
+				    else if (nTest_rotation==1 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(-10.56),
+							Math.toRadians(-5.60),
+							Math.toRadians(8.81),
+							Math.toRadians(102.69),
+							Math.toRadians(-6.59),
+							Math.toRadians(60.96),
+							Math.toRadians(13.05));
+				}
+				    else if (nTest_rotation==2 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
+							Math.toRadians(-15.38),
+							Math.toRadians(8.81),
+							Math.toRadians(91.86),
+							Math.toRadians(-2.58),
+							Math.toRadians(59.57),
+							Math.toRadians(-60.36));
+				}
+				    else if (nTest_rotation==3 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(-4.18),
+							Math.toRadians(-21.57),
+							Math.toRadians(8.80),
+							Math.toRadians(92.46),
+							Math.toRadians(-3.37),
+							Math.toRadians(66.18),
+							Math.toRadians(69.24));	
 				}
 
+				   else if (nTest_rotation==4 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(17.94),
+							Math.toRadians(-23.82),
+							Math.toRadians(8.80),
+							Math.toRadians(87.00),
+							Math.toRadians(13.89),
+							Math.toRadians(66.15),
+							Math.toRadians(-172.83));	
+				}
+				   else if (nTest_rotation==5 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(8.12),
+							Math.toRadians(-4.84),
+							Math.toRadians(8.80),
+							Math.toRadians(107.85),
+							Math.toRadians(8.83),
+							Math.toRadians(65.99),
+							Math.toRadians(-0.82));	
+				}
+					//
+				    else if (nTest_rotation==6 && nToolMode==7) {
+				    jointPos_register =new JointPosition(   Math.toRadians(40.89),
+						Math.toRadians(-17.35),
+						Math.toRadians(-19.71),
+						Math.toRadians(84.93),
+						Math.toRadians(25.21),
+						Math.toRadians(48.86),
+						Math.toRadians(-143.55));	
+				}
+
+				   else if (nTest_rotation==7 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(11.03),
+							Math.toRadians(-18.34),
+							Math.toRadians(8.82),
+							Math.toRadians(103.20),
+							Math.toRadians(8.80),
+							Math.toRadians(75.13),
+							Math.toRadians(129.64));	
+				}
+				   else if (nTest_rotation==8 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(-4.44),
+							Math.toRadians(-5.32),
+							Math.toRadians(8.83),
+							Math.toRadians(99.77),
+							Math.toRadians(-1.44),
+							Math.toRadians(57.44),
+							Math.toRadians(-112.51));	
+				}
+				   else if (nTest_rotation==9 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(23.26),
+						Math.toRadians(0.55),
+						Math.toRadians(-19.17),
+						Math.toRadians(111.23),
+						Math.toRadians(0.29),
+						Math.toRadians(55.31),
+						Math.toRadians(-26.38));
+				}
+				   else if (nTest_rotation==10 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(30.28),
+							Math.toRadians(-19.30),
+							Math.toRadians(8.80),
+							Math.toRadians(96.13),
+							Math.toRadians(22.64),
+							Math.toRadians(74.81),
+							Math.toRadians(-174.30));
+				}
+				   else if (nTest_rotation==11 && nToolMode==7) {
+					   jointPos_register =new JointPosition(   Math.toRadians(42.38),
+								Math.toRadians(-17.67),
+								Math.toRadians(-19.71),
+								Math.toRadians(88.61),
+								Math.toRadians(25.40),
+								Math.toRadians(52.91),
+								Math.toRadians(-105.36));	
+				}
+				   else if (nTest_rotation==12 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(16.98),
+						Math.toRadians(8.14),
+						Math.toRadians(-19.71),
+						Math.toRadians(102.05),
+						Math.toRadians(-9.98),
+						Math.toRadians(39.36),
+						Math.toRadians(-43.35));
+				}
+				    else if (nTest_rotation==13 && nToolMode==7) {
+					jointPos_register =new JointPosition(   Math.toRadians(3.20),
+							Math.toRadians(-22.57),
+							Math.toRadians(8.81),
+							Math.toRadians(92.19),
+							Math.toRadians(2.40),
+							Math.toRadians(67.25),
+							Math.toRadians(65.06));	
+				}
+					   else if (nTest_rotation==14 && nToolMode==7) {
+						jointPos_register =new JointPosition(   Math.toRadians(29.01),
+								Math.toRadians(-16.13),
+								Math.toRadians(8.80),
+								Math.toRadians(94.78),
+								Math.toRadians(29.69),
+								Math.toRadians(75.27),
+								Math.toRadians(-98.16));
+					}
+					 Err="10,";
+						lbr.move(ptp(jointPos_register).setJointVelocityRel(0.2));
+						Err="0,";
+						nTest_rotation++;
+						if (nTest_rotation==15){
+							nTest_rotation=0;
+						}
+						nWorkingmode=0;
+				}
+				else if(nWorkingmode==13){
+					nLastWorkingmode=nWorkingmode;
+					if(n_Test==1){
+					jointPos_zuo=new JointPosition(   Math.toRadians(-2.85),
+			                Math.toRadians(-54.36),
+			                Math.toRadians(-32.39),
+			                Math.toRadians(29.48),
+			                Math.toRadians(89.76),
+			                Math.toRadians(-24.98),
+			                Math.toRadians(146.98));
+					}
+					else if(n_Test==2){
+						jointPos_zuo=new JointPosition(   Math.toRadians(61.27),
+				                Math.toRadians(-38.39),
+				                Math.toRadians(115.98),
+				                Math.toRadians(-83.10),
+				                Math.toRadians(55.26),
+				                Math.toRadians(-10.35),
+				                Math.toRadians(0.46));
+					}
+					else if(n_Test==3){
+						jointPos_zuo=new JointPosition(   Math.toRadians(28.63),
+				                Math.toRadians(-37.68),
+				                Math.toRadians(115.56),
+				                Math.toRadians(-65.59),
+				                Math.toRadians(62.02),
+				                Math.toRadians(9.03),
+				                Math.toRadians(0.47));
+					}
+					else if(n_Test==4){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-45.18),
+				                Math.toRadians(-36.79),
+				                Math.toRadians(83.72),
+				                Math.toRadians(73.94),
+				                Math.toRadians(-89.93),
+				                Math.toRadians(-20.83),
+				                Math.toRadians(-127.41));
+					}
+					else if(n_Test==5){
+						jointPos_zuo=new JointPosition(   Math.toRadians(69.18),
+				                Math.toRadians(-68.03),
+				                Math.toRadians(66.64),
+				                Math.toRadians(-81.61),
+				                Math.toRadians(66.14),
+				                Math.toRadians(26.67),
+				                Math.toRadians(3.95));
+					}
+					else if(n_Test==6){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-39.47),
+				                Math.toRadians(-59.68),
+				                Math.toRadians(-111.68),
+				                Math.toRadians(-45.79),
+				                Math.toRadians(-40.64),
+				                Math.toRadians(7.82),
+				                Math.toRadians(2.69));
+					}
+					else if(n_Test==7){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-55.36),
+				                Math.toRadians(-32.76),
+				                Math.toRadians(-66.13),
+				                Math.toRadians(-68.97),
+				                Math.toRadians(90.08),
+				                Math.toRadians(-55.26),
+				                Math.toRadians(-119.37));
+					}
+					else if(n_Test==8){
+						jointPos_zuo=new JointPosition(   Math.toRadians(34.60),
+				                Math.toRadians(-45.98),
+				                Math.toRadians(-20.16),
+				                Math.toRadians(54.48),
+				                Math.toRadians(-88.00),
+				                Math.toRadians(-34.85),
+				                Math.toRadians(-53.77));
+					}
+					else if(n_Test==9){
+						jointPos_zuo=new JointPosition(   Math.toRadians(69.92),
+				                Math.toRadians(-28.50),
+				                Math.toRadians(78.15),
+				                Math.toRadians(-55.29),
+				                Math.toRadians(54.39),
+				                Math.toRadians(45.21),
+				                Math.toRadians(6.95));
+					}
+					else if(n_Test==10){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-16.51),
+				                Math.toRadians(-41.03),
+				                Math.toRadians(28.38),
+				                Math.toRadians(59.33),
+				                Math.toRadians(90.05),
+				                Math.toRadians(-17.36),
+				                Math.toRadians(79.03));
+					}
+					else if(n_Test==11){
+						jointPos_zuo=new JointPosition(   Math.toRadians(59.64),
+				                Math.toRadians(-8.84),
+				                Math.toRadians(-31.64),
+				                Math.toRadians(79.57),
+				                Math.toRadians(-78.50),
+				                Math.toRadians(-57.02),
+				                Math.toRadians(-77.02));
+					}
+					else if(n_Test==12){
+						jointPos_zuo=new JointPosition(   Math.toRadians(13.07),
+				               Math.toRadians(-39.25),
+				                Math.toRadians(7.50),
+				                Math.toRadians(47.68),
+				                Math.toRadians(-88.19),
+				                Math.toRadians(-47.39),
+				                Math.toRadians(-87.12));
+					}
+					else if(n_Test==13){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-40.67),
+				                Math.toRadians(-38.44),
+				                Math.toRadians(-116.80),
+				                Math.toRadians(-87.81),
+				                Math.toRadians(-23.29),
+				                Math.toRadians(-15.04),
+				                Math.toRadians(0.61));
+					}
+					else if(n_Test==14){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-29.96),
+				                Math.toRadians(-13.80),
+				                Math.toRadians(33.48),
+				                Math.toRadians(79.96),
+				                Math.toRadians(-92.34),
+				                Math.toRadians(-24.33),
+				                Math.toRadians(-80.81));
+					}
+					else if(n_Test==15){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-65.71),
+				                Math.toRadians(-51.77),
+				                Math.toRadians(-98.71),
+				                Math.toRadians(-89.03),
+				                Math.toRadians(-39.51),
+				                Math.toRadians(-6.91),
+				                Math.toRadians(1.28));
+					}
+					else if(n_Test==16){
+						jointPos_zuo=new JointPosition(   Math.toRadians(33.51),
+				                Math.toRadians(-47.93),
+				                Math.toRadians(-15.93),
+				                Math.toRadians(55.20),
+				                Math.toRadians(89.99),
+				                Math.toRadians(48.27),
+				                Math.toRadians(122.80));
+					}
+					else if(n_Test==17){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-6.68),
+				                Math.toRadians(-33.05),
+				                Math.toRadians(-36.48),
+				                Math.toRadians(50.17),
+				                Math.toRadians(89.21),
+				                Math.toRadians(-42.10),
+				                Math.toRadians(130.60));
+					}
+					else if(n_Test==18){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-8.65),
+				                Math.toRadians(-39.87),
+				                Math.toRadians(95.22),
+				                Math.toRadians(24.82),
+				                Math.toRadians(108.46),
+				                Math.toRadians(54.49),
+				                Math.toRadians(10.04));
+					}
+					else if(n_Test==19){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-36.38),
+				                Math.toRadians(-64.73),
+				                Math.toRadians(56.64),
+				                Math.toRadians(62.86),
+				                Math.toRadians(90.37),
+				                Math.toRadians(-22.93),
+				                Math.toRadians(57.42));
+					}
+					else if(n_Test==20){
+						jointPos_zuo=new JointPosition(   Math.toRadians(53.97),
+				                Math.toRadians(-51.54),
+				                Math.toRadians(100.91),
+				                Math.toRadians(-82.30),
+				                Math.toRadians(90.01),
+				                Math.toRadians(-4.85),
+				                Math.toRadians(-19.04));
+					}
+					else if(n_Test==21){
+						jointPos_zuo=new JointPosition(   Math.toRadians(-73.18),
+				                Math.toRadians(-42.47),
+				                Math.toRadians(-70.50),
+				                Math.toRadians(-64.34),
+				                Math.toRadians(-52.23),
+				                Math.toRadians(37.68),
+				                Math.toRadians(4.76));
+					}
+					else if(n_Test==22){
+						jointPos_zuo=new JointPosition(   Math.toRadians(13.84),
+				                Math.toRadians(-48.40),
+				                Math.toRadians(-62.70),
+				                Math.toRadians(48.58),
+				                Math.toRadians(-117.63),
+				                Math.toRadians(13.97),
+				                Math.toRadians(0.23));
+					}
+					else if(n_Test==23){
+						jointPos_zuo=new JointPosition(   Math.toRadians(31.66),
+				                Math.toRadians(-34.44),
+				                Math.toRadians(72.13),
+				                Math.toRadians(-56.25),
+				                Math.toRadians(-90.04),
+				                Math.toRadians(-57.52),
+				                Math.toRadians(143.57));
+					}
+					else if(n_Test==24){
+						jointPos_zuo=new JointPosition(   Math.toRadians(34.46),
+				                Math.toRadians(-55.25),
+				                Math.toRadians(-50.94),
+				                Math.toRadians(59.08),
+				                Math.toRadians(-90.69),
+				                Math.toRadians(-15.41),
+				                Math.toRadians(-33.65));
+					}
+					else if(n_Test==25){
+						jointPos_zuo=new JointPosition(   Math.toRadians(28.11),
+				                Math.toRadians(-62.29),
+				                Math.toRadians(-80.33),
+				                Math.toRadians(46.38),
+				                Math.toRadians(-75.42),
+				                Math.toRadians(17.49),
+				                Math.toRadians(-10.28));
+					}
+					else if(n_Test==26){
+						jointPos_zuo=new JointPosition(   Math.toRadians(40.49),
+				                Math.toRadians(-85.72),
+				                Math.toRadians(54.76),
+				                Math.toRadians(-58.65),
+				                Math.toRadians(87.36),
+				                Math.toRadians(33.53),
+				                Math.toRadians(28.31));
+						}
+						else if(n_Test==27){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-35.66),
+					                Math.toRadians(-34.73),
+					                Math.toRadians(73.50),
+					                Math.toRadians(47.37),
+					                Math.toRadians(-89.56),
+					                Math.toRadians(-47.52),
+					                Math.toRadians(-131.05));
+						}
+						else if(n_Test==28){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-101.48),
+					                Math.toRadians(41.51),
+					                Math.toRadians(46.84),
+					                Math.toRadians(71.31),
+					                Math.toRadians(-109.25),
+					                Math.toRadians(53.92),
+					                Math.toRadians(-0.59));
+						}
+						else if(n_Test==29){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-20.41),
+					                Math.toRadians(-55.39),
+					                Math.toRadians(89.22),
+					                Math.toRadians(39.13),
+					                Math.toRadians(-89.96),
+					                Math.toRadians(-32.24),
+					                Math.toRadians(-140.62));
+						}
+						else if(n_Test==30){
+							jointPos_zuo=new JointPosition(   Math.toRadians(5.68),
+					                Math.toRadians(-51.85),
+					                Math.toRadians(35.05),
+					                Math.toRadians(30.54),
+					                Math.toRadians(-89.02),
+					                Math.toRadians(-28.63),
+					                Math.toRadians(-101.39));
+						}
+						else if(n_Test==31){
+							jointPos_zuo=new JointPosition(   Math.toRadians(47.51),
+					                Math.toRadians(-52.12),
+					                Math.toRadians(116.07),
+					                Math.toRadians(-76.26),
+					                Math.toRadians(53.97),
+					                Math.toRadians(-12.52),
+					                Math.toRadians(0.36));
+						}
+						else if(n_Test==32){
+							jointPos_zuo=new JointPosition(   Math.toRadians(10.86),
+					                Math.toRadians(-42.24),
+					                Math.toRadians(-50.84),
+					                Math.toRadians(29.72),
+					                Math.toRadians(-89.97),
+					                Math.toRadians(48.25),
+					                Math.toRadians(-43.11));
+						}
+						else if(n_Test==33){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-51.17),
+					                Math.toRadians(-19.89),
+					                Math.toRadians(29.95),
+					                Math.toRadians(84.80),
+					                Math.toRadians(87.14),
+					                Math.toRadians(-53.19),
+					                Math.toRadians(95.84));
+						}
+						else if(n_Test==34){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-43.91),
+					                Math.toRadians(-37.87),
+					                Math.toRadians(31.97),
+					                Math.toRadians(77.71),
+					                Math.toRadians(93.02),
+					                Math.toRadians(-44.63),
+					                Math.toRadians(66.41));
+						}
+						else if(n_Test==35){
+							jointPos_zuo=new JointPosition(   Math.toRadians(70.16),
+					                Math.toRadians(-18.03),
+					                Math.toRadians(-65.32),
+					                Math.toRadians(82.97),
+					                Math.toRadians(89.59),
+					                Math.toRadians(-9.61),
+					                Math.toRadians(122.69));
+						}
+						else if(n_Test==36){
+							jointPos_zuo=new JointPosition(   Math.toRadians(40.88),
+					                Math.toRadians(-76.70),
+					                Math.toRadians(-85.13),
+					                Math.toRadians(45.15),
+					                Math.toRadians(-89.70),
+					                Math.toRadians(3.52),
+					                Math.toRadians(12.29));
+						}
+						else if(n_Test==37){
+							jointPos_zuo=new JointPosition(   Math.toRadians(15.54),
+					               Math.toRadians(-33.22),
+					                Math.toRadians(9.79),
+					                Math.toRadians(56.15),
+					                Math.toRadians(-88.62),
+					                Math.toRadians(-33.92),
+					                Math.toRadians(-82.46));
+						}
+						else if(n_Test==38){
+							jointPos_zuo=new JointPosition(   Math.toRadians(0.39),
+					                Math.toRadians(-48.25),
+					                Math.toRadians(59.73),
+					                Math.toRadians(9.01),
+					                Math.toRadians(-76.30),
+					                Math.toRadians(-46.03),
+					                Math.toRadians(-149.47));
+						}
+						else if(n_Test==39){
+							jointPos_zuo=new JointPosition(   Math.toRadians(59.99),
+					                Math.toRadians(-33.48),
+					                Math.toRadians(-109.01),
+					                Math.toRadians(58.85),
+					                Math.toRadians(-99.86),
+					                Math.toRadians(52.15),
+					                Math.toRadians(-4.04));
+						}
+						else if(n_Test==40){
+							jointPos_zuo=new JointPosition(   Math.toRadians(48.51),
+					                Math.toRadians(-52.07),
+					                Math.toRadians(-114.84),
+					                Math.toRadians(43.92),
+					                Math.toRadians(-112.90),
+					                Math.toRadians(49.10),
+					                Math.toRadians(12.11));
+						}
+						else if(n_Test==41){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-42.28),
+					                Math.toRadians(-85.27),
+					                Math.toRadians(-69.92),
+					                Math.toRadians(-57.15),
+					                Math.toRadians(-86.49),
+					                Math.toRadians(17.92),
+					                Math.toRadians(9.83));
+						}
+						else if(n_Test==42){
+							jointPos_zuo=new JointPosition(   Math.toRadians(5.27),
+					                Math.toRadians(-56.44),
+					                Math.toRadians(-73.39),
+					                Math.toRadians(28.88),
+					                Math.toRadians(-107.30),
+					                Math.toRadians(25.69),
+					                Math.toRadians(15.11));
+						}
+						else if(n_Test==43){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-61.52),
+					                Math.toRadians(-25.73),
+					                Math.toRadians(-111.95),
+					                Math.toRadians(-63.45),
+					                Math.toRadians(-5.56),
+					                Math.toRadians(21.46),
+					                Math.toRadians(2.72));
+						}
+						else if(n_Test==44){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-5.42),
+					                Math.toRadians(-22.20),
+					                Math.toRadians(39.31),
+					                Math.toRadians(70.75),
+					                Math.toRadians(-90.67),
+					                Math.toRadians(-23.31),
+					                Math.toRadians(-98.91));
+						}
+						else if(n_Test==45){
+							jointPos_zuo=new JointPosition(   Math.toRadians(23.68),
+					                Math.toRadians(-47.13),
+					                Math.toRadians(-6.70),
+					                Math.toRadians(45.96),
+					                Math.toRadians(-88.68),
+					                Math.toRadians(-30.95),
+					                Math.toRadians(-70.36));
+						}
+						else if(n_Test==46){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-43.49),
+					                Math.toRadians(-28.76),
+					                Math.toRadians(41.75),
+					                Math.toRadians(74.95),
+					                Math.toRadians(90.22),
+					                Math.toRadians(-14.76),
+					                Math.toRadians(70.17));
+						}
+						else if(n_Test==47){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-48.43),
+					                Math.toRadians(-55.42),
+					                Math.toRadians(-119.05),
+					                Math.toRadians(-64.24),
+					                Math.toRadians(-24.36),
+					                Math.toRadians(-8.23),
+					                Math.toRadians(0.66));
+						}
+						else if(n_Test==48){
+							jointPos_zuo=new JointPosition(   Math.toRadians(-70.84),
+					                Math.toRadians(-35.35),
+					                Math.toRadians(-91.15),
+					                Math.toRadians(-53.29),
+					                Math.toRadians(-26.12),
+					                Math.toRadians(36.04),
+					                Math.toRadians(-9.41));
+						}
+						else if(n_Test==49){
+							jointPos_zuo=new JointPosition(   Math.toRadians(36.59),
+					                Math.toRadians(-69.44),
+					                Math.toRadians(-58.20),
+					                Math.toRadians(40.26),
+					                Math.toRadians(-86.26),
+					                Math.toRadians(-7.57),
+					                Math.toRadians(-10.34));
+						}
+						else if(n_Test==50){
+							jointPos_zuo=new JointPosition(   Math.toRadians(41.74),
+					                Math.toRadians(-70.21),
+					                Math.toRadians(47.11),
+					                Math.toRadians(-55.41),
+					                Math.toRadians(85.06),
+					                Math.toRadians(51.05),
+					                Math.toRadians(28.69));
+						}
+					lbr.move(ptp(jointPos_zuo).setJointVelocityRel(0.1));
+//					nTest++;
+					nWorkingmode=0;
+				}
+				else if (nWorkingmode==14){
+					nLastWorkingmode=nWorkingmode;
+					n_Test++;
+					System.out.println("n_Test:"+n_Test);
+					if(n_Test==51){
+						n_Test=0;
+					}
+					nWorkingmode=0;
+				}
 				else{
 
 					//					
@@ -3657,7 +4731,55 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 	@Override
 	public void run()  {
 
-		 lbr.move(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+		//	    io.setOutput3(true);
+		//		BreakTest.initialize();
+		//		BreakTest.run();
+		////		lbr.moveAsync(new PTP(jointPos_zuo).setJointVelocityRel(0.2));
+		//		ThreadUtil.milliSleep(2000000);
+
+		//		OnlyPlane.run();
+		//		ThreadUtil.milliSleep(2000);
+		//		OnlyPlane.initialize();
+		//		OnlyPlane.run();
+		//////
+		//		_loadData3 = new LoadData();
+		//		  _loadData3.setMass(MASS);
+		//		  _loadData3.setCenterOfMass(
+		//		    CENTER_OF_MASS_IN_MILLIMETER[0], CENTER_OF_MASS_IN_MILLIMETER[1],
+		//		    CENTER_OF_MASS_IN_MILLIMETER[2]);
+		//
+		//		  _toolAttachedToLBR3 = new Tool("Tool2", _loadData3);
+		//
+		//		  XyzAbcTransformation trans3 = XyzAbcTransformation.ofRad(TRANSLATION_OF_TOOL_3[0], TRANSLATION_OF_TOOL_3[1], TRANSLATION_OF_TOOL_3[2],TRANSLATION_OF_TOOL_2[3],TRANSLATION_OF_TOOL_2[4],TRANSLATION_OF_TOOL_2[5]);
+		//		  ObjectFrame aTransformation3 = _toolAttachedToLBR3.addChildFrame(TOOL_3_FRAME + "(TCP)", trans3);
+		//		  _toolAttachedToLBR3.setDefaultMotionFrame(aTransformation3);
+		//		  // Attach tool to the robot
+		//		  _toolAttachedToLBR3.attachTo(lbr.getFlange());
+		//
+		//
+		//		  Frame cmdPos = lbr.getCurrentCartesianPosition(_toolAttachedToLBR3.getDefaultMotionFrame());
+		//
+		//		  System.out.println("1:"+cmdPos);
+
+		ExecutorService executor = Executors.newCachedThreadPool();
+		Future<String> add = executor.submit(new sendRTdata());
+		Future<String> say = executor.submit(new motion());
+		Future<String> sdd2 = executor.submit(new reciveRTdata());
+		Future<String> breaktest = executor.submit(new BreakTestProgram());
+		//Monitor();
+
+		try {
+			System.out.println(add.get());
+			System.out.println(say.get());
+			System.out.println(sdd2.get());
+			System.out.println(breaktest.get());
+		} catch (InterruptedException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO è‡ªåŠ¨ç”Ÿæˆ�çš„ catch å�—
+			e.printStackTrace();
+		} 
 
 
 
