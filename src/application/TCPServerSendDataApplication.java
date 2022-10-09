@@ -1480,12 +1480,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		double min6=0;
 		double max6=0;
 
-		if(Math.toDegrees(jReady.get(JointEnum.J6)) < 0){
+		if(Math.toDegrees(jReady.get(JointEnum.J6)) < -100){
 			min6=Math.toDegrees(jReady.get(JointEnum.J6));
 		}
 		else
 		{
-			min6=0;
+			min6=-100;
 		}
 
 		if(Math.toDegrees(jReady.get(JointEnum.J6)) > 100){
