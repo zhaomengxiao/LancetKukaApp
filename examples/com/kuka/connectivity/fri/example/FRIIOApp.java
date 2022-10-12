@@ -46,7 +46,7 @@ public class FRIIOApp extends RoboticsAPIApplication
     @Override
     public void initialize()
     {
-        _clientName = "192.168.40.220";
+        _clientName = "172.31.1.148";
     }
 
     @Override

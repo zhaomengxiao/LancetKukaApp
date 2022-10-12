@@ -21,7 +21,7 @@ public class TransformationProvider extends RoboticsAPIApplication
     private Controller _lbrController;
     private LBR _lbr;
     private String _clientName;
-
+    private boolean on  = true;
     @Override
     public void initialize()
     {
@@ -76,9 +76,9 @@ public class TransformationProvider extends RoboticsAPIApplication
 
         // Output
         getLogger().info("Transformation from World of");
-        for (int i = 0; i < 100; i++)
+        while (on)
         {
-            ThreadUtil.milliSleep(15);
+            ThreadUtil.milliSleep(150);
             getLogger().info("Frame objectBase:\n" + objectBase.toStringInWorld());
             getLogger().info("Frame objectTip:\n" + objectTip.toStringInWorld());
         }
