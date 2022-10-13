@@ -76,7 +76,7 @@ public class TransformationProvider extends RoboticsAPIApplication
     public void run()
     {
     	// move to start pose
-        _lbr.move(ptp(.0, .0, .0, Math.toRadians(60), .0, .0, .0));
+        _lbr.move(ptp(.0, .0, .0, Math.toRadians(60), .0, Math.toRadians(20), .0));
         //Create some frames
         Frame probeFrame = new Frame(_lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame())); //change by client
        
@@ -141,58 +141,63 @@ public class TransformationProvider extends RoboticsAPIApplication
         // Do some timing...
         // in nanosec
         long startTimeStamp = System.nanoTime();
-        while (on)
+        
+        try
         {
-            // Insert your code here
-            // e.g Visual Servoing or the like
-        	// compute a new commanded position
-            Frame destFrame = aFrame.copyWithRedundancy();
-            destFrame.setX(probeFrame.getX());
-            destFrame.setY(probeFrame.getY());
-            destFrame.setZ(probeFrame.getZ());
-        	
-            // Synchronize with the realtime system
-            theServoRuntime.updateWithRealtimeSystem();
-
-            // Get the measured position 
-            Frame msrPose = theServoRuntime
-                    .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
-
-//            if (doDebugPrints)
-//            {
-//                getLogger().info("Current cartesian goal " + aFrame);
-//                getLogger().info("Current joint destination "
-//                        + theServoRuntime.getCurrentJointDestination());
-//            }
-
-            // Do some Computation
-            // emulate some computational effort - or waiting for external
-            // stuff
-            ThreadUtil.milliSleep(15);
-            if (doDebugPrints)
+        	while (on)
             {
-                getLogger().info("New cartesian goal " + destFrame);
-                getLogger().info("LBR position "
-                        + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()).toStringInWorld());
-                getLogger().info("Measured cartesian pose from runtime "
-                        + msrPose);
+                // Insert your code here
+                // e.g Visual Servoing or the like
+            	// compute a new commanded position
+                Frame destFrame = aFrame.copyWithRedundancy();
+                destFrame.setX(probeFrame.getX());
+                destFrame.setY(probeFrame.getY());
+                destFrame.setZ(probeFrame.getZ());
+            	
+                // Synchronize with the realtime system
+                theServoRuntime.updateWithRealtimeSystem();
 
-//                if ((i % 100) == 0)
+                // Get the measured position 
+                Frame msrPose = theServoRuntime
+                        .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+
+//                if (doDebugPrints)
 //                {
-//                    // Some internal values, which can be displayed
-//                    getLogger().info("Simple cartesian test " + theServoRuntime.toString());
+//                    getLogger().info("Current cartesian goal " + aFrame);
+//                    getLogger().info("Current joint destination "
+//                            + theServoRuntime.getCurrentJointDestination());
 //                }
-            }
-            try
-            {
+
+                // Do some Computation
+                // emulate some computational effort - or waiting for external
+                // stuff
+                ThreadUtil.milliSleep(15);
+                if (doDebugPrints)
+                {
+                    getLogger().info("New cartesian goal " + destFrame);
+                    getLogger().info("LBR position "
+                            + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()).toStringInWorld());
+                    getLogger().info("Measured cartesian pose from runtime "
+                            + msrPose);
+
+//                    if ((i % 100) == 0)
+//                    {
+//                        // Some internal values, which can be displayed
+//                        getLogger().info("Simple cartesian test " + theServoRuntime.toString());
+//                    }
+                }
+                
                 theServoRuntime.setDestination(destFrame);
-            }
-            catch (Exception e)
-            {
-                getLogger().warn(e.toString());
-                //e.printStackTrace();
+                
+                
             }
         }
+        catch (Exception e)
+        {
+            getLogger().warn(e.toString());
+            //e.printStackTrace();
+        }
+        
         
         // done
         //Print statistics and parameters of the motion
