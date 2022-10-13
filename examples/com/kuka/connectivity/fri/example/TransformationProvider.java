@@ -78,9 +78,9 @@ public class TransformationProvider extends RoboticsAPIApplication
     	// move to start pose
         _lbr.move(ptp(.0, .0, .0, Math.toRadians(90), .0, .0, .0));
         //Create some frames
-        Frame probeFrame = new Frame(World.Current.getRootFrame()); //change by client
+        Frame probeFrame = new Frame(_lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame())); //change by client
        
-        
+        getLogger().info(probeFrame.toStringInWorld());
         //Use SmartServo
         boolean doDebugPrints = true;
 
@@ -173,7 +173,7 @@ public class TransformationProvider extends RoboticsAPIApplication
             {
                 getLogger().info("New cartesian goal " + destFrame);
                 getLogger().info("LBR position "
-                        + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()));
+                        + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()).toStringInWorld());
                 getLogger().info("Measured cartesian pose from runtime "
                         + msrPose);
 
