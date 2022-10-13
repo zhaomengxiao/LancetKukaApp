@@ -168,7 +168,7 @@ public class TransformationProvider extends RoboticsAPIApplication
             // Do some Computation
             // emulate some computational effort - or waiting for external
             // stuff
-            ThreadUtil.milliSleep(1000);
+            ThreadUtil.milliSleep(15);
             if (doDebugPrints)
             {
                 getLogger().info("New cartesian goal " + destFrame);
@@ -183,15 +183,15 @@ public class TransformationProvider extends RoboticsAPIApplication
 //                    getLogger().info("Simple cartesian test " + theServoRuntime.toString());
 //                }
             }
-//            try
-//            {
-//                theServoRuntime.setDestination(destFrame);
-//            }
-//            catch (Exception e)
-//            {
-//                getLogger().warn(e.toString());
-//                //e.printStackTrace();
-//            }
+            try
+            {
+                theServoRuntime.setDestination(destFrame);
+            }
+            catch (Exception e)
+            {
+                getLogger().warn(e.toString());
+                //e.printStackTrace();
+            }
         }
         
         // done
