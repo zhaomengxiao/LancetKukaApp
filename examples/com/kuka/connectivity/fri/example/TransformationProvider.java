@@ -150,9 +150,9 @@ public class TransformationProvider extends RoboticsAPIApplication
                 // e.g Visual Servoing or the like
             	// compute a new commanded position
                 Frame destFrame = aFrame.copyWithRedundancy();
-                destFrame.setX(probeFrame.getX());
-                destFrame.setY(probeFrame.getY());
-                destFrame.setZ(probeFrame.getZ());
+                destFrame.setX(destFrame.getX()+probeFrame.getX());
+                destFrame.setY(destFrame.getY()+probeFrame.getY());
+                destFrame.setZ(destFrame.getZ()+probeFrame.getZ());
             	
                 // Synchronize with the realtime system
                 theServoRuntime.updateWithRealtimeSystem();
