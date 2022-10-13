@@ -82,7 +82,7 @@ public class TransformationProvider extends RoboticsAPIApplication
        
         getLogger().info(probeFrame.toStringInWorld());
         //Use SmartServo
-        boolean doDebugPrints = true;
+        boolean doDebugPrints = false;
 
         SmartServo aSmartServoMotion = new SmartServo(
                 _lbr.getCurrentJointPosition());
