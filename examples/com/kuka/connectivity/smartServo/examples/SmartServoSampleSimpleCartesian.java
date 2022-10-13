@@ -33,7 +33,7 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
 
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
     private static final int NUM_RUNS = 1000;
-    private static final double AMPLITUDE = 70;
+    private static final double AMPLITUDE = 20;
     private static final double FREQENCY = 0.6;
 
     @Override
@@ -92,9 +92,9 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
     @Override
     public void run()
     {
-        moveToInitialPosition();
+        //moveToInitialPosition();
 
-        boolean doDebugPrints = false;
+        boolean doDebugPrints = true;
 
         SmartServo aSmartServoMotion = new SmartServo(
                 _lbr.getCurrentJointPosition());
@@ -156,8 +156,7 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
                 {
                     getLogger().info("New cartesian goal " + destFrame);
                     getLogger().info("LBR position "
-                            + _lbr.getCurrentCartesianPosition(_lbr
-                                    .getFlange()));
+                            + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()));
                     getLogger().info("Measured cartesian pose from runtime "
                             + msrPose);
 
