@@ -110,8 +110,8 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
         ISmartServoRuntime theServoRuntime = aSmartServoMotion
                 .getRuntime();
 
-        Frame aFrame = theServoRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
-
+        //Frame aFrame = theServoRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+        Frame aFrame = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
         try
         {
             // do a cyclic loop
