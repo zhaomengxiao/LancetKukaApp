@@ -82,7 +82,7 @@ public class TransformationProvider extends RoboticsAPIApplication
        
         
         //Use SmartServo
-        boolean doDebugPrints = false;
+        boolean doDebugPrints = true;
 
         SmartServo aSmartServoMotion = new SmartServo(
                 _lbr.getCurrentJointPosition());
