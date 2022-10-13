@@ -31,7 +31,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="KUKAJavaLib/com.kuka.connectivity.smartServo_1.16.0.SMedV121-15-0_3.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/ForXi_TCP_Pr_220527/KUKAJavaLib/com.kuka.connectivity.smartServo_1.16.0.SMedV121-15-0_3-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/ForXi_test_zhao/KUKAJavaLib/com.kuka.connectivity.smartServo_1.16.0.SMedV121-15-0_3-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="KUKAJavaLib/com.kuka.connectivity.smartServoLIN_1.15.0.SMedV121-15-0_3.jar">

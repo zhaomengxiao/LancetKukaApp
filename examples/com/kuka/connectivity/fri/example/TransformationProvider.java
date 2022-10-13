@@ -8,6 +8,8 @@ import java.util.concurrent.TimeoutException;
 import com.kuka.common.ThreadUtil;
 import com.kuka.connectivity.fastRobotInterface.FRIConfiguration;
 import com.kuka.connectivity.fastRobotInterface.FRISession;
+import com.kuka.connectivity.motionModel.smartServo.ISmartServoRuntime;
+import com.kuka.connectivity.motionModel.smartServo.SmartServo;
 import com.kuka.roboticsAPI.applicationModel.RoboticsAPIApplication;
 import com.kuka.roboticsAPI.controllerModel.Controller;
 import com.kuka.roboticsAPI.deviceModel.LBR;
@@ -73,10 +75,32 @@ public class TransformationProvider extends RoboticsAPIApplication
     @Override
     public void run()
     {
+    	// move to start pose
+        _lbr.move(ptp(.0, .0, .0, Math.toRadians(90), .0, .0, .0));
         //Create some frames
-        Frame objectBase = new Frame(World.Current.getRootFrame());
-        Frame objectTip = new Frame(objectBase);
-        objectTip.transform(Transformation.ofDeg(10.0, 10.0, 10.0, 45.0, 45.0, 45.0));
+        Frame probeFrame = new Frame(World.Current.getRootFrame()); //change by client
+       
+        
+        //Use SmartServo
+        boolean doDebugPrints = false;
+
+        SmartServo aSmartServoMotion = new SmartServo(
+                _lbr.getCurrentJointPosition());
+
+        aSmartServoMotion.useTrace(true);
+
+        aSmartServoMotion.setMinimumTrajectoryExecutionTime(5e-3);
+
+        getLogger().info("Starting SmartServo motion in position control mode");
+        
+        //move use smartServo
+        _toolAttachedToLBR.moveAsync(aSmartServoMotion);
+
+        getLogger().info("Get the runtime of the SmartServo motion");
+        ISmartServoRuntime theServoRuntime = aSmartServoMotion
+                .getRuntime();
+
+        Frame aFrame = theServoRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
 
         // configure and start FRI session
         FRIConfiguration friConfiguration = FRIConfiguration.createRemoteConfiguration(_lbr, _clientName);
@@ -89,7 +113,7 @@ public class TransformationProvider extends RoboticsAPIApplication
         friConfiguration.setReceiveMultiplier(3);
 
         // Select the frame from the scene graph whose transformation is changed by the client application.
-        friConfiguration.registerTransformationProvider("PBase", objectBase);
+        friConfiguration.registerTransformationProvider("PBase", probeFrame);
 
         getLogger().info("Creating FRI connection to " + friConfiguration.getHostName());
         getLogger().info("SendPeriod: " + friConfiguration.getSendPeriodMilliSec() + "ms |"
@@ -109,32 +133,75 @@ public class TransformationProvider extends RoboticsAPIApplication
         }
 
         getLogger().info("FRI connection established.");
-     // move to start pose
-        _lbr.move(ptp(.0, .0, .0, Math.toRadians(90), .0, .0, .0));
+     
 
-        // Output
-        getLogger().info("Transformation from World of");
-        while (on)
+        // excute loop
+        try
         {
-            //ThreadUtil.milliSleep(150);
-        	try{
-        		_toolAttachedToLBR.move(ptp(objectBase).setJointVelocityRel(0.2));
-        	}
-        	catch (IllegalStateException e){
-        		getLogger().error(e.getLocalizedMessage());
-        	}
-        	
-            // async move with overlay ...
-//            _lbr.moveAsync(ptp(Math.toRadians(-90), .0, .0, Math.toRadians(90), .0, Math.toRadians(-90), .0)
-//                    .setJointVelocityRel(0.2)
-//                    .addMotionOverlay(jointOverlay)
-//                    .setBlendingRel(0.1)
-//                    );
-//            getLogger().info("Frame objectBase:\n" + objectBase.toStringInWorld());
-//            getLogger().info("Frame objectTip:\n" + objectTip.toStringInWorld());
+            // do a cyclic loop
+            // Do some timing...
+            // in nanosec
+            long startTimeStamp = System.nanoTime();
+            while (on)
+            {
+                // Insert your code here
+                // e.g Visual Servoing or the like
+            	// compute a new commanded position
+                Frame destFrame = aFrame.copyWithRedundancy();
+                destFrame.setX(probeFrame.getX());
+                destFrame.setY(probeFrame.getY());
+                destFrame.setZ(probeFrame.getZ());
+            	
+                // Synchronize with the realtime system
+                theServoRuntime.updateWithRealtimeSystem();
+
+                // Get the measured position 
+                Frame msrPose = theServoRuntime
+                        .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+
+                if (doDebugPrints)
+                {
+                    getLogger().info("Current cartesian goal " + aFrame);
+                    getLogger().info("Current joint destination "
+                            + theServoRuntime.getCurrentJointDestination());
+                }
+
+                // Do some Computation
+                // emulate some computational effort - or waiting for external
+                // stuff
+//                ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+                if (doDebugPrints)
+                {
+                    getLogger().info("New cartesian goal " + destFrame);
+                    getLogger().info("LBR position "
+                            + _lbr.getCurrentCartesianPosition(_lbr
+                                    .getFlange()));
+                    getLogger().info("Measured cartesian pose from runtime "
+                            + msrPose);
+
+//                    if ((i % 100) == 0)
+//                    {
+//                        // Some internal values, which can be displayed
+//                        getLogger().info("Simple cartesian test " + theServoRuntime.toString());
+//                    }
+                }
+
+                theServoRuntime.setDestination(destFrame);
+            }
+        }
+        catch (Exception e)
+        {
+            getLogger().error(e.toString());
+            e.printStackTrace();
         }
 
         // done
+        //Print statistics and parameters of the motion
+        getLogger().info("Simple cartesian test " + theServoRuntime.toString());
+
+        getLogger().info("Stop the SmartServo motion");
+        theServoRuntime.stopMotion();
+        
         friSession.close();
     }
 
