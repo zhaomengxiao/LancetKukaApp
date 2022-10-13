@@ -158,23 +158,22 @@ public class TransformationProvider extends RoboticsAPIApplication
             Frame msrPose = theServoRuntime
                     .getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
 
-            if (doDebugPrints)
-            {
-                getLogger().info("Current cartesian goal " + aFrame);
-                getLogger().info("Current joint destination "
-                        + theServoRuntime.getCurrentJointDestination());
-            }
+//            if (doDebugPrints)
+//            {
+//                getLogger().info("Current cartesian goal " + aFrame);
+//                getLogger().info("Current joint destination "
+//                        + theServoRuntime.getCurrentJointDestination());
+//            }
 
             // Do some Computation
             // emulate some computational effort - or waiting for external
             // stuff
-//            ThreadUtil.milliSleep(MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT);
+            ThreadUtil.milliSleep(1000);
             if (doDebugPrints)
             {
                 getLogger().info("New cartesian goal " + destFrame);
                 getLogger().info("LBR position "
-                        + _lbr.getCurrentCartesianPosition(_lbr
-                                .getFlange()));
+                        + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()));
                 getLogger().info("Measured cartesian pose from runtime "
                         + msrPose);
 
@@ -184,15 +183,15 @@ public class TransformationProvider extends RoboticsAPIApplication
 //                    getLogger().info("Simple cartesian test " + theServoRuntime.toString());
 //                }
             }
-            try
-            {
-                theServoRuntime.setDestination(destFrame);
-            }
-            catch (Exception e)
-            {
-                getLogger().warn(e.toString());
-                //e.printStackTrace();
-            }
+//            try
+//            {
+//                theServoRuntime.setDestination(destFrame);
+//            }
+//            catch (Exception e)
+//            {
+//                getLogger().warn(e.toString());
+//                //e.printStackTrace();
+//            }
         }
         
         // done
