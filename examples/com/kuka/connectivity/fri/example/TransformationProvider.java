@@ -76,7 +76,7 @@ public class TransformationProvider extends RoboticsAPIApplication
     public void run()
     {
     	// move to start pose
-        _lbr.move(ptp(.0, .0, .0, Math.toRadians(90), .0, .0, .0));
+        _lbr.move(ptp(.0, .0, .0, Math.toRadians(60), .0, .0, .0));
         //Create some frames
         Frame probeFrame = new Frame(_lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame())); //change by client
        
