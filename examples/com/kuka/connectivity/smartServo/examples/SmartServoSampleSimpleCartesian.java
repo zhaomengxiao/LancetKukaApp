@@ -32,7 +32,7 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-    private static final int NUM_RUNS = 1000;
+    private static final int NUM_RUNS = 10;
     private static final double AMPLITUDE = 20;
     private static final double FREQENCY = 0.6;
 
