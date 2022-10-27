@@ -704,8 +704,6 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			}	
 			else if(nToolMode==11)
 			{
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
-				cmdPos = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"));
 				Frame cmdPos2 = lbr.getCurrentCartesianPosition(lbr.getFlange());
 				cmdPos2.setX(0);
 				cmdPos2.setY(0);
@@ -713,7 +711,7 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 				cmdPos2.setAlphaRad(0);
 				cmdPos2.setBetaRad(Math.toRadians(-30));
 				cmdPos2.setGammaRad(0);
-				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"), cmdPos2);
+//				cmdPos=lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/zuo_21005"), cmdPos2);
 			}	
 			else if(nToolMode==12)
 			{
@@ -1482,12 +1480,12 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		double min6=0;
 		double max6=0;
 
-		if(Math.toDegrees(jReady.get(JointEnum.J6)) < 0){
+		if(Math.toDegrees(jReady.get(JointEnum.J6)) < -100){
 			min6=Math.toDegrees(jReady.get(JointEnum.J6));
 		}
 		else
 		{
-			min6=0;
+			min6=-100;
 		}
 
 		if(Math.toDegrees(jReady.get(JointEnum.J6)) > 100){
@@ -2441,6 +2439,20 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo[0] ,-TRANSLATION_OF_TOOL_zuo[1],-TRANSLATION_OF_TOOL_zuo[2], 0, 0, 0)));
 //									System.out.println("Ptest1"+Ptest1);
 								}
+								else if(nToolMode==5){
+									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you3.getDefaultMotionFrame());
+									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
+									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_you3[0] ,-TRANSLATION_OF_TOOL_you3[1],-TRANSLATION_OF_TOOL_you3[2], 0, 0, 0)));
+//									System.out.println("Ptest1"+Ptest1);
+								}
+								else if(nToolMode==10){
+									Ptest1 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo3.getDefaultMotionFrame());
+									Object4 = Ptest1.transform((Transformation.ofDeg(0,0,0, 0, 0, 0)));
+									Object4 = Object4.transform((Transformation.ofDeg(0,0,0, -A, -B, -C)));
+									Object4 = Object4.transform((Transformation.ofDeg(-TRANSLATION_OF_TOOL_zuo3[0] ,-TRANSLATION_OF_TOOL_zuo3[1],-TRANSLATION_OF_TOOL_zuo3[2], 0, 0, 0)));
+//									System.out.println("Ptest1"+Ptest1);
+								}
 
 
 //								System.out.println("zhunbei_ready");
@@ -2464,7 +2476,14 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo.getDefaultMotionFrame());
 //										System.out.println("Object5"+Object5);
 									}
-
+									else if(nToolMode==5){
+										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_you3.getDefaultMotionFrame());
+//										System.out.println("Object5"+Object5);
+									}
+									else if(nToolMode==10){
+										Object5 = lbr.getCurrentCartesianPosition(_toolAttachedToLBR_zuo3.getDefaultMotionFrame());
+//										System.out.println("Object5"+Object5);
+									}
 //									System.out.println("333");	
 									Object5.setX(Object4.getX());
 									Object5.setY(Object4.getY());
@@ -2554,7 +2573,15 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 										_toolAttachedToLBR_zuo.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
 //										System.out.println("End nWorkingmode==6");
 									}
-
+									else if(nToolMode==5){
+//										System.out.println("Start nWorkingmode==6");
+										_toolAttachedToLBR_you3.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+//										System.out.println("End nWorkingmode==6");
+									}else if(nToolMode==10){
+//										System.out.println("Start nWorkingmode==6");
+										_toolAttachedToLBR_zuo3.getDefaultMotionFrame().move(lin(pre_Place2).setJointVelocityRel(0.1).breakWhen(VaccumDetect));
+//										System.out.println("End nWorkingmode==6");
+									}
 									//更新平面定位初始点
 
 									if(nToolMode==3){
@@ -2577,7 +2604,16 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
 //										System.out.println("lhy4");
 									}
-
+									else if(nToolMode==5){
+										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+//										System.out.println("lhy3");
+									}
+									else if(nToolMode==10){
+										Ptest_ForPlane = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+										Ptest_ForPlane1 = lbr.getCurrentCartesianPosition(needle_Tool_3.getFrame("/tcp_xyz"));
+//										System.out.println("lhy4");
+									}
 									if(io.getInput4()==false){
 										Err="3,";
 //										System.out.println("Move");
@@ -3600,7 +3636,9 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 
 
 					TRANSLATION_OF_TOOL_you2[0]=nX+0.8;
+//					TRANSLATION_OF_TOOL_you2[0]=nX;
 					TRANSLATION_OF_TOOL_you2[1]=nY-10;
+//					TRANSLATION_OF_TOOL_you2[1]=nY;
 					TRANSLATION_OF_TOOL_you2[2]=nZ;
 					TRANSLATION_OF_TOOL_you2[3]=nA;
 					TRANSLATION_OF_TOOL_you2[4]=nB;
