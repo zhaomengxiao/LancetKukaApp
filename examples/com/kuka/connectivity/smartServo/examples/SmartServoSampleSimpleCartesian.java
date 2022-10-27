@@ -32,8 +32,8 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
     private static final double[] CENTER_OF_MASS_IN_MILLIMETER = { 0, 0, 100 };
 
     private static final int MILLI_SLEEP_TO_EMULATE_COMPUTATIONAL_EFFORT = 30;
-    private static final int NUM_RUNS = 10;
-    private static final double AMPLITUDE = 20;
+    private static final int NUM_RUNS = 1000;
+    private static final double AMPLITUDE = 70;
     private static final double FREQENCY = 0.6;
 
     @Override
@@ -94,7 +94,7 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
     {
         moveToInitialPosition();
 
-        boolean doDebugPrints = true;
+        boolean doDebugPrints = false;
 
         SmartServo aSmartServoMotion = new SmartServo(
                 _lbr.getCurrentJointPosition());
@@ -110,8 +110,8 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
         ISmartServoRuntime theServoRuntime = aSmartServoMotion
                 .getRuntime();
 
-        //Frame aFrame = theServoRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
-        Frame aFrame = _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame());
+        Frame aFrame = theServoRuntime.getCurrentCartesianDestination(_toolAttachedToLBR.getDefaultMotionFrame());
+
         try
         {
             // do a cyclic loop
@@ -156,7 +156,8 @@ public class SmartServoSampleSimpleCartesian extends RoboticsAPIApplication
                 {
                     getLogger().info("New cartesian goal " + destFrame);
                     getLogger().info("LBR position "
-                            + _lbr.getCurrentCartesianPosition(_toolAttachedToLBR.getDefaultMotionFrame()));
+                            + _lbr.getCurrentCartesianPosition(_lbr
+                                    .getFlange()));
                     getLogger().info("Measured cartesian pose from runtime "
                             + msrPose);
 
