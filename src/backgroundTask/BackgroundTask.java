@@ -69,7 +69,8 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 		info.setFlange6(f1.getGammaRad());
 				
 		try {
-			soc.send(GsonUtil.bean2Json(info).getBytes());
+			//soc.send(GsonUtil.bean2Json(info).getBytes());
+			soc.send("hello".getBytes());
 		} 
 		catch (IOException e) {
 			
