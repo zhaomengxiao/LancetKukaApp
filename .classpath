@@ -114,5 +114,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/ForXi_TCP_Pr_220527/KUKAJavaLib/com.kuka.med.unmasteredApp.api_1.0.0.SMedV121-0-0_4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="gson/gson-2.8.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
