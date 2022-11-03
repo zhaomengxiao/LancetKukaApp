@@ -72,8 +72,8 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 	@Inject
 	private LBRMed robot;
 
-	@Named("ToolMed")
-	@Inject
+//	@Named("ToolMed")
+//	@Inject
 	private Tool tool;
 		
 	@Inject
