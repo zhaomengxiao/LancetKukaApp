@@ -76,19 +76,9 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 				
 		
 		try {
-			para.a = 0.0;
-			para.b =1.0;
-			para.c = 2.0;
-			para.x = 3.0;
-			para.y = 4.0;
-			para.z = 5.0;
 			
-			Param b = para;
-			bean.setOperateType("test");
-			bean.setParam(para);
-			bean.setParam2(b);
 			
-			soc.send(GsonUtil.bean2Json(bean).getBytes());
+			soc.send(GsonUtil.bean2Json(info).getBytes());
 			
 			//soc.send("hello".getBytes());
 		} 
