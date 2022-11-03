@@ -11,6 +11,8 @@ import com.kuka.roboticsAPI.applicationModel.tasks.RoboticsAPICyclicBackgroundTa
 import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.med.deviceModel.LBRMed;
+
+import application.ProtocolBean;;
 /**
  * Implementation of a cyclic background task.
  * <p>
@@ -31,6 +33,8 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 	private LBRMed robot;
 	
 	private UDPSocketForBackground soc;
+	
+	private ProtocolBean bean;
 	@Override
 	public void initialize() {
 		// initialize your task here
@@ -68,8 +72,9 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 		info.setFlange5(f1.getBetaRad());
 		info.setFlange6(f1.getGammaRad());
 				
+		
 		try {
-			soc.send(GsonUtil.bean2Json(info).getBytes());
+			soc.send(GsonUtil.bean2Json(bean).getBytes());
 			//soc.send("hello".getBytes());
 		} 
 		catch (IOException e) {
