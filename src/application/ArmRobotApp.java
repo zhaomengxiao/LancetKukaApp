@@ -180,7 +180,7 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 	
 	public void  ReConnect() {
 		try {
-			SocketAddress address = new InetSocketAddress("172.31.1.147", 30009);
+			SocketAddress address = new InetSocketAddress("172.31.1.148", 30009);
 			logger.info("ReConnect Peer ===== ");
 			m_socket.close();
 			Thread.sleep(100);
