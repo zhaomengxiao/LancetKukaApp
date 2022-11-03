@@ -230,6 +230,7 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 						}
 						if (0 == line.compareTo("heartBeat")) {
 							oldTime = System.currentTimeMillis();
+							logger.info("oldTime"+String.valueOf(oldTime));
 							continue;
 						}
 						if (!line.isEmpty()) {
