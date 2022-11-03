@@ -137,28 +137,28 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 		};
 		getApplicationControl().registerMoveAsyncErrorHandler(errorMotionHandler);
 	
-		SafeDataIOGroup io = new SafeDataIOGroup(getContext().getDefaultController());
-		
-		BooleanIOCondition ioCondition = new BooleanIOCondition(io.getIO("Input1", false), false);
-		IAnyEdgeListener listener = new IAnyEdgeListener(){
-			@Override
-			public void onAnyEdge(ConditionObserver observer, Date time, int MissedEvents, boolean value) {
-			ProtocolResult ret = new ProtocolResult();		
-				ret.setResultMsg("emergency stop");
-				if( value) {
-					logger.info("æœºæ¢°è‡‚æ€¥å�œæŒ‰ä¸‹ï¼�" );
-					ret.setOperateType("Emergency");
-				} else {
-					logger.info("æœºæ¢°è‡‚æ€¥å�œæŠ¬èµ·ï¼�" );
-					ret.setOperateType("EmergencyOFF");
-				}
-				sendData(ret);			
-			}	
-		};
-		
-	 ConditionObserver  obsver = getObserverManager().createConditionObserver(
-			 ioCondition, NotificationType.EdgesOnly, listener);		
-	 obsver.enable();
+//		SafeDataIOGroup io = new SafeDataIOGroup(getContext().getDefaultController());
+//		
+//		BooleanIOCondition ioCondition = new BooleanIOCondition(io.getIO("Input1", false), false);
+//		IAnyEdgeListener listener = new IAnyEdgeListener(){
+//			@Override
+//			public void onAnyEdge(ConditionObserver observer, Date time, int MissedEvents, boolean value) {
+//			ProtocolResult ret = new ProtocolResult();		
+//				ret.setResultMsg("emergency stop");
+//				if( value) {
+//					logger.info("æœºæ¢°è‡‚æ€¥å�œæŒ‰ä¸‹ï¼�" );
+//					ret.setOperateType("Emergency");
+//				} else {
+//					logger.info("æœºæ¢°è‡‚æ€¥å�œæŠ¬èµ·ï¼�" );
+//					ret.setOperateType("EmergencyOFF");
+//				}
+//				sendData(ret);			
+//			}	
+//		};
+//		
+//	 ConditionObserver  obsver = getObserverManager().createConditionObserver(
+//			 ioCondition, NotificationType.EdgesOnly, listener);		
+//	 obsver.enable();
 	
 	}
 	
