@@ -12,7 +12,8 @@ import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.med.deviceModel.LBRMed;
 
-import application.ProtocolBean;;
+import application.ProtocolBean;
+import application.Param;
 /**
  * Implementation of a cyclic background task.
  * <p>
@@ -74,7 +75,21 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 				
 		
 		try {
+			Param a = null;
+			a.a = 0.0;
+			a.b =1.0;
+			a.c = 2.0;
+			a.x = 3.0;
+			a.y = 4.0;
+			a.z = 5.0;
+			
+			Param b = a;
+			bean.setOperateType("test");
+			bean.setParam(a);
+			bean.setParam2(b);
+			
 			soc.send(GsonUtil.bean2Json(bean).getBytes());
+			
 			//soc.send("hello".getBytes());
 		} 
 		catch (IOException e) {
