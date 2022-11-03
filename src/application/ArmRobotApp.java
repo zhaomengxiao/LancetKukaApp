@@ -226,6 +226,7 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 						}
 						if (m_reader != null && m_reader.ready()) {
 							line = m_reader.readLine();
+							logger.info(line);
 						}
 						if (0 == line.compareTo("heartBeat")) {
 							oldTime = System.currentTimeMillis();
