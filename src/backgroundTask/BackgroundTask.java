@@ -35,7 +35,8 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 	
 	private UDPSocketForBackground soc;
 	
-	private ProtocolBean bean;
+	private ProtocolBean bean = new ProtocolBean();
+	private Param para = new Param();
 	@Override
 	public void initialize() {
 		// initialize your task here
@@ -75,17 +76,16 @@ public class BackgroundTask extends RoboticsAPICyclicBackgroundTask {
 				
 		
 		try {
-			Param a = null;
-			a.a = 0.0;
-			a.b =1.0;
-			a.c = 2.0;
-			a.x = 3.0;
-			a.y = 4.0;
-			a.z = 5.0;
+			para.a = 0.0;
+			para.b =1.0;
+			para.c = 2.0;
+			para.x = 3.0;
+			para.y = 4.0;
+			para.z = 5.0;
 			
-			Param b = a;
+			Param b = para;
 			bean.setOperateType("test");
-			bean.setParam(a);
+			bean.setParam(para);
 			bean.setParam2(b);
 			
 			soc.send(GsonUtil.bean2Json(bean).getBytes());
