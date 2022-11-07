@@ -4,6 +4,7 @@ import static com.kuka.roboticsAPI.motionModel.BasicMotions.lin;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.linRel;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.positionHold;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptp;
+import static com.kuka.roboticsAPI.motionModel.BasicMotions.ptpHome;
 
 import  com.kuka.roboticsAPI.deviceModel.*;
 import  com.kuka.roboticsAPI.motionModel.*;
@@ -161,35 +162,35 @@ public class ProtocolProcess {
 		}
 		else if (opType.equals("StartDrawCircle"))
 		{
-			return StartDrawCircle(bean);    // 开始画圆
+			return StartDrawCircle(bean);    // å¼€å§‹ç”»åœ†
 		}
 		else if (opType.equals("DrawCircle"))
 		{
-			return DrawCircle(bean);         // 画圆
+			return DrawCircle(bean);         // ç”»åœ†
 		}
 		else if (opType.equals("StartDragLine"))
 		{
-			return StartDragLine(bean);    // 开始拖动沿直线运动
+			return StartDragLine(bean);    // å¼€å§‹æ‹–åŠ¨æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartDragLineManual"))
 		{
-			return StartDragLineManual(bean);    // 开始拖动沿直线运动-手动一步一步
+			return StartDragLineManual(bean);    // å¼€å§‹æ‹–åŠ¨æ²¿ç›´çº¿è¿�åŠ¨-æ‰‹åŠ¨ä¸€æ­¥ä¸€æ­¥
 		}
 		else if (opType.equals("ServoMove"))
 		{
-			return ServoMove(bean);    // 开始伺服运动-世界坐标系
+			return ServoMove(bean);    // å¼€å§‹ä¼ºæœ�è¿�åŠ¨-ä¸–ç•Œå��æ ‡ç³»
 		}
 		else if (opType.equals("EndDragLine"))
 		{
-			return EndDragLine(bean);      // 结束运动
+			return EndDragLine(bean);      // ç»“æ�Ÿè¿�åŠ¨
 		}
 		else if (opType.equals("StartDrawLine"))
 		{
-			return StartDrawLine(bean);    // 开始沿直线运动
+			return StartDrawLine(bean);    // å¼€å§‹æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartDrawLineNormal"))
 		{
-			return StartDrawLineNormal(bean);    // 开始沿直线运动
+			return StartDrawLineNormal(bean);    // å¼€å§‹æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartLisener"))
 		{
@@ -240,7 +241,7 @@ public class ProtocolProcess {
 			ret.setOperateType("MoveStop");
 			return ret;
 		}
-		//零空间
+		//é›¶ç©ºé—´
 		else if (opType.equals("ZeroSpace"))
 		{
 			if (mc != null) {			
@@ -263,7 +264,7 @@ public class ProtocolProcess {
 			ret.setResultMsg("ZeroSpace_on ok");
 			return ret;
 		}
-		//碰撞检测
+		//ç¢°æ’žæ£€æµ‹
 		else if (opType.equals("Extern_Force"))
 		{
 			double[] joint = bean.getJointPos();
@@ -281,7 +282,7 @@ public class ProtocolProcess {
 		    mc = m_robot.getFlange().moveAsync(ptp(jp).setJointVelocityRel(0.3* speedLevel)
 		    		.setJointAccelerationRel(0.02).breakWhen(conda));
 		}
-		//零重力
+		//é›¶é‡�åŠ›
 		else if (opType.equals("Zero_Gravity"))
 		{
 			if (mc != null) {			
@@ -696,13 +697,13 @@ public class ProtocolProcess {
 		return ret;
 	}
 	
-	//ÖØÖÃ¡¢¹éÎ»µ½¾­µäÎ»ÖÃ
+	//Ã–Ã˜Ã–ÃƒÂ¡Â¢Â¹Ã©ÃŽÂ»ÂµÂ½Â¾Â­ÂµÃ¤ÃŽÂ»Ã–Ãƒ
 	private ProtocolResult Reset(ProtocolBean bean)
 	{
-		/*JointPosition jp_02 = new JointPosition(0, 0, 0, Math.toRadians(90), 0, Math.toRadians(-90), 0);
+		JointPosition jp_02 = new JointPosition(0, 0, 0, Math.toRadians(90), 0, Math.toRadians(-90), 0);
 		
-		robot.setHomePosition(jp_02);
-		robot.move(ptpHome().setJointVelocityRel(0.6));*/
+		m_robot.setHomePosition(jp_02);
+		m_robot.move(ptpHome().setJointVelocityRel(0.6));
 		
 		ProtocolResult result = new ProtocolResult();
 		result.setResultCode(0);
@@ -742,7 +743,7 @@ public class ProtocolProcess {
 				
 		ProtocolResult ret = m_drawCircle.run();	
 		ret.setOperateType("DrawCircle");		
-		ret.setResultMsg(ret.getResultCode() == 1 ? "画圆任务已完成" : "");
+		ret.setResultMsg(ret.getResultCode() == 1 ? "ç”»åœ†ä»»åŠ¡å·²å®Œæˆ�" : "");
 		
 		return ret;
 	}
@@ -788,7 +789,7 @@ public class ProtocolProcess {
 		
 		ProtocolResult result = new ProtocolResult();
 		result.setResultCode(ok ? 0 : 1);
-		result.setResultMsg("目标不可达");
+		result.setResultMsg("ç›®æ ‡ä¸�å�¯è¾¾");
 		
 		return result;
 	}
@@ -806,12 +807,12 @@ public class ProtocolProcess {
 			ok = m_servoLineMotion.initialize();
 			if (!ok)
 			{
-				msg = "目标不可达";
+				msg = "ç›®æ ‡ä¸�å�¯è¾¾";
 			}			
 		}		
 		else
 		{
-			// 外部1秒调用一次
+			// å¤–éƒ¨1ç§’è°ƒç”¨ä¸€æ¬¡
 			//msg = m_servoLineMotion.startSineMovement_distance();
 		}		
 		
@@ -835,7 +836,7 @@ public class ProtocolProcess {
 		}		
 		else
 		{
-			// 外部发生变化时调用一次
+			// å¤–éƒ¨å�‘ç”Ÿå�˜åŒ–æ—¶è°ƒç”¨ä¸€æ¬¡
 			//msg = m_servoLineMotion.startSineMovement_move(bean.getParam().getX(), bean.getParam().getY(), bean.getParam().getZ());
 		}		
 		
@@ -892,7 +893,7 @@ public class ProtocolProcess {
 		return result;
 	}
 	
-	// 实时跟踪
+	// å®žæ—¶è·Ÿè¸ª
 	public ProtocolResult StartPositionLisener(ProtocolBean bean)
 	{
 		log.info("StartPositionLisener");
@@ -1009,7 +1010,7 @@ public class ProtocolProcess {
 	
 	public void jogAxis(int idx, double jogPos)
 	{		
-		// 位置均弧度
+		// ä½�ç½®å�‡å¼§åº¦
 		JointPosition jtPos = m_robot.getCurrentJointPosition();
 		double[] axises = jtPos.get();
 		double jogVec = 1;
@@ -1049,7 +1050,7 @@ public ProtocolResult funcMaster() {
 		ProtocolResult ret = new ProtocolResult();
 		ret.setOperateType("Master");
 		
-		double jogPosArray[] = {0, -60, 0, 0, 0, 0, 0}; // 角度
+		double jogPosArray[] = {0, -60, 0, 0, 0, 0, 0}; // è§’åº¦
 		for (int idx = 0; idx < 7; ++idx) {
 			if (!mastering.isAxisMastered(idx)) {
 				log.info("Mastering Axis " + idx + "...");
@@ -1071,7 +1072,7 @@ public ProtocolResult funcMaster() {
 		return ret;
 	}
 	
-public void jog2AxisPosition(double[] axisesDest /*角度 */) {
+public void jog2AxisPosition(double[] axisesDest /*è§’åº¦ */) {
 	JointPosition jtPos = m_robot.getCurrentJointPosition();
 	double[] axises = jtPos.get();
 
@@ -1090,7 +1091,7 @@ public void jog2AxisPosition(double[] axisesDest /*角度 */) {
 }
 	
 	public ProtocolResult funcMasterNew() {
-		ThreadUtil.milliSleep(10000); // 等待10s 使程序恢复运行状态
+		ThreadUtil.milliSleep(10000); // ç­‰å¾…10s ä½¿ç¨‹åº�æ�¢å¤�è¿�è¡ŒçŠ¶æ€�
 	
 		ProtocolResult ret = new ProtocolResult();
 		ret.setOperateType("Master");
@@ -1116,7 +1117,7 @@ public void jog2AxisPosition(double[] axisesDest /*角度 */) {
 			double[] axisesDest = { 0, 50, 0, -70, 0, -30, 0 };
 			jog2AxisPosition(axisesDest);
 			
-			// 调整 2，4，6轴位置
+			// è°ƒæ•´ 2ï¼Œ4ï¼Œ6è½´ä½�ç½®
 			double[] axisesDest246 = { 0, 85, 0, 0, 0, 0, 0 };
 			jog2AxisPosition(axisesDest246);
 
@@ -1142,7 +1143,7 @@ public void jog2AxisPosition(double[] axisesDest /*角度 */) {
 		axises = jtPos.get();
 		log.info("aaaaaaaaaa  ==********************======== " + axises);
 		cnt = 0;
-		// 伸直2轴， 弯曲4，6轴
+		// ä¼¸ç›´2è½´ï¼Œ å¼¯æ›²4ï¼Œ6è½´
 		double[] axisesDestWind = { 0, 0, 0, -90, 0, 10, 0 };
 		jog2AxisPosition(axisesDestWind);
 		

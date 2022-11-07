@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/application/ArmRobotApp.java=UTF-8
 encoding//src/application/CeShi_Zukang.java=UTF-8
+encoding//src/application/ProtocolProcess.java=UTF-8
 encoding//src/application/SmartServoLINInteractionControl.java=UTF-8
 encoding//src/application/TCPServerSendDataApplication.java=UTF-8
 encoding//src/application/WallTest.java=UTF-8
