@@ -193,16 +193,6 @@
             </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Hand-Guiding Support" installItem="true" installedVersion="1" itemPath="com.kuka/HandGuidingFeature" selectedVersion="1" usage="Feature">
                 <Interface id="com.kuka/HandGuidingFeature/HandGuidingFeature" version="0.1.0"/>
-                <Property displayName="enable handguiding in automatic-mode" key="HandguidingAutomaticMode" showInEditor="true" type="String">
-                    <Value>false</Value>
-                    <PossibleValue displayName="true">true</PossibleValue>
-                    <PossibleValue displayName="false">false</PossibleValue>
-                </Property>
-                <Property displayName="enable handguiding in test-mode" key="HandguidingTestMode" showInEditor="true" type="String">
-                    <Value>false</Value>
-                    <PossibleValue displayName="true">true</PossibleValue>
-                    <PossibleValue displayName="false">false</PossibleValue>
-                </Property>
             </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="IODrivers" installItem="true" installedVersion="1" itemPath="com.kuka/IODrivers" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/IODrivers/ECatIODriver" version="0.8.4"/>
