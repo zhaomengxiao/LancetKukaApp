@@ -111,11 +111,11 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
 		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		// <3 Detect whether the command parameters meet.
-		bsecurity &= false == this.GetInputString().isEmpty();
+		bsecurity &= (false == this.GetInputString().isEmpty());
 		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		bsecurity &= null != this.GetProperty("originPoint");
+		bsecurity &= (null != this.GetProperty("originPoint"));
 		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		bsecurity &= null != this.GetProperty("targetPoint");
+		bsecurity &= (null != this.GetProperty("targetPoint"));
 		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		return bsecurity;
