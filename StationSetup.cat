@@ -174,11 +174,15 @@
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="DirectServoSupport" installItem="true" installedVersion="1" itemPath="com.kuka/DirectServoSupport" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/DirectServoSupport/DirectServoSupport" version="0.1.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Enhanced Velocity Controller" installItem="false" installedVersion="NONE" itemPath="com.kuka/EnhancedVelocityController" selectedVersion="NONE" usage="Feature"/>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Enhanced Velocity Controller" installItem="true" installedVersion="1.0.0" itemPath="com.kuka/EnhancedVelocityController" selectedVersion="1.0.0" usage="Feature">
+                <Interface id="com.kuka/EnhancedVelocityController/EnhancedVelocityController" version="0.1.0"/>
+            </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="EtherCATWrapper" installItem="true" installedVersion="1" itemPath="com.kuka/EtherCATWrapper" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/EtherCATWrapper/EtherCATWrapperBase" version="0.8.4"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="FSoE Slave support" installItem="false" installedVersion="NONE" itemPath="com.kuka/FSoESlaveSupport" selectedVersion="NONE" usage="Feature"/>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="FSoE Slave support" installItem="true" installedVersion="1" itemPath="com.kuka/FSoESlaveSupport" selectedVersion="1" usage="Feature">
+                <Interface id="com.kuka/FSoESlaveSupport/FSoESlaveSupport" version="0.1.0"/>
+            </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="FastRobotInterface RT-Libs" installItem="true" installedVersion="1" itemPath="com.kuka/FastRobotInterface" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/FastRobotInterface/FastRobotInterface" version="0.1.0"/>
             </SoftwareItem>
@@ -193,6 +197,11 @@
             </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Hand-Guiding Support" installItem="true" installedVersion="1" itemPath="com.kuka/HandGuidingFeature" selectedVersion="1" usage="Feature">
                 <Interface id="com.kuka/HandGuidingFeature/HandGuidingFeature" version="0.1.0"/>
+                <Property displayName="enable handguiding in automatic-mode" key="HandguidingAutomaticMode" showInEditor="true" type="String">
+                    <Value>false</Value>
+                    <PossibleValue displayName="true">true</PossibleValue>
+                    <PossibleValue displayName="false">false</PossibleValue>
+                </Property>
             </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="IODrivers" installItem="true" installedVersion="1" itemPath="com.kuka/IODrivers" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/IODrivers/ECatIODriver" version="0.8.4"/>
@@ -202,9 +211,15 @@
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="IOManager" installItem="true" installedVersion="1" itemPath="com.kuka/IOManager" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/IOManager/IOManager" version="0.1.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus Definition Files" installItem="true" installedVersion="NONE" itemPath="com.kuka/IkarusAntiVirDefinition" selectedVersion="NONE" usage="Library"/>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus" installItem="false" installedVersion="NONE" itemPath="com.kuka/IkarusAntiVirInstallation" selectedVersion="NONE" usage="Feature"/>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus SmartHMI" installItem="true" installedVersion="NONE" itemPath="com.kuka/IkarusAntiVirSmartHMI" selectedVersion="NONE" usage="Library"/>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus Definition Files" installItem="true" installedVersion="101330" itemPath="com.kuka/IkarusAntiVirDefinition" selectedVersion="101330" usage="Library">
+                <Interface id="com.kuka/IkarusAntiVir/VirusDefinitions" version="0.1.0"/>
+            </SoftwareItem>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus" installItem="true" installedVersion="2.7.30" itemPath="com.kuka/IkarusAntiVirInstallation" selectedVersion="2.7.30" usage="Feature">
+                <Interface id="com.kuka/IkarusAntiVirInstallation/IkarusAntiVirus" version="0.1.0"/>
+            </SoftwareItem>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus SmartHMI" installItem="true" installedVersion="1.8.0" itemPath="com.kuka/IkarusAntiVirSmartHMI" selectedVersion="1.8.0" usage="Library">
+                <Interface id="com.kuka/IkarusAntiVirSmartHMI/IkarusAntiVirSmartHMI" version="1.8.0"/>
+            </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="InjectionLib" installItem="true" installedVersion="1" itemPath="com.kuka/InjectionLib" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/InjectionLib/InjectionLib" version="0.1.0"/>
             </SoftwareItem>
@@ -356,8 +371,8 @@
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="SunriseBasicCompounds" installItem="true" installedVersion="1" itemPath="com.kuka/SunriseBasicCompounds" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/SunriseBasicCompounds/SunriseBasicCompounds" version="0.1.1"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="false" canChangeSelection="true" displayName="Sunrise Data Recording" installItem="false" installedVersion="NONE" itemPath="com.kuka/SunriseDataRecording" selectedVersion="NONE" usage="Feature"/>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="SunriseDataRecordingRTLibrary" installItem="true" installedVersion="NONE" itemPath="com.kuka/SunriseDataRecordingRTLibrary" selectedVersion="NONE" usage="Library">
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Sunrise Data Recording" installItem="true" installedVersion="1" itemPath="com.kuka/SunriseDataRecording" selectedVersion="1" usage="Feature"/>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="SunriseDataRecordingRTLibrary" installItem="true" installedVersion="1" itemPath="com.kuka/SunriseDataRecordingRTLibrary" selectedVersion="1" usage="Library">
                 <Interface id="com.kuka/SunriseDataRecordingRTLibrary/DataRecorderTriggerAction" version="0.1.0"/>
                 <Interface id="com.kuka/SunriseDataRecordingRTLibrary/DynDFELogger" version="0.1.1"/>
             </SoftwareItem>
@@ -843,8 +858,14 @@
                 <Interface id="com.kuka/OSGi/com.kuka.roboticsAPI.applicationServer.services.handGuidingService" version="1.15.0"/>
                 <Interface id="com.kuka/Bundle/com.kuka.service.handGuiding.ncf" version="1.15.0"/>
             </SoftwareItem>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus Service" installItem="true" installedVersion="NONE" itemPath="com.kuka/com.kuka.service.virusScanner" selectedVersion="NONE" usage="Library"/>
-            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.service.virusScanner.ncf" installItem="true" installedVersion="NONE" itemPath="com.kuka/com.kuka.service.virusScanner.ncf" selectedVersion="NONE" usage="Library"/>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="Ikarus AntiVirus Service" installItem="true" installedVersion="1.15.0.RapiSMedV12_9" itemPath="com.kuka/com.kuka.service.virusScanner" selectedVersion="1.15.0.RapiSMedV12_9" usage="Library">
+                <Interface id="com.kuka/AppServerServices/IkarusAntiVirImpl" version="0.1.0"/>
+                <Interface id="com.kuka/Bundle/com.kuka.service.virusScanner" version="1.15.0"/>
+            </SoftwareItem>
+            <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.service.virusScanner.ncf" installItem="true" installedVersion="1.15.0.RapiSMedV12_9" itemPath="com.kuka/com.kuka.service.virusScanner.ncf" selectedVersion="1.15.0.RapiSMedV12_9" usage="Library">
+                <Interface id="com.kuka/Bundle/com.kuka.service.virusScanner.ncf" version="1.15.0"/>
+                <Interface id="com.kuka/OSGi/com.kuka.roboticsAPI.applicationServer.services.virusScannerService" version="1.15.0"/>
+            </SoftwareItem>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.smartPad.api" installItem="true" installedVersion="NONE" itemPath="com.kuka/com.kuka.smartPad.api" selectedVersion="NONE" usage="Library"/>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.smartPad.impl" installItem="true" installedVersion="NONE" itemPath="com.kuka/com.kuka.smartPad.impl" selectedVersion="NONE" usage="Library"/>
             <SoftwareItem autoSelected="true" canChangeSelection="true" displayName="com.kuka.statuscontroller" installItem="true" installedVersion="1.1.0.RapiSMedV12_9" itemPath="com.kuka/com.kuka.statuscontroller" selectedVersion="1.1.0.RapiSMedV12_9" usage="Library">

@@ -251,6 +251,9 @@ public class aTCPServerSendDataApplication_test extends RoboticsAPIApplication {
         _toolAttachedToLBR.attachTo(lbr.getFlange());
         
 		needle.attachTo(lbr.getFlange());
+		
+		System.out.println("[STRING] LBR -Name " + this.lbr.getClass().getSimpleName());
+		System.out.println("[STRING] Application -Name " + this.getClass().getSimpleName());
 	}
 
 	public  class sendRTdata implements Callable<String> {

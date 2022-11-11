@@ -12,8 +12,8 @@ import com.kuka.roboticsAPI.deviceModel.JointPosition;
 import com.kuka.roboticsAPI.geometricModel.Frame;
 import com.kuka.med.deviceModel.LBRMed;
 
-import application.ProtocolBean;
-import application.Param;
+import hehua.ProtocolBean;
+import hehua.Param;
 /**
  * Implementation of a cyclic background task.
  * <p>

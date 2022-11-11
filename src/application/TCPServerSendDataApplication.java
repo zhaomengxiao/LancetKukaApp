@@ -475,6 +475,8 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 		needle_Tool_3.attachTo(lbr.getFlange());
 		needle_gripper.attachTo(lbr.getFlange());
 		////////////////////////////////
+		System.out.println("[STRING] LBR.Name " + this.lbr.getClass().getSimpleName());
+		System.out.println("[STRING] Application.Name " + this.getClass().getSimpleName());
 	}
 
 
