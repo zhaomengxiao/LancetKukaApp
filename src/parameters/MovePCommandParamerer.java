@@ -37,7 +37,7 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
         	System.out.println("\t[DEBUG] runtime key " + key);
         }
         Object o_lbr = mapRuntimeProperties.get("lbrmedkg14");
-        if(null != o_lbr && null != o_lbr.getClass() && o_lbr.getClass().getSimpleName().contains("lbrmedkg14")) {
+        if(null != o_lbr && null != o_lbr.getClass()) {
         	tempParameter.SetRoboticsObject((LBR)o_lbr);
         }
         
