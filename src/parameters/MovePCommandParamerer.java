@@ -4,17 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.kuka.roboticsAPI.deviceModel.LBR;
-
 import properties.Point3DParameterProperty;
 
 import units.AbstractCommandParameter;
-import units.AbstractCommandParameterEx;
 import units.AbstractCommandParameterProperty;
 
-public class MovePCommandParamerer extends AbstractCommandParameterEx {
-
-	protected LBR lbr = null; 
+public class MovePCommandParamerer extends BasicRobotCommandParameter {
 	
     @Override
     public AbstractCommandParameter CreateCommandParameter(String parameter,
@@ -33,14 +28,7 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
         }
         
         // Configuring the runtime environment for command execution.
-        for(String key: mapRuntimeProperties.keySet()) {
-        	System.out.println("\t[DEBUG] runtime key " + key);
-        }
-        Object o_lbr = mapRuntimeProperties.get("lbrmedkg14");
-        if(null != o_lbr && null != o_lbr.getClass()) {
-        	System.out.println("\t[DEBUG] configure movep command runtime object to robot");
-        	tempParameter.SetRoboticsObject((LBR)o_lbr);
-        }
+        tempParameter.UpdatesRoboticsProperties(mapRuntimeProperties);
         
         return tempParameter;
     }
@@ -56,7 +44,7 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
     	List<AbstractCommandParameterProperty> listResult = new ArrayList<AbstractCommandParameterProperty>();
     	
     	String[] parameArray = parameter.split(",");
-    	if(7 == parameArray.length) {
+    	if(7 <= parameArray.length) {
     		// originPoint, Start point of point-to-point movement.
     		Point3DParameterProperty originPoint = new Point3DParameterProperty("originPoint");
     		originPoint.GetParameterPoint3DObject().SetPoint(
@@ -74,49 +62,22 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
     		listResult.add(originPoint);
     		listResult.add(targetPoint);
     	}else {
-    		System.out.println("");
+    		System.out.println("[ERROR] Input MoveP parameter error!");
     	}
     	
     	
         return listResult;
-    }
-    
-    public LBR GetRoboticsObject() {
-    	return this.lbr;
-    }
-    
-    public void SetRoboticsObject(LBR plbr) {
-    	this.lbr = plbr;
     }
 
 	@Override
 	public boolean IsSecurity() {
 
 		boolean bsecurity = true;
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		// <1 Detection parameter validity flag.
-		bsecurity &= this.IsVaild();
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		
-		// <2 Whether the detection environment parameters meet the requirements.
-		bsecurity &= this.GetRoboticsObject() != null;
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		if(null != this.GetRoboticsObject()) {
-			String lbrName = this.GetRoboticsObject().getClass().getSimpleName();
-			bsecurity &= lbrName.toLowerCase().contains("lbrmedkg14");
-		}else {
-			// Parameter error of mechanical arm instance object.
-			bsecurity = false;
-		}
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		// <3 Detect whether the command parameters meet.
-		bsecurity &= (false == this.GetInputString().isEmpty());
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		bsecurity &= (null != this.GetProperty("originPoint"));
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
-		bsecurity &= (null != this.GetProperty("targetPoint"));
-		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
+		bsecurity &= super.IsSecurity();
+		bsecurity &= null != this.GetProperty("originPoint");
+		bsecurity &= null != this.GetProperty("targetPoint");
 		
 		return bsecurity;
 	}

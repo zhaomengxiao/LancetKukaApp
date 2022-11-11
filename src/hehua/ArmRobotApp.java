@@ -20,6 +20,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import parameters.BasicRobotCommandParameter;
 import parameters.MovePCommandParamerer;
 
 import application.TCPServerSendDataApplication;
@@ -51,6 +52,8 @@ import com.kuka.roboticsAPI.motionModel.IErrorHandler;
 import com.kuka.roboticsAPI.motionModel.IMotionContainer;
 import com.kuka.roboticsAPI.uiModel.ApplicationDialogType;
 import com.kuka.generated.ioAccess.SafeDataIOGroup;
+
+import commands.FreeHandler;
 import commands.MoveP;
 
 import core.CommandHandlerRepeater;
@@ -265,18 +268,18 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 				ProtocolBean msgBean = getMsgBean();
 				if (msgBean != null) {
 					this.commandHandlerRepeater.PushCommandToHandler(msgBean.getOperateType());
-//					ProtocolResult result = m_processer.ProcessData(msgBean);
-//					sendData(result);
-//
-//					if (result != null && result.getOperateType() == "Master") {
-//						isSendMaster = false;
-//						freeCheckStart = 0;
-//					}
-//					if (result != null
-//							&& result.getOperateType() == "SoftMode_On") {
-//						freeCheckStart = System.currentTimeMillis();
-//						logger.info("freeCheckStart: " + freeCheckStart);
-//					}
+					ProtocolResult result = m_processer.ProcessData(msgBean);
+					sendData(result);
+
+					if (result != null && result.getOperateType() == "Master") {
+						isSendMaster = false;
+						freeCheckStart = 0;
+					}
+					if (result != null
+							&& result.getOperateType() == "SoftMode_On") {
+						freeCheckStart = System.currentTimeMillis();
+						logger.info("freeCheckStart: " + freeCheckStart);
+					}
 				}
 
 				if (isNeedSoft && freeCheckStart != 0) {
@@ -503,6 +506,7 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 	protected boolean InitializeCoreCommandFactoryModules() {
 		boolean isInitialize = true;
 		isInitialize &= this.commandHandlerRepeater.commandFactory.RegisterProduct(new MoveP());
+		isInitialize &= this.commandHandlerRepeater.commandFactory.RegisterProduct(new FreeHandler());
 		return isInitialize;
 	}
 
@@ -537,6 +541,7 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 	protected boolean InitializeCoreCommandFactoryParameterModules() {
 		boolean isInitialize = true;
 		isInitialize &= this.commandHandlerRepeater.commandParameterFactory.RegisterParameter("MoveP", new MovePCommandParamerer());
+		isInitialize &= this.commandHandlerRepeater.commandParameterFactory.RegisterParameter("FreeHandler", new BasicRobotCommandParameter());
 		return isInitialize;
 	}
 }
