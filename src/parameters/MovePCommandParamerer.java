@@ -38,6 +38,7 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
         }
         Object o_lbr = mapRuntimeProperties.get("lbrmedkg14");
         if(null != o_lbr && null != o_lbr.getClass()) {
+        	System.out.println("\t[DEBUG] configure movep command runtime object to robot");
         	tempParameter.SetRoboticsObject((LBR)o_lbr);
         }
         
@@ -92,12 +93,14 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
 	public boolean IsSecurity() {
 
 		boolean bsecurity = true;
-		
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		// <1 Detection parameter validity flag.
 		bsecurity &= this.IsVaild();
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		// <2 Whether the detection environment parameters meet the requirements.
 		bsecurity &= this.GetRoboticsObject() != null;
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		if(null != this.GetRoboticsObject()) {
 			String lbrName = this.GetRoboticsObject().getClass().getSimpleName();
 			bsecurity &= lbrName.toLowerCase().contains("lbrmedkg14");
@@ -105,11 +108,15 @@ public class MovePCommandParamerer extends AbstractCommandParameterEx {
 			// Parameter error of mechanical arm instance object.
 			bsecurity = false;
 		}
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		// <3 Detect whether the command parameters meet.
 		bsecurity &= false == this.GetInputString().isEmpty();
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		bsecurity &= null != this.GetProperty("originPoint");
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		bsecurity &= null != this.GetProperty("targetPoint");
+		System.out.println("\t[DEBUG] bsecurity state: " + bsecurity);
 		
 		return bsecurity;
 	}
