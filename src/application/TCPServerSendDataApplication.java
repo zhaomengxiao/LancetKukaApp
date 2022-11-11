@@ -31,6 +31,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import parameters.MovePCommandParamerer;
+
 import com.kuka.common.StatisticTimer;
 import com.kuka.common.ThreadUtil;
 import com.kuka.common.StatisticTimer.OneTimeStep;
@@ -74,6 +76,9 @@ import com.kuka.roboticsAPI.motionModel.controlModeModel.CartesianImpedanceContr
 import com.kuka.roboticsAPI.motionModel.controlModeModel.IMotionControlMode;
 import com.kuka.roboticsAPI.motionModel.controlModeModel.JointImpedanceControlMode;
 import com.kuka.roboticsAPI.uiModel.ApplicationDialogType;
+import commands.MoveP;
+
+import core.CommandHandlerRepeater;
 import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
 
 /**
@@ -95,6 +100,11 @@ import static com.kuka.roboticsAPI.motionModel.HRCMotions.*;
  * @see #dispose()
  */
 public class TCPServerSendDataApplication extends RoboticsAPIApplication {
+	
+	public static boolean isDebug = true;
+	
+	protected CommandHandlerRepeater commandHandlerRepeater = new CommandHandlerRepeater();
+	
 	//    int i=0;
 	private HandGuidingMotion motion;
 
@@ -4858,4 +4868,132 @@ public class TCPServerSendDataApplication extends RoboticsAPIApplication {
 			e.printStackTrace();
 		}
 	}
+
+	protected boolean InitializeCoreModules() {
+		boolean isInitialize = true;
+		
+		isInitialize &= this.InitializeCoreRuntimeEnvironmentModules();
+		// Initialize the runtime environment.
+		if(true == isInitialize && TCPServerSendDataApplication.isDebug) {
+			System.out.println("[INFO] " + "Finished initializing the runtime environment.");
+		}else if(TCPServerSendDataApplication.isDebug) {
+			System.out.println("[ERROR] " + "Failed to initialize the runtime environment.");
+		}
+		
+		// Initialize Command Factory.
+		isInitialize &= this.InitializeCoreCommandFactoryModules();
+		if(true == isInitialize && TCPServerSendDataApplication.isDebug) {
+			System.out.println("[INFO] " + "Finished initializing the command factory.");
+		}else if(TCPServerSendDataApplication.isDebug) {
+			System.out.println("[ERROR] " + "Failed to initialize the command factory.");
+		}
+		
+		// Initialize Command Parameter Factory.
+		isInitialize &= this.InitializeCoreCommandFactoryParameterModules();
+		if(true == isInitialize && TCPServerSendDataApplication.isDebug) {
+			System.out.println("[INFO] " + "Finished initializing the command parameter factory.");
+		}else if(TCPServerSendDataApplication.isDebug) {
+			System.out.println("[ERROR] " + "Failed to initialize the command parameter factory.");
+		}
+		return isInitialize;
+	}
+	
+	/**
+	 * Initialize the runtime environment of the kernel module.
+	 * 
+	 * <p>
+	 * The runtime environment refers to the resources that the kernel module 
+	 * depends on for automation. These resources may be robot arm example 
+	 * objects or application instance objects.
+	 * </p>
+	 * 
+	 * <table border="1" align="center" cellspacing="0" cellpadding="16" width="500">
+	 *   <caption>Runtime Registration Form</caption>
+	 *   <tr>
+	 *     <th>KeyName    </th>
+	 *     <th>Describe   </th>
+	 *   </tr>
+	 *   
+	 *   <tr>
+	 *     <td>RobotApplication</td>
+	 *     <td>Robot application instance object.</td>
+	 *   </tr>
+	 * </table>
+	 * 
+	 * @see units.CommandParameterFactory
+	 */
+	protected boolean InitializeCoreRuntimeEnvironmentModules() {
+		boolean isInitialize = true;
+		isInitialize &= this.commandHandlerRepeater.commandParameterFactory.RegisterRunTimeProperty(this);
+		isInitialize &= this.commandHandlerRepeater.commandParameterFactory.RegisterRunTimeProperty(this.lbr);
+		return isInitialize;
+	}
+
+	/**
+	 * Initialize the command factory of the kernel module.
+	 * 
+	 * <p>
+	 * The command factory is the manufacturer of the command entity object, and 
+	 * the correct manufacturing target of the command factory The command entity 
+	 * object requires a work instruction, which is accessed through the command 
+	 * factory registration interface.
+	 * </p>
+	 * 
+	 * <table border="1" align="center" cellspacing="0" cellpadding="16" width="500">
+	 *   <caption>Runtime Registration Form</caption>
+	 *   <tr>
+	 *     <th>CommandName</th>
+	 *     <th>Describe   </th>
+	 *   </tr>
+	 *   
+	 *   <tr>
+	 *     <td>MoveP</td>
+	 *     <td>Make the mechanical arm move a line, which is expressed by the starting 
+	 *     point (generally the current point position of the mechanical arm) and the 
+	 *     target point (the stop position of the mechanical arm).</td>
+	 *   </tr>
+	 * </table>
+	 * 
+	 * @see units.CommandFactory
+	 */
+	protected boolean InitializeCoreCommandFactoryModules() {
+		boolean isInitialize = true;
+		isInitialize &= this.commandHandlerRepeater.commandFactory.RegisterProduct(new MoveP());
+		return isInitialize;
+	}
+
+	/**
+	 * Initialize the command accessory parameter product of the kernel module.
+	 * 
+	 * <p>
+	 * The parameter product is an accessory of the command product, and a command 
+	 * product should correspond to a parameter accessory to assist the normal use 
+	 * of the target function of the command product.
+	 * </p>
+	 * 
+	 * <table border="1" align="center" cellspacing="0" cellpadding="16" width="500">
+	 *   <caption>Runtime Registration Form</caption>
+	 *   <tr>
+	 *     <th>CommandName</th>
+	 *     <th>CommandParameterName</th>
+	 *     <th>Describe   </th>
+	 *   </tr>
+	 *   
+	 *   <tr>
+	 *     <td>MoveP</td>
+	 *     <td>MovePCommandParamerer</td>
+	 *     <td>A line parameter represented by the starting point (usually the current 
+	 *     point position of the manipulator) and the target point (the stop position 
+	 *     of the manipulator).</td>
+	 *   </tr>
+	 * </table>
+	 * 
+	 * @see units.CommandParameterFactory
+	 */
+	protected boolean InitializeCoreCommandFactoryParameterModules() {
+		boolean isInitialize = true;
+		isInitialize &= this.commandHandlerRepeater.commandParameterFactory.RegisterParameter("MoveP", new MovePCommandParamerer());
+		return isInitialize;
+	}
+	
 }
