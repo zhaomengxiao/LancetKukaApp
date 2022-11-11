@@ -117,9 +117,8 @@ public class CommandParameterFactory {
         if(null == o) {
             return false;
         }
-        if(false == this.mapRuntimeProperties.containsKey(o.getClass().getSimpleName().toLowerCase())) {
-            this.mapRuntimeProperties.put(o.getClass().getSimpleName().toLowerCase(), o);
-        }
+        System.out.println("[DEBUG] CommandParameterFactory.RegisterRunTimeProperty " + o.getClass().getSimpleName().toLowerCase());
+        this.mapRuntimeProperties.put(o.getClass().getSimpleName().toLowerCase(), o);
         return true;
     }
     
