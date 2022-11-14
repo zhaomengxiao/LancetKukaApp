@@ -268,18 +268,18 @@ public class ArmRobotApp extends RoboticsAPIApplication {
 				ProtocolBean msgBean = getMsgBean();
 				if (msgBean != null) {
 					this.commandHandlerRepeater.PushCommandToHandler(msgBean.getOperateType());
-//					ProtocolResult result = m_processer.ProcessData(msgBean);
-//					sendData(result);
-//
-//					if (result != null && result.getOperateType() == "Master") {
-//						isSendMaster = false;
-//						freeCheckStart = 0;
-//					}
-//					if (result != null
-//							&& result.getOperateType() == "SoftMode_On") {
-//						freeCheckStart = System.currentTimeMillis();
-//						logger.info("freeCheckStart: " + freeCheckStart);
-//					}
+					ProtocolResult result = m_processer.ProcessData(msgBean);
+					sendData(result);
+
+					if (result != null && result.getOperateType() == "Master") {
+						isSendMaster = false;
+						freeCheckStart = 0;
+					}
+					if (result != null
+							&& result.getOperateType() == "SoftMode_On") {
+						freeCheckStart = System.currentTimeMillis();
+						logger.info("freeCheckStart: " + freeCheckStart);
+					}
 				}
 
 				if (isNeedSoft && freeCheckStart != 0) {
