@@ -36,8 +36,8 @@ public class FreeHandler extends AbstractCommandEx {
         	return null;
         }
         
-        //basicRobotCommandParameter.GetRoboticsObject().
-        //    move(handGuiding().setJointVelocityLimit(1.0).setCartVelocityLimit(2500).setJointLimitViolationFreezesAll(false));
+        basicRobotCommandParameter.GetRoboticsObject().
+            move(handGuiding().setJointVelocityLimit(1.0).setCartVelocityLimit(2500).setJointLimitViolationFreezesAll(false));
         
         System.out.println("[INFO] Execute FreeHandler");
 		return null;
