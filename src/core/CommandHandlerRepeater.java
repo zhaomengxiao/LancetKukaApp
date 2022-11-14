@@ -29,10 +29,14 @@ public class CommandHandlerRepeater {
         	}
             AbstractCommandParameter abstractCommandParameter = commandParameterFactory.MakeParameter(abstractCommand.GetNameString(), commandStreamString);
             if(null != abstractCommandParameter) {
+
+            	if(TCPServerSendDataApplication.isDebug) {
+            		System.out.println("[INFO] Successfully created the processing parameter object of the target command; string " + product);
+            	}
             	abstractCommandParameter.SetInputString(commandStreamString);
                 abstractCommand.SetParameterObject(abstractCommandParameter);
-                abstractCommand.Execute(abstractCommandParameter);
             }
+            abstractCommand.Execute(abstractCommandParameter);
             // TODO: The execution return results need to be fed back to the upper computer.
             return true;
         } else {
