@@ -36,6 +36,7 @@ public class CommandHandlerRepeater {
             	abstractCommandParameter.SetInputString(commandStreamString);
                 abstractCommand.SetParameterObject(abstractCommandParameter);
             }
+            System.out.println("[INFO] Execute command: " + product);
             abstractCommand.Execute(abstractCommandParameter);
             // TODO: The execution return results need to be fed back to the upper computer.
             return true;
