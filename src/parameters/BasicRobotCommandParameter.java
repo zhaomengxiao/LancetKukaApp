@@ -18,7 +18,6 @@ public class BasicRobotCommandParameter extends AbstractCommandParameterEx {
 		boolean bsecurity = true;
 		
 		// <1 Detection parameter validity flag.
-		bsecurity &= this.IsVaild();
 		
 		// <2 Whether the detection environment parameters meet the requirements.
 		bsecurity &= this.GetRoboticsObject() != null;

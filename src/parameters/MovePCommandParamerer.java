@@ -76,6 +76,7 @@ public class MovePCommandParamerer extends BasicRobotCommandParameter {
 		
 		// <3 Detect whether the command parameters meet.
 		bsecurity &= super.IsSecurity();
+		bsecurity &= this.IsVaild();
 		bsecurity &= null != this.GetProperty("originPoint");
 		bsecurity &= null != this.GetProperty("targetPoint");
 		
