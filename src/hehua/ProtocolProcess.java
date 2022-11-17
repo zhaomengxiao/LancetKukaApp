@@ -1,4 +1,4 @@
-package hehua;
+package application;
 
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.lin;
 import static com.kuka.roboticsAPI.motionModel.BasicMotions.linRel;
@@ -21,7 +21,7 @@ import java.util.EnumSet;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-import hehua.DrawLine.LINE_MODEL;
+import application.DrawLine.LINE_MODEL;
 
 import com.kuka.common.ThreadUtil;
 import com.kuka.med.deviceModel.LBRMed;
@@ -162,43 +162,35 @@ public class ProtocolProcess {
 		}
 		else if (opType.equals("StartDrawCircle"))
 		{
-//<<<<<<< 
-			return StartDrawCircle(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã§â€?Â»Ã¥Å“â€ 
+			return StartDrawCircle(bean);    // å¼€å§‹ç”»åœ†
 		}
 		else if (opType.equals("DrawCircle"))
 		{
-			return DrawCircle(bean);         // Ã§â€?Â»Ã¥Å“â€ 
-//=======
-//			return StartDrawCircle(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã§â€�Â»Ã¥Å“â€ 
-//		}
-//		else if (opType.equals("DrawCircle"))
-//		{
-//			return DrawCircle(bean);         // Ã§â€�Â»Ã¥Å“â€ 
-//>>>>>>> 
+			return DrawCircle(bean);         // ç”»åœ†
 		}
 		else if (opType.equals("StartDragLine"))
 		{
-			return StartDragLine(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã¦â€¹â€“Ã¥Å Â¨Ã¦Â²Â¿Ã§â€ºÂ´Ã§ÂºÂ¿Ã¨Â¿ï¿½Ã¥Å Â¨
+			return StartDragLine(bean);    // å¼€å§‹æ‹–åŠ¨æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartDragLineManual"))
 		{
-			return StartDragLineManual(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã¦â€¹â€“Ã¥Å Â¨Ã¦Â²Â¿Ã§â€ºÂ´Ã§ÂºÂ¿Ã¨Â¿ï¿½Ã¥Å Â¨-Ã¦â€°â€¹Ã¥Å Â¨Ã¤Â¸â‚¬Ã¦Â­Â¥Ã¤Â¸â‚¬Ã¦Â­Â¥
+			return StartDragLineManual(bean);    // å¼€å§‹æ‹–åŠ¨æ²¿ç›´çº¿è¿�åŠ¨-æ‰‹åŠ¨ä¸€æ­¥ä¸€æ­¥
 		}
 		else if (opType.equals("ServoMove"))
 		{
-			return ServoMove(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã¤Â¼ÂºÃ¦Å“ï¿½Ã¨Â¿ï¿½Ã¥Å Â¨-Ã¤Â¸â€“Ã§â€¢Å’Ã¥ï¿½ï¿½Ã¦Â â€¡Ã§Â³Â»
+			return ServoMove(bean);    // å¼€å§‹ä¼ºæœ�è¿�åŠ¨-ä¸–ç•Œå��æ ‡ç³»
 		}
 		else if (opType.equals("EndDragLine"))
 		{
-			return EndDragLine(bean);      // Ã§Â»â€œÃ¦ï¿½Å¸Ã¨Â¿ï¿½Ã¥Å Â¨
+			return EndDragLine(bean);      // ç»“æ�Ÿè¿�åŠ¨
 		}
 		else if (opType.equals("StartDrawLine"))
 		{
-			return StartDrawLine(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã¦Â²Â¿Ã§â€ºÂ´Ã§ÂºÂ¿Ã¨Â¿ï¿½Ã¥Å Â¨
+			return StartDrawLine(bean);    // å¼€å§‹æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartDrawLineNormal"))
 		{
-			return StartDrawLineNormal(bean);    // Ã¥Â¼â‚¬Ã¥Â§â€¹Ã¦Â²Â¿Ã§â€ºÂ´Ã§ÂºÂ¿Ã¨Â¿ï¿½Ã¥Å Â¨
+			return StartDrawLineNormal(bean);    // å¼€å§‹æ²¿ç›´çº¿è¿�åŠ¨
 		}
 		else if (opType.equals("StartLisener"))
 		{
@@ -249,7 +241,7 @@ public class ProtocolProcess {
 			ret.setOperateType("MoveStop");
 			return ret;
 		}
-		//Ã©â€ºÂ¶Ã§Â©ÂºÃ©â€”Â´
+		//é›¶ç©ºé—´
 		else if (opType.equals("ZeroSpace"))
 		{
 			if (mc != null) {			
@@ -272,7 +264,7 @@ public class ProtocolProcess {
 			ret.setResultMsg("ZeroSpace_on ok");
 			return ret;
 		}
-		//Ã§Â¢Â°Ã¦â€™Å¾Ã¦Â£â‚¬Ã¦Âµâ€¹
+		//ç¢°æ’žæ£€æµ‹
 		else if (opType.equals("Extern_Force"))
 		{
 			double[] joint = bean.getJointPos();
@@ -290,7 +282,7 @@ public class ProtocolProcess {
 		    mc = m_robot.getFlange().moveAsync(ptp(jp).setJointVelocityRel(0.3* speedLevel)
 		    		.setJointAccelerationRel(0.02).breakWhen(conda));
 		}
-		//Ã©â€ºÂ¶Ã©â€¡ï¿½Ã¥Å â€º
+		//é›¶é‡�åŠ›
 		else if (opType.equals("Zero_Gravity"))
 		{
 			if (mc != null) {			
@@ -705,7 +697,7 @@ public class ProtocolProcess {
 		return ret;
 	}
 	
-	//Ãƒâ€“ÃƒËœÃƒâ€“ÃƒÆ’Ã‚Â¡Ã‚Â¢Ã‚Â¹ÃƒÂ©ÃƒÅ½Ã‚Â»Ã‚ÂµÃ‚Â½Ã‚Â¾Ã‚Â­Ã‚ÂµÃƒÂ¤ÃƒÅ½Ã‚Â»Ãƒâ€“ÃƒÆ’
+	//Ã–Ã˜Ã–ÃƒÂ¡Â¢Â¹Ã©ÃŽÂ»ÂµÂ½Â¾Â­ÂµÃ¤ÃŽÂ»Ã–Ãƒ
 	private ProtocolResult Reset(ProtocolBean bean)
 	{
 		JointPosition jp_02 = new JointPosition(0, 0, 0, Math.toRadians(90), 0, Math.toRadians(-90), 0);
@@ -751,11 +743,7 @@ public class ProtocolProcess {
 				
 		ProtocolResult ret = m_drawCircle.run();	
 		ret.setOperateType("DrawCircle");		
-//<<<<<<< HEAD:src/hehua/ProtocolProcess.java
-		ret.setResultMsg(ret.getResultCode() == 1 ? "Ã§â€?Â»Ã¥Å“â€ Ã¤Â»Â»Ã¥Å Â¡Ã¥Â·Â²Ã¥Â®Å’Ã¦Ë†ï¿½" : "");
-//=======
-//		ret.setResultMsg(ret.getResultCode() == 1 ? "Ã§â€�Â»Ã¥Å“â€ Ã¤Â»Â»Ã¥Å Â¡Ã¥Â·Â²Ã¥Â®Å’Ã¦Ë†ï¿½" : "");
-//>>>>>>> 37e7c18ae36999a15127e99a0173a78f2c8518d4:src/application/ProtocolProcess.java
+		ret.setResultMsg(ret.getResultCode() == 1 ? "ç”»åœ†ä»»åŠ¡å·²å®Œæˆ�" : "");
 		
 		return ret;
 	}
@@ -801,7 +789,7 @@ public class ProtocolProcess {
 		
 		ProtocolResult result = new ProtocolResult();
 		result.setResultCode(ok ? 0 : 1);
-		result.setResultMsg("Ã§â€ºÂ®Ã¦Â â€¡Ã¤Â¸ï¿½Ã¥ï¿½Â¯Ã¨Â¾Â¾");
+		result.setResultMsg("ç›®æ ‡ä¸�å�¯è¾¾");
 		
 		return result;
 	}
@@ -819,16 +807,12 @@ public class ProtocolProcess {
 			ok = m_servoLineMotion.initialize();
 			if (!ok)
 			{
-				msg = "Ã§â€ºÂ®Ã¦Â â€¡Ã¤Â¸ï¿½Ã¥ï¿½Â¯Ã¨Â¾Â¾";
+				msg = "ç›®æ ‡ä¸�å�¯è¾¾";
 			}			
 		}		
 		else
 		{
-//<<<<<<< HEAD:src/hehua/ProtocolProcess.java
-			// Ã¥Â¤â€“Ã©Æ’Â¨1Ã§Â§â€™Ã¨Â°Æ’Ã§â€?Â¨Ã¤Â¸â‚¬Ã¦Â¬Â¡
-//=======
-//			// Ã¥Â¤â€“Ã©Æ’Â¨1Ã§Â§â€™Ã¨Â°Æ’Ã§â€�Â¨Ã¤Â¸â‚¬Ã¦Â¬Â¡
-//>>>>>>> 37e7c18ae36999a15127e99a0173a78f2c8518d4:src/application/ProtocolProcess.java
+			// å¤–éƒ¨1ç§’è°ƒç”¨ä¸€æ¬¡
 			//msg = m_servoLineMotion.startSineMovement_distance();
 		}		
 		
@@ -852,11 +836,7 @@ public class ProtocolProcess {
 		}		
 		else
 		{
-//<<<<<<< HEAD:src/hehua/ProtocolProcess.java
-			// Ã¥Â¤â€“Ã©Æ’Â¨Ã¥ï¿½â€˜Ã§â€?Å¸Ã¥ï¿½ËœÃ¥Å’â€“Ã¦â€”Â¶Ã¨Â°Æ’Ã§â€?Â¨Ã¤Â¸â‚¬Ã¦Â¬Â¡
-//=======
-//			// Ã¥Â¤â€“Ã©Æ’Â¨Ã¥ï¿½â€˜Ã§â€�Å¸Ã¥ï¿½ËœÃ¥Å’â€“Ã¦â€”Â¶Ã¨Â°Æ’Ã§â€�Â¨Ã¤Â¸â‚¬Ã¦Â¬Â¡
-//>>>>>>> 37e7c18ae36999a15127e99a0173a78f2c8518d4:src/application/ProtocolProcess.java
+			// å¤–éƒ¨å�‘ç”Ÿå�˜åŒ–æ—¶è°ƒç”¨ä¸€æ¬¡
 			//msg = m_servoLineMotion.startSineMovement_move(bean.getParam().getX(), bean.getParam().getY(), bean.getParam().getZ());
 		}		
 		
@@ -913,7 +893,7 @@ public class ProtocolProcess {
 		return result;
 	}
 	
-	// Ã¥Â®Å¾Ã¦â€”Â¶Ã¨Â·Å¸Ã¨Â¸Âª
+	// å®žæ—¶è·Ÿè¸ª
 	public ProtocolResult StartPositionLisener(ProtocolBean bean)
 	{
 		log.info("StartPositionLisener");
@@ -1030,7 +1010,7 @@ public class ProtocolProcess {
 	
 	public void jogAxis(int idx, double jogPos)
 	{		
-		// Ã¤Â½ï¿½Ã§Â½Â®Ã¥ï¿½â€¡Ã¥Â¼Â§Ã¥ÂºÂ¦
+		// ä½�ç½®å�‡å¼§åº¦
 		JointPosition jtPos = m_robot.getCurrentJointPosition();
 		double[] axises = jtPos.get();
 		double jogVec = 1;
@@ -1070,7 +1050,7 @@ public ProtocolResult funcMaster() {
 		ProtocolResult ret = new ProtocolResult();
 		ret.setOperateType("Master");
 		
-		double jogPosArray[] = {0, -60, 0, 0, 0, 0, 0}; // Ã¨Â§â€™Ã¥ÂºÂ¦
+		double jogPosArray[] = {0, -60, 0, 0, 0, 0, 0}; // è§’åº¦
 		for (int idx = 0; idx < 7; ++idx) {
 			if (!mastering.isAxisMastered(idx)) {
 				log.info("Mastering Axis " + idx + "...");
@@ -1092,7 +1072,7 @@ public ProtocolResult funcMaster() {
 		return ret;
 	}
 	
-public void jog2AxisPosition(double[] axisesDest /*Ã¨Â§â€™Ã¥ÂºÂ¦ */) {
+public void jog2AxisPosition(double[] axisesDest /*è§’åº¦ */) {
 	JointPosition jtPos = m_robot.getCurrentJointPosition();
 	double[] axises = jtPos.get();
 
@@ -1111,7 +1091,7 @@ public void jog2AxisPosition(double[] axisesDest /*Ã¨Â§â€™Ã¥ÂºÂ¦ 
 }
 	
 	public ProtocolResult funcMasterNew() {
-		ThreadUtil.milliSleep(10000); // Ã§Â­â€°Ã¥Â¾â€¦10s Ã¤Â½Â¿Ã§Â¨â€¹Ã¥Âºï¿½Ã¦ï¿½Â¢Ã¥Â¤ï¿½Ã¨Â¿ï¿½Ã¨Â¡Å’Ã§Å Â¶Ã¦â‚¬ï¿½
+		ThreadUtil.milliSleep(10000); // ç­‰å¾…10s ä½¿ç¨‹åº�æ�¢å¤�è¿�è¡ŒçŠ¶æ€�
 	
 		ProtocolResult ret = new ProtocolResult();
 		ret.setOperateType("Master");
@@ -1137,7 +1117,7 @@ public void jog2AxisPosition(double[] axisesDest /*Ã¨Â§â€™Ã¥ÂºÂ¦ 
 			double[] axisesDest = { 0, 50, 0, -70, 0, -30, 0 };
 			jog2AxisPosition(axisesDest);
 			
-			// Ã¨Â°Æ’Ã¦â€¢Â´ 2Ã¯Â¼Å’4Ã¯Â¼Å’6Ã¨Â½Â´Ã¤Â½ï¿½Ã§Â½Â®
+			// è°ƒæ•´ 2ï¼Œ4ï¼Œ6è½´ä½�ç½®
 			double[] axisesDest246 = { 0, 85, 0, 0, 0, 0, 0 };
 			jog2AxisPosition(axisesDest246);
 
@@ -1163,7 +1143,7 @@ public void jog2AxisPosition(double[] axisesDest /*Ã¨Â§â€™Ã¥ÂºÂ¦ 
 		axises = jtPos.get();
 		log.info("aaaaaaaaaa  ==********************======== " + axises);
 		cnt = 0;
-		// Ã¤Â¼Â¸Ã§â€ºÂ´2Ã¨Â½Â´Ã¯Â¼Å’ Ã¥Â¼Â¯Ã¦â€ºÂ²4Ã¯Â¼Å’6Ã¨Â½Â´
+		// ä¼¸ç›´2è½´ï¼Œ å¼¯æ›²4ï¼Œ6è½´
 		double[] axisesDestWind = { 0, 0, 0, -90, 0, 10, 0 };
 		jog2AxisPosition(axisesDestWind);
 		
